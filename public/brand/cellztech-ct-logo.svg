@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CellzTech CT logo">
+  <defs>
+    <linearGradient id="ctGradient" x1="8" y1="8" x2="58" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="0.55" stop-color="#06B6D4"/>
+      <stop offset="1" stop-color="#67E8F9"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="52" height="52" rx="18" fill="url(#ctGradient)"/>
+  <path d="M25 20h-5.2A7.8 7.8 0 0 0 12 27.8v8.4A7.8 7.8 0 0 0 19.8 44H25" fill="none" stroke="white" stroke-width="5" stroke-linecap="round"/>
+  <path d="M31 20h19M40.5 20v24" fill="none" stroke="white" stroke-width="5" stroke-linecap="round"/>
+  <path d="M17 32h8" stroke="#CFFAFE" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+  <path d="M48 33l4-4M49 39l6-6" stroke="#CFFAFE" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+</svg>
