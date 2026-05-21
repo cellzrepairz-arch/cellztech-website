@@ -5,9 +5,7 @@ import {
   BatteryCharging,
   CheckCircle2,
   ChevronRight,
-  Facebook,
   Globe2,
-  Instagram,
   MapPin,
   Menu,
   Phone,
@@ -433,10 +431,10 @@ function ContactPage({ activeTitle }: { activeTitle: string }) {
           <a className="button secondary" href="tel:17734137489">773-413-7489</a>
         </div>
         <div className="contact-card">
-          <Instagram size={28} />
+          <Globe2 size={28} />
           <h2>Social</h2>
           <p>Add your Facebook and Instagram URLs in the code when ready.</p>
-          <div className="social-row"><Facebook /> <Instagram /></div>
+          <div className="social-row"><Globe2 /> <Smartphone /></div>
         </div>
       </section>
     </>
