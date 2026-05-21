@@ -1,32 +1,18 @@
-# CellzTech V2
+# CellzTech V3
 
-Modern Vite/React website for CellzTech, operated by Cellz Repairz LLC.
+Premium Vite/React website for CellzTech, operated by Cellz Repairz LLC.
 
-## V2 updates
+## V3 direction
 
-- CT Device Mark logo direction
-- CT Bot mascot SVG direction
-- Sora + Inter font system
-- refined homepage hero and service cards
-- brand system section
-- page URLs with Vercel SPA rewrite
-- SEO-ready structure with LocalBusiness schema, sitemap, robots.txt
-- mobile-first layout
-- multilingual framework for EN, ES, PL, UK, CZ, RU
+- Clean wordmark brand direction
+- No mascot or floating clutter
+- Premium local tech retail/service layout
+- Customer-facing trust section
+- SEO structure kept behind the scenes
+- Vercel-ready Vite build
 
-## Vercel settings
+## Deploy settings
 
 Framework: Vite
 Build command: npm run build
 Output directory: dist
-
-## Pages included
-
-- Home
-- Repairs
-- Ultra Mobile
-- Buyback
-- Phones
-- Accessories
-- About
-- Contact
