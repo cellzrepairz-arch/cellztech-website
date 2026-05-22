@@ -652,3 +652,275 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   .issueGrid,
   .formGrid { grid-template-columns: 1fr; }
 }
+
+/* Interactive single-page booking flow */
+.bookingSlidePage .footer { margin-top: 0; }
+.bookingSingleHero {
+  min-height: calc(100vh - 116px);
+  background:
+    radial-gradient(circle at 84% 16%, rgba(6,182,212,0.16), transparent 28%),
+    radial-gradient(circle at 20% 20%, rgba(37,99,235,0.20), transparent 35%),
+    linear-gradient(135deg, #07111f 0%, #0b1728 58%, #12324a 100%);
+  color: white;
+  padding: 58px 0 74px;
+  overflow: hidden;
+}
+.bookingShell { display: grid; gap: 26px; }
+.bookingTopline {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 36px;
+  align-items: end;
+}
+.bookingTopline h1 {
+  font-size: clamp(40px, 5vw, 66px);
+  line-height: 1.02;
+  max-width: 850px;
+}
+.bookingTopline p {
+  color: #d9e8ff;
+  font-size: 18px;
+  line-height: 1.75;
+  max-width: 760px;
+}
+.bookingMiniSummary {
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 24px;
+  padding: 22px;
+  backdrop-filter: blur(16px);
+}
+.bookingMiniSummary span {
+  display: block;
+  color: #93c5fd;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+.bookingMiniSummary strong {
+  display: block;
+  font-family: Sora, Inter, sans-serif;
+  font-size: 24px;
+  letter-spacing: -0.05em;
+}
+.bookingMiniSummary small { display: block; color: #d9e8ff; margin-top: 8px; line-height: 1.4; }
+.stepTracker {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+.stepTracker button {
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: #cbd5e1;
+  border-radius: 999px;
+  padding: 10px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 900;
+}
+.stepTracker span {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.10);
+  font-size: 12px;
+}
+.stepTracker button.active {
+  background: white;
+  color: var(--navy);
+  border-color: white;
+}
+.stepTracker button.done span { background: linear-gradient(135deg, var(--blue), var(--cyan)); color: white; }
+.bookingStage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 22px;
+  align-items: stretch;
+}
+.bookingSlideCard {
+  background: rgba(255,255,255,0.96);
+  border: 1px solid rgba(255,255,255,0.64);
+  color: var(--text);
+  border-radius: 32px;
+  box-shadow: 0 34px 90px rgba(0,0,0,0.28);
+  overflow: hidden;
+}
+.slideFrame {
+  display: flex;
+  width: 500%;
+  transition: transform .42s cubic-bezier(.2,.8,.2,1);
+}
+.slidePanel {
+  width: 20%;
+  min-height: 520px;
+  padding: 32px;
+}
+.slideStep {
+  display: inline-block;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 900;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.slidePanel h2 { font-size: clamp(28px, 4vw, 42px); line-height: 1.06; }
+.slideHint { color: var(--muted); line-height: 1.7; font-size: 16px; max-width: 760px; }
+.singlePageChoices { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 24px; }
+.compactModelGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); max-height: 330px; overflow: auto; padding-right: 8px; margin-top: 22px; }
+.compactIssueGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 22px; }
+.slideFormGrid { margin-top: 22px; }
+.slideControls {
+  border-top: 1px solid var(--line);
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.slideControls button:disabled,
+.finalActions .disabled {
+  opacity: .48;
+  pointer-events: none;
+  box-shadow: none;
+}
+.bookingVisual {
+  position: relative;
+  min-height: 100%;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 32px;
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(16px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 26px;
+}
+.bookingVisual:before {
+  content: '';
+  position: absolute;
+  inset: auto -60px -100px -60px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(6,182,212,0.30), transparent 65%);
+}
+.deviceFrame {
+  position: relative;
+  width: 190px;
+  height: 360px;
+  border-radius: 36px;
+  border: 8px solid rgba(255,255,255,0.88);
+  background: #0a1322;
+  box-shadow: 0 30px 90px rgba(0,0,0,0.35);
+  z-index: 1;
+  padding: 18px 12px;
+}
+.deviceSpeaker { width: 58px; height: 7px; background: rgba(255,255,255,0.22); border-radius: 99px; margin: 0 auto 14px; }
+.deviceScreen {
+  position: relative;
+  height: 268px;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #13243d, #07111f);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.deviceHome { width: 38px; height: 5px; background: rgba(255,255,255,0.22); border-radius: 99px; margin: 16px auto 0; }
+.visualCopy {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  z-index: 2;
+  background: white;
+  color: var(--text);
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.visualCopy span { display: block; color: var(--blue); text-transform: uppercase; letter-spacing: .08em; font-weight: 900; font-size: 12px; margin-bottom: 7px; }
+.visualCopy strong { display: block; line-height: 1.35; }
+.defaultLayer,
+.dataLayer,
+.powerLayer,
+.batteryLayer,
+.chargingLayer,
+.cameraLayer {
+  color: #93c5fd;
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  text-align: center;
+  font-weight: 900;
+}
+.defaultLayer p,
+.dataLayer p,
+.powerLayer p,
+.batteryLayer p { margin: 0; color: #dbeafe; font-size: 12px; letter-spacing: .08em; }
+.crackLayer span {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 4px; height: 110px;
+  background: white;
+  border-radius: 99px;
+  transform-origin: top center;
+  animation: crackIn .45s ease both;
+}
+.crackLayer span:nth-child(1) { transform: rotate(18deg); height: 128px; }
+.crackLayer span:nth-child(2) { transform: rotate(-34deg); height: 92px; }
+.crackLayer span:nth-child(3) { transform: rotate(72deg); height: 82px; }
+.crackLayer span:nth-child(4) { transform: rotate(-92deg); height: 68px; }
+.crackLayer span:nth-child(5) { transform: rotate(138deg); height: 74px; }
+@keyframes crackIn { from { scale: 0 0; opacity: 0; } to { scale: 1 1; opacity: 1; } }
+.batteryLayer > div { width: 92px; height: 44px; border: 4px solid #dbeafe; border-radius: 10px; padding: 5px; position: relative; }
+.batteryLayer > div:after { content: ''; position: absolute; right: -12px; top: 12px; width: 7px; height: 16px; background: #dbeafe; border-radius: 0 5px 5px 0; }
+.batteryLayer span { display: block; height: 100%; width: 18%; background: #ef4444; border-radius: 5px; animation: batteryPulse .9s infinite alternate; }
+@keyframes batteryPulse { from { opacity: .45; } to { opacity: 1; } }
+.chargingLayer { position: relative; }
+.chargingLayer svg:last-child { position: absolute; color: #ef4444; transform: translate(28px, -20px); }
+.glassLayer span { position: absolute; background: rgba(255,255,255,0.7); height: 2px; width: 180px; transform: rotate(20deg); animation: slideScratch .8s ease both; }
+.glassLayer span:nth-child(2) { transform: rotate(-18deg); top: 35%; }
+.glassLayer span:nth-child(3) { transform: rotate(55deg); width: 130px; }
+@keyframes slideScratch { from { opacity: 0; translate: -40px 0; } to { opacity: 1; translate: 0 0; } }
+.cameraLayer span { width: 34px; height: 34px; border-radius: 50%; border: 4px solid #ef4444; position: absolute; animation: focusPing 1.2s infinite; }
+@keyframes focusPing { from { scale: .6; opacity: .9; } to { scale: 2.3; opacity: 0; } }
+.waterLayer span { width: 16px; height: 26px; background: #38bdf8; border-radius: 20px 20px 20px 4px; transform: rotate(45deg); animation: drip 1.2s infinite ease-in; }
+.waterLayer span:nth-child(2) { animation-delay: .2s; }
+.waterLayer span:nth-child(3) { animation-delay: .4s; }
+@keyframes drip { 0% { translate: 0 -50px; opacity: 0; } 30% { opacity: 1; } 100% { translate: 0 70px; opacity: 0; } }
+.finalSummaryBox {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+.finalSummaryBox div { background: var(--soft); border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+.finalSummaryBox strong { display: block; color: var(--blue); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+.finalSummaryBox span { font-weight: 900; }
+.finalActions { display: flex; gap: 12px; flex-wrap: wrap; }
+@media (max-width: 1080px) {
+  .bookingTopline,
+  .bookingStage { grid-template-columns: 1fr; }
+  .bookingVisual { min-height: 430px; }
+  .singlePageChoices { grid-template-columns: repeat(2, 1fr); }
+  .compactModelGrid { grid-template-columns: repeat(2, 1fr); max-height: 360px; }
+}
+@media (max-width: 720px) {
+  .bookingSingleHero { padding: 40px 0 52px; }
+  .stepTracker { grid-template-columns: 1fr; }
+  .stepTracker button { justify-content: flex-start; }
+  .slidePanel { padding: 22px; min-height: 560px; }
+  .singlePageChoices,
+  .compactModelGrid,
+  .compactIssueGrid,
+  .slideFormGrid,
+  .finalSummaryBox { grid-template-columns: 1fr; }
+  .bookingVisual { min-height: 400px; }
+  .slideControls { flex-direction: column; }
+  .slideControls .primaryBtn, .slideControls .secondaryBtn, .finalActions .primaryBtn, .finalActions .secondaryBtn { width: 100%; }
+}

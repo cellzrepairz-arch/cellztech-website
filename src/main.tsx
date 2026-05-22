@@ -629,7 +629,48 @@ const appleModels: Record<string, string[]> = {
 };
 const repairIssues = ['Cracked screen', 'Battery replacement', 'Charging port issue', 'Back glass', 'Camera issue', 'Speaker or microphone', 'Device will not turn on', 'Water damage', 'Data recovery', 'Software issue', 'Other / not sure'];
 
+function getIssueVisual(issue: string) {
+  const lower = issue.toLowerCase();
+  if (lower.includes('screen')) return 'screen';
+  if (lower.includes('battery')) return 'battery';
+  if (lower.includes('charging')) return 'charging';
+  if (lower.includes('back glass')) return 'glass';
+  if (lower.includes('camera')) return 'camera';
+  if (lower.includes('water')) return 'water';
+  if (lower.includes('data')) return 'data';
+  if (lower.includes('turn on')) return 'power';
+  return 'default';
+}
+
+function BookingVisual({ issue }: { issue: string }) {
+  const visual = getIssueVisual(issue);
+  return (
+    <div className={`bookingVisual ${visual}`} aria-hidden="true">
+      <div className="deviceFrame">
+        <div className="deviceSpeaker" />
+        <div className="deviceScreen">
+          {visual === 'screen' && <div className="crackLayer"><span /><span /><span /><span /><span /></div>}
+          {visual === 'battery' && <div className="batteryLayer"><div><span /></div><p>LOW BATTERY</p></div>}
+          {visual === 'charging' && <div className="chargingLayer"><Plug size={62} /><X size={44} /></div>}
+          {visual === 'glass' && <div className="glassLayer"><span /><span /><span /></div>}
+          {visual === 'camera' && <div className="cameraLayer"><Camera size={70} /><span /></div>}
+          {visual === 'water' && <div className="waterLayer"><span /><span /><span /></div>}
+          {visual === 'data' && <div className="dataLayer"><Search size={68} /><p>DATA</p></div>}
+          {visual === 'power' && <div className="powerLayer"><BatteryCharging size={64} /><p>NO POWER</p></div>}
+          {visual === 'default' && <div className="defaultLayer"><Wrench size={70} /><p>Repair request</p></div>}
+        </div>
+        <div className="deviceHome" />
+      </div>
+      <div className="visualCopy">
+        <span>{issue || 'Choose a repair issue'}</span>
+        <strong>{issue ? 'We will include this in your repair request.' : 'The background reacts to the issue you select.'}</strong>
+      </div>
+    </div>
+  );
+}
+
 function BookRepairPage() {
+  const [step, setStep] = useState(0);
   const [booking, setBooking] = useState<Record<BookingField, string>>({
     device: 'iPhone',
     model: '',
@@ -654,92 +695,132 @@ function BookRepairPage() {
   const smsLink = `sms:7734137489?&body=${requestText}`;
   const canSubmit = booking.model && booking.issue && booking.name && booking.phone;
 
+  const steps = [
+    { label: 'Device', done: !!booking.device },
+    { label: 'Model', done: !!booking.model },
+    { label: 'Issue', done: !!booking.issue },
+    { label: 'Contact', done: !!(booking.name && booking.phone) },
+    { label: 'Send', done: !!canSubmit }
+  ];
+
+  const canGoNext =
+    step === 0 ? !!booking.device :
+    step === 1 ? !!booking.model :
+    step === 2 ? !!booking.issue :
+    step === 3 ? !!(booking.name && booking.phone) :
+    true;
+
+  const goNext = () => { if (canGoNext) setStep((current) => Math.min(current + 1, steps.length - 1)); };
+  const goBack = () => setStep((current) => Math.max(current - 1, 0));
+
   return (
-    <main className="pageMain bookingPage">
-      <section className="bookingHero">
-        <div className="wrap bookingHeroGrid">
-          <div>
-            <div className="eyebrow"><Wrench size={15} /> Book repair</div>
-            <h1>Start an Apple repair request.</h1>
-            <p>Choose your device, model, repair issue, and contact details. This first version opens a ready-to-send text message to CellzTech so we can test the flow before building the full backend.</p>
-            <div className="miniTrust darkTrust">
-              <span><CheckCircle2 size={16} /> Apple first</span>
-              <span><CheckCircle2 size={16} /> Samsung next</span>
-              <span><CheckCircle2 size={16} /> Backend-ready structure</span>
+    <main className="pageMain bookingPage bookingSlidePage">
+      <section className="bookingSingleHero">
+        <div className="wrap bookingShell">
+          <div className="bookingTopline">
+            <div>
+              <div className="eyebrow"><Wrench size={15} /> Book repair</div>
+              <h1>Start a repair request.</h1>
+              <p>Choose the device, model, issue, and contact info. This test version opens a ready-to-send text to CellzTech. No payment is collected online.</p>
+            </div>
+            <div className="bookingMiniSummary">
+              <span>Current request</span>
+              <strong>{booking.model || booking.device}</strong>
+              <small>{booking.issue || 'Issue not selected yet'}</small>
             </div>
           </div>
-          <div className="bookingStatusCard">
-            <span>Current booking version</span>
-            <h2>Apple repairs</h2>
-            <p>iPhone, iPad, Apple Watch, and MacBook options are included first. We can add Samsung, Motorola, Google Pixel, and more after this feels right.</p>
+
+          <div className="stepTracker" aria-label="Repair request progress">
+            {steps.map((item, index) => (
+              <button key={item.label} className={`${index === step ? 'active' : ''} ${item.done ? 'done' : ''}`} onClick={() => setStep(index)} type="button">
+                <span>{index + 1}</span>{item.label}
+              </button>
+            ))}
           </div>
-        </div>
-      </section>
 
-      <section className="section light">
-        <div className="wrap bookingGrid">
-          <form className="bookingForm" onSubmit={(e) => e.preventDefault()}>
-            <div className="bookingStep">
-              <span>Step 1</span>
-              <h2>What Apple device needs repair?</h2>
-              <div className="choiceGrid fiveChoices">
-                {appleDevices.map((device) => (
-                  <button type="button" key={device} className={booking.device === device ? 'choice selected' : 'choice'} onClick={() => setField('device', device)}>
-                    <Smartphone size={22} />
-                    {device}
-                  </button>
-                ))}
+          <div className="bookingStage">
+            <div className="bookingSlideCard">
+              <div className="slideFrame" style={{ transform: `translateX(-${step * 100}%)` }}>
+                <section className="slidePanel">
+                  <span className="slideStep">Step 1</span>
+                  <h2>What Apple device needs repair?</h2>
+                  <p className="slideHint">We are starting with Apple first. Samsung, Motorola, Google Pixel, and more can be added after this flow feels right.</p>
+                  <div className="choiceGrid singlePageChoices">
+                    {appleDevices.map((device) => (
+                      <button type="button" key={device} className={booking.device === device ? 'choice selected' : 'choice'} onClick={() => setField('device', device)}>
+                        <Smartphone size={24} />
+                        {device}
+                      </button>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="slidePanel">
+                  <span className="slideStep">Step 2</span>
+                  <h2>Select your model.</h2>
+                  <p className="slideHint">Choose the closest match. If you are not sure, choose “Other” and we can confirm in-store.</p>
+                  <div className="modelGrid compactModelGrid">
+                    {models.map((model) => (
+                      <button type="button" key={model} className={booking.model === model ? 'modelChoice selected' : 'modelChoice'} onClick={() => setField('model', model)}>{model}</button>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="slidePanel">
+                  <span className="slideStep">Step 3</span>
+                  <h2>What needs to be fixed?</h2>
+                  <p className="slideHint">Choose the main issue. The visual panel will react to the selected problem.</p>
+                  <div className="issueGrid compactIssueGrid">
+                    {repairIssues.map((issue) => (
+                      <button type="button" key={issue} className={booking.issue === issue ? 'issueChoice selected' : 'issueChoice'} onClick={() => setField('issue', issue)}>{issue}</button>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="slidePanel">
+                  <span className="slideStep">Step 4</span>
+                  <h2>Your contact details.</h2>
+                  <p className="slideHint">We need your name and phone number so we can contact you about the repair.</p>
+                  <div className="formGrid slideFormGrid">
+                    <label>Name<input value={booking.name} onChange={(e) => setField('name', e.target.value)} placeholder="Your name" /></label>
+                    <label>Phone<input value={booking.phone} onChange={(e) => setField('phone', e.target.value)} placeholder="Your phone number" /></label>
+                    <label>Email<input value={booking.email} onChange={(e) => setField('email', e.target.value)} placeholder="Optional email" /></label>
+                    <label>Preferred day/time<input value={booking.preferredTime} onChange={(e) => setField('preferredTime', e.target.value)} placeholder="Example: Friday afternoon" /></label>
+                    <label className="fullField">Notes<textarea value={booking.notes} onChange={(e) => setField('notes', e.target.value)} placeholder="Example: Screen is cracked but touch still works." /></label>
+                  </div>
+                  <p className="bookingConsent">By sending this request, you agree that CellzTech / Cellz Repairz LLC may contact you about your repair request. This does not guarantee repair price, part availability, or completion time.</p>
+                </section>
+
+                <section className="slidePanel finalSlide">
+                  <span className="slideStep">Step 5</span>
+                  <h2>Ready to send your repair request.</h2>
+                  <p className="slideHint">This opens your text message app with the repair request already filled in. Review it, then tap send.</p>
+                  <div className="finalSummaryBox">
+                    <div><strong>Device</strong><span>{booking.device}</span></div>
+                    <div><strong>Model</strong><span>{booking.model || 'Not selected'}</span></div>
+                    <div><strong>Issue</strong><span>{booking.issue || 'Not selected'}</span></div>
+                    <div><strong>Name</strong><span>{booking.name || 'Not provided'}</span></div>
+                    <div><strong>Phone</strong><span>{booking.phone || 'Not provided'}</span></div>
+                  </div>
+                  <div className="finalActions">
+                    <a className={canSubmit ? 'primaryBtn' : 'primaryBtn disabled'} href={canSubmit ? smsLink : undefined} aria-disabled={!canSubmit}>Text request to CellzTech <ArrowRight size={18} /></a>
+                    <a className="secondaryBtn" href="tel:7734137489">Call instead</a>
+                  </div>
+                </section>
+              </div>
+
+              <div className="slideControls">
+                <button type="button" className="secondaryBtn compact" onClick={goBack} disabled={step === 0}>Back</button>
+                {step < steps.length - 1 ? (
+                  <button type="button" className="primaryBtn compact" onClick={goNext} disabled={!canGoNext}>Next step <ArrowRight size={16} /></button>
+                ) : (
+                  <button type="button" className="secondaryBtn compact" onClick={() => setStep(0)}>Start over</button>
+                )}
               </div>
             </div>
 
-            <div className="bookingStep">
-              <span>Step 2</span>
-              <h2>Select the model.</h2>
-              <div className="modelGrid">
-                {models.map((model) => (
-                  <button type="button" key={model} className={booking.model === model ? 'modelChoice selected' : 'modelChoice'} onClick={() => setField('model', model)}>{model}</button>
-                ))}
-              </div>
-            </div>
-
-            <div className="bookingStep">
-              <span>Step 3</span>
-              <h2>What needs to be fixed?</h2>
-              <div className="issueGrid">
-                {repairIssues.map((issue) => (
-                  <button type="button" key={issue} className={booking.issue === issue ? 'issueChoice selected' : 'issueChoice'} onClick={() => setField('issue', issue)}>{issue}</button>
-                ))}
-              </div>
-            </div>
-
-            <div className="bookingStep">
-              <span>Step 4</span>
-              <h2>Your contact details.</h2>
-              <div className="formGrid">
-                <label>Name<input value={booking.name} onChange={(e) => setField('name', e.target.value)} placeholder="Your name" /></label>
-                <label>Phone<input value={booking.phone} onChange={(e) => setField('phone', e.target.value)} placeholder="Your phone number" /></label>
-                <label>Email<input value={booking.email} onChange={(e) => setField('email', e.target.value)} placeholder="Optional email" /></label>
-                <label>Preferred day/time<input value={booking.preferredTime} onChange={(e) => setField('preferredTime', e.target.value)} placeholder="Example: Friday afternoon" /></label>
-                <label className="fullField">Notes<textarea value={booking.notes} onChange={(e) => setField('notes', e.target.value)} placeholder="Example: Screen is cracked but touch still works." /></label>
-              </div>
-              <p className="bookingConsent">By sending this request, you agree that CellzTech / Cellz Repairz LLC may contact you about your repair request. This does not guarantee repair price, part availability, or completion time.</p>
-            </div>
-          </form>
-
-          <aside className="bookingSummary">
-            <span>Repair request summary</span>
-            <h2>{booking.model || booking.device || 'Apple device'}</h2>
-            <ul>
-              <li><strong>Device:</strong> {booking.device || 'Not selected'}</li>
-              <li><strong>Model:</strong> {booking.model || 'Choose model'}</li>
-              <li><strong>Issue:</strong> {booking.issue || 'Choose issue'}</li>
-              <li><strong>Name:</strong> {booking.name || 'Add name'}</li>
-              <li><strong>Phone:</strong> {booking.phone || 'Add phone'}</li>
-            </ul>
-            <a className={canSubmit ? 'primaryBtn summarySubmit' : 'primaryBtn summarySubmit disabled'} href={canSubmit ? smsLink : undefined} aria-disabled={!canSubmit}>Text request to CellzTech <ArrowRight size={18} /></a>
-            <a className="secondaryBtn summaryCall" href="tel:7734137489">Or call 773-413-7489</a>
-            <p>Next version can save requests into a backend, send email confirmations, send SMS confirmations, and add an admin appointment dashboard.</p>
-          </aside>
+            <BookingVisual issue={booking.issue} />
+          </div>
         </div>
       </section>
     </main>
