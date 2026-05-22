@@ -407,6 +407,7 @@ function PageDetail({ page }: { page: PageKey }) {
         </div>
       </section>
       {page === 'ultra' && <UltraDetails />}
+      {page === 'about' && <FeaturedReviews />}
       {page === 'contact' && <ContactDetails />}
     </main>
   );
@@ -584,8 +585,6 @@ function RepairsPage() {
           </div>
         </div>
       </section>
-
-      <FeaturedReviews />
 
       <section className="section ctaBand">
         <div className="wrap ctaPanel repairCtaPanel">
