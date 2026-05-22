@@ -924,3 +924,228 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   .slideControls { flex-direction: column; }
   .slideControls .primaryBtn, .slideControls .secondaryBtn, .finalActions .primaryBtn, .finalActions .secondaryBtn { width: 100%; }
 }
+
+/* Booking flow cleanup: single-screen layout and faint animated issue backgrounds */
+.bookingSingleHero {
+  position: relative;
+  min-height: calc(100vh - 108px);
+  padding: 30px 0 38px;
+}
+.bookingSingleHero .wrap { position: relative; z-index: 2; }
+.bookingShell { gap: 16px; max-width: 1120px; }
+.bookingTopline {
+  grid-template-columns: minmax(0, 1fr) 290px;
+  gap: 22px;
+  align-items: center;
+}
+.bookingTopline h1 { font-size: clamp(34px, 4.2vw, 54px); max-width: 620px; }
+.bookingTopline p { font-size: 16px; line-height: 1.55; max-width: 680px; }
+.bookingMiniSummary { padding: 18px; border-radius: 20px; }
+.bookingMiniSummary strong { font-size: 20px; }
+.stepTracker { gap: 8px; }
+.stepTracker button { padding: 8px 10px; }
+.bookingStage {
+  display: block;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.bookingSlideCard { border-radius: 26px; }
+.slideFrame {
+  display: flex;
+  width: 100%;
+  transition: transform .42s cubic-bezier(.2,.8,.2,1);
+}
+.slidePanel {
+  flex: 0 0 100%;
+  width: 100%;
+  min-height: 405px;
+  padding: 26px;
+}
+.slidePanel h2 { font-size: clamp(26px, 3vw, 36px); }
+.slideHint { font-size: 15px; line-height: 1.55; }
+.singlePageChoices { margin-top: 18px; gap: 10px; }
+.choice { min-height: 86px; }
+.compactModelGrid { margin-top: 18px; max-height: 235px; gap: 10px; }
+.modelChoice, .issueChoice { min-height: 52px; }
+.compactIssueGrid { margin-top: 18px; gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.slideFormGrid { margin-top: 16px; gap: 12px; }
+.slideFormGrid input, .slideFormGrid textarea { padding: 11px 12px; }
+.slideFormGrid textarea { min-height: 86px; }
+.bookingConsent { margin-top: 10px; font-size: 12px; line-height: 1.45; }
+.slideControls { padding: 14px 18px; }
+.bookingVisual { display: none; }
+
+.issueAmbient {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: .22;
+}
+.issueAmbient span { position: absolute; display: block; opacity: 0; }
+.ambient-screen .issueAmbient span {
+  width: 3px;
+  height: 180px;
+  background: rgba(255,255,255,.8);
+  left: 68%;
+  top: 32%;
+  border-radius: 99px;
+  transform-origin: top center;
+  animation: ambientCrack 7s ease-in-out infinite;
+}
+.ambient-screen .issueAmbient span:nth-child(1) { transform: rotate(20deg); }
+.ambient-screen .issueAmbient span:nth-child(2) { height: 130px; transform: rotate(-42deg); animation-delay: .2s; }
+.ambient-screen .issueAmbient span:nth-child(3) { height: 110px; transform: rotate(82deg); animation-delay: .35s; }
+.ambient-screen .issueAmbient span:nth-child(4) { height: 88px; transform: rotate(-108deg); animation-delay: .5s; }
+.ambient-screen .issueAmbient span:nth-child(5) { height: 96px; transform: rotate(145deg); animation-delay: .65s; }
+@keyframes ambientCrack { 0%, 70%, 100% { opacity: 0; scale: .4; translate: 0 20px; } 15%, 52% { opacity: 1; scale: 1; translate: 0 0; } }
+
+.ambient-battery .issueAmbient:before {
+  content: '';
+  position: absolute;
+  width: 320px;
+  height: 150px;
+  right: 9%;
+  top: 35%;
+  border: 8px solid rgba(255,255,255,.55);
+  border-radius: 26px;
+  animation: ambientFloat 8s ease-in-out infinite;
+}
+.ambient-battery .issueAmbient:after {
+  content: '';
+  position: absolute;
+  width: 42px;
+  height: 60px;
+  right: 6%;
+  top: calc(35% + 45px);
+  background: rgba(255,255,255,.55);
+  border-radius: 0 14px 14px 0;
+  animation: ambientFloat 8s ease-in-out infinite;
+}
+.ambient-battery .issueAmbient span:nth-child(1) {
+  width: 52px;
+  height: 110px;
+  right: calc(9% + 240px);
+  top: calc(35% + 20px);
+  background: rgba(239,68,68,.85);
+  border-radius: 15px;
+  animation: batteryFade 1.25s ease-in-out infinite alternate;
+}
+@keyframes batteryFade { from { opacity: .18; } to { opacity: .85; } }
+
+.ambient-charging .issueAmbient:before {
+  content: '';
+  position: absolute;
+  width: 420px;
+  height: 4px;
+  right: 8%;
+  top: 48%;
+  background: rgba(255,255,255,.7);
+  border-radius: 99px;
+  animation: cableDrift 8s ease-in-out infinite;
+}
+.ambient-charging .issueAmbient:after {
+  content: '×';
+  position: absolute;
+  right: 20%;
+  top: 38%;
+  color: rgba(239,68,68,.9);
+  font-size: 120px;
+  font-weight: 900;
+  animation: noChargePulse 1.5s ease-in-out infinite;
+}
+@keyframes cableDrift { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-24px); } }
+@keyframes noChargePulse { 0%,100% { opacity: .25; scale: .92; } 50% { opacity: .9; scale: 1; } }
+
+.ambient-glass .issueAmbient span {
+  width: 500px;
+  height: 2px;
+  right: 0;
+  top: 35%;
+  background: rgba(255,255,255,.55);
+  transform: rotate(18deg);
+  animation: scratchMove 7s ease-in-out infinite;
+}
+.ambient-glass .issueAmbient span:nth-child(2) { top: 51%; transform: rotate(-14deg); animation-delay: .55s; }
+.ambient-glass .issueAmbient span:nth-child(3) { top: 66%; width: 360px; transform: rotate(43deg); animation-delay: 1.05s; }
+@keyframes scratchMove { 0%,100% { opacity: 0; translate: -70px 0; } 35%,60% { opacity: .9; translate: 0 0; } }
+
+.ambient-camera .issueAmbient:before {
+  content: '';
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  right: 12%;
+  top: 20%;
+  border: 5px solid rgba(147,197,253,.8);
+  border-radius: 999px;
+  animation: focusRing 2.2s ease-in-out infinite;
+}
+.ambient-camera .issueAmbient:after {
+  content: '';
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  right: calc(12% + 75px);
+  top: calc(20% + 75px);
+  border: 5px solid rgba(255,255,255,.7);
+  border-radius: 999px;
+  animation: focusRing 2.2s ease-in-out infinite .35s;
+}
+@keyframes focusRing { 0%,100% { opacity: .2; scale: .84; } 50% { opacity: .85; scale: 1; } }
+
+.ambient-water .issueAmbient span {
+  width: 26px;
+  height: 42px;
+  background: rgba(56,189,248,.85);
+  border-radius: 28px 28px 28px 6px;
+  transform: rotate(45deg);
+  animation: ambientDrop 2.8s ease-in infinite;
+}
+.ambient-water .issueAmbient span:nth-child(1) { left: 64%; top: -10%; }
+.ambient-water .issueAmbient span:nth-child(2) { left: 75%; top: -12%; animation-delay: .6s; }
+.ambient-water .issueAmbient span:nth-child(3) { left: 85%; top: -14%; animation-delay: 1.1s; }
+.ambient-water .issueAmbient span:nth-child(4) { left: 58%; top: -16%; animation-delay: 1.6s; }
+@keyframes ambientDrop { 0% { opacity: 0; translate: 0 0; } 20% { opacity: .75; } 100% { opacity: 0; translate: 0 760px; } }
+
+.ambient-data .issueAmbient:before {
+  content: '010101  DATA  110010';
+  position: absolute;
+  right: 8%;
+  top: 30%;
+  color: rgba(147,197,253,.65);
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  animation: dataDrift 8s linear infinite;
+}
+@keyframes dataDrift { from { transform: translateY(30px); opacity: .15; } 50% { opacity: .8; } to { transform: translateY(-60px); opacity: .15; } }
+.ambient-power .issueAmbient:before {
+  content: '';
+  position: absolute;
+  right: 12%;
+  top: 22%;
+  width: 250px;
+  height: 430px;
+  border: 8px solid rgba(255,255,255,.45);
+  border-radius: 45px;
+  animation: powerBlink 1.6s ease-in-out infinite;
+}
+@keyframes powerBlink { 0%,100% { opacity: .12; } 50% { opacity: .65; } }
+@keyframes ambientFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(18px); } }
+
+@media (max-width: 1080px) {
+  .bookingTopline { grid-template-columns: 1fr; }
+  .bookingMiniSummary { display: none; }
+  .bookingStage { max-width: 100%; }
+}
+@media (max-width: 760px) {
+  .bookingSingleHero { padding: 24px 0 30px; }
+  .bookingTopline h1 { font-size: 34px; }
+  .bookingTopline p { font-size: 15px; }
+  .stepTracker { grid-template-columns: repeat(5, minmax(0, 1fr)); overflow-x: auto; }
+  .stepTracker button { min-width: 104px; font-size: 13px; }
+  .slidePanel { min-height: 510px; padding: 22px; }
+  .singlePageChoices, .compactModelGrid, .compactIssueGrid, .slideFormGrid, .finalSummaryBox { grid-template-columns: 1fr; }
+}

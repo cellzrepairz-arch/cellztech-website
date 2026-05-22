@@ -691,6 +691,7 @@ function BookRepairPage() {
   };
 
   const models = appleModels[booking.device] || [];
+  const visualType = getIssueVisual(booking.issue);
   const requestText = `Hi CellzTech, I would like to start a repair request.%0A%0ADevice: ${booking.device || 'Not selected'}%0AModel: ${booking.model || 'Not selected'}%0AIssue: ${booking.issue || 'Not selected'}%0APreferred day/time: ${booking.preferredTime || 'Not provided'}%0AName: ${booking.name || 'Not provided'}%0APhone: ${booking.phone || 'Not provided'}%0AEmail: ${booking.email || 'Not provided'}%0ANotes: ${booking.notes || 'None'}`;
   const smsLink = `sms:7734137489?&body=${requestText}`;
   const canSubmit = booking.model && booking.issue && booking.name && booking.phone;
@@ -715,13 +716,14 @@ function BookRepairPage() {
 
   return (
     <main className="pageMain bookingPage bookingSlidePage">
-      <section className="bookingSingleHero">
+      <section className={`bookingSingleHero ambient-${visualType}`}>
+        <div className="issueAmbient" aria-hidden="true"><span /><span /><span /><span /><span /></div>
         <div className="wrap bookingShell">
           <div className="bookingTopline">
             <div>
               <div className="eyebrow"><Wrench size={15} /> Book repair</div>
-              <h1>Start a repair request.</h1>
-              <p>Choose the device, model, issue, and contact info. This test version opens a ready-to-send text to CellzTech. No payment is collected online.</p>
+              <h1>Book your repair.</h1>
+              <p>Choose your device, model, issue, and contact info. We will use this flow now for ready-to-send repair texts, then connect it to a full backend later.</p>
             </div>
             <div className="bookingMiniSummary">
               <span>Current request</span>
@@ -818,8 +820,6 @@ function BookRepairPage() {
                 )}
               </div>
             </div>
-
-            <BookingVisual issue={booking.issue} />
           </div>
         </div>
       </section>
