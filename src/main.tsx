@@ -108,6 +108,25 @@ const trustItems = [
   { icon: Store, title: 'More than repairs', text: 'Repairs, Ultra Mobile, phone sales, accessories, and buyback in one place.' }
 ];
 
+
+const featuredReviews = [
+  {
+    name: 'Halina Szczygiel',
+    rating: 5,
+    text: 'Tom is the best he is really helpful! My phone is working great now!'
+  },
+  {
+    name: 'Andrzej Chmiel',
+    rating: 5,
+    text: 'Thank you very much my phone is working like new!'
+  },
+  {
+    name: 'Jacek Smagacz',
+    rating: 5,
+    text: 'Very happy with the service. Thank you.'
+  }
+];
+
 const pageData: Record<PageKey, { eyebrow: string; title: string; text: string; bullets: string[]; cta?: string; external?: string }> = {
   home: {
     eyebrow: 'Chicago local tech shop',
@@ -394,6 +413,49 @@ function PageDetail({ page }: { page: PageKey }) {
 }
 
 
+
+function FeaturedReviews() {
+  const shuffledReviews = useMemo(() => [...featuredReviews].sort(() => Math.random() - 0.5), []);
+
+  return (
+    <section className="section reviewSection">
+      <div className="wrap">
+        <div className="reviewHeader">
+          <div>
+            <span className="label">Google reviews</span>
+            <h2>Trusted by local customers who needed real repair help.</h2>
+            <p>Featured 5-star reviews from customers who trusted Cellz Repairz for phone repair and local tech help. Later, this section can connect to the Google Reviews API and rotate automatically.</p>
+          </div>
+          <a className="secondaryBtn compact" href="https://www.google.com/search?q=Cellz+Repairz+3412+N+Harlem+Ave+Chicago+reviews" target="_blank" rel="noreferrer">View on Google</a>
+        </div>
+
+        <div className="reviewRail" aria-label="Featured 5-star reviews">
+          {shuffledReviews.map((review) => (
+            <article className="reviewCard" key={review.name}>
+              <div className="reviewTopline">
+                <div className="reviewAvatar" aria-hidden="true">{review.name.charAt(0)}</div>
+                <div>
+                  <strong>{review.name}</strong>
+                  <span>Google customer</span>
+                </div>
+                <div className="googleMark" aria-label="Google review">G</div>
+              </div>
+              <div className="stars" aria-label="5 star review">
+                {Array.from({ length: review.rating }).map((_, index) => <Star key={index} size={17} fill="currentColor" />)}
+              </div>
+              <p>“{review.text}”</p>
+            </article>
+          ))}
+        </div>
+
+        <div className="reviewNote">
+          <CheckCircle2 size={18} /> Only 5-star featured reviews are shown here. This section is designed so we can connect live Google review data later.
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function RepairsPage() {
   const repairServices = [
     { icon: Smartphone, title: 'iPhone Repair', text: 'Screens, batteries, charging ports, back glass, cameras, speakers, and common iPhone repairs.' },
@@ -522,6 +584,8 @@ function RepairsPage() {
           </div>
         </div>
       </section>
+
+      <FeaturedReviews />
 
       <section className="section ctaBand">
         <div className="wrap ctaPanel repairCtaPanel">
