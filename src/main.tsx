@@ -717,7 +717,7 @@ function BookRepairPage() {
   return (
     <main className="pageMain bookingPage bookingSlidePage">
       <section className={`bookingSingleHero ambient-${visualType}`}>
-        <div className="issueAmbient" aria-hidden="true"><span /><span /><span /><span /><span /></div>
+        <div className="issueAmbient" aria-hidden="true">{Array.from({ length: 17 }).map((_, index) => <span key={index} />)}</div>
         <div className="wrap bookingShell">
           <div className="bookingTopline">
             <div>
