@@ -828,6 +828,84 @@ function BookRepairPage() {
             </svg>
           </div>
         )}
+
+        {visualType === 'glass' && (
+          <div className="backGlassOverlay" key={`back-glass-${booking.issue}`} aria-hidden="true">
+            <svg viewBox="0 0 1440 760" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="backGlassGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(186,230,253,.30)" />
+                  <stop offset="100%" stopColor="rgba(255,255,255,.08)" />
+                </linearGradient>
+                <filter id="backGlassBlur" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="1.3" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+              <g className="glassPhoneBody">
+                <rect x="84" y="126" rx="72" ry="72" width="430" height="545" />
+                <rect x="122" y="168" rx="52" ry="52" width="140" height="140" className="cameraBump" />
+                <circle cx="168" cy="214" r="29" className="cameraLens" />
+                <circle cx="228" cy="274" r="29" className="cameraLens" />
+                <circle cx="168" cy="274" r="29" className="cameraLens" />
+                <circle cx="228" cy="214" r="14" className="cameraFlash" />
+                <circle cx="258" cy="244" r="11" className="cameraSensor" />
+                <circle cx="165" cy="625" r="4" className="bodyMark" />
+                <circle cx="205" cy="625" r="4" className="bodyMark" />
+                <circle cx="245" cy="625" r="4" className="bodyMark" />
+              </g>
+              <g className="glassImpactHalo">
+                <circle cx="405" cy="470" r="28" />
+                <circle cx="405" cy="470" r="56" />
+              </g>
+              <g className="glassShards">
+                <polygon points="364,432 438,446 428,520 352,504" />
+                <polygon points="432,449 500,420 548,486 428,520" />
+                <polygon points="352,504 428,520 402,606 320,580" />
+                <polygon points="404,520 486,548 452,628 392,604" />
+              </g>
+              <g className="glassCracksPrimary" filter="url(#backGlassBlur)">
+                <path d="M405 470 L300 348 L218 232" />
+                <path d="M405 470 L465 324 L510 188" />
+                <path d="M405 470 L542 474 L725 458" />
+                <path d="M405 470 L515 584 L658 700" />
+                <path d="M405 470 L330 590 L255 668" />
+                <path d="M405 470 L232 490 L64 522" />
+              </g>
+              <g className="glassCracksBranch">
+                <path d="M300 348 L342 320 L354 270" />
+                <path d="M280 388 L214 372 L168 402" />
+                <path d="M465 324 L434 272 L460 222" />
+                <path d="M510 188 L478 214 L446 182" />
+                <path d="M542 474 L600 432 L686 430" />
+                <path d="M575 472 L628 522 L705 532" />
+                <path d="M515 584 L560 614 L598 664" />
+                <path d="M330 590 L358 650 L334 704" />
+                <path d="M232 490 L188 448 L132 446" />
+                <path d="M405 470 L356 438 L320 444" />
+                <path d="M405 470 L450 458 L490 430" />
+                <path d="M405 470 L424 516 L454 548" />
+              </g>
+              <g className="glassCracksMicro">
+                <path d="M376 452 L350 430 L326 432" />
+                <path d="M430 446 L468 436 L496 418" />
+                <path d="M434 516 L466 536 L486 566" />
+                <path d="M374 530 L346 558 L344 594" />
+                <path d="M417 400 L428 368 L454 346" />
+              </g>
+              <g className="glassDust">
+                <circle cx="565" cy="468" r="4" />
+                <circle cx="602" cy="438" r="3" />
+                <circle cx="622" cy="498" r="3" />
+                <circle cx="475" cy="632" r="3.5" />
+                <circle cx="518" cy="662" r="2.5" />
+              </g>
+            </svg>
+          </div>
+        )}
         <div className="wrap bookingShell">
           <div className="bookingTopline">
             <div>
