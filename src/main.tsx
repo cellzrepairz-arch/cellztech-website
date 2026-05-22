@@ -27,7 +27,7 @@ import {
 } from 'lucide-react';
 import './styles.css';
 
-type PageKey = 'home' | 'repairs' | 'ultra' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact';
+type PageKey = 'home' | 'repairs' | 'ultra' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book';
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk' | 'cs' | 'ru';
 
 const routes: Record<PageKey, string> = {
@@ -38,7 +38,8 @@ const routes: Record<PageKey, string> = {
   phones: '/phones',
   accessories: '/accessories',
   about: '/about',
-  contact: '/contact'
+  contact: '/contact',
+  book: '/book-repair'
 };
 
 const pathToPage = Object.entries(routes).reduce((acc, [key, value]) => {
@@ -56,12 +57,12 @@ const languages: { key: LanguageKey; label: string; name: string }[] = [
 ];
 
 const navLabels: Record<LanguageKey, Record<PageKey, string>> = {
-  en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact' },
-  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto' },
-  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt' },
-  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти' },
-  cs: { home: 'Domů', repairs: 'Opravy', ultra: 'Ultra Mobile', buyback: 'Výkup', phones: 'Telefony', accessories: 'Příslušenství', about: 'O nás', contact: 'Kontakt' },
-  ru: { home: 'Главная', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Выкуп', phones: 'Телефоны', accessories: 'Аксессуары', about: 'О нас', contact: 'Контакты' }
+  en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact', book: 'Book Repair' },
+  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Reservar reparación' },
+  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Umów naprawę' },
+  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Запис на ремонт' },
+  cs: { home: 'Domů', repairs: 'Opravy', ultra: 'Ultra Mobile', buyback: 'Výkup', phones: 'Telefony', accessories: 'Příslušenství', about: 'O nás', contact: 'Kontakt', book: 'Objednat opravu' },
+  ru: { home: 'Главная', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Выкуп', phones: 'Телефоны', accessories: 'Аксессуары', about: 'О нас', contact: 'Контакты', book: 'Записаться' }
 };
 
 const serviceCards = [
@@ -183,6 +184,13 @@ const pageData: Record<PageKey, { eyebrow: string; title: string; text: string; 
     text: 'We are located at 3412 N Harlem Ave STE A, Chicago, IL 60634. Call us for repairs, Ultra Mobile, buyback, phones, and accessories.',
     bullets: ['3412 N Harlem Ave STE A, Chicago, IL 60634', '773-413-7489', 'CellzTech is operated by Cellz Repairz LLC'],
     cta: 'Call CellzTech'
+  },
+  book: {
+    eyebrow: 'Book repair',
+    title: 'Start a repair request with CellzTech.',
+    text: 'Choose your Apple device, model, repair issue, and contact details. This first version opens a ready-to-send text message to the shop while we prepare the full backend later.',
+    bullets: ['Apple repairs first', 'Samsung, Motorola, and Google Pixel can be added next', 'No payment is collected online'],
+    cta: 'Start repair request'
   }
 };
 
@@ -236,6 +244,7 @@ function Header({ page, setPage, lang, setLang }: { page: PageKey; setPage: (p: 
                 {languages.map((language) => <option key={language.key} value={language.key}>{language.label}</option>)}
               </select>
             </div>
+            <button className="bookHeaderButton" onClick={() => navigate('book')}>Book Repair</button>
             <a className="callButton" href="tel:7734137489">Call</a>
             <button className="menuButton" onClick={() => setOpen(!open)} aria-label="Menu">{open ? <X /> : <Menu />}</button>
           </div>
@@ -259,7 +268,8 @@ function Hero() {
           <h1>Phone repair, wireless plans, phones, accessories, and buyback in Chicago.</h1>
           <p>CellzTech is a modern local hub for repairs, Ultra Mobile activations, used phones, accessories, and instant iPhone buyback quotes through Apex Tech Exchange.</p>
           <div className="heroCtas">
-            <a className="primaryBtn" href="tel:7734137489">Call CellzTech <ArrowRight size={18} /></a>
+            <button className="primaryBtn" onClick={() => goTo('book')}>Book a repair <ArrowRight size={18} /></button>
+            <a className="secondaryBtn" href="tel:7734137489">Call CellzTech</a>
             <button className="secondaryBtn" onClick={() => goTo('ultra')}>Switch to Ultra Mobile</button>
             <button className="secondaryBtn ghost" onClick={() => goTo('buyback')}>Sell your iPhone</button>
           </div>
@@ -381,6 +391,10 @@ function PageDetail({ page }: { page: PageKey }) {
     return <RepairsPage />;
   }
 
+  if (page === 'book') {
+    return <BookRepairPage />;
+  }
+
   return (
     <main className="pageMain">
       <section className="pageHero">
@@ -425,7 +439,7 @@ function FeaturedReviews() {
           <div>
             <span className="label">Google reviews</span>
             <h2>Trusted by local customers who needed real repair help.</h2>
-            <p>Featured 5-star reviews from customers who trusted Cellz Repairz for phone repair and local tech help. Later, this section can connect to the Google Reviews API and rotate automatically.</p>
+            <p>Featured 5-star reviews from customers who trusted Cellz Repairz for phone repair and local tech help.</p>
           </div>
           <a className="secondaryBtn compact" href="https://www.google.com/search?q=Cellz+Repairz+3412+N+Harlem+Ave+Chicago+reviews" target="_blank" rel="noreferrer">View on Google</a>
         </div>
@@ -447,10 +461,6 @@ function FeaturedReviews() {
               <p>“{review.text}”</p>
             </article>
           ))}
-        </div>
-
-        <div className="reviewNote">
-          <CheckCircle2 size={18} /> Only 5-star featured reviews are shown here. This section is designed so we can connect live Google review data later.
         </div>
       </div>
     </section>
@@ -494,7 +504,8 @@ function RepairsPage() {
             <h1>Phone repair in Chicago, done right.</h1>
             <p>Get local help for cracked screens, weak batteries, charging issues, back glass, cameras, tablets, and more. At CellzTech, we explain your options clearly before starting the repair and use high-quality parts whenever available.</p>
             <div className="pageActions">
-              <a className="primaryBtn" href="tel:7734137489">Call for repair <ArrowRight size={18} /></a>
+              <button className="primaryBtn" onClick={() => goTo('book')}>Book repair <ArrowRight size={18} /></button>
+              <a className="secondaryBtn" href="tel:7734137489">Call for repair</a>
               <a className="secondaryBtn" href="https://maps.google.com/?q=3412+N+Harlem+Ave+STE+A+Chicago+IL+60634" target="_blank" rel="noreferrer">Get directions</a>
             </div>
           </div>
@@ -538,8 +549,8 @@ function RepairsPage() {
             <h2>Small phone problems often turn into bigger repairs.</h2>
             <p className="lead">Charging at an angle, fast battery drain, ghost touch, camera blur, or a cracked screen can get worse over time. We can help you understand what is happening before you spend money on the wrong solution.</p>
             <div className="inlineActions">
-              <a className="primaryBtn compact" href="tel:7734137489">Call 773-413-7489</a>
-              <button className="secondaryBtn compact" onClick={() => goTo('contact')}>Visit the store</button>
+              <button className="primaryBtn compact" onClick={() => goTo('book')}>Start repair request</button>
+              <a className="secondaryBtn compact" href="tel:7734137489">Call 773-413-7489</a>
             </div>
           </div>
           <div className="problemList">
@@ -595,9 +606,140 @@ function RepairsPage() {
             <p><strong>CellzTech</strong><br />3412 N Harlem Ave STE A, Chicago, IL 60634</p>
           </div>
           <div className="ctaButtonsStack">
-            <a className="primaryBtn" href="tel:7734137489">Call now <ArrowRight size={18} /></a>
+            <button className="primaryBtn" onClick={() => goTo('book')}>Book repair <ArrowRight size={18} /></button>
+            <a className="secondaryBtn" href="tel:7734137489">Call now</a>
             <a className="secondaryBtn" href="https://maps.google.com/?q=3412+N+Harlem+Ave+STE+A+Chicago+IL+60634" target="_blank" rel="noreferrer">Get directions</a>
           </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+
+type BookingField = 'device' | 'model' | 'issue' | 'name' | 'phone' | 'email' | 'preferredTime' | 'notes';
+
+const appleDevices = ['iPhone', 'iPad', 'Apple Watch', 'MacBook', 'Other Apple device'];
+const appleModels: Record<string, string[]> = {
+  iPhone: ['iPhone 17 Pro Max', 'iPhone 17 Pro', 'iPhone 17', 'iPhone 16 Pro Max', 'iPhone 16 Pro', 'iPhone 16 Plus', 'iPhone 16', 'iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15 Plus', 'iPhone 15', 'iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14 Plus', 'iPhone 14', 'iPhone 13 Pro Max', 'iPhone 13 Pro', 'iPhone 13', 'iPhone 12 Pro Max', 'iPhone 12 Pro', 'iPhone 12', 'iPhone 11', 'iPhone XR', 'iPhone XS / XS Max', 'iPhone X', 'iPhone SE', 'Other iPhone'],
+  iPad: ['iPad Pro', 'iPad Air', 'iPad mini', 'iPad', 'Other iPad'],
+  'Apple Watch': ['Apple Watch Ultra', 'Apple Watch Series 10', 'Apple Watch Series 9', 'Apple Watch Series 8', 'Apple Watch SE', 'Other Apple Watch'],
+  MacBook: ['MacBook Air', 'MacBook Pro', 'Other MacBook'],
+  'Other Apple device': ['Not sure / other Apple device']
+};
+const repairIssues = ['Cracked screen', 'Battery replacement', 'Charging port issue', 'Back glass', 'Camera issue', 'Speaker or microphone', 'Device will not turn on', 'Water damage', 'Data recovery', 'Software issue', 'Other / not sure'];
+
+function BookRepairPage() {
+  const [booking, setBooking] = useState<Record<BookingField, string>>({
+    device: 'iPhone',
+    model: '',
+    issue: '',
+    name: '',
+    phone: '',
+    email: '',
+    preferredTime: '',
+    notes: ''
+  });
+
+  const setField = (field: BookingField, value: string) => {
+    setBooking((current) => {
+      const next = { ...current, [field]: value };
+      if (field === 'device') next.model = '';
+      return next;
+    });
+  };
+
+  const models = appleModels[booking.device] || [];
+  const requestText = `Hi CellzTech, I would like to start a repair request.%0A%0ADevice: ${booking.device || 'Not selected'}%0AModel: ${booking.model || 'Not selected'}%0AIssue: ${booking.issue || 'Not selected'}%0APreferred day/time: ${booking.preferredTime || 'Not provided'}%0AName: ${booking.name || 'Not provided'}%0APhone: ${booking.phone || 'Not provided'}%0AEmail: ${booking.email || 'Not provided'}%0ANotes: ${booking.notes || 'None'}`;
+  const smsLink = `sms:7734137489?&body=${requestText}`;
+  const canSubmit = booking.model && booking.issue && booking.name && booking.phone;
+
+  return (
+    <main className="pageMain bookingPage">
+      <section className="bookingHero">
+        <div className="wrap bookingHeroGrid">
+          <div>
+            <div className="eyebrow"><Wrench size={15} /> Book repair</div>
+            <h1>Start an Apple repair request.</h1>
+            <p>Choose your device, model, repair issue, and contact details. This first version opens a ready-to-send text message to CellzTech so we can test the flow before building the full backend.</p>
+            <div className="miniTrust darkTrust">
+              <span><CheckCircle2 size={16} /> Apple first</span>
+              <span><CheckCircle2 size={16} /> Samsung next</span>
+              <span><CheckCircle2 size={16} /> Backend-ready structure</span>
+            </div>
+          </div>
+          <div className="bookingStatusCard">
+            <span>Current booking version</span>
+            <h2>Apple repairs</h2>
+            <p>iPhone, iPad, Apple Watch, and MacBook options are included first. We can add Samsung, Motorola, Google Pixel, and more after this feels right.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section light">
+        <div className="wrap bookingGrid">
+          <form className="bookingForm" onSubmit={(e) => e.preventDefault()}>
+            <div className="bookingStep">
+              <span>Step 1</span>
+              <h2>What Apple device needs repair?</h2>
+              <div className="choiceGrid fiveChoices">
+                {appleDevices.map((device) => (
+                  <button type="button" key={device} className={booking.device === device ? 'choice selected' : 'choice'} onClick={() => setField('device', device)}>
+                    <Smartphone size={22} />
+                    {device}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="bookingStep">
+              <span>Step 2</span>
+              <h2>Select the model.</h2>
+              <div className="modelGrid">
+                {models.map((model) => (
+                  <button type="button" key={model} className={booking.model === model ? 'modelChoice selected' : 'modelChoice'} onClick={() => setField('model', model)}>{model}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="bookingStep">
+              <span>Step 3</span>
+              <h2>What needs to be fixed?</h2>
+              <div className="issueGrid">
+                {repairIssues.map((issue) => (
+                  <button type="button" key={issue} className={booking.issue === issue ? 'issueChoice selected' : 'issueChoice'} onClick={() => setField('issue', issue)}>{issue}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="bookingStep">
+              <span>Step 4</span>
+              <h2>Your contact details.</h2>
+              <div className="formGrid">
+                <label>Name<input value={booking.name} onChange={(e) => setField('name', e.target.value)} placeholder="Your name" /></label>
+                <label>Phone<input value={booking.phone} onChange={(e) => setField('phone', e.target.value)} placeholder="Your phone number" /></label>
+                <label>Email<input value={booking.email} onChange={(e) => setField('email', e.target.value)} placeholder="Optional email" /></label>
+                <label>Preferred day/time<input value={booking.preferredTime} onChange={(e) => setField('preferredTime', e.target.value)} placeholder="Example: Friday afternoon" /></label>
+                <label className="fullField">Notes<textarea value={booking.notes} onChange={(e) => setField('notes', e.target.value)} placeholder="Example: Screen is cracked but touch still works." /></label>
+              </div>
+              <p className="bookingConsent">By sending this request, you agree that CellzTech / Cellz Repairz LLC may contact you about your repair request. This does not guarantee repair price, part availability, or completion time.</p>
+            </div>
+          </form>
+
+          <aside className="bookingSummary">
+            <span>Repair request summary</span>
+            <h2>{booking.model || booking.device || 'Apple device'}</h2>
+            <ul>
+              <li><strong>Device:</strong> {booking.device || 'Not selected'}</li>
+              <li><strong>Model:</strong> {booking.model || 'Choose model'}</li>
+              <li><strong>Issue:</strong> {booking.issue || 'Choose issue'}</li>
+              <li><strong>Name:</strong> {booking.name || 'Add name'}</li>
+              <li><strong>Phone:</strong> {booking.phone || 'Add phone'}</li>
+            </ul>
+            <a className={canSubmit ? 'primaryBtn summarySubmit' : 'primaryBtn summarySubmit disabled'} href={canSubmit ? smsLink : undefined} aria-disabled={!canSubmit}>Text request to CellzTech <ArrowRight size={18} /></a>
+            <a className="secondaryBtn summaryCall" href="tel:7734137489">Or call 773-413-7489</a>
+            <p>Next version can save requests into a backend, send email confirmations, send SMS confirmations, and add an admin appointment dashboard.</p>
+          </aside>
         </div>
       </section>
     </main>
