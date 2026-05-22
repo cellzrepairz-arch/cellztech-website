@@ -718,6 +718,29 @@ function BookRepairPage() {
     <main className="pageMain bookingPage bookingSlidePage">
       <section className={`bookingSingleHero ambient-${visualType}`}>
         <div className="issueAmbient" aria-hidden="true">{Array.from({ length: 17 }).map((_, index) => <span key={index} />)}</div>
+        {visualType === 'battery' && (
+          <div className="batteryDrainOverlay" key={`battery-drain-${booking.issue}`} aria-hidden="true">
+            <div className="batteryGhost batteryGhostOne">
+              <span className="batteryCap" />
+              <span className="batteryFill" />
+              <span className="batteryBolt">!</span>
+            </div>
+            <div className="batteryGhost batteryGhostTwo">
+              <span className="batteryCap" />
+              <span className="batteryFill" />
+              <span className="batteryBolt">!</span>
+            </div>
+            <div className="batteryDrainLines">
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+            <div className="batteryWarningPulse" />
+          </div>
+        )}
         {visualType === 'screen' && (
           <div className="screenShatterOverlay" key={`screen-shatter-${booking.issue}`} aria-hidden="true">
             <svg viewBox="0 0 1440 760" preserveAspectRatio="none">
