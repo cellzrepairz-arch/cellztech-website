@@ -741,6 +741,30 @@ function BookRepairPage() {
             <div className="batteryWarningPulse" />
           </div>
         )}
+        {visualType === 'charging' && (
+          <div className="chargingFailOverlay" key={`charging-fail-${booking.issue}`} aria-hidden="true">
+            <div className="chargingPhoneGhost">
+              <span className="chargingPhoneSpeaker" />
+              <span className="chargingPhonePort" />
+              <span className="chargingPhoneReflection" />
+            </div>
+            <div className="chargingCableGhost">
+              <span className="chargingCableLine" />
+              <span className="chargingCableHead">
+                <span className="chargingCableMetal" />
+              </span>
+            </div>
+            <div className="chargingErrorSignal">
+              <span className="chargingErrorBolt">⚡</span>
+              <span className="chargingErrorSlash" />
+            </div>
+            <div className="chargingFailRipples">
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
+        )}
         {visualType === 'screen' && (
           <div className="screenShatterOverlay" key={`screen-shatter-${booking.issue}`} aria-hidden="true">
             <svg viewBox="0 0 1440 760" preserveAspectRatio="none">

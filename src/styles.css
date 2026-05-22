@@ -1034,29 +1034,13 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
 }
 @keyframes batteryFade { from { opacity: .18; } to { opacity: .85; } }
 
-.ambient-charging .issueAmbient:before {
-  content: '';
-  position: absolute;
-  width: 420px;
-  height: 4px;
-  right: 8%;
-  top: 48%;
-  background: rgba(255,255,255,.7);
-  border-radius: 99px;
-  animation: cableDrift 8s ease-in-out infinite;
-}
+.ambient-charging .issueAmbient:before,
 .ambient-charging .issueAmbient:after {
-  content: '×';
-  position: absolute;
-  right: 20%;
-  top: 38%;
-  color: rgba(239,68,68,.9);
-  font-size: 120px;
-  font-weight: 900;
-  animation: noChargePulse 1.5s ease-in-out infinite;
+  content: none;
 }
-@keyframes cableDrift { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-24px); } }
-@keyframes noChargePulse { 0%,100% { opacity: .25; scale: .92; } 50% { opacity: .9; scale: 1; } }
+.ambient-charging .issueAmbient span {
+  opacity: 0;
+}
 
 .ambient-glass .issueAmbient span {
   width: 500px;
@@ -1673,6 +1657,180 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   0% { opacity: 0; }
   20% { opacity: .68; }
   100% { opacity: .42; }
+}
+
+
+/* Charging port ambient animation */
+.chargingFailOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.chargingPhoneGhost {
+  position: absolute;
+  right: 4%;
+  top: 42%;
+  width: 215px;
+  height: 410px;
+  border: 8px solid rgba(147, 197, 253, .24);
+  border-radius: 42px;
+  background: linear-gradient(180deg, rgba(15, 31, 52, .16), rgba(15, 31, 52, .06));
+  box-shadow: 0 0 0 2px rgba(255,255,255,.04) inset, 0 0 42px rgba(14, 165, 233, .08);
+  opacity: .9;
+}
+.chargingPhoneSpeaker {
+  position: absolute;
+  left: 50%;
+  top: 16px;
+  width: 74px;
+  height: 10px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.16);
+  transform: translateX(-50%);
+}
+.chargingPhonePort {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  width: 58px;
+  height: 8px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.18);
+  transform: translateX(-50%);
+}
+.chargingPhoneReflection {
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  width: 42px;
+  height: 108px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,0));
+  filter: blur(.2px);
+}
+.chargingCableGhost {
+  position: absolute;
+  right: 0;
+  top: calc(42% + 340px);
+  width: 400px;
+  height: 90px;
+}
+.chargingCableLine {
+  position: absolute;
+  right: 0;
+  top: 38px;
+  width: 280px;
+  height: 4px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, rgba(148, 163, 184, .08), rgba(191, 219, 254, .5) 30%, rgba(191, 219, 254, .32));
+  animation: chargeCableBreathe 2.2s ease-in-out infinite;
+}
+.chargingCableHead {
+  position: absolute;
+  left: 102px;
+  top: 22px;
+  width: 52px;
+  height: 36px;
+  border-radius: 12px 10px 10px 12px;
+  background: linear-gradient(180deg, rgba(226, 232, 240, .78), rgba(148, 163, 184, .55));
+  box-shadow: 0 0 20px rgba(14, 165, 233, .1);
+  animation: chargeCableTry 1.2s cubic-bezier(.55,.02,.45,.98) infinite;
+}
+.chargingCableHead::before {
+  content: '';
+  position: absolute;
+  right: -18px;
+  top: 10px;
+  width: 18px;
+  height: 16px;
+  border-radius: 0 4px 4px 0;
+  background: linear-gradient(180deg, rgba(241, 245, 249, .88), rgba(148, 163, 184, .62));
+}
+.chargingCableHead::after {
+  content: '';
+  position: absolute;
+  left: -96px;
+  top: 13px;
+  width: 98px;
+  height: 9px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, rgba(191,219,254,.54), rgba(191,219,254,.18));
+}
+.chargingCableMetal {
+  position: absolute;
+  right: -16px;
+  top: 12px;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: rgba(255,255,255,.9);
+}
+.chargingErrorSignal {
+  position: absolute;
+  right: calc(4% + 58px);
+  top: calc(42% + 336px);
+  width: 68px;
+  height: 68px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(239,68,68,.24), rgba(239,68,68,.05) 60%, transparent 70%);
+  display: grid;
+  place-items: center;
+  animation: chargeFailPulse 1.2s ease-in-out infinite;
+}
+.chargingErrorBolt {
+  color: rgba(255,255,255,.75);
+  font-size: 27px;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+.chargingErrorSlash {
+  position: absolute;
+  width: 54px;
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(248, 113, 113, .95);
+  transform: rotate(-42deg);
+  box-shadow: 0 0 18px rgba(239, 68, 68, .4);
+}
+.chargingFailRipples {
+  position: absolute;
+  right: calc(4% + 72px);
+  top: calc(42% + 350px);
+  width: 28px;
+  height: 28px;
+}
+.chargingFailRipples span {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(248, 113, 113, .42);
+  border-radius: 999px;
+  opacity: 0;
+  animation: chargeFailRipple 1.2s ease-out infinite;
+}
+.chargingFailRipples span:nth-child(2) { animation-delay: .22s; }
+.chargingFailRipples span:nth-child(3) { animation-delay: .44s; }
+@keyframes chargeCableTry {
+  0% { transform: translateX(0) translateY(0); }
+  24% { transform: translateX(18px) translateY(-1px); }
+  32% { transform: translateX(24px) translateY(0); }
+  52% { transform: translateX(4px) translateY(2px); }
+  100% { transform: translateX(0) translateY(0); }
+}
+@keyframes chargeCableBreathe {
+  0%,100% { opacity: .42; }
+  50% { opacity: .8; }
+}
+@keyframes chargeFailPulse {
+  0%,100% { opacity: .26; transform: scale(.92); }
+  35% { opacity: .95; transform: scale(1); }
+  55% { opacity: .6; transform: scale(.97); }
+}
+@keyframes chargeFailRipple {
+  0% { transform: scale(.2); opacity: 0; }
+  20% { opacity: .7; }
+  100% { transform: scale(3.5); opacity: 0; }
 }
 
 
