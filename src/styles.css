@@ -1577,3 +1577,100 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   35% { opacity: .22; transform: scale(1.01); }
   100% { opacity: .13; transform: scale(1); }
 }
+
+/* V7 cracked screen: real DOM shatter overlay, no external asset dependency */
+.bookingSingleHero {
+  position: relative;
+  overflow: hidden;
+}
+.bookingShell {
+  position: relative;
+  z-index: 3;
+}
+.screenShatterOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .95;
+}
+.screenShatterOverlay svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.screenShatterOverlay .primaryCracks path,
+.screenShatterOverlay .branchCracks path,
+.screenShatterOverlay .microCracks path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1100;
+  stroke-dashoffset: 1100;
+  transform-box: fill-box;
+  transform-origin: 650px 390px;
+}
+.screenShatterOverlay .primaryCracks path {
+  stroke: rgba(232, 246, 255, .92);
+  stroke-width: 2.8;
+  animation: shatterDraw .42s cubic-bezier(.08,.85,.12,1) forwards;
+}
+.screenShatterOverlay .branchCracks path {
+  stroke: rgba(186, 228, 255, .72);
+  stroke-width: 1.55;
+  animation: shatterDraw .54s cubic-bezier(.08,.85,.12,1) .08s forwards;
+}
+.screenShatterOverlay .microCracks path {
+  stroke: rgba(255,255,255,.58);
+  stroke-width: .95;
+  animation: shatterDraw .62s ease-out .15s forwards;
+}
+.screenShatterOverlay .impactRings circle {
+  fill: none;
+  stroke: rgba(255,255,255,.46);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-origin: 650px 390px;
+  animation: impactRing .5s ease-out forwards;
+}
+.screenShatterOverlay .impactRings circle:nth-child(2) { animation-delay: .06s; }
+.screenShatterOverlay .shatterVeil polygon {
+  fill: rgba(255,255,255,.035);
+  stroke: rgba(255,255,255,.14);
+  stroke-width: 1;
+  opacity: 0;
+  animation: shardFade .7s ease-out .12s forwards;
+}
+.bookingSingleHero.ambient-screen .bookingSlideCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(34deg, transparent 0 44%, rgba(10, 38, 66, .08) 44.3% 44.6%, transparent 45%),
+    linear-gradient(132deg, transparent 0 39%, rgba(10, 38, 66, .065) 39.2% 39.45%, transparent 39.8%),
+    radial-gradient(circle at 49% 43%, rgba(14, 165, 233, .08), transparent 22%);
+  opacity: .5;
+  animation: cardGlassBlink .5s ease-out forwards;
+}
+@keyframes shatterDraw {
+  0% { stroke-dashoffset: 1100; opacity: 0; }
+  10% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@keyframes impactRing {
+  0% { opacity: 0; transform: scale(.15); }
+  20% { opacity: .95; transform: scale(1); }
+  100% { opacity: .12; transform: scale(2.2); }
+}
+@keyframes shardFade {
+  0% { opacity: 0; }
+  28% { opacity: .72; }
+  100% { opacity: .45; }
+}
+@keyframes cardGlassBlink {
+  0% { opacity: 0; }
+  20% { opacity: .68; }
+  100% { opacity: .42; }
+}

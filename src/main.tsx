@@ -718,6 +718,69 @@ function BookRepairPage() {
     <main className="pageMain bookingPage bookingSlidePage">
       <section className={`bookingSingleHero ambient-${visualType}`}>
         <div className="issueAmbient" aria-hidden="true">{Array.from({ length: 17 }).map((_, index) => <span key={index} />)}</div>
+        {visualType === 'screen' && (
+          <div className="screenShatterOverlay" key={`screen-shatter-${booking.issue}`} aria-hidden="true">
+            <svg viewBox="0 0 1440 760" preserveAspectRatio="none">
+              <defs>
+                <filter id="shatterGlow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="1.2" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+              <g className="shatterVeil">
+                <polygon points="610,290 688,330 650,405 545,420" />
+                <polygon points="688,330 845,255 815,410 650,405" />
+                <polygon points="650,405 815,410 915,560 690,515" />
+                <polygon points="545,420 650,405 690,515 445,610" />
+                <polygon points="610,290 545,420 365,330 510,205" />
+                <polygon points="845,255 1035,170 970,390 815,410" />
+              </g>
+              <g className="impactRings">
+                <circle cx="650" cy="390" r="38" />
+                <circle cx="650" cy="390" r="72" />
+              </g>
+              <g className="primaryCracks" filter="url(#shatterGlow)">
+                <path d="M650 390 L515 184 L425 72" />
+                <path d="M650 390 L815 142 L1030 40" />
+                <path d="M650 390 L1055 315 L1405 225" />
+                <path d="M650 390 L1040 558 L1325 710" />
+                <path d="M650 390 L690 610 L760 760" />
+                <path d="M650 390 L470 595 L285 760" />
+                <path d="M650 390 L330 455 L0 520" />
+                <path d="M650 390 L315 245 L0 112" />
+              </g>
+              <g className="branchCracks">
+                <path d="M515 184 L610 155 L672 58" />
+                <path d="M540 220 L450 230 L390 160" />
+                <path d="M815 142 L785 250 L875 310" />
+                <path d="M960 75 L925 178 L1005 205" />
+                <path d="M1055 315 L1125 385 L1248 382" />
+                <path d="M1110 300 L1185 245 L1295 248" />
+                <path d="M1040 558 L1120 535 L1195 590" />
+                <path d="M960 520 L985 635 L1085 678" />
+                <path d="M690 610 L610 650 L585 740" />
+                <path d="M470 595 L500 690 L420 725" />
+                <path d="M330 455 L260 385 L160 395" />
+                <path d="M315 245 L250 275 L175 225" />
+                <path d="M650 390 L592 340 L555 298" />
+                <path d="M650 390 L715 362 L770 342" />
+                <path d="M650 390 L615 455 L590 505" />
+                <path d="M650 390 L720 470 L790 498" />
+              </g>
+              <g className="microCracks">
+                <path d="M565 315 L590 305 L612 274" />
+                <path d="M740 330 L785 292 L842 286" />
+                <path d="M755 455 L828 468 L875 525" />
+                <path d="M570 480 L505 520 L485 585" />
+                <path d="M600 382 L528 375 L465 408" />
+                <path d="M698 386 L760 382 L825 360" />
+              </g>
+            </svg>
+          </div>
+        )}
         <div className="wrap bookingShell">
           <div className="bookingTopline">
             <div>
