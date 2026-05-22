@@ -253,3 +253,114 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   .pageHero { padding: 64px 0; }
   .footer { padding-top: 46px; }
 }
+
+/* Repairs page upgrade */
+.repairHero {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(6,182,212,0.20), transparent 28%),
+    linear-gradient(135deg, #07111f 0%, #0b1728 58%, #12324a 100%);
+  color: white;
+  padding: 96px 0;
+}
+.repairHeroGrid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.82fr;
+  gap: 68px;
+  align-items: center;
+}
+.repairHero h1 {
+  font-size: clamp(44px, 6vw, 76px);
+  line-height: 1.01;
+  max-width: 850px;
+}
+.repairHero p {
+  color: #d9e8ff;
+  font-size: 20px;
+  line-height: 1.75;
+  max-width: 770px;
+}
+.repairSummaryCard {
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(255,255,255,0.6);
+  color: var(--text);
+  border-radius: 30px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+.repairSummaryCard span {
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 900;
+  font-size: 13px;
+}
+.repairSummaryCard ul { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 16px; }
+.repairSummaryCard li { display: grid; grid-template-columns: 24px 1fr; gap: 11px; color: #334155; font-weight: 800; line-height: 1.5; }
+.repairSummaryCard svg { color: var(--blue); margin-top: 2px; }
+.centeredIntro { max-width: 850px; margin-left: auto; margin-right: auto; text-align: center; }
+.repairCardsGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.repairServiceCard {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(15,23,42,0.06);
+  min-height: 245px;
+}
+.repairServiceCard h3 { font-size: 22px; margin-bottom: 14px; }
+.repairServiceCard p { color: var(--muted); line-height: 1.75; margin: 0; }
+.repairProblems { background: var(--white); }
+.repairProblemSplit { align-items: start; }
+.problemList { display: grid; gap: 12px; }
+.problemList div {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 17px 18px;
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 10px;
+  font-weight: 850;
+  color: #243042;
+}
+.problemList svg { color: var(--blue); margin-top: 2px; }
+.trustGridExpanded { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.cleanTrust { background: var(--white); }
+.processSteps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.processSteps > div {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  padding: 26px;
+}
+.processSteps strong {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: #eaf3ff;
+  color: var(--blue);
+  font-family: Sora, Inter, sans-serif;
+  margin-bottom: 20px;
+}
+.processSteps h3 { font-size: 20px; margin-bottom: 12px; }
+.processSteps p { color: var(--muted); line-height: 1.7; margin: 0; }
+.repairCtaPanel { align-items: stretch; }
+.repairCtaPanel p { color: #d9e8ff; line-height: 1.7; max-width: 760px; }
+.ctaButtonsStack { display: grid; align-content: center; gap: 12px; min-width: 220px; }
+.ctaButtonsStack .secondaryBtn { color: var(--navy); }
+@media (max-width: 1080px) {
+  .repairHeroGrid, .repairProblemSplit { grid-template-columns: 1fr; }
+  .repairCardsGrid, .trustGridExpanded { grid-template-columns: repeat(2, 1fr); }
+  .processSteps { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .repairHero { padding: 64px 0; }
+  .repairHero h1 { font-size: 42px; }
+  .repairHero p { font-size: 17px; }
+  .repairCardsGrid, .trustGridExpanded, .processSteps { grid-template-columns: 1fr; }
+  .centeredIntro { text-align: left; }
+  .ctaButtonsStack { width: 100%; }
+  .ctaButtonsStack .primaryBtn, .ctaButtonsStack .secondaryBtn { width: 100%; }
+}

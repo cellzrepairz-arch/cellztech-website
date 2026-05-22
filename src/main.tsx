@@ -116,11 +116,11 @@ const pageData: Record<PageKey, { eyebrow: string; title: string; text: string; 
     bullets: ['iPhone, Samsung, iPad, Motorola, and Google Pixel repair', 'Ultra Mobile activations and number transfer help', 'Used phones, accessories, and instant iPhone buyback quotes']
   },
   repairs: {
-    eyebrow: 'Repair services',
-    title: 'Repairs handled with clear advice and quality-focused work.',
-    text: 'Bring your device in for practical repair help. We service common phone and tablet issues including screens, batteries, charging ports, back glass, cameras, and more.',
-    bullets: ['iPhone, Samsung, iPad, Motorola, Google Pixel, and tablets', 'Screens, batteries, charging ports, back glass, cameras, and data recovery', 'High-quality parts and warranty-focused service'],
-    cta: 'Call about a repair'
+    eyebrow: 'Phone repair in Chicago',
+    title: 'Phone repair in Chicago, done right.',
+    text: 'Get local help for cracked screens, weak batteries, charging issues, back glass, cameras, tablets, and more. At CellzTech, we explain your options clearly before starting the repair and use high-quality parts whenever available.',
+    bullets: ['iPhone, Samsung, iPad, Motorola, Google Pixel, and tablets', 'Screens, batteries, charging ports, back glass, cameras, and diagnostics', 'Clear repair advice before work begins', 'High-quality parts and warranty-focused service'],
+    cta: 'Call for repair'
   },
   ultra: {
     eyebrow: 'Ultra Mobile at CellzTech',
@@ -358,6 +358,10 @@ function PageDetail({ page }: { page: PageKey }) {
     );
   }
 
+  if (page === 'repairs') {
+    return <RepairsPage />;
+  }
+
   return (
     <main className="pageMain">
       <section className="pageHero">
@@ -383,9 +387,156 @@ function PageDetail({ page }: { page: PageKey }) {
           </div>
         </div>
       </section>
-      {page === 'repairs' && <RepairDetails />}
       {page === 'ultra' && <UltraDetails />}
       {page === 'contact' && <ContactDetails />}
+    </main>
+  );
+}
+
+
+function RepairsPage() {
+  const repairServices = [
+    { icon: Smartphone, title: 'iPhone Repair', text: 'Screens, batteries, charging ports, back glass, cameras, speakers, and common iPhone repairs.' },
+    { icon: TabletSmartphone, title: 'Samsung Repair', text: 'Screen replacement, battery service, charging problems, camera issues, and common Samsung repairs.' },
+    { icon: TabletSmartphone, title: 'iPad & Tablet Repair', text: 'Cracked screens, battery problems, charging ports, and tablet diagnostics.' },
+    { icon: BatteryCharging, title: 'Charging & Battery Issues', text: 'If your phone charges slowly, dies fast, or only works at an angle, stop in for help.' },
+    { icon: Camera, title: 'Back Glass & Camera Repair', text: 'Repair options for cracked back glass, broken camera lens glass, and camera-related issues.' },
+    { icon: Search, title: 'Diagnostics & Data Recovery', text: 'If your phone will not turn on or you need important data, we can inspect the device and explain possible options.' }
+  ];
+
+  const repairTrust = [
+    { icon: MessageCircle, title: 'Clear repair advice', text: 'We explain what is wrong with your device and your repair options before starting any work.' },
+    { icon: ShieldCheck, title: 'High-quality parts', text: 'We use high-quality parts and offer one of the best warranties on repairs.' },
+    { icon: Store, title: 'Local Chicago service', text: 'You are working with a local shop, not a corporate call center.' },
+    { icon: DollarSign, title: 'Fair, practical pricing', text: 'We give clear pricing before the repair so you know what to expect.' },
+    { icon: Wrench, title: 'Experienced repair help', text: 'We work on iPhones, Samsung devices, iPads, tablets, Motorola, Google Pixel, and more.' },
+    { icon: CheckCircle2, title: 'Warranty-focused repairs', text: 'We stand behind our work and explain warranty coverage clearly.' }
+  ];
+
+  const commonProblems = [
+    'Cracked screen or touch problems',
+    'Weak battery or random shutdowns',
+    'Phone not charging or loose charging port',
+    'Broken back glass or camera lens glass',
+    'Camera, speaker, microphone, or button problems',
+    'Device will not turn on or needs diagnostics'
+  ];
+
+  return (
+    <main className="pageMain repairsPage">
+      <section className="repairHero">
+        <div className="wrap repairHeroGrid">
+          <div>
+            <div className="eyebrow"><Wrench size={15} /> Phone repair in Chicago</div>
+            <h1>Phone repair in Chicago, done right.</h1>
+            <p>Get local help for cracked screens, weak batteries, charging issues, back glass, cameras, tablets, and more. At CellzTech, we explain your options clearly before starting the repair and use high-quality parts whenever available.</p>
+            <div className="pageActions">
+              <a className="primaryBtn" href="tel:7734137489">Call for repair <ArrowRight size={18} /></a>
+              <a className="secondaryBtn" href="https://maps.google.com/?q=3412+N+Harlem+Ave+STE+A+Chicago+IL+60634" target="_blank" rel="noreferrer">Get directions</a>
+            </div>
+          </div>
+          <div className="repairSummaryCard">
+            <span>Repair help for</span>
+            <ul>
+              <li><CheckCircle2 size={18} /> iPhone, Samsung, iPad, Motorola, Google Pixel, and tablets</li>
+              <li><CheckCircle2 size={18} /> Screens, batteries, charging ports, back glass, cameras, and diagnostics</li>
+              <li><CheckCircle2 size={18} /> High-quality parts and warranty-focused service</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="section light">
+        <div className="wrap">
+          <div className="sectionIntro centeredIntro">
+            <span>Repair services</span>
+            <h2>Common repairs and device problems we help with.</h2>
+            <p>Start with the repair category that matches your issue. If you are not sure what is wrong, call or stop in and we can inspect the device.</p>
+          </div>
+          <div className="repairCardsGrid">
+            {repairServices.map((item) => {
+              const Icon = item.icon;
+              return (
+                <article className="repairServiceCard" key={item.title}>
+                  <div className="cardIcon"><Icon size={24} /></div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="section repairProblems">
+        <div className="wrap split repairProblemSplit">
+          <div>
+            <span className="label">Do not ignore the small signs</span>
+            <h2>Small phone problems often turn into bigger repairs.</h2>
+            <p className="lead">Charging at an angle, fast battery drain, ghost touch, camera blur, or a cracked screen can get worse over time. We can help you understand what is happening before you spend money on the wrong solution.</p>
+            <div className="inlineActions">
+              <a className="primaryBtn compact" href="tel:7734137489">Call 773-413-7489</a>
+              <button className="secondaryBtn compact" onClick={() => goTo('contact')}>Visit the store</button>
+            </div>
+          </div>
+          <div className="problemList">
+            {commonProblems.map((problem) => <div key={problem}><CheckCircle2 size={18} /> {problem}</div>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="section light">
+        <div className="wrap">
+          <div className="sectionIntro centeredIntro">
+            <span>Why customers choose CellzTech</span>
+            <h2>Clear advice, practical pricing, and repair work we stand behind.</h2>
+          </div>
+          <div className="trustGridExpanded">
+            {repairTrust.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div className="trustItem cleanTrust" key={item.title}>
+                  <Icon size={22} />
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.text}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="section repairProcess">
+        <div className="wrap">
+          <div className="sectionIntro centeredIntro">
+            <span>What to expect</span>
+            <h2>A simple repair process from start to finish.</h2>
+          </div>
+          <div className="processSteps">
+            <div><strong>1</strong><h3>Tell us the issue</h3><p>Bring the device in or call the shop and explain what is happening.</p></div>
+            <div><strong>2</strong><h3>We check options</h3><p>We explain the likely repair, pricing, timing, and warranty information.</p></div>
+            <div><strong>3</strong><h3>We repair the device</h3><p>Once approved, we complete the repair using the right parts and tools.</p></div>
+            <div><strong>4</strong><h3>You test before leaving</h3><p>We want you to understand the repair and leave with confidence.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section ctaBand">
+        <div className="wrap ctaPanel repairCtaPanel">
+          <div>
+            <span className="label">Ready when you are</span>
+            <h2>Do not wait. Get your phone checked today.</h2>
+            <p>Cracked screen? Weak battery? Charging problem? Stop by CellzTech or call us and we will help you figure out the best repair option.</p>
+            <p><strong>CellzTech</strong><br />3412 N Harlem Ave STE A, Chicago, IL 60634</p>
+          </div>
+          <div className="ctaButtonsStack">
+            <a className="primaryBtn" href="tel:7734137489">Call now <ArrowRight size={18} /></a>
+            <a className="secondaryBtn" href="https://maps.google.com/?q=3412+N+Harlem+Ave+STE+A+Chicago+IL+60634" target="_blank" rel="noreferrer">Get directions</a>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
