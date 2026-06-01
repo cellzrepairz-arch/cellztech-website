@@ -2116,3 +2116,299 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   from { opacity: .24; }
   to { opacity: .52; }
 }
+
+/* Ultra Mobile store-style plan page */
+.ultraStoreHero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255,255,255,.70), transparent 20%),
+    radial-gradient(circle at 84% 18%, rgba(255,126,34,.22), transparent 26%),
+    linear-gradient(135deg, #fff6d5 0%, #fff 38%, #f7ecff 100%);
+}
+.ultraStoreHero:before,
+.ultraStoreHero:after {
+  content: '';
+  position: absolute;
+  border-radius: 999px;
+  background: rgba(255, 132, 0, .16);
+  filter: blur(2px);
+}
+.ultraStoreHero:before { width: 460px; height: 460px; left: -170px; bottom: -230px; }
+.ultraStoreHero:after { width: 360px; height: 360px; right: -120px; top: -130px; background: rgba(90, 38, 147, .14); }
+.ultraHeroGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 430px;
+  gap: 38px;
+  align-items: center;
+}
+.ultraHeroCopy h2 {
+  font-size: clamp(42px, 5vw, 74px);
+  line-height: .96;
+  letter-spacing: -.06em;
+  margin: 16px 0 18px;
+  color: #21152f;
+  max-width: 820px;
+}
+.ultraHeroCopy p {
+  font-size: 20px;
+  line-height: 1.65;
+  color: #563c70;
+  max-width: 800px;
+  font-weight: 700;
+}
+.summerLabel {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 10px 15px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffdf47, #ff8a1f);
+  color: #35145f;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: 12px;
+  font-weight: 1000;
+  box-shadow: 0 15px 35px rgba(255, 137, 35, .22);
+}
+.ultraHeroButtons { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+.familyShowcaseCard {
+  position: relative;
+  min-height: 470px;
+  padding: 38px;
+  border-radius: 36px;
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(circle at 86% 12%, rgba(255,255,255,.22), transparent 16%),
+    radial-gradient(circle at 10% 90%, rgba(20,180,216,.46), transparent 28%),
+    linear-gradient(145deg, #381160 0%, #65289b 48%, #ff6b1a 100%);
+  box-shadow: 0 28px 80px rgba(70, 28, 123, .28);
+}
+.familyShowcaseCard:before {
+  content: '';
+  position: absolute;
+  inset: auto -70px -105px -60px;
+  height: 220px;
+  background: rgba(255, 200, 56, .22);
+  border-radius: 50% 50% 0 0;
+}
+.familyShowcaseCard > span,
+.familyShowcaseCard h3,
+.familyShowcaseCard p,
+.familyShowcaseCard strong,
+.familyShowcaseCard .familyLineIcons,
+.familyShowcaseCard a { position: relative; z-index: 1; }
+.familyShowcaseCard > span {
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  font-size: 12px;
+  font-weight: 1000;
+  color: #ffe880;
+}
+.familyShowcaseCard strong {
+  display: block;
+  margin-top: 20px;
+  font-size: clamp(56px, 6vw, 90px);
+  line-height: .82;
+  letter-spacing: -.07em;
+  text-shadow: 0 10px 40px rgba(0,0,0,.24);
+}
+.familyShowcaseCard h3 {
+  margin: 22px 0 12px;
+  font-size: 26px;
+  line-height: 1.05;
+}
+.familyShowcaseCard p { font-size: 16px; line-height: 1.6; font-weight: 800; opacity: .94; }
+.sunBadge {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #7a2b00;
+  background: radial-gradient(circle, #ffe99b, #ffc633);
+  transform: rotate(-8deg);
+  font-weight: 1000;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(255, 205, 35, .28);
+}
+.familyLineIcons { display: flex; gap: 10px; margin: 26px 0 32px; }
+.familyLineIcons i {
+  width: 44px;
+  height: 62px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.28);
+  box-shadow: inset 0 -18px 0 rgba(255,255,255,.08);
+}
+.ultraPromoStripSection { background: #2e0f4f; padding: 32px 0; }
+.ultraPromoStrip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.ultraPromoStrip article {
+  padding: 24px;
+  border-radius: 26px;
+  color: #fff;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+}
+.ultraPromoStrip svg { color: #ffd342; }
+.ultraPromoStrip span {
+  display: block;
+  margin: 12px 0 8px;
+  color: #ffcd4c;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: 12px;
+  font-weight: 1000;
+}
+.ultraPromoStrip strong { display: block; font-size: 21px; line-height: 1.18; }
+.ultraPromoStrip p { margin: 10px 0 0; line-height: 1.55; font-weight: 700; opacity: .84; }
+.ultraStorePlansSection { background: #fbf9ff; }
+.ultraStorePlans { display: grid; gap: 28px; }
+.ultraStorePlan {
+  position: relative;
+  border: 1px solid #e6d8f1;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 18px 55px rgba(62, 24, 103, .07);
+  overflow: hidden;
+}
+.ultraStorePlan.bestPlan {
+  border-color: rgba(255, 92, 24, .45);
+  box-shadow: 0 24px 70px rgba(255, 116, 35, .13);
+}
+.ultraPlanTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 30px 34px 24px;
+  border-bottom: 1px solid #eee2f5;
+}
+.ultraPlanTop h3 {
+  margin: 10px 0 8px;
+  font-size: clamp(28px, 4vw, 42px);
+  letter-spacing: -.045em;
+  color: #21152f;
+}
+.ultraPlanTop p { margin: 0; color: #674a7c; font-weight: 750; line-height: 1.55; }
+.planDataPill,
+.dealPill {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 1000;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.planDataPill { color: #fff; background: #6a32a4; }
+.dealPill { color: #fff; background: linear-gradient(135deg, #ff4f18, #b23cc4); white-space: nowrap; height: fit-content; }
+.planBuilder {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 28px;
+  padding: 32px 34px 34px;
+}
+.planIncludes {
+  border-radius: 24px;
+  padding: 24px;
+  background: #67329e;
+  color: #fff;
+}
+.planIncludes > strong,
+.activationDetails strong { display: block; font-size: 21px; margin-bottom: 10px; }
+.planIncludes ul { margin: 0; padding-left: 22px; }
+.planIncludes li { margin: 7px 0; line-height: 1.45; font-weight: 800; }
+.activationDetails { margin-top: 22px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.18); }
+.planPurchasePanel { display: grid; gap: 22px; }
+.durationTabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.durationTabs button {
+  min-height: 104px;
+  border-radius: 16px;
+  border: 1px solid #e3d5ed;
+  background: #fff;
+  font: inherit;
+  font-weight: 1000;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.durationTabs button span { display: block; color: #17121f; font-size: 16px; }
+.durationTabs button small { display: block; margin-top: 8px; color: #6a32a4; font-weight: 1000; }
+.durationTabs button.active {
+  border-color: #ff4ea1;
+  box-shadow: 0 14px 32px rgba(186, 54, 180, .12), inset 0 0 0 2px rgba(106,50,164,.7);
+  background: linear-gradient(180deg, #fff, #fbf5ff);
+}
+.durationTabs button:disabled { opacity: .42; cursor: not-allowed; }
+.durationTabs button:not(:disabled):hover { transform: translateY(-2px); }
+.simSelectorPreview {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.simSelectorPreview div {
+  min-height: 92px;
+  border-radius: 18px;
+  border: 1px solid #e3d5ed;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 18px;
+  background: #fff;
+}
+.simSelectorPreview strong { color: #21152f; }
+.simSelectorPreview span { color: #6a32a4; font-weight: 900; font-size: 13px; }
+.planSubtotal {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 18px;
+  align-items: end;
+  padding: 20px 0;
+  border-top: 1px solid #eee2f5;
+  border-bottom: 1px solid #eee2f5;
+}
+.planSubtotal span { color: #21152f; font-weight: 1000; font-size: 18px; }
+.planSubtotal strong { font-size: 34px; color: #67329e; line-height: 1; }
+.planSubtotal small { grid-column: 2; text-align: right; color: #6d5b78; font-weight: 750; }
+.planCtas { display: flex; gap: 14px; flex-wrap: wrap; }
+.ultraFinePrint {
+  margin: 26px auto 0;
+  max-width: 1000px;
+  color: #6d5b78;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.65;
+  font-weight: 750;
+}
+@media (max-width: 1050px) {
+  .ultraHeroGrid,
+  .planBuilder,
+  .ultraPromoStrip { grid-template-columns: 1fr; }
+  .familyShowcaseCard { min-height: auto; }
+}
+@media (max-width: 760px) {
+  .ultraPlanTop { flex-direction: column; padding: 24px; }
+  .planBuilder { padding: 24px; }
+  .durationTabs, .simSelectorPreview { grid-template-columns: 1fr 1fr; }
+  .planSubtotal { grid-template-columns: 1fr; }
+  .planSubtotal small { grid-column: auto; text-align: left; }
+  .planCtas a { width: 100%; justify-content: center; }
+}
+@media (max-width: 520px) {
+  .durationTabs, .simSelectorPreview { grid-template-columns: 1fr; }
+}

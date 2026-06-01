@@ -1028,15 +1028,262 @@ function RepairDetails() {
   return <FeatureGrid items={items} />;
 }
 
-function UltraDetails() {
-  const items = [
-    { icon: Wifi, title: 'Plans from $29/month', text: 'A strong option for customers looking to lower their wireless bill.' },
-    { icon: Globe2, title: 'International calling', text: 'Calling to Poland and 90+ countries is a major benefit for many local customers.' },
-    { icon: CheckCircle2, title: 'Switching help', text: 'Bring your account number, transfer PIN, and unlocked compatible phone.' },
-    { icon: ShieldCheck, title: '$0 activation', text: 'We currently offer $0 activation fee and free SIM card.' }
-  ];
 
-  return <FeatureGrid items={items} />;
+type DurationKey = '1' | '3' | '6' | '12';
+
+type UltraPlan = {
+  name: string;
+  badge?: string;
+  basePrice: string;
+  data: string;
+  highlight: string;
+  includes: string[];
+  durations: Partial<Record<DurationKey, { label: string; monthly: string; billed: string; note?: string; badge?: string }>>;
+};
+
+const durationTabs: { key: DurationKey; label: string; sublabel: string }[] = [
+  { key: '1', label: '1 Month', sublabel: 'Monthly' },
+  { key: '3', label: '3 Months', sublabel: 'Save more' },
+  { key: '6', label: '6 Months', sublabel: 'Better value' },
+  { key: '12', label: '12 Months', sublabel: 'Best value' }
+];
+
+const ultraPlans: UltraPlan[] = [
+  {
+    name: '500MB Plan',
+    basePrice: '$15',
+    data: '500MB',
+    highlight: 'Light use plan for talk, text, and basic data.',
+    includes: ['500MB of 5G / 4G LTE data per month', 'Unlimited talk and text', 'International calling to 90+ destinations', 'Wi-Fi Calling'],
+    durations: {
+      '1': { label: '1 Month', monthly: '$15/mo', billed: '$15 billed upfront', note: 'Basic monthly option' }
+    }
+  },
+  {
+    name: '4GB Plan',
+    basePrice: '$19',
+    data: '4GB',
+    highlight: 'Affordable everyday plan with international calling.',
+    includes: ['4GB of 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Mobile hotspot', '$1.50 international call credit each month', '$5 international roaming credit one-time'],
+    durations: {
+      '1': { label: '1 Month', monthly: '$19/mo', billed: '$19 billed upfront' },
+      '3': { label: '3 Months', monthly: '$10.67/mo', billed: '$32 billed upfront', badge: 'Save 33%' },
+      '6': { label: '6 Months', monthly: '$15/mo', billed: '$90 billed upfront' },
+      '12': { label: '12 Months', monthly: '$13/mo', billed: '$156 billed upfront' }
+    }
+  },
+  {
+    name: '8GB Plan',
+    badge: 'B3G1 Eligible',
+    basePrice: '$24',
+    data: '8GB',
+    highlight: 'Great balance of data, savings, and international features.',
+    includes: ['8GB of 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Mobile hotspot', '$1.50 international call credit each month', '$5 international roaming credit one-time'],
+    durations: {
+      '1': { label: '1 Month', monthly: '$24/mo', billed: '$24 billed upfront', badge: '4th month free on renewal' },
+      '3': { label: '3 Months', monthly: '$14.67/mo', billed: '$44 billed upfront', badge: 'Save 33%' },
+      '6': { label: '6 Months', monthly: '$19/mo', billed: '$114 billed upfront' },
+      '12': { label: '12 Months', monthly: '$17/mo', billed: '$204 billed upfront' }
+    }
+  },
+  {
+    name: '12GB Plan',
+    badge: 'B3G1 Eligible',
+    basePrice: '$29',
+    data: '12GB',
+    highlight: 'More high-speed data for regular phone users.',
+    includes: ['12GB of 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Mobile hotspot', '$5 international call credit each month', '$5 international roaming credit one-time'],
+    durations: {
+      '1': { label: '1 Month', monthly: '$29/mo', billed: '$29 billed upfront', badge: '4th month free on renewal' },
+      '3': { label: '3 Months', monthly: '$17.33/mo', billed: '$52 billed upfront', badge: 'Save 33%' },
+      '6': { label: '6 Months', monthly: '$23/mo', billed: '$138 billed upfront' },
+      '12': { label: '12 Months', monthly: '$20/mo', billed: '$240 billed upfront' }
+    }
+  },
+  {
+    name: '24GB Plan',
+    badge: 'B3G1 Eligible',
+    basePrice: '$39',
+    data: '24GB',
+    highlight: 'For customers who need more data every month.',
+    includes: ['24GB of 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Mobile hotspot', '5GB Mexico data roaming pass each month', '$5 international call credit each month', '$5 international roaming credit one-time'],
+    durations: {
+      '1': { label: '1 Month', monthly: '$39/mo', billed: '$39 billed upfront', badge: '4th month free on renewal' },
+      '3': { label: '3 Months', monthly: '$23.33/mo', billed: '$70 billed upfront', badge: 'Save 33%' },
+      '6': { label: '6 Months', monthly: '$31/mo', billed: '$186 billed upfront' },
+      '12': { label: '12 Months', monthly: '$27/mo', billed: '$324 billed upfront' }
+    }
+  },
+  {
+    name: 'Ultra Unlimited Plan',
+    badge: 'Most Popular',
+    basePrice: '$49',
+    data: 'Unlimited',
+    highlight: 'Unlimited plan with hotspot and stronger international extras.',
+    includes: ['Unlimited 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Up to 10GB mobile hotspot', '5GB Mexico data roaming pass each month', '$10 international call credit each month', '$10 international roaming credit one-time'],
+    durations: {
+      '1': { label: '1 Month', monthly: '$49/mo', billed: '$49 billed upfront', badge: '4th month free on renewal' },
+      '3': { label: '3 Months', monthly: '$29.33/mo', billed: '$88 billed upfront', badge: 'Save 33%' },
+      '6': { label: '6 Months', monthly: '$39/mo', billed: '$234 billed upfront' },
+      '12': { label: '12 Months', monthly: '$34/mo', billed: '$408 billed upfront' }
+    }
+  },
+  {
+    name: 'Ultra Unlimited+ Plan',
+    badge: 'Premium',
+    basePrice: '$59',
+    data: 'Unlimited+',
+    highlight: 'Premium unlimited option with more hotspot and credits.',
+    includes: ['Unlimited 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Up to 25GB mobile hotspot', '5GB Mexico data roaming pass each month', '$15 international call credit each month', '$15 international roaming credit one-time'],
+    durations: {
+      '1': { label: '1 Month', monthly: '$59/mo', billed: '$59 billed upfront', badge: '4th month free on renewal' },
+      '3': { label: '3 Months', monthly: '$35.33/mo', billed: '$106 billed upfront', badge: 'Save 33%' },
+      '6': { label: '6 Months', monthly: '$47/mo', billed: '$282 billed upfront' },
+      '12': { label: '12 Months', monthly: '$41/mo', billed: '$492 billed upfront' }
+    }
+  }
+];
+
+function UltraPlanStoreCard({ plan }: { plan: UltraPlan }) {
+  const [duration, setDuration] = useState<DurationKey>('1');
+  const selected = plan.durations[duration] || plan.durations['1'];
+  const smsPlanText = encodeURIComponent(`Hi CellzTech, I am interested in Ultra Mobile. Plan: ${plan.name}. Duration: ${selected?.label || 'Not selected'}. Price shown: ${selected?.monthly || plan.basePrice + '/mo'}. Please help me activate or transfer my number.`);
+
+  return (
+    <article className={`ultraStorePlan ${plan.badge === 'Most Popular' ? 'bestPlan' : ''}`}>
+      <div className="ultraPlanTop">
+        <div>
+          <span className="planDataPill">{plan.data}</span>
+          <h3>{plan.name}</h3>
+          <p>{plan.highlight}</p>
+        </div>
+        {plan.badge && <strong className="dealPill">{plan.badge}</strong>}
+      </div>
+
+      <div className="planBuilder">
+        <aside className="planIncludes">
+          <strong>Plan Includes:</strong>
+          <ul>{plan.includes.map((item) => <li key={item}>{item}</li>)}</ul>
+          <div className="activationDetails">
+            <strong>Activation help:</strong>
+            <ul>
+              <li>$0 activation fee at CellzTech</li>
+              <li>Free SIM card</li>
+              <li>We help transfer your number in-store</li>
+            </ul>
+          </div>
+        </aside>
+
+        <div className="planPurchasePanel">
+          <div className="durationTabs" role="tablist" aria-label={`${plan.name} duration options`}>
+            {durationTabs.map((tab) => {
+              const option = plan.durations[tab.key];
+              return (
+                <button
+                  key={tab.key}
+                  type="button"
+                  className={duration === tab.key ? 'active' : ''}
+                  onClick={() => option && setDuration(tab.key)}
+                  disabled={!option}
+                >
+                  <span>{tab.label}</span>
+                  <small>{option ? (option.badge || tab.sublabel) : 'Ask in store'}</small>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="simSelectorPreview">
+            <div>
+              <strong>SIM Card</strong>
+              <span>Free SIM card at CellzTech</span>
+            </div>
+            <div>
+              <strong>eSIM</strong>
+              <span>Available on select compatible phones</span>
+            </div>
+          </div>
+
+          <div className="planSubtotal">
+            <span>Subtotal preview:</span>
+            <strong>{selected?.monthly || `${plan.basePrice}/mo`}</strong>
+            <small>{selected?.billed || 'Ask in store for current pricing'}<br />Taxes and fees may apply.</small>
+          </div>
+
+          <div className="planCtas">
+            <a className="primaryBtn" href={`sms:7734137489?&body=${smsPlanText}`}>Start purchase <ShoppingBag size={18} /></a>
+            <a className="secondaryBtn" href="tel:7734137489">Call about this plan</a>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function UltraDetails() {
+  return (
+    <>
+      <section className="section ultraStoreHero">
+        <div className="wrap ultraHeroGrid">
+          <div className="ultraHeroCopy">
+            <span className="summerLabel">June summer showcase</span>
+            <h2>Ultra Mobile plans, activations, and family savings at CellzTech.</h2>
+            <p>Switch, save, and stay connected this summer. We help compare plans, check compatibility, transfer numbers, and activate Ultra Mobile in-store.</p>
+            <div className="ultraHeroButtons">
+              <a className="primaryBtn" href="tel:7734137489">Call for Ultra Mobile <ArrowRight size={18} /></a>
+              <button className="secondaryBtn" onClick={() => goTo('contact')}>Visit the store</button>
+            </div>
+          </div>
+          <div className="familyShowcaseCard">
+            <div className="sunBadge">Summer<br />Deal</div>
+            <span>Best family showcase</span>
+            <strong>4 FOR $100</strong>
+            <h3>4 lines of Ultra Unlimited for $100/mo</h3>
+            <p>A strong family value for summer. Tablets can also be part of the 4-line promotion.</p>
+            <div className="familyLineIcons"><i /><i /><i /><i /></div>
+            <a className="primaryBtn compact" href="sms:7734137489?&body=Hi%20CellzTech%2C%20I%20am%20interested%20in%20the%20Ultra%20Mobile%204%20lines%20for%20%24100%20promo.%20Please%20send%20me%20details.">Ask about 4 for $100</a>
+          </div>
+        </div>
+      </section>
+
+      <section className="section ultraPromoStripSection">
+        <div className="wrap ultraPromoStrip">
+          <article>
+            <Globe2 size={28} />
+            <span>Go Roam Passes</span>
+            <strong>New 5-day and 15-day roaming options</strong>
+            <p>Great for summer travel, Poland, Europe, and international trips.</p>
+          </article>
+          <article>
+            <CheckCircle2 size={28} />
+            <span>B3G1 Summer Promo</span>
+            <strong>Buy 3 months, get the 4th month free</strong>
+            <p>For eligible 8GB and higher plans upon renewal.</p>
+          </article>
+          <article>
+            <Wifi size={28} />
+            <span>Local setup help</span>
+            <strong>We help transfer your number</strong>
+            <p>Bring your account number, transfer PIN, and unlocked compatible phone.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="section ultraStorePlansSection light">
+        <div className="wrap">
+          <div className="sectionIntro centeredIntro">
+            <span>Ultra Mobile plan store preview</span>
+            <h2>Choose a plan, pick a duration, then start the purchase.</h2>
+            <p>This is built like a store now. The purchase buttons can later connect to cart, checkout, or an activation form.</p>
+          </div>
+          <div className="ultraStorePlans">
+            {ultraPlans.map((plan) => <UltraPlanStoreCard key={plan.name} plan={plan} />)}
+          </div>
+          <p className="ultraFinePrint">Plan pricing, promos, taxes, fees, availability, plan terms, eSIM compatibility, and roaming availability may vary. Stop in or call and we will confirm the current best option before activation.</p>
+        </div>
+      </section>
+    </>
+  );
 }
 
 function ContactDetails() {
