@@ -695,7 +695,24 @@ function BookingVisual({ issue }: { issue: string }) {
               </div>
             </div>
           )}
-          {visual === 'data' && <div className="dataLayer"><Search size={68} /><p>DATA</p></div>}
+          {visual === 'data' && (
+            <div className="dataLayer">
+              <div className="miniDataPanel">
+                <span className="miniDataGlow" />
+                <div className="miniDataGrid">
+                  <span /><span /><span />
+                  <span /><span /><span />
+                </div>
+                <div className="miniDataSearch">
+                  <Search size={34} strokeWidth={2.1} />
+                  <span className="miniDataHandle" />
+                </div>
+              </div>
+              <div className="miniDataTrail">
+                <span /><span /><span /><span /><span />
+              </div>
+            </div>
+          )}
           {visual === 'power' && (
             <div className="powerLayer">
               <div className="miniPowerBadge">
@@ -858,6 +875,45 @@ function BookRepairPage() {
             </div>
           </div>
         )}
+        {visualType === 'data' && (
+          <div className="dataRecoveryOverlay" key={`data-recovery-${booking.issue}`} aria-hidden="true">
+            <div className="dataBinaryCloud">
+              <span>010101</span>
+              <span>RECOVER</span>
+              <span>110010</span>
+            </div>
+            <div className="dataPhoneGhost">
+              <span className="dataPhoneSpeaker" />
+              <span className="dataPhoneReflection" />
+              <div className="dataChipCore">
+                <span className="dataChipInner" />
+                <div className="dataBlockGrid">
+                  {Array.from({ length: 9 }).map((_, index) => <span key={index} />)}
+                </div>
+                <div className="dataScanLens">
+                  <Search size={62} strokeWidth={1.9} />
+                  <span className="dataScanHandle" />
+                  <span className="dataScanPing" />
+                </div>
+              </div>
+              <div className="dataRecoveryBars">
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+              </div>
+            </div>
+            <div className="dataTransferRail">
+              <span className="dataTransferLine" />
+              <div className="dataPackets">
+                <span /><span /><span /><span /><span />
+              </div>
+            </div>
+          </div>
+        )}
+
         {visualType === 'power' && (
           <div className="powerIssueOverlay" key={`power-issue-${booking.issue}`} aria-hidden="true">
             <div className="powerPhoneGhost">
