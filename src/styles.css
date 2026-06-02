@@ -4536,3 +4536,215 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   font-size: 12px;
   line-height: 1.45;
 }
+
+/* Premium multi-brand repair catalog UX */
+.brandGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+.brandChoice {
+  appearance: none;
+  border: 1px solid rgba(15, 23, 42, .10);
+  border-radius: 22px;
+  padding: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,250,252,.92));
+  color: #0f172a;
+  text-align: left;
+  display: grid;
+  gap: 10px;
+  min-height: 168px;
+  cursor: pointer;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, .06);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.brandChoice:hover {
+  transform: translateY(-2px);
+  border-color: rgba(37, 99, 235, .34);
+  box-shadow: 0 18px 42px rgba(37, 99, 235, .12);
+}
+.brandChoice.selected {
+  border-color: rgba(37, 99, 235, .74);
+  background: linear-gradient(180deg, #eff6ff, #ffffff);
+  box-shadow: 0 20px 50px rgba(37, 99, 235, .16);
+}
+.brandIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: #2563eb;
+  background: linear-gradient(180deg, #dbeafe, #eff6ff);
+}
+.brandChoice strong {
+  font-size: 18px;
+  letter-spacing: -.02em;
+}
+.brandChoice small {
+  color: #64748b;
+  line-height: 1.45;
+  min-height: 42px;
+}
+.brandChoice em {
+  font-style: normal;
+  justify-self: start;
+  color: #1d4ed8;
+  background: rgba(37, 99, 235, .08);
+  border: 1px solid rgba(37, 99, 235, .14);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.catalogSlide {
+  min-height: 640px;
+}
+.catalogHeader {
+  display: grid;
+  grid-template-columns: minmax(180px, .8fr) minmax(260px, 1.2fr);
+  gap: 14px;
+  align-items: stretch;
+  margin-bottom: 14px;
+}
+.catalogHeader > div:first-child {
+  border: 1px solid rgba(15, 23, 42, .08);
+  border-radius: 18px;
+  padding: 14px 16px;
+  background: rgba(248, 250, 252, .78);
+  display: grid;
+  gap: 4px;
+}
+.catalogHeader strong {
+  color: #0f172a;
+  font-size: 20px;
+}
+.catalogBrandTag {
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.modelSearchBox {
+  position: relative;
+  border: 1px solid rgba(15, 23, 42, .10);
+  border-radius: 18px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, .05);
+}
+.modelSearchBox svg {
+  color: #2563eb;
+  flex: 0 0 auto;
+}
+.modelSearchBox input {
+  border: 0;
+  outline: none;
+  min-width: 0;
+  width: 100%;
+  height: 54px;
+  font: inherit;
+  color: #0f172a;
+  background: transparent;
+}
+.seriesTabs {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  padding: 2px 0 12px;
+  margin-bottom: 6px;
+  scrollbar-width: thin;
+}
+.seriesTab {
+  flex: 0 0 auto;
+  border: 1px solid rgba(15, 23, 42, .10);
+  border-radius: 999px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,.86);
+  color: #334155;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: border-color .18s ease, color .18s ease, background .18s ease, transform .18s ease;
+}
+.seriesTab:hover {
+  transform: translateY(-1px);
+  border-color: rgba(37, 99, 235, .32);
+  color: #1d4ed8;
+}
+.seriesTab.selected {
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb, #0f5bb5);
+  border-color: transparent;
+  box-shadow: 0 12px 30px rgba(37, 99, 235, .22);
+}
+.seriesTab span {
+  font-weight: 800;
+}
+.seriesTab small {
+  opacity: .8;
+  font-weight: 800;
+}
+.modelResultMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+  margin: 2px 0 12px;
+}
+.modelResultMeta button {
+  border: 0;
+  background: transparent;
+  color: #2563eb;
+  font-weight: 900;
+  cursor: pointer;
+}
+.catalogModelGrid {
+  max-height: 350px;
+  overflow: auto;
+  padding-right: 6px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  scrollbar-width: thin;
+}
+.catalogModelGrid .modelChoice {
+  align-items: start;
+  justify-content: center;
+  gap: 4px;
+  line-height: 1.25;
+  padding: 11px 12px;
+  min-height: 58px;
+}
+.catalogModelGrid .modelChoice span {
+  display: block;
+}
+.catalogModelGrid .modelChoice small {
+  display: block;
+  color: #64748b;
+  font-size: 11px;
+  margin-top: 2px;
+}
+.catalogModelGrid .modelChoice.selected small {
+  color: rgba(255,255,255,.78);
+}
+.otherModelFallback {
+  grid-column: 1 / -1;
+}
+@media (max-width: 980px) {
+  .brandGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .catalogHeader { grid-template-columns: 1fr; }
+  .catalogModelGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 420px; }
+}
+@media (max-width: 560px) {
+  .brandGrid { grid-template-columns: 1fr; }
+  .brandChoice { min-height: auto; }
+  .catalogModelGrid { grid-template-columns: 1fr; }
+  .catalogSlide { min-height: 620px; }
+}

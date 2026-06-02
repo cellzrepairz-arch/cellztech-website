@@ -18,6 +18,7 @@ function doPost(e) {
     `Phone: ${data.phone}`,
     `Email: ${data.email}`,
     `Device: ${data.device}`,
+    `Series: ${data.series || 'Not provided'}`,
     `Model: ${data.model}`,
     `Issue: ${data.issue}`,
     `Notes: ${data.notes || 'None'}`,

@@ -27,6 +27,7 @@ import {
   Mic
 } from 'lucide-react';
 import './styles.css';
+import { deviceCatalog, getBrandTotalModels } from './deviceCatalog';
 
 type PageKey = 'home' | 'repairs' | 'ultra' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book';
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk' | 'cs' | 'ru';
@@ -618,16 +619,8 @@ function RepairsPage() {
 }
 
 
-type BookingField = 'device' | 'model' | 'issue' | 'name' | 'phone' | 'email' | 'requestedDate' | 'requestedTime' | 'notes';
+type BookingField = 'device' | 'series' | 'model' | 'issue' | 'name' | 'phone' | 'email' | 'requestedDate' | 'requestedTime' | 'notes';
 
-const appleDevices = ['iPhone', 'iPad', 'Apple Watch', 'MacBook', 'Other Apple device'];
-const appleModels: Record<string, string[]> = {
-  iPhone: ['iPhone 17 Pro Max', 'iPhone 17 Pro', 'iPhone 17', 'iPhone 16 Pro Max', 'iPhone 16 Pro', 'iPhone 16 Plus', 'iPhone 16', 'iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15 Plus', 'iPhone 15', 'iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14 Plus', 'iPhone 14', 'iPhone 13 Pro Max', 'iPhone 13 Pro', 'iPhone 13', 'iPhone 12 Pro Max', 'iPhone 12 Pro', 'iPhone 12', 'iPhone 11', 'iPhone XR', 'iPhone XS / XS Max', 'iPhone X', 'iPhone SE', 'Other iPhone'],
-  iPad: ['iPad Pro', 'iPad Air', 'iPad mini', 'iPad', 'Other iPad'],
-  'Apple Watch': ['Apple Watch Ultra', 'Apple Watch Series 10', 'Apple Watch Series 9', 'Apple Watch Series 8', 'Apple Watch SE', 'Other Apple Watch'],
-  MacBook: ['MacBook Air', 'MacBook Pro', 'Other MacBook'],
-  'Other Apple device': ['Not sure / other Apple device']
-};
 const repairIssues = ['Cracked screen', 'Battery replacement', 'Charging port issue', 'Back glass', 'Camera issue', 'Speaker or microphone', 'Device will not turn on', 'Water damage', 'Data recovery', 'Software issue', 'Other / not sure'];
 
 function getIssueVisual(issue: string) {
@@ -776,7 +769,8 @@ function BookRepairPage() {
   const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [submissionMessage, setSubmissionMessage] = useState('');
   const [booking, setBooking] = useState<Record<BookingField, string>>({
-    device: 'iPhone',
+    device: 'Apple',
+    series: 'iPhone',
     model: '',
     issue: '',
     name: '',
@@ -787,15 +781,48 @@ function BookRepairPage() {
     notes: ''
   });
 
-  const setField = (field: BookingField, value: string) => {
-    setBooking((current) => {
-      const next = { ...current, [field]: value };
-      if (field === 'device') next.model = '';
-      return next;
+  const [modelSearch, setModelSearch] = useState('');
+
+  const selectedBrand = useMemo(() => deviceCatalog.find((brand) => brand.brand === booking.device) || deviceCatalog[0], [booking.device]);
+  const selectedSeries = useMemo(() => selectedBrand.series.find((series) => series.name === booking.series) || selectedBrand.series[0], [booking.series, selectedBrand]);
+  const modelSearchTerm = modelSearch.trim().toLowerCase();
+  const visibleModels = useMemo(() => {
+    const source = modelSearchTerm
+      ? selectedBrand.series.flatMap((series) => series.models.map((model) => ({ model, series: series.name })))
+      : (selectedSeries?.models || []).map((model) => ({ model, series: selectedSeries?.name || '' }));
+
+    if (!modelSearchTerm) return source;
+
+    return source.filter(({ model, series }) => {
+      const haystack = `${selectedBrand.brand} ${series} ${model}`.toLowerCase();
+      return haystack.includes(modelSearchTerm);
     });
+  }, [modelSearchTerm, selectedBrand, selectedSeries]);
+
+  const selectBrand = (brandName: string) => {
+    const brand = deviceCatalog.find((item) => item.brand === brandName) || deviceCatalog[0];
+    setBooking((current) => ({
+      ...current,
+      device: brand.brand,
+      series: brand.series[0]?.name || '',
+      model: ''
+    }));
+    setModelSearch('');
   };
 
-  const models = appleModels[booking.device] || [];
+  const selectSeries = (seriesName: string) => {
+    setBooking((current) => ({ ...current, series: seriesName, model: '' }));
+    setModelSearch('');
+  };
+
+  const selectModel = (model: string, seriesName?: string) => {
+    setBooking((current) => ({ ...current, series: seriesName || current.series, model }));
+  };
+
+  const setField = (field: BookingField, value: string) => {
+    setBooking((current) => ({ ...current, [field]: value }));
+  };
+
   const visualType = getIssueVisual(booking.issue);
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(booking.email.trim());
   const hasContactDetails = !!(booking.name.trim() && booking.phone.trim() && isEmailValid && booking.requestedDate && booking.requestedTime);
@@ -803,6 +830,7 @@ function BookRepairPage() {
   const requestMessage = `Hi CellzTech, I would like to start a repair request.
 
 Device: ${booking.device || 'Not selected'}
+Series: ${booking.series || 'Not selected'}
 Model: ${booking.model || 'Not selected'}
 Issue: ${booking.issue || 'Not selected'}
 Requested date/time: ${requestedDateTime}
@@ -848,7 +876,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
   };
 
   const steps = [
-    { label: 'Device', done: !!booking.device },
+    { label: 'Brand', done: !!booking.device },
     { label: 'Model', done: !!booking.model },
     { label: 'Issue', done: !!booking.issue },
     { label: 'Contact', done: hasContactDetails },
@@ -1321,12 +1349,12 @@ I understand this is a repair request and CellzTech will contact me to confirm t
             <div>
               <div className="eyebrow"><Wrench size={15} /> Book repair</div>
               <h1>Book your repair.</h1>
-              <p>Choose your device, model, issue, and contact info. The backend is being prepared to email the shop and add repair requests to a calendar.</p>
+              <p>Choose your brand, series, model, repair issue, and requested appointment time. The backend is prepared for shop email and calendar routing.</p>
             </div>
             <div className="bookingMiniSummary">
               <span>Current request</span>
-              <strong>{booking.model || booking.device}</strong>
-              <small>{booking.issue || 'Issue not selected yet'}</small>
+              <strong>{booking.model || booking.series || booking.device}</strong>
+              <small>{booking.issue || `${booking.device} repair request`}</small>
             </div>
           </div>
 
@@ -1343,26 +1371,62 @@ I understand this is a repair request and CellzTech will contact me to confirm t
               <div className="slideFrame" style={{ transform: `translateX(-${step * 100}%)` }}>
                 <section className="slidePanel">
                   <span className="slideStep">Step 1</span>
-                  <h2>What Apple device needs repair?</h2>
-                  <p className="slideHint">We are starting with Apple first. Samsung, Motorola, Google Pixel, and more can be added after this flow feels right.</p>
-                  <div className="choiceGrid singlePageChoices">
-                    {appleDevices.map((device) => (
-                      <button type="button" key={device} className={booking.device === device ? 'choice selected' : 'choice'} onClick={() => setField('device', device)}>
-                        <Smartphone size={24} />
-                        {device}
+                  <h2>What brand needs repair?</h2>
+                  <p className="slideHint">Start with the device family. We support the major phone brands customers ask for most, plus an “Other” path when the model is not listed.</p>
+                  <div className="brandGrid">
+                    {deviceCatalog.map((brand) => (
+                      <button type="button" key={brand.brand} className={booking.device === brand.brand ? 'brandChoice selected' : 'brandChoice'} onClick={() => selectBrand(brand.brand)}>
+                        <span className="brandIcon"><Smartphone size={22} /></span>
+                        <strong>{brand.label}</strong>
+                        <small>{brand.description}</small>
+                        <em>{getBrandTotalModels(brand)} models</em>
                       </button>
                     ))}
                   </div>
                 </section>
 
-                <section className="slidePanel">
+                <section className="slidePanel catalogSlide">
                   <span className="slideStep">Step 2</span>
                   <h2>Select your model.</h2>
-                  <p className="slideHint">Choose the closest match. If you are not sure, choose “Other” and we can confirm in-store.</p>
-                  <div className="modelGrid compactModelGrid">
-                    {models.map((model) => (
-                      <button type="button" key={model} className={booking.model === model ? 'modelChoice selected' : 'modelChoice'} onClick={() => setField('model', model)}>{model}</button>
+                  <p className="slideHint">Pick a series first or search by model name / model number. If you are not sure, choose an “Other / not sure” option and we will confirm it with you.</p>
+
+                  <div className="catalogHeader">
+                    <div>
+                      <span className="catalogBrandTag">{selectedBrand.label}</span>
+                      <strong>{selectedSeries?.name || 'All models'}</strong>
+                    </div>
+                    <label className="modelSearchBox">
+                      <Search size={17} />
+                      <input value={modelSearch} onChange={(e) => setModelSearch(e.target.value)} placeholder="Search S24, A156, XT2415, Pixel 8..." />
+                    </label>
+                  </div>
+
+                  <div className="seriesTabs" aria-label="Device series">
+                    {selectedBrand.series.map((series) => (
+                      <button type="button" key={series.name} className={booking.series === series.name && !modelSearchTerm ? 'seriesTab selected' : 'seriesTab'} onClick={() => selectSeries(series.name)}>
+                        <span>{series.name}</span>
+                        <small>{series.models.length}</small>
+                      </button>
                     ))}
+                  </div>
+
+                  <div className="modelResultMeta">
+                    <span>{visibleModels.length} matching models</span>
+                    {modelSearchTerm && <button type="button" onClick={() => setModelSearch('')}>Clear search</button>}
+                  </div>
+
+                  <div className="modelGrid compactModelGrid catalogModelGrid">
+                    {visibleModels.map(({ model, series }) => (
+                      <button type="button" key={`${series}-${model}`} className={booking.model === model && booking.series === series ? 'modelChoice selected' : 'modelChoice'} onClick={() => selectModel(model, series)}>
+                        <span>{model}</span>
+                        {modelSearchTerm && <small>{series}</small>}
+                      </button>
+                    ))}
+                    {!visibleModels.length && (
+                      <button type="button" className="modelChoice selected otherModelFallback" onClick={() => selectModel('Device not listed', selectedBrand.series[0]?.name)}>
+                        Device not listed — help me identify it
+                      </button>
+                    )}
                   </div>
                 </section>
 
@@ -1397,7 +1461,8 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                   <h2>Ready to send your repair request.</h2>
                   <p className="slideHint">This will send the request to the shop backend. We will contact you to confirm the appointment time, price, and parts availability.</p>
                   <div className="finalSummaryBox">
-                    <div><strong>Device</strong><span>{booking.device}</span></div>
+                    <div><strong>Brand</strong><span>{booking.device}</span></div>
+                    <div><strong>Series</strong><span>{booking.series || 'Not selected'}</span></div>
                     <div><strong>Model</strong><span>{booking.model || 'Not selected'}</span></div>
                     <div><strong>Issue</strong><span>{booking.issue || 'Not selected'}</span></div>
                     <div><strong>Requested date</strong><span>{booking.requestedDate || 'Not selected'}</span></div>

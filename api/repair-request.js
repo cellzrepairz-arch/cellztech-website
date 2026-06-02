@@ -16,6 +16,7 @@ function escapeHtml(value) {
 function formatRequest(body) {
   return [
     `Device: ${body.device}`,
+    `Series: ${body.series || 'Not provided'}`,
     `Model: ${body.model}`,
     `Issue: ${body.issue}`,
     `Requested date: ${body.requestedDate}`,
@@ -33,6 +34,7 @@ function formatRequest(body) {
 function formatHtml(body) {
   const rows = [
     ['Device', body.device],
+    ['Series', body.series || 'Not provided'],
     ['Model', body.model],
     ['Issue', body.issue],
     ['Requested date', body.requestedDate],
@@ -132,6 +134,7 @@ export default async function handler(req, res) {
 
   const normalized = {
     device: String(body.device).trim(),
+    series: String(body.series || '').trim(),
     model: String(body.model).trim(),
     issue: String(body.issue).trim(),
     name: String(body.name).trim(),
