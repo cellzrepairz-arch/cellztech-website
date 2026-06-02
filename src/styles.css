@@ -889,10 +889,147 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
 @keyframes slideScratch { from { opacity: 0; translate: -40px 0; } to { opacity: 1; translate: 0 0; } }
 .cameraLayer span { width: 34px; height: 34px; border-radius: 50%; border: 4px solid #ef4444; position: absolute; animation: focusPing 1.2s infinite; }
 @keyframes focusPing { from { scale: .6; opacity: .9; } to { scale: 2.3; opacity: 0; } }
-.waterLayer span { width: 16px; height: 26px; background: #38bdf8; border-radius: 20px 20px 20px 4px; transform: rotate(45deg); animation: drip 1.2s infinite ease-in; }
-.waterLayer span:nth-child(2) { animation-delay: .2s; }
-.waterLayer span:nth-child(3) { animation-delay: .4s; }
-@keyframes drip { 0% { translate: 0 -50px; opacity: 0; } 30% { opacity: 1; } 100% { translate: 0 70px; opacity: 0; } }
+.waterLayer,
+.powerLayer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.miniWaterPhone {
+  position: relative;
+  width: 128px;
+  height: 184px;
+  border-radius: 30px;
+  border: 3px solid rgba(191, 219, 254, .82);
+  background: linear-gradient(180deg, rgba(12, 25, 44, .64), rgba(8, 17, 31, .92));
+  box-shadow: 0 0 26px rgba(56, 189, 248, .18);
+  overflow: hidden;
+}
+.miniWaterPhone::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border-radius: 22px;
+  border: 1px solid rgba(125, 211, 252, .16);
+}
+.miniWaterSpeaker {
+  position: absolute;
+  left: 50%;
+  top: 12px;
+  width: 48px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(191, 219, 254, .42);
+  transform: translateX(-50%);
+}
+.miniWaterDrop {
+  position: absolute;
+  width: 20px;
+  height: 30px;
+  background: linear-gradient(180deg, rgba(186, 230, 253, .96), rgba(14, 165, 233, .82));
+  border-radius: 22px 22px 22px 5px;
+  transform: rotate(45deg);
+  box-shadow: 0 0 16px rgba(56, 189, 248, .22);
+  animation: miniWaterDropFall 1.8s ease-in infinite;
+}
+.miniWaterDropOne { left: 24px; top: 34px; }
+.miniWaterDropTwo { left: 56px; top: 18px; animation-delay: .3s; }
+.miniWaterDropThree { left: 84px; top: 44px; animation-delay: .58s; }
+.miniWaterWave {
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: 18px;
+  height: 52px;
+  border-radius: 20px 20px 18px 18px;
+  background: linear-gradient(180deg, rgba(56,189,248,.52), rgba(37,99,235,.30));
+  box-shadow: inset 0 12px 18px rgba(255,255,255,.10);
+}
+.miniWaterWave::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  right: -16px;
+  top: -12px;
+  height: 24px;
+  background: radial-gradient(circle at 12px 12px, rgba(186,230,253,.95) 0 9px, transparent 10px) 0 0 / 44px 24px repeat-x;
+  opacity: .72;
+  animation: miniWaveShift 2.4s linear infinite;
+}
+.miniPowerBadge {
+  position: relative;
+  width: 118px;
+  height: 118px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 45%, rgba(59,130,246,.28), rgba(15,23,42,.34) 65%, rgba(15,23,42,.10));
+  border: 2px solid rgba(125, 211, 252, .58);
+  box-shadow: 0 0 24px rgba(59,130,246,.22);
+  animation: miniPowerPulse 1.8s ease-in-out infinite;
+}
+.miniPowerRing {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 5px solid rgba(239, 246, 255, .92);
+}
+.miniPowerStem {
+  position: absolute;
+  top: 18px;
+  width: 6px;
+  height: 34px;
+  border-radius: 999px;
+  background: rgba(239, 246, 255, .96);
+}
+.miniPowerSlash {
+  position: absolute;
+  width: 74px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(248, 113, 113, .96);
+  transform: rotate(-44deg);
+  box-shadow: 0 0 16px rgba(239, 68, 68, .3);
+}
+.miniPowerBars {
+  position: absolute;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: end;
+  gap: 7px;
+}
+.miniPowerBars span {
+  width: 8px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(239,246,255,.92), rgba(59,130,246,.30));
+  animation: miniPowerBar 1.3s ease-in-out infinite;
+}
+.miniPowerBars span:nth-child(1) { height: 16px; }
+.miniPowerBars span:nth-child(2) { height: 28px; animation-delay: .08s; }
+.miniPowerBars span:nth-child(3) { height: 20px; animation-delay: .16s; }
+.miniPowerBars span:nth-child(4) { height: 12px; animation-delay: .24s; }
+@keyframes miniWaterDropFall {
+  0% { opacity: 0; transform: translateY(-18px) rotate(45deg) scale(.72); }
+  24% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(82px) rotate(45deg) scale(1); }
+}
+@keyframes miniWaveShift {
+  from { background-position: 0 0; }
+  to { background-position: 44px 0; }
+}
+@keyframes miniPowerPulse {
+  0%, 100% { transform: scale(.97); opacity: .86; }
+  50% { transform: scale(1.02); opacity: 1; }
+}
+@keyframes miniPowerBar {
+  0%, 100% { transform: scaleY(.5); opacity: .42; }
+  48% { transform: scaleY(.95); opacity: .95; }
+  54% { transform: scaleY(.2); opacity: .2; }
+}
 .finalSummaryBox {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2998,5 +3135,314 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   .bookingSingleHero.ambient-audio .audioFloorRings {
     right: -24px;
     width: 260px;
+  }
+}
+
+
+/* Device will not turn on visual */
+.powerIssueOverlay,
+.waterDamageOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.powerPhoneGhost,
+.waterPhoneGhost {
+  position: absolute;
+  right: clamp(12px, 2.8vw, 46px);
+  top: 28%;
+  width: clamp(220px, 21vw, 300px);
+  height: clamp(390px, 40vw, 540px);
+  border-radius: 50px;
+  border: 2px solid rgba(147, 197, 253, .38);
+  background: linear-gradient(180deg, rgba(10, 24, 44, .08), rgba(10, 24, 44, .01));
+  box-shadow: inset 0 0 0 1px rgba(191, 219, 254, .08), 0 0 60px rgba(14,165,233,.12);
+  opacity: .96;
+}
+.powerPhoneGhost::before,
+.waterPhoneGhost::before {
+  content: '';
+  position: absolute;
+  inset: 14px;
+  border-radius: 40px;
+  border: 2px solid rgba(96, 165, 250, .20);
+}
+.powerPhoneScreen {
+  position: absolute;
+  inset: 28px 18px 30px;
+  border-radius: 36px;
+  background: radial-gradient(circle at 50% 40%, rgba(59,130,246,.06), rgba(2,6,23,.34) 65%, rgba(2,6,23,.06));
+}
+.powerPhoneSpeaker,
+.waterPhoneSpeaker {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  width: 100px;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(18, 153, 255, .18);
+  border: 2px solid rgba(56, 189, 248, .64);
+  box-shadow: 0 0 16px rgba(14,165,233,.24);
+  transform: translateX(-50%);
+}
+.powerPhoneSpeaker::after,
+.waterPhoneSpeaker::after {
+  content: '';
+  position: absolute;
+  inset: 3px 24px;
+  border-radius: 999px;
+  background: rgba(8,15,27,.58);
+}
+.powerPhonePort {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 110px;
+  height: 16px;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent 0 35%, rgba(56,189,248,.64) 35% 65%, transparent 65%), radial-gradient(circle, rgba(191,219,254,.8) 0 2px, transparent 2.4px) left 12px center / 14px 14px repeat-x;
+  opacity: .82;
+}
+.powerSymbol {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: clamp(112px, 9vw, 138px);
+  height: clamp(112px, 9vw, 138px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 50%, rgba(59,130,246,.18), rgba(15,23,42,.10) 62%, transparent 74%);
+  border: 2px solid rgba(125, 211, 252, .26);
+  animation: powerCorePulse 2s ease-in-out infinite;
+}
+.powerSymbolRing {
+  position: absolute;
+  width: 62px;
+  height: 62px;
+  border: 5px solid rgba(239, 246, 255, .92);
+  border-radius: 50%;
+}
+.powerSymbolStem {
+  position: absolute;
+  top: 18px;
+  width: 6px;
+  height: 38px;
+  border-radius: 999px;
+  background: rgba(239, 246, 255, .96);
+}
+.powerSymbolSlash {
+  position: absolute;
+  width: 86px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(248, 113, 113, .98);
+  transform: rotate(-42deg);
+  box-shadow: 0 0 20px rgba(239,68,68,.34);
+}
+.powerRippleSet {
+  position: absolute;
+  inset: 0;
+}
+.powerRippleSet span {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(125, 211, 252, .18);
+  transform: translate(-50%, -50%) scale(.74);
+  opacity: 0;
+  animation: powerRipple 2.3s ease-out infinite;
+}
+.powerRippleSet span:nth-child(2) { animation-delay: .38s; }
+.powerRippleSet span:nth-child(3) { animation-delay: .76s; }
+.powerFlatline {
+  position: absolute;
+  left: auto;
+  right: clamp(12px, 4vw, 60px);
+  bottom: 16%;
+  width: clamp(220px, 26vw, 360px);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.powerFlatline span {
+  height: 2px;
+  flex: 1;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(191,219,254,.08), rgba(191,219,254,.45), rgba(248,113,113,.35));
+  animation: flatlineBlink 1.8s ease-in-out infinite;
+}
+.powerFlatline span:nth-child(3),
+.powerFlatline span:nth-child(6) {
+  height: 18px;
+  width: 7px;
+  flex: 0 0 7px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(248,250,252,.82), rgba(248,113,113,.38));
+  transform: translateY(-6px);
+}
+.powerFlatline span:nth-child(4) {
+  height: 2px;
+  flex-basis: 42px;
+  background: rgba(248,113,113,.58);
+}
+.bookingSingleHero.ambient-power .issueAmbient span,
+.bookingSingleHero.ambient-power .issueAmbient::before,
+.bookingSingleHero.ambient-power .issueAmbient::after {
+  display: none;
+}
+.bookingSingleHero.ambient-power .bookingSlideCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at 85% 47%, rgba(59,130,246,.07), transparent 24%), radial-gradient(circle at 80% 76%, rgba(248,113,113,.07), transparent 18%);
+  opacity: .72;
+}
+@keyframes powerCorePulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(.98); opacity: .84; }
+  50% { transform: translate(-50%, -50%) scale(1.03); opacity: 1; }
+}
+@keyframes powerRipple {
+  0% { transform: translate(-50%, -50%) scale(.72); opacity: 0; }
+  24% { opacity: .48; }
+  100% { transform: translate(-50%, -50%) scale(1.28); opacity: 0; }
+}
+@keyframes flatlineBlink {
+  0%, 100% { opacity: .25; }
+  50% { opacity: .88; }
+}
+
+/* Water damage visual */
+.waterPhoneGhost {
+  background: linear-gradient(180deg, rgba(10, 24, 44, .04), rgba(10, 24, 44, .01));
+}
+.waterPhoneWave {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 24px;
+  height: 136px;
+  border-radius: 28px 28px 36px 36px;
+  background: linear-gradient(180deg, rgba(56,189,248,.30), rgba(37,99,235,.18));
+  overflow: hidden;
+}
+.waterPhoneWave::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  right: -24px;
+  top: -14px;
+  height: 32px;
+  background: radial-gradient(circle at 16px 18px, rgba(186,230,253,.96) 0 10px, transparent 10.5px) 0 0 / 52px 32px repeat-x;
+  opacity: .76;
+  animation: miniWaveShift 2.2s linear infinite;
+}
+.waterPhoneReflection {
+  position: absolute;
+  left: 26px;
+  top: 88px;
+  width: 52px;
+  height: 260px;
+  border-radius: 30px;
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,0));
+}
+.waterDropField {
+  position: absolute;
+  inset: 40px 18px 28px;
+}
+.waterDropField span {
+  position: absolute;
+  width: 22px;
+  height: 34px;
+  border-radius: 24px 24px 24px 6px;
+  background: linear-gradient(180deg, rgba(224,242,254,.98), rgba(14,165,233,.82));
+  box-shadow: 0 0 18px rgba(56,189,248,.22);
+  transform: rotate(45deg);
+  opacity: 0;
+  animation: waterDropFall 2.6s ease-in infinite;
+}
+.waterDropField span:nth-child(1) { left: 20%; top: -2%; }
+.waterDropField span:nth-child(2) { left: 48%; top: -8%; animation-delay: .24s; }
+.waterDropField span:nth-child(3) { left: 70%; top: 2%; animation-delay: .52s; }
+.waterDropField span:nth-child(4) { left: 34%; top: 22%; animation-delay: .8s; }
+.waterDropField span:nth-child(5) { left: 58%; top: 26%; animation-delay: 1.08s; }
+.waterDropField span:nth-child(6) { left: 12%; top: 32%; animation-delay: 1.36s; }
+.waterDropField span:nth-child(7) { left: 76%; top: 34%; animation-delay: 1.64s; }
+.waterDropField span:nth-child(8) { left: 44%; top: 48%; animation-delay: 1.92s; }
+.waterSplashRings {
+  position: absolute;
+  right: clamp(0px, 3vw, 42px);
+  bottom: 6%;
+  width: clamp(250px, 27vw, 380px);
+  height: 120px;
+}
+.waterSplashRings span {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 200px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1px solid rgba(56, 189, 248, .20);
+  transform: translateX(-50%);
+  opacity: 0;
+  animation: waterRingPulse 2.4s ease-out infinite;
+}
+.waterSplashRings span:nth-child(2) { width: 270px; height: 92px; animation-delay: .36s; }
+.waterSplashRings span:nth-child(3) { width: 340px; height: 112px; animation-delay: .72s; }
+.bookingSingleHero.ambient-water .issueAmbient span,
+.bookingSingleHero.ambient-water .issueAmbient::before,
+.bookingSingleHero.ambient-water .issueAmbient::after {
+  display: none;
+}
+.bookingSingleHero.ambient-water .bookingSlideCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at 82% 50%, rgba(56,189,248,.09), transparent 24%), radial-gradient(circle at 87% 78%, rgba(125,211,252,.08), transparent 22%);
+  opacity: .74;
+}
+@keyframes waterDropFall {
+  0% { transform: translateY(-36px) rotate(45deg) scale(.78); opacity: 0; }
+  16% { opacity: .88; }
+  100% { transform: translateY(210px) rotate(45deg) scale(1); opacity: 0; }
+}
+@keyframes waterRingPulse {
+  0% { opacity: 0; transform: translateX(-50%) scale(.88); }
+  20% { opacity: .55; }
+  100% { opacity: 0; transform: translateX(-50%) scale(1.16); }
+}
+
+@media (max-width: 1100px) {
+  .powerPhoneGhost,
+  .waterPhoneGhost {
+    right: -18px;
+    top: 34%;
+    width: 220px;
+    height: 400px;
+  }
+  .powerFlatline,
+  .waterSplashRings {
+    right: 0;
+    width: 250px;
+  }
+}
+@media (max-width: 760px) {
+  .powerIssueOverlay,
+  .waterDamageOverlay {
+    display: none;
   }
 }

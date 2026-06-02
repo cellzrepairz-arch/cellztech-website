@@ -678,9 +678,30 @@ function BookingVisual({ issue }: { issue: string }) {
               </div>
             </div>
           )}
-          {visual === 'water' && <div className="waterLayer"><span /><span /><span /></div>}
+          {visual === 'water' && (
+            <div className="waterLayer">
+              <div className="miniWaterPhone">
+                <span className="miniWaterSpeaker" />
+                <span className="miniWaterDrop miniWaterDropOne" />
+                <span className="miniWaterDrop miniWaterDropTwo" />
+                <span className="miniWaterDrop miniWaterDropThree" />
+                <span className="miniWaterWave" />
+              </div>
+            </div>
+          )}
           {visual === 'data' && <div className="dataLayer"><Search size={68} /><p>DATA</p></div>}
-          {visual === 'power' && <div className="powerLayer"><BatteryCharging size={64} /><p>NO POWER</p></div>}
+          {visual === 'power' && (
+            <div className="powerLayer">
+              <div className="miniPowerBadge">
+                <span className="miniPowerRing" />
+                <span className="miniPowerStem" />
+                <span className="miniPowerSlash" />
+              </div>
+              <div className="miniPowerBars">
+                <span /><span /><span /><span />
+              </div>
+            </div>
+          )}
           {visual === 'default' && <div className="defaultLayer"><Wrench size={70} /><p>Repair request</p></div>}
         </div>
         <div className="deviceHome" />
@@ -831,6 +852,54 @@ function BookRepairPage() {
             </div>
           </div>
         )}
+        {visualType === 'power' && (
+          <div className="powerIssueOverlay" key={`power-issue-${booking.issue}`} aria-hidden="true">
+            <div className="powerPhoneGhost">
+              <span className="powerPhoneScreen" />
+              <span className="powerPhoneSpeaker" />
+              <span className="powerPhonePort" />
+              <div className="powerSymbol">
+                <span className="powerSymbolRing" />
+                <span className="powerSymbolStem" />
+                <span className="powerSymbolSlash" />
+              </div>
+              <div className="powerRippleSet">
+                <span />
+                <span />
+                <span />
+              </div>
+            </div>
+            <div className="powerFlatline">
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
+        )}
+
+        {visualType === 'water' && (
+          <div className="waterDamageOverlay" key={`water-damage-${booking.issue}`} aria-hidden="true">
+            <div className="waterPhoneGhost">
+              <span className="waterPhoneSpeaker" />
+              <span className="waterPhoneWave" />
+              <span className="waterPhoneReflection" />
+              <div className="waterDropField">
+                {Array.from({ length: 8 }).map((_, index) => <span key={index} />)}
+              </div>
+            </div>
+            <div className="waterSplashRings">
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
+        )}
+
         {visualType === 'screen' && (
           <div className="screenShatterOverlay" key={`screen-shatter-${booking.issue}`} aria-hidden="true">
             <svg viewBox="0 0 1440 760" preserveAspectRatio="none">
