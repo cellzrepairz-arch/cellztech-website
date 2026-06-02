@@ -23,7 +23,8 @@ import {
   Star,
   Search,
   MessageCircle,
-  DollarSign
+  DollarSign,
+  Mic
 } from 'lucide-react';
 import './styles.css';
 
@@ -636,6 +637,7 @@ function getIssueVisual(issue: string) {
   if (lower.includes('charging')) return 'charging';
   if (lower.includes('back glass')) return 'glass';
   if (lower.includes('camera')) return 'camera';
+  if (lower.includes('speaker') || lower.includes('microphone')) return 'audio';
   if (lower.includes('water')) return 'water';
   if (lower.includes('data')) return 'data';
   if (lower.includes('turn on')) return 'power';
@@ -765,6 +767,48 @@ function BookRepairPage() {
             </div>
           </div>
         )}
+        {visualType === 'audio' && (
+          <div className="audioIssueOverlay" key={`audio-issue-${booking.issue}`} aria-hidden="true">
+            <div className="audioPhoneGhost">
+              <span className="audioPhoneInner" />
+              <span className="audioPhoneSpeaker" />
+              <span className="audioPhonePort" />
+              <span className="audioPhoneReflection" />
+              <div className="audioMicBadge">
+                <Mic size={88} strokeWidth={1.8} />
+                <span className="audioMicSlash" />
+              </div>
+              <div className="audioWaveRings">
+                <span />
+                <span />
+                <span />
+              </div>
+            </div>
+            <div className="audioSignalLine">
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
+            <div className="audioFloorRings">
+              <span />
+              <span />
+              <span />
+            </div>
+          </div>
+        )}
         {visualType === 'screen' && (
           <div className="screenShatterOverlay" key={`screen-shatter-${booking.issue}`} aria-hidden="true">
             <svg viewBox="0 0 1440 760" preserveAspectRatio="none">
@@ -833,6 +877,10 @@ function BookRepairPage() {
           <div className="backGlassOverlay" key={`back-glass-${booking.issue}`} aria-hidden="true">
             <svg viewBox="0 0 1440 760" preserveAspectRatio="none">
               <defs>
+                <linearGradient id="backGlassGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(186,230,253,.30)" />
+                  <stop offset="100%" stopColor="rgba(255,255,255,.08)" />
+                </linearGradient>
                 <filter id="backGlassBlur" x="-20%" y="-20%" width="140%" height="140%">
                   <feGaussianBlur stdDeviation="1.3" result="blur" />
                   <feMerge>
@@ -840,72 +888,64 @@ function BookRepairPage() {
                     <feMergeNode in="SourceGraphic" />
                   </feMerge>
                 </filter>
-                <clipPath id="backGlassPhoneClip">
-                  <rect x="72" y="120" rx="74" ry="74" width="448" height="560" />
-                </clipPath>
               </defs>
               <g className="glassPhoneBody">
-                <rect x="72" y="120" rx="74" ry="74" width="448" height="560" />
-                <rect x="116" y="160" rx="54" ry="54" width="150" height="150" className="cameraBump" />
-                <circle cx="166" cy="208" r="31" className="cameraLens" />
-                <circle cx="228" cy="270" r="31" className="cameraLens" />
-                <circle cx="166" cy="270" r="31" className="cameraLens" />
-                <circle cx="228" cy="208" r="15" className="cameraFlash" />
-                <circle cx="260" cy="240" r="11" className="cameraSensor" />
-                <circle cx="162" cy="630" r="4" className="bodyMark" />
-                <circle cx="204" cy="630" r="4" className="bodyMark" />
-                <circle cx="246" cy="630" r="4" className="bodyMark" />
+                <rect x="84" y="126" rx="72" ry="72" width="430" height="545" />
+                <rect x="122" y="168" rx="52" ry="52" width="140" height="140" className="cameraBump" />
+                <circle cx="168" cy="214" r="29" className="cameraLens" />
+                <circle cx="228" cy="274" r="29" className="cameraLens" />
+                <circle cx="168" cy="274" r="29" className="cameraLens" />
+                <circle cx="228" cy="214" r="14" className="cameraFlash" />
+                <circle cx="258" cy="244" r="11" className="cameraSensor" />
+                <circle cx="165" cy="625" r="4" className="bodyMark" />
+                <circle cx="205" cy="625" r="4" className="bodyMark" />
+                <circle cx="245" cy="625" r="4" className="bodyMark" />
               </g>
-              <g className="glassBackPanel" clipPath="url(#backGlassPhoneClip)">
-                <rect x="86" y="134" rx="62" ry="62" width="420" height="532" />
-                <path d="M92 160 C160 118, 312 118, 468 208" className="glassSheen" />
-                <path d="M126 612 C260 566, 372 574, 472 640" className="glassSheen secondary" />
-                <g className="glassImpactHalo">
-                  <circle cx="395" cy="470" r="26" />
-                  <circle cx="395" cy="470" r="52" />
-                </g>
-                <g className="glassShards">
-                  <polygon points="358,434 428,448 414,514 346,500" />
-                  <polygon points="426,450 482,428 524,478 414,514" />
-                  <polygon points="348,500 414,514 392,588 326,570" />
-                  <polygon points="396,514 468,540 438,606 388,590" />
-                </g>
-                <g className="glassCracksPrimary" filter="url(#backGlassBlur)">
-                  <path d="M395 470 L326 398 L280 320" />
-                  <path d="M395 470 L430 398 L454 332 L468 258" />
-                  <path d="M395 470 L480 472 L540 470" />
-                  <path d="M395 470 L454 534 L498 590" />
-                  <path d="M395 470 L350 548 L320 610" />
-                  <path d="M395 470 L314 482 L246 502" />
-                </g>
-                <g className="glassCracksBranch">
-                  <path d="M326 398 L352 354 L352 300" />
-                  <path d="M308 430 L270 420 L242 440" />
-                  <path d="M430 398 L404 354 L416 304" />
-                  <path d="M468 258 L440 236 L418 210" />
-                  <path d="M480 472 L510 442 L534 442" />
-                  <path d="M450 472 L488 506 L512 526" />
-                  <path d="M454 534 L476 562 L484 598" />
-                  <path d="M350 548 L362 582 L352 622" />
-                  <path d="M314 482 L284 456 L246 454" />
-                  <path d="M395 470 L362 448 L338 452" />
-                  <path d="M395 470 L432 460 L458 440" />
-                  <path d="M395 470 L406 506 L426 534" />
-                </g>
-                <g className="glassCracksMicro">
-                  <path d="M370 454 L346 440 L330 442" />
-                  <path d="M420 448 L446 442 L468 426" />
-                  <path d="M422 514 L448 528 L460 554" />
-                  <path d="M372 520 L352 548 L350 582" />
-                  <path d="M402 416 L410 386 L430 366" />
-                </g>
-                <g className="glassDust">
-                  <circle cx="462" cy="462" r="4" />
-                  <circle cx="492" cy="438" r="2.8" />
-                  <circle cx="506" cy="486" r="2.8" />
-                  <circle cx="430" cy="588" r="3.2" />
-                  <circle cx="458" cy="616" r="2.2" />
-                </g>
+              <g className="glassImpactHalo">
+                <circle cx="405" cy="470" r="28" />
+                <circle cx="405" cy="470" r="56" />
+              </g>
+              <g className="glassShards">
+                <polygon points="364,432 438,446 428,520 352,504" />
+                <polygon points="432,449 500,420 548,486 428,520" />
+                <polygon points="352,504 428,520 402,606 320,580" />
+                <polygon points="404,520 486,548 452,628 392,604" />
+              </g>
+              <g className="glassCracksPrimary" filter="url(#backGlassBlur)">
+                <path d="M405 470 L300 348 L218 232" />
+                <path d="M405 470 L465 324 L510 188" />
+                <path d="M405 470 L542 474 L725 458" />
+                <path d="M405 470 L515 584 L658 700" />
+                <path d="M405 470 L330 590 L255 668" />
+                <path d="M405 470 L232 490 L64 522" />
+              </g>
+              <g className="glassCracksBranch">
+                <path d="M300 348 L342 320 L354 270" />
+                <path d="M280 388 L214 372 L168 402" />
+                <path d="M465 324 L434 272 L460 222" />
+                <path d="M510 188 L478 214 L446 182" />
+                <path d="M542 474 L600 432 L686 430" />
+                <path d="M575 472 L628 522 L705 532" />
+                <path d="M515 584 L560 614 L598 664" />
+                <path d="M330 590 L358 650 L334 704" />
+                <path d="M232 490 L188 448 L132 446" />
+                <path d="M405 470 L356 438 L320 444" />
+                <path d="M405 470 L450 458 L490 430" />
+                <path d="M405 470 L424 516 L454 548" />
+              </g>
+              <g className="glassCracksMicro">
+                <path d="M376 452 L350 430 L326 432" />
+                <path d="M430 446 L468 436 L496 418" />
+                <path d="M434 516 L466 536 L486 566" />
+                <path d="M374 530 L346 558 L344 594" />
+                <path d="M417 400 L428 368 L454 346" />
+              </g>
+              <g className="glassDust">
+                <circle cx="565" cy="468" r="4" />
+                <circle cx="602" cy="438" r="3" />
+                <circle cx="622" cy="498" r="3" />
+                <circle cx="475" cy="632" r="3.5" />
+                <circle cx="518" cy="662" r="2.5" />
               </g>
             </svg>
           </div>
