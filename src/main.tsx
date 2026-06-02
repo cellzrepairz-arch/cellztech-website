@@ -682,6 +682,12 @@ function BookingVisual({ issue }: { issue: string }) {
             <div className="waterLayer">
               <div className="miniWaterPhone">
                 <span className="miniWaterSpeaker" />
+                <span className="miniWaterCondensation" />
+                <span className="miniWaterStreak miniWaterStreakOne" />
+                <span className="miniWaterStreak miniWaterStreakTwo" />
+                <div className="miniWaterDroplets">
+                  {Array.from({ length: 6 }).map((_, index) => <span key={index} />)}
+                </div>
                 <span className="miniWaterDrop miniWaterDropOne" />
                 <span className="miniWaterDrop miniWaterDropTwo" />
                 <span className="miniWaterDrop miniWaterDropThree" />
@@ -886,11 +892,20 @@ function BookRepairPage() {
           <div className="waterDamageOverlay" key={`water-damage-${booking.issue}`} aria-hidden="true">
             <div className="waterPhoneGhost">
               <span className="waterPhoneSpeaker" />
-              <span className="waterPhoneWave" />
+              <span className="waterPhoneCondensation" />
               <span className="waterPhoneReflection" />
-              <div className="waterDropField">
-                {Array.from({ length: 8 }).map((_, index) => <span key={index} />)}
+              <span className="waterPhoneStreak waterPhoneStreakOne" />
+              <span className="waterPhoneStreak waterPhoneStreakTwo" />
+              <span className="waterPhoneWave" />
+              <div className="waterBubbleField">
+                {Array.from({ length: 6 }).map((_, index) => <span key={index} />)}
               </div>
+              <div className="waterDropField">
+                {Array.from({ length: 12 }).map((_, index) => <span key={index} />)}
+              </div>
+            </div>
+            <div className="outerWaterDrops">
+              {Array.from({ length: 6 }).map((_, index) => <span key={index} />)}
             </div>
             <div className="waterSplashRings">
               <span />
