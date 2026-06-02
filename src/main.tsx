@@ -1385,48 +1385,75 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                   </div>
                 </section>
 
-                <section className="slidePanel catalogSlide">
-                  <span className="slideStep">Step 2</span>
-                  <h2>Select your model.</h2>
-                  <p className="slideHint">Pick a series first or search by model name / model number. If you are not sure, choose an “Other / not sure” option and we will confirm it with you.</p>
-
-                  <div className="catalogHeader">
+                <section className="slidePanel catalogSlide refinedCatalogSlide">
+                  <div className="catalogTitleRow">
                     <div>
-                      <span className="catalogBrandTag">{selectedBrand.label}</span>
-                      <strong>{selectedSeries?.name || 'All models'}</strong>
+                      <span className="slideStep">Step 2</span>
+                      <h2>Select your model.</h2>
+                      <p className="slideHint">Choose a series, then pick the model. You can also search by model name or model number.</p>
                     </div>
-                    <label className="modelSearchBox">
-                      <Search size={17} />
-                      <input value={modelSearch} onChange={(e) => setModelSearch(e.target.value)} placeholder="Search S24, A156, XT2415, Pixel 8..." />
+                    <div className="catalogSelectedCard">
+                      <span>Selected brand</span>
+                      <strong>{selectedBrand.label}</strong>
+                      <small>{getBrandTotalModels(selectedBrand)} supported models</small>
+                    </div>
+                  </div>
+
+                  <div className="catalogToolbar">
+                    <div className="catalogCurrentSeries">
+                      <span className="catalogBrandTag">Current series</span>
+                      <strong>{modelSearchTerm ? 'Search results' : selectedSeries?.name || 'All models'}</strong>
+                      <small>{modelSearchTerm ? `Searching across ${selectedBrand.label}` : `${selectedSeries?.models.length || 0} models in this series`}</small>
+                    </div>
+                    <label className="modelSearchBox refinedSearchBox">
+                      <Search size={18} />
+                      <input value={modelSearch} onChange={(e) => setModelSearch(e.target.value)} placeholder="Search S24 Ultra, A156, XT2415, Pixel 8..." />
                     </label>
                   </div>
 
-                  <div className="seriesTabs" aria-label="Device series">
-                    {selectedBrand.series.map((series) => (
-                      <button type="button" key={series.name} className={booking.series === series.name && !modelSearchTerm ? 'seriesTab selected' : 'seriesTab'} onClick={() => selectSeries(series.name)}>
-                        <span>{series.name}</span>
-                        <small>{series.models.length}</small>
-                      </button>
-                    ))}
-                  </div>
+                  <div className="catalogWorkspace">
+                    <aside className="seriesRail" aria-label="Device series">
+                      <div className="seriesRailHeader">
+                        <span>Series</span>
+                        <small>{selectedBrand.series.length}</small>
+                      </div>
+                      <div className="seriesTabs refinedSeriesTabs">
+                        {selectedBrand.series.map((series) => (
+                          <button type="button" key={series.name} className={booking.series === series.name && !modelSearchTerm ? 'seriesTab selected' : 'seriesTab'} onClick={() => selectSeries(series.name)}>
+                            <span>{series.name}</span>
+                            <small>{series.models.length}</small>
+                          </button>
+                        ))}
+                      </div>
+                    </aside>
 
-                  <div className="modelResultMeta">
-                    <span>{visibleModels.length} matching models</span>
-                    {modelSearchTerm && <button type="button" onClick={() => setModelSearch('')}>Clear search</button>}
-                  </div>
+                    <section className="modelResultsPanel">
+                      <div className="modelResultMeta refinedModelResultMeta">
+                        <span>{visibleModels.length} matching models</span>
+                        <div>
+                          {booking.model && <em>Selected: {booking.model}</em>}
+                          {modelSearchTerm && <button type="button" onClick={() => setModelSearch('')}>Clear search</button>}
+                        </div>
+                      </div>
 
-                  <div className="modelGrid compactModelGrid catalogModelGrid">
-                    {visibleModels.map(({ model, series }) => (
-                      <button type="button" key={`${series}-${model}`} className={booking.model === model && booking.series === series ? 'modelChoice selected' : 'modelChoice'} onClick={() => selectModel(model, series)}>
-                        <span>{model}</span>
-                        {modelSearchTerm && <small>{series}</small>}
+                      <div className="modelGrid compactModelGrid catalogModelGrid refinedModelGrid">
+                        {visibleModels.map(({ model, series }) => (
+                          <button type="button" key={`${series}-${model}`} className={booking.model === model && booking.series === series ? 'modelChoice selected' : 'modelChoice'} onClick={() => selectModel(model, series)}>
+                            <span>{model}</span>
+                            <small>{modelSearchTerm ? series : selectedBrand.label}</small>
+                          </button>
+                        ))}
+                        {!visibleModels.length && (
+                          <button type="button" className="modelChoice selected otherModelFallback" onClick={() => selectModel('Device not listed', selectedBrand.series[0]?.name)}>
+                            Device not listed — help me identify it
+                          </button>
+                        )}
+                      </div>
+
+                      <button type="button" className="deviceNotListedButton" onClick={() => selectModel('Device not listed', selectedBrand.series[0]?.name)}>
+                        I do not see my model / I am not sure
                       </button>
-                    ))}
-                    {!visibleModels.length && (
-                      <button type="button" className="modelChoice selected otherModelFallback" onClick={() => selectModel('Device not listed', selectedBrand.series[0]?.name)}>
-                        Device not listed — help me identify it
-                      </button>
-                    )}
+                    </section>
                   </div>
                 </section>
 
