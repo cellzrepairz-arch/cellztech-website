@@ -641,6 +641,8 @@ function getIssueVisual(issue: string) {
   if (lower.includes('water')) return 'water';
   if (lower.includes('data')) return 'data';
   if (lower.includes('turn on')) return 'power';
+  if (lower.includes('software')) return 'software';
+  if (lower.includes('other') || lower.includes('not sure')) return 'other';
   return 'default';
 }
 
@@ -710,6 +712,38 @@ function BookingVisual({ issue }: { issue: string }) {
               </div>
               <div className="miniDataTrail">
                 <span /><span /><span /><span /><span />
+              </div>
+            </div>
+          )}
+          {visual === 'software' && (
+            <div className="softwareLayer">
+              <div className="miniSoftwarePanel">
+                <span className="miniSoftwareGlow" />
+                <div className="miniSoftwareHeader">
+                  <span /><span /><span />
+                </div>
+                <div className="miniSoftwareCode">
+                  <span /><span /><span /><span />
+                </div>
+                <div className="miniSoftwareNodes">
+                  <span /><span /><span /><span />
+                </div>
+                <span className="miniSoftwareAlert">!</span>
+              </div>
+            </div>
+          )}
+          {visual === 'other' && (
+            <div className="otherLayer">
+              <div className="miniOtherPanel">
+                <span className="miniOtherGlow" />
+                <span className="miniOtherRing" />
+                <span className="miniOtherQuestion">?</span>
+                <div className="miniOtherDots">
+                  <span /><span /><span /><span />
+                </div>
+              </div>
+              <div className="miniOtherTrail">
+                <span /><span /><span />
               </div>
             </div>
           )}
@@ -909,6 +943,71 @@ function BookRepairPage() {
               <span className="dataTransferLine" />
               <div className="dataPackets">
                 <span /><span /><span /><span /><span />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {visualType === 'software' && (
+          <div className="softwareIssueOverlay" key={`software-issue-${booking.issue}`} aria-hidden="true">
+            <div className="softwareStreamText">
+              <span>SYSTEM</span>
+              <span>PATCH</span>
+              <span>ERROR</span>
+            </div>
+            <div className="softwarePhoneGhost">
+              <span className="softwarePhoneSpeaker" />
+              <span className="softwarePhoneReflection" />
+              <div className="softwareWindow">
+                <div className="softwareWindowHeader">
+                  <span /><span /><span />
+                </div>
+                <div className="softwareCodeRows">
+                  <span /><span /><span /><span /><span />
+                </div>
+                <div className="softwareNodeGrid">
+                  {Array.from({ length: 6 }).map((_, index) => <span key={index} />)}
+                </div>
+                <span className="softwareWarningDot">!</span>
+              </div>
+              <div className="softwarePulseRings">
+                <span />
+                <span />
+                <span />
+              </div>
+            </div>
+            <div className="softwareScanWave">
+              <span /><span /><span /><span /><span />
+            </div>
+          </div>
+        )}
+
+        {visualType === 'other' && (
+          <div className="otherIssueOverlay" key={`other-issue-${booking.issue}`} aria-hidden="true">
+            <div className="otherOrbitLabels">
+              <span>CHECK</span>
+              <span>DIAGNOSE</span>
+              <span>HELP</span>
+            </div>
+            <div className="otherPhoneGhost">
+              <span className="otherPhoneSpeaker" />
+              <span className="otherPhoneReflection" />
+              <div className="otherQuestionCore">
+                <span className="otherQuestionRing" />
+                <span className="otherQuestionMark">?</span>
+                <div className="otherQuestionPulse">
+                  <span />
+                  <span />
+                </div>
+              </div>
+              <div className="otherOptionNodes">
+                {Array.from({ length: 6 }).map((_, index) => <span key={index} />)}
+              </div>
+            </div>
+            <div className="otherSearchSweep">
+              <span className="otherSearchLine" />
+              <div className="otherPackets">
+                <span /><span /><span /><span />
               </div>
             </div>
           </div>
