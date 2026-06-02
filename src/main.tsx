@@ -773,6 +773,8 @@ function BookingVisual({ issue }: { issue: string }) {
 
 function BookRepairPage() {
   const [step, setStep] = useState(0);
+  const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [submissionMessage, setSubmissionMessage] = useState('');
   const [booking, setBooking] = useState<Record<BookingField, string>>({
     device: 'iPhone',
     model: '',
@@ -813,6 +815,37 @@ Notes: ${booking.notes || 'None'}
 I understand this is a repair request and CellzTech will contact me to confirm the time, price, parts, and availability.`;
   const smsLink = `sms:7734137489?&body=${encodeURIComponent(requestMessage)}`;
   const canSubmit = !!(booking.model && booking.issue && hasContactDetails);
+
+  const submitRepairRequest = async () => {
+    if (!canSubmit || submissionStatus === 'sending') return;
+
+    setSubmissionStatus('sending');
+    setSubmissionMessage('Sending your repair request...');
+
+    try {
+      const response = await fetch('/api/repair-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...booking,
+          requestedDateTime,
+          source: 'CellzTech website'
+        })
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.message || 'The online request backend is not connected yet.');
+      }
+
+      setSubmissionStatus('sent');
+      setSubmissionMessage(result.message || 'Repair request sent. We will contact you to confirm the date, time, parts, and pricing.');
+    } catch (error) {
+      setSubmissionStatus('error');
+      setSubmissionMessage(error instanceof Error ? error.message : 'We could not send the online request yet. Please use the text fallback or call the store.');
+    }
+  };
 
   const steps = [
     { label: 'Device', done: !!booking.device },
@@ -1288,7 +1321,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
             <div>
               <div className="eyebrow"><Wrench size={15} /> Book repair</div>
               <h1>Book your repair.</h1>
-              <p>Choose your device, model, issue, and contact info. We will use this flow now for ready-to-send repair texts, then connect it to a full backend later.</p>
+              <p>Choose your device, model, issue, and contact info. The backend is being prepared to email the shop and add repair requests to a calendar.</p>
             </div>
             <div className="bookingMiniSummary">
               <span>Current request</span>
@@ -1362,7 +1395,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                 <section className="slidePanel finalSlide">
                   <span className="slideStep">Step 5</span>
                   <h2>Ready to send your repair request.</h2>
-                  <p className="slideHint">This opens your text message app with the repair request already filled in. Review it, then tap send.</p>
+                  <p className="slideHint">This will send the request to the shop backend. We will contact you to confirm the appointment time, price, and parts availability.</p>
                   <div className="finalSummaryBox">
                     <div><strong>Device</strong><span>{booking.device}</span></div>
                     <div><strong>Model</strong><span>{booking.model || 'Not selected'}</span></div>
@@ -1374,9 +1407,16 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                     <div><strong>Email</strong><span>{booking.email || 'Not provided'}</span></div>
                   </div>
                   <div className="finalActions">
-                    <a className={canSubmit ? 'primaryBtn' : 'primaryBtn disabled'} href={canSubmit ? smsLink : undefined} aria-disabled={!canSubmit}>Text request to CellzTech <ArrowRight size={18} /></a>
+                    <button type="button" className={canSubmit ? 'primaryBtn' : 'primaryBtn disabled'} onClick={submitRepairRequest} disabled={!canSubmit || submissionStatus === 'sending'}>
+                      {submissionStatus === 'sending' ? 'Sending request...' : 'Submit repair request'} <ArrowRight size={18} />
+                    </button>
+                    <a className="secondaryBtn" href={canSubmit ? smsLink : undefined} aria-disabled={!canSubmit}>Text instead</a>
                     <a className="secondaryBtn" href="tel:7734137489">Call instead</a>
                   </div>
+                  {submissionMessage && (
+                    <p className={`submissionNotice ${submissionStatus}`}>{submissionMessage}</p>
+                  )}
+                  <p className="backendNote">Backend-ready: this form posts to /api/repair-request, which can email the shop and forward the request to a Google Calendar webhook once environment variables are connected in Vercel.</p>
                 </section>
               </div>
 
