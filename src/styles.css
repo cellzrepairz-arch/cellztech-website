@@ -4993,3 +4993,277 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   .refinedModelResultMeta { align-items: flex-start; flex-direction: column; }
   .refinedModelResultMeta > div { justify-content: flex-start; }
 }
+
+/* Guided Step 2 model finder redesign */
+.guidedCatalogSlide {
+  min-height: 690px;
+  padding: 32px 30px 28px;
+}
+.guidedModelHeader {
+  display: grid;
+  gap: 8px;
+  max-width: 760px;
+  margin-bottom: 18px;
+}
+.guidedModelHeader h2 {
+  margin: 0;
+}
+.guidedModelHeader .slideHint {
+  max-width: 720px;
+}
+.guidedSearchHero {
+  min-height: 82px;
+  border: 1px solid rgba(37, 99, 235, .18);
+  border-radius: 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,250,252,.88));
+  box-shadow: 0 20px 52px rgba(15, 23, 42, .08);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 20px;
+  margin-bottom: 18px;
+  color: #2563eb;
+}
+.guidedSearchHero:focus-within {
+  border-color: rgba(37, 99, 235, .58);
+  box-shadow: 0 0 0 5px rgba(37, 99, 235, .10), 0 20px 52px rgba(15, 23, 42, .08);
+}
+.guidedSearchHero input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  flex: 1;
+  min-width: 0;
+  height: 76px;
+  font-size: 20px;
+  font-weight: 750;
+  color: #0f172a;
+}
+.guidedSearchHero input::placeholder {
+  color: rgba(100, 116, 139, .72);
+  font-weight: 650;
+}
+.guidedSearchHero button {
+  border: 1px solid rgba(37, 99, 235, .16);
+  border-radius: 999px;
+  background: rgba(239, 246, 255, .92);
+  color: #1d4ed8;
+  font-weight: 900;
+  padding: 9px 13px;
+  cursor: pointer;
+}
+.guidedSection,
+.guidedResultsCard {
+  border: 1px solid rgba(15, 23, 42, .08);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, .72);
+  box-shadow: 0 18px 46px rgba(15, 23, 42, .05);
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.searchResultsCard {
+  min-height: 385px;
+}
+.guidedSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.guidedSectionHeader > div {
+  display: grid;
+  gap: 3px;
+}
+.guidedSectionHeader span {
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.guidedSectionHeader strong {
+  color: #0f172a;
+  font-size: 18px;
+  letter-spacing: -.02em;
+}
+.guidedSectionHeader small,
+.guidedSectionHeader em {
+  color: #64748b;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 850;
+  text-align: right;
+}
+.guidedSectionHeader em {
+  color: #1d4ed8;
+  max-width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.popularModelGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.popularModelCard,
+.seriesBrowseCard,
+.guidedModelChoice {
+  border: 1px solid rgba(37, 99, 235, .12);
+  background: rgba(248, 250, 252, .88);
+  color: #0f172a;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+.popularModelCard:hover,
+.seriesBrowseCard:hover,
+.guidedModelChoice:hover {
+  transform: translateY(-1px);
+  border-color: rgba(37, 99, 235, .34);
+  background: #fff;
+  box-shadow: 0 14px 30px rgba(37, 99, 235, .10);
+}
+.popularModelCard.selected,
+.seriesBrowseCard.selected,
+.guidedModelChoice.selected {
+  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+  border-color: rgba(37, 99, 235, .72);
+  color: #fff;
+  box-shadow: 0 18px 34px rgba(37, 99, 235, .22);
+}
+.popularModelCard {
+  min-height: 84px;
+  border-radius: 18px;
+  padding: 14px 14px;
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  text-align: left;
+}
+.popularModelCard span,
+.guidedModelChoice span,
+.seriesBrowseCard span {
+  font-weight: 950;
+  line-height: 1.15;
+}
+.popularModelCard small,
+.guidedModelChoice small,
+.seriesBrowseCard small {
+  color: #64748b;
+  font-weight: 850;
+}
+.popularModelCard.selected small,
+.guidedModelChoice.selected small,
+.seriesBrowseCard.selected small {
+  color: rgba(255, 255, 255, .82);
+}
+.seriesCardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.seriesBrowseCard {
+  min-height: 74px;
+  border-radius: 18px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+}
+.guidedResultsCard {
+  margin-bottom: 12px;
+}
+.guidedModelGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  max-height: 230px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+.searchResultsCard .guidedModelGrid {
+  max-height: 440px;
+}
+.guidedModelChoice {
+  min-height: 70px;
+  border-radius: 17px;
+  padding: 12px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 4px;
+  text-align: center;
+}
+.guidedModelChoice span {
+  font-size: 14px;
+}
+.guidedModelChoice small {
+  font-size: 11px;
+}
+.alwaysVisibleNotSure {
+  width: 100%;
+  min-height: 52px;
+  border: 1px dashed rgba(37, 99, 235, .44);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(239, 246, 255, .82), rgba(255, 255, 255, .62));
+  color: #1d4ed8;
+  font-weight: 950;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+.alwaysVisibleNotSure:hover {
+  transform: translateY(-1px);
+  background: #eff6ff;
+  border-color: rgba(37, 99, 235, .72);
+}
+@media (max-width: 980px) {
+  .guidedCatalogSlide {
+    min-height: 760px;
+    padding: 26px 24px;
+  }
+  .popularModelGrid,
+  .seriesCardGrid,
+  .guidedModelGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .guidedSearchHero input {
+    font-size: 17px;
+  }
+}
+@media (max-width: 560px) {
+  .guidedCatalogSlide {
+    min-height: 820px;
+    padding: 22px;
+  }
+  .guidedSearchHero {
+    min-height: 72px;
+    border-radius: 22px;
+    padding: 0 14px;
+  }
+  .guidedSearchHero input {
+    height: 66px;
+    font-size: 15px;
+  }
+  .guidedSearchHero button {
+    display: none;
+  }
+  .guidedSectionHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .guidedSectionHeader small,
+  .guidedSectionHeader em {
+    text-align: left;
+  }
+  .popularModelGrid,
+  .seriesCardGrid,
+  .guidedModelGrid {
+    grid-template-columns: 1fr;
+  }
+  .guidedModelGrid {
+    max-height: 330px;
+  }
+}
