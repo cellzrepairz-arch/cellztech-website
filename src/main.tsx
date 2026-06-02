@@ -618,7 +618,7 @@ function RepairsPage() {
 }
 
 
-type BookingField = 'device' | 'model' | 'issue' | 'name' | 'phone' | 'email' | 'preferredTime' | 'notes';
+type BookingField = 'device' | 'model' | 'issue' | 'name' | 'phone' | 'email' | 'requestedDate' | 'requestedTime' | 'notes';
 
 const appleDevices = ['iPhone', 'iPad', 'Apple Watch', 'MacBook', 'Other Apple device'];
 const appleModels: Record<string, string[]> = {
@@ -780,7 +780,8 @@ function BookRepairPage() {
     name: '',
     phone: '',
     email: '',
-    preferredTime: '',
+    requestedDate: '',
+    requestedTime: '',
     notes: ''
   });
 
@@ -794,23 +795,38 @@ function BookRepairPage() {
 
   const models = appleModels[booking.device] || [];
   const visualType = getIssueVisual(booking.issue);
-  const requestText = `Hi CellzTech, I would like to start a repair request.%0A%0ADevice: ${booking.device || 'Not selected'}%0AModel: ${booking.model || 'Not selected'}%0AIssue: ${booking.issue || 'Not selected'}%0APreferred day/time: ${booking.preferredTime || 'Not provided'}%0AName: ${booking.name || 'Not provided'}%0APhone: ${booking.phone || 'Not provided'}%0AEmail: ${booking.email || 'Not provided'}%0ANotes: ${booking.notes || 'None'}`;
-  const smsLink = `sms:7734137489?&body=${requestText}`;
-  const canSubmit = booking.model && booking.issue && booking.name && booking.phone;
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(booking.email.trim());
+  const hasContactDetails = !!(booking.name.trim() && booking.phone.trim() && isEmailValid && booking.requestedDate && booking.requestedTime);
+  const requestedDateTime = booking.requestedDate && booking.requestedTime ? `${booking.requestedDate} at ${booking.requestedTime}` : 'Not provided';
+  const requestMessage = `Hi CellzTech, I would like to start a repair request.
+
+Device: ${booking.device || 'Not selected'}
+Model: ${booking.model || 'Not selected'}
+Issue: ${booking.issue || 'Not selected'}
+Requested date/time: ${requestedDateTime}
+
+Name: ${booking.name || 'Not provided'}
+Phone: ${booking.phone || 'Not provided'}
+Email: ${booking.email || 'Not provided'}
+Notes: ${booking.notes || 'None'}
+
+I understand this is a repair request and CellzTech will contact me to confirm the time, price, parts, and availability.`;
+  const smsLink = `sms:7734137489?&body=${encodeURIComponent(requestMessage)}`;
+  const canSubmit = !!(booking.model && booking.issue && hasContactDetails);
 
   const steps = [
     { label: 'Device', done: !!booking.device },
     { label: 'Model', done: !!booking.model },
     { label: 'Issue', done: !!booking.issue },
-    { label: 'Contact', done: !!(booking.name && booking.phone) },
-    { label: 'Send', done: !!canSubmit }
+    { label: 'Contact', done: hasContactDetails },
+    { label: 'Send', done: canSubmit }
   ];
 
   const canGoNext =
     step === 0 ? !!booking.device :
     step === 1 ? !!booking.model :
     step === 2 ? !!booking.issue :
-    step === 3 ? !!(booking.name && booking.phone) :
+    step === 3 ? hasContactDetails :
     true;
 
   const goNext = () => { if (canGoNext) setStep((current) => Math.min(current + 1, steps.length - 1)); };
@@ -1331,15 +1347,16 @@ function BookRepairPage() {
                 <section className="slidePanel">
                   <span className="slideStep">Step 4</span>
                   <h2>Your contact details.</h2>
-                  <p className="slideHint">We need your name and phone number so we can contact you about the repair.</p>
+                  <p className="slideHint">Choose a requested date and time. This is not confirmed yet — we will contact you to confirm the repair schedule.</p>
                   <div className="formGrid slideFormGrid">
-                    <label>Name<input value={booking.name} onChange={(e) => setField('name', e.target.value)} placeholder="Your name" /></label>
-                    <label>Phone<input value={booking.phone} onChange={(e) => setField('phone', e.target.value)} placeholder="Your phone number" /></label>
-                    <label>Email<input value={booking.email} onChange={(e) => setField('email', e.target.value)} placeholder="Optional email" /></label>
-                    <label>Preferred day/time<input value={booking.preferredTime} onChange={(e) => setField('preferredTime', e.target.value)} placeholder="Example: Friday afternoon" /></label>
+                    <label><span className="fieldLabel">Name <span className="requiredTag">Required</span></span><input value={booking.name} onChange={(e) => setField('name', e.target.value)} placeholder="Your name" required /></label>
+                    <label><span className="fieldLabel">Phone <span className="requiredTag">Required</span></span><input value={booking.phone} onChange={(e) => setField('phone', e.target.value)} placeholder="Your phone number" required /></label>
+                    <label><span className="fieldLabel">Email <span className="requiredTag">Required</span></span><input type="email" value={booking.email} onChange={(e) => setField('email', e.target.value)} placeholder="you@example.com" required /></label>
+                    <label><span className="fieldLabel">Requested date <span className="requiredTag">Required</span></span><input type="date" value={booking.requestedDate} onChange={(e) => setField('requestedDate', e.target.value)} required /></label>
+                    <label><span className="fieldLabel">Requested time <span className="requiredTag">Required</span></span><input type="time" value={booking.requestedTime} onChange={(e) => setField('requestedTime', e.target.value)} required /></label>
                     <label className="fullField">Notes<textarea value={booking.notes} onChange={(e) => setField('notes', e.target.value)} placeholder="Example: Screen is cracked but touch still works." /></label>
                   </div>
-                  <p className="bookingConsent">By sending this request, you agree that CellzTech / Cellz Repairz LLC may contact you about your repair request. This does not guarantee repair price, part availability, or completion time.</p>
+                  <p className="bookingConsent">By sending this request, you agree that CellzTech / Cellz Repairz LLC may contact you about your repair request. This does not guarantee a confirmed appointment, repair price, part availability, or completion time.</p>
                 </section>
 
                 <section className="slidePanel finalSlide">
@@ -1350,8 +1367,11 @@ function BookRepairPage() {
                     <div><strong>Device</strong><span>{booking.device}</span></div>
                     <div><strong>Model</strong><span>{booking.model || 'Not selected'}</span></div>
                     <div><strong>Issue</strong><span>{booking.issue || 'Not selected'}</span></div>
+                    <div><strong>Requested date</strong><span>{booking.requestedDate || 'Not selected'}</span></div>
+                    <div><strong>Requested time</strong><span>{booking.requestedTime || 'Not selected'}</span></div>
                     <div><strong>Name</strong><span>{booking.name || 'Not provided'}</span></div>
                     <div><strong>Phone</strong><span>{booking.phone || 'Not provided'}</span></div>
+                    <div><strong>Email</strong><span>{booking.email || 'Not provided'}</span></div>
                   </div>
                   <div className="finalActions">
                     <a className={canSubmit ? 'primaryBtn' : 'primaryBtn disabled'} href={canSubmit ? smsLink : undefined} aria-disabled={!canSubmit}>Text request to CellzTech <ArrowRight size={18} /></a>
