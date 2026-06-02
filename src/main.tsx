@@ -655,7 +655,29 @@ function BookingVisual({ issue }: { issue: string }) {
           {visual === 'battery' && <div className="batteryLayer"><div><span /></div><p>LOW BATTERY</p></div>}
           {visual === 'charging' && <div className="chargingLayer"><Plug size={62} /><X size={44} /></div>}
           {visual === 'glass' && <div className="glassLayer"><span /><span /><span /></div>}
-          {visual === 'camera' && <div className="cameraLayer"><Camera size={70} /><span /></div>}
+          {visual === 'camera' && (
+            <div className="cameraLayer">
+              <div className="miniCameraModule">
+                <span className="miniCameraLens" />
+                <span className="miniCameraLens" />
+                <span className="miniCameraLens" />
+                <span className="miniCameraFlash" />
+              </div>
+              <span className="miniFocusRing" />
+              <span className="miniFocusCrosshair" />
+            </div>
+          )}
+          {visual === 'audio' && (
+            <div className="audioLayer">
+              <div className="miniAudioBadge">
+                <Mic size={46} strokeWidth={1.9} />
+                <span />
+              </div>
+              <div className="miniAudioBars">
+                <span /><span /><span /><span /><span />
+              </div>
+            </div>
+          )}
           {visual === 'water' && <div className="waterLayer"><span /><span /><span /></div>}
           {visual === 'data' && <div className="dataLayer"><Search size={68} /><p>DATA</p></div>}
           {visual === 'power' && <div className="powerLayer"><BatteryCharging size={64} /><p>NO POWER</p></div>}
@@ -868,6 +890,62 @@ function BookRepairPage() {
                 <path d="M570 480 L505 520 L485 585" />
                 <path d="M600 382 L528 375 L465 408" />
                 <path d="M698 386 L760 382 L825 360" />
+              </g>
+            </svg>
+          </div>
+        )}
+
+        {visualType === 'camera' && (
+          <div className="cameraIssueOverlay" key={`camera-issue-${booking.issue}`} aria-hidden="true">
+            <svg viewBox="0 0 1440 760" preserveAspectRatio="none">
+              <defs>
+                <radialGradient id="cameraLensGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="rgba(255,255,255,.74)" />
+                  <stop offset="42%" stopColor="rgba(56,189,248,.32)" />
+                  <stop offset="100%" stopColor="rgba(15,23,42,.08)" />
+                </radialGradient>
+                <filter id="cameraSoftGlow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="2.5" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+              <g className="cameraPhoneBody">
+                <rect x="88" y="116" width="435" height="560" rx="76" />
+                <rect x="126" y="158" width="184" height="184" rx="46" className="cameraBumpLarge" />
+                <circle cx="184" cy="216" r="38" className="cameraLensLarge" />
+                <circle cx="250" cy="282" r="38" className="cameraLensLarge" />
+                <circle cx="184" cy="282" r="38" className="cameraLensLarge" />
+                <circle cx="252" cy="216" r="15" className="cameraFlashLarge" />
+                <circle cx="286" cy="248" r="11" className="cameraSensorLarge" />
+              </g>
+              <g className="cameraFocusBox" filter="url(#cameraSoftGlow)">
+                <path d="M760 224 h-118 v118" />
+                <path d="M995 224 h118 v118" />
+                <path d="M760 536 h-118 v-118" />
+                <path d="M995 536 h118 v-118" />
+                <circle cx="878" cy="380" r="98" />
+                <circle cx="878" cy="380" r="44" />
+              </g>
+              <g className="cameraWarning">
+                <path d="M842 380 h72" />
+                <path d="M878 344 v72" />
+                <path d="M785 285 L972 478" />
+              </g>
+              <g className="cameraScanLines">
+                <path d="M620 180 H1165" />
+                <path d="M620 280 H1165" />
+                <path d="M620 480 H1165" />
+                <path d="M620 580 H1165" />
+              </g>
+              <g className="cameraDust">
+                <circle cx="680" cy="305" r="4" />
+                <circle cx="1040" cy="255" r="5" />
+                <circle cx="1110" cy="470" r="3.5" />
+                <circle cx="735" cy="535" r="3" />
+                <circle cx="960" cy="610" r="4" />
               </g>
             </svg>
           </div>
