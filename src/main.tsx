@@ -1598,65 +1598,68 @@ const ultraPlans: UltraPlan[] = [
     name: '500MB Plan',
     basePrice: '$15',
     data: '500MB',
-    highlight: 'Light use plan for talk, text, and basic data.',
-    includes: ['500MB of 5G / 4G LTE data per month', 'Unlimited talk and text', 'International calling to 90+ destinations', 'Wi-Fi Calling'],
+    highlight: 'A simple starter plan for light data, talk, and text.',
+    includes: ['500MB of 5G / 4G LTE data per month', 'Unlimited nationwide talk and global text', 'International calling support', 'Mobile hotspot included'],
     durations: {
-      '1': { label: '1 Month', monthly: '$15/mo', billed: '$15 billed upfront', note: 'Basic monthly option' }
+      '1': { label: '1 Month', monthly: '$15/mo', billed: '$15 total' },
+      '3': { label: '3 Months', monthly: '$13/mo', billed: '$39 total' },
+      '6': { label: '6 Months', monthly: '$11/mo', billed: '$66 total' },
+      '12': { label: '12 Months', monthly: '$10/mo', billed: '$120 total', badge: 'Lowest monthly' }
     }
   },
   {
     name: '4GB Plan',
     basePrice: '$19',
     data: '4GB',
-    highlight: 'Affordable everyday plan with international calling.',
-    includes: ['4GB of 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Mobile hotspot', '$1.50 international call credit each month', '$5 international roaming credit one-time'],
+    highlight: 'Affordable everyday service with international calling features.',
+    includes: ['4GB of 5G / 4G LTE data per month', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Mobile hotspot included'],
     durations: {
-      '1': { label: '1 Month', monthly: '$19/mo', billed: '$19 billed upfront' },
-      '3': { label: '3 Months', monthly: '$10.67/mo', billed: '$32 billed upfront', badge: 'Save 33%' },
-      '6': { label: '6 Months', monthly: '$15/mo', billed: '$90 billed upfront' },
-      '12': { label: '12 Months', monthly: '$13/mo', billed: '$156 billed upfront' }
+      '1': { label: '1 Month', monthly: '$19/mo', billed: '$19 total' },
+      '3': { label: '3 Months', monthly: '$16/mo', billed: '$48 total' },
+      '6': { label: '6 Months', monthly: '$15/mo', billed: '$90 total' },
+      '12': { label: '12 Months', monthly: '$13/mo', billed: '$156 total', badge: 'Best annual value' }
     }
   },
   {
     name: '8GB Plan',
-    badge: 'B3G1 Eligible',
+    badge: '4th Month Free Eligible',
     basePrice: '$24',
     data: '8GB',
-    highlight: 'Great balance of data, savings, and international features.',
-    includes: ['8GB of 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Mobile hotspot', '$1.50 international call credit each month', '$5 international roaming credit one-time'],
+    highlight: 'A smart choice for customers who want more data and strong value.',
+    includes: ['8GB of 5G / 4G LTE data per month', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Mobile hotspot included'],
     durations: {
-      '1': { label: '1 Month', monthly: '$24/mo', billed: '$24 billed upfront', badge: '4th month free on renewal' },
-      '3': { label: '3 Months', monthly: '$14.67/mo', billed: '$44 billed upfront', badge: 'Save 33%' },
-      '6': { label: '6 Months', monthly: '$19/mo', billed: '$114 billed upfront' },
-      '12': { label: '12 Months', monthly: '$17/mo', billed: '$204 billed upfront' }
+      '1': { label: '1 Month', monthly: '$24/mo', billed: '$24 total', badge: 'Promo eligible' },
+      '3': { label: '3 Months', monthly: '$22/mo', billed: '$66 total' },
+      '6': { label: '6 Months', monthly: '$19/mo', billed: '$114 total' },
+      '12': { label: '12 Months', monthly: '$17/mo', billed: '$204 total' }
     }
   },
   {
     name: '12GB Plan',
-    badge: 'B3G1 Eligible',
+    badge: '4th Month Free Eligible',
     basePrice: '$29',
     data: '12GB',
-    highlight: 'More high-speed data for regular phone users.',
-    includes: ['12GB of 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Mobile hotspot', '$5 international call credit each month', '$5 international roaming credit one-time'],
+    highlight: 'More high-speed data for maps, social apps, messaging, and video.',
+    includes: ['12GB of 5G / 4G LTE data per month', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Mobile hotspot included'],
     durations: {
-      '1': { label: '1 Month', monthly: '$29/mo', billed: '$29 billed upfront', badge: '4th month free on renewal' },
-      '3': { label: '3 Months', monthly: '$17.33/mo', billed: '$52 billed upfront', badge: 'Save 33%' },
-      '6': { label: '6 Months', monthly: '$23/mo', billed: '$138 billed upfront' },
-      '12': { label: '12 Months', monthly: '$20/mo', billed: '$240 billed upfront' }
+      '1': { label: '1 Month', monthly: '$29/mo', billed: '$29 total', badge: 'Promo eligible' },
+      '3': { label: '3 Months', monthly: '$26/mo', billed: '$78 total' },
+      '6': { label: '6 Months', monthly: '$23/mo', billed: '$138 total' },
+      '12': { label: '12 Months', monthly: '$20/mo', billed: '$240 total' }
     }
   },
   {
     name: '24GB Plan',
-    badge: 'B3G1 Eligible',
+    badge: '4th Month Free Eligible',
     basePrice: '$39',
     data: '24GB',
-    highlight: 'For customers who need more data every month.',
-    includes: ['24GB of 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Mobile hotspot', '5GB Mexico data roaming pass each month', '$5 international call credit each month', '$5 international roaming credit one-time'],
+    highlight: 'For heavier monthly data use without jumping to unlimited.',
+    includes: ['24GB of 5G / 4G LTE data per month', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Mobile hotspot included'],
     durations: {
-      '1': { label: '1 Month', monthly: '$39/mo', billed: '$39 billed upfront', badge: '4th month free on renewal' },
-      '3': { label: '3 Months', monthly: '$23.33/mo', billed: '$70 billed upfront', badge: 'Save 33%' },
-      '6': { label: '6 Months', monthly: '$31/mo', billed: '$186 billed upfront' },
-      '12': { label: '12 Months', monthly: '$27/mo', billed: '$324 billed upfront' }
+      '1': { label: '1 Month', monthly: '$39/mo', billed: '$39 total', badge: 'Promo eligible' },
+      '3': { label: '3 Months', monthly: '$35/mo', billed: '$105 total' },
+      '6': { label: '6 Months', monthly: '$31/mo', billed: '$186 total' },
+      '12': { label: '12 Months', monthly: '$27/mo', billed: '$324 total' }
     }
   },
   {
@@ -1664,13 +1667,13 @@ const ultraPlans: UltraPlan[] = [
     badge: 'Most Popular',
     basePrice: '$49',
     data: 'Unlimited',
-    highlight: 'Unlimited plan with hotspot and stronger international extras.',
-    includes: ['Unlimited 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Up to 10GB mobile hotspot', '5GB Mexico data roaming pass each month', '$10 international call credit each month', '$10 international roaming credit one-time'],
+    highlight: 'Unlimited data with hotspot and family-line savings available.',
+    includes: ['Unlimited 5G / 4G LTE data per month', 'No data cap', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Up to 10GB mobile hotspot'],
     durations: {
-      '1': { label: '1 Month', monthly: '$49/mo', billed: '$49 billed upfront', badge: '4th month free on renewal' },
-      '3': { label: '3 Months', monthly: '$29.33/mo', billed: '$88 billed upfront', badge: 'Save 33%' },
-      '6': { label: '6 Months', monthly: '$39/mo', billed: '$234 billed upfront' },
-      '12': { label: '12 Months', monthly: '$34/mo', billed: '$408 billed upfront' }
+      '1': { label: '1 Month', monthly: '$49/mo', billed: '$49 total', badge: 'Family promo base' },
+      '3': { label: '3 Months', monthly: '$44/mo', billed: '$132 total' },
+      '6': { label: '6 Months', monthly: '$39/mo', billed: '$234 total' },
+      '12': { label: '12 Months', monthly: '$34/mo', billed: '$408 total' }
     }
   },
   {
@@ -1678,15 +1681,33 @@ const ultraPlans: UltraPlan[] = [
     badge: 'Premium',
     basePrice: '$59',
     data: 'Unlimited+',
-    highlight: 'Premium unlimited option with more hotspot and credits.',
-    includes: ['Unlimited 5G / 4G LTE data per month', 'Unlimited talk to 90+ international destinations', 'Unlimited nationwide talk and global text', 'Talk and text in Mexico and Canada', 'Up to 25GB mobile hotspot', '5GB Mexico data roaming pass each month', '$15 international call credit each month', '$15 international roaming credit one-time'],
+    highlight: 'Premium unlimited with more hotspot for customers who use more.',
+    includes: ['Unlimited 5G / 4G LTE data per month', 'No data cap', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Up to 25GB mobile hotspot'],
     durations: {
-      '1': { label: '1 Month', monthly: '$59/mo', billed: '$59 billed upfront', badge: '4th month free on renewal' },
-      '3': { label: '3 Months', monthly: '$35.33/mo', billed: '$106 billed upfront', badge: 'Save 33%' },
-      '6': { label: '6 Months', monthly: '$47/mo', billed: '$282 billed upfront' },
-      '12': { label: '12 Months', monthly: '$41/mo', billed: '$492 billed upfront' }
+      '1': { label: '1 Month', monthly: '$59/mo', billed: '$59 total' },
+      '3': { label: '3 Months', monthly: '$53/mo', billed: '$159 total' },
+      '6': { label: '6 Months', monthly: '$47/mo', billed: '$282 total' },
+      '12': { label: '12 Months', monthly: '$41/mo', billed: '$492 total' }
     }
   }
+];
+
+const familyLinePrices = [
+  { label: '1 line', price: '$49/mo' },
+  { label: '2 lines', price: '$73/mo' },
+  { label: '3 lines', price: '$85/mo' },
+  { label: '4 lines', price: '$100/mo' }
+];
+
+const goRoamPasses = [
+  { name: '$5 Go Roam Pass', duration: '5 days', talk: '100 minutes', texts: '100 SMS', data: '1GB high-speed data' },
+  { name: '$10 Go Roam Pass', duration: '15 days', talk: '300 minutes', texts: '300 SMS', data: '5GB high-speed data' }
+];
+
+const simStarterOptions = [
+  { title: 'Ship a SIM card', text: 'Request a physical Ultra Mobile SIM card shipped anywhere in the USA once checkout is connected.', cta: 'Request SIM shipping' },
+  { title: 'Pick up in Chicago', text: 'Stop by CellzTech for SIM setup, number transfer help, and activation support.', cta: 'Visit CellzTech' },
+  { title: 'Ask about eSIM', text: 'Some compatible phones may support eSIM. We can check your device before activation.', cta: 'Check eSIM compatibility' }
 ];
 
 function UltraPlanStoreCard({ plan }: { plan: UltraPlan }) {
@@ -1771,20 +1792,20 @@ function UltraDetails() {
       <section className="section ultraStoreHero">
         <div className="wrap ultraHeroGrid">
           <div className="ultraHeroCopy">
-            <span className="summerLabel">June summer showcase</span>
-            <h2>Ultra Mobile plans, activations, and family savings at CellzTech.</h2>
-            <p>Switch, save, and stay connected this summer. We help compare plans, check compatibility, transfer numbers, and activate Ultra Mobile in-store.</p>
+            <span className="summerLabel">Ultra Mobile authorized activation help</span>
+            <h2>Ultra Mobile plans, family savings, and travel-ready service at CellzTech.</h2>
+            <p>We help customers compare monthly and multi-month plans, transfer numbers, check compatibility, activate service, and understand current Ultra Mobile promotions before they pay.</p>
             <div className="ultraHeroButtons">
               <a className="primaryBtn" href="tel:7734137489">Call for Ultra Mobile <ArrowRight size={18} /></a>
               <button className="secondaryBtn" onClick={() => goTo('contact')}>Visit the store</button>
             </div>
           </div>
           <div className="familyShowcaseCard">
-            <div className="sunBadge">Summer<br />Deal</div>
-            <span>Best family showcase</span>
+            <div className="sunBadge">Family<br />Deal</div>
+            <span>Featured promo</span>
             <strong>4 FOR $100</strong>
-            <h3>4 lines of Ultra Unlimited for $100/mo</h3>
-            <p>A strong family value for summer. Tablets can also be part of the 4-line promotion.</p>
+            <h3>4 Ultra Unlimited lines for $100/mo</h3>
+            <p>All with international included. Great for families, workers, students, and tablets that need reliable data.</p>
             <div className="familyLineIcons"><i /><i /><i /><i /></div>
             <a className="primaryBtn compact" href="sms:7734137489?&body=Hi%20CellzTech%2C%20I%20am%20interested%20in%20the%20Ultra%20Mobile%204%20lines%20for%20%24100%20promo.%20Please%20send%20me%20details.">Ask about 4 for $100</a>
           </div>
@@ -1795,21 +1816,56 @@ function UltraDetails() {
         <div className="wrap ultraPromoStrip">
           <article>
             <Globe2 size={28} />
-            <span>Go Roam Passes</span>
-            <strong>New 5-day and 15-day roaming options</strong>
-            <p>Great for summer travel, Poland, Europe, and international trips.</p>
+            <span>International roaming</span>
+            <strong>New 5-day and 15-day Go Roam Passes</strong>
+            <p>Built for quick trips and longer vacations when customers need talk, text, and data abroad.</p>
           </article>
           <article>
             <CheckCircle2 size={28} />
-            <span>B3G1 Summer Promo</span>
+            <span>Limited time offer</span>
             <strong>Buy 3 months, get the 4th month free</strong>
-            <p>For eligible 8GB and higher plans upon renewal.</p>
+            <p>Available for new customers on eligible 8GB and higher single-month plans upon renewal.</p>
           </article>
           <article>
             <Wifi size={28} />
-            <span>Local setup help</span>
-            <strong>We help transfer your number</strong>
-            <p>Bring your account number, transfer PIN, and unlocked compatible phone.</p>
+            <span>Network</span>
+            <strong>On the T-Mobile 5G network</strong>
+            <p>Plans include nationwide talk and global text, international calling features, and hotspot on supported plans.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="section ultraFeatureSection light">
+        <div className="wrap ultraFeatureGrid">
+          <article className="ultraFeatureCard familyPricingCard">
+            <span>Family plan math</span>
+            <h2>Unlimited lines get stronger as you add more.</h2>
+            <p>The current 4-line showcase starts from one Ultra Unlimited line and adds savings as the account grows.</p>
+            <div className="familyPriceGrid">
+              {familyLinePrices.map((item) => (
+                <div key={item.label}>
+                  <span>{item.label}</span>
+                  <strong>{item.price}</strong>
+                </div>
+              ))}
+            </div>
+            <small>Promo eligibility, taxes, fees, account status, and plan availability must be confirmed before activation.</small>
+          </article>
+
+          <article className="ultraFeatureCard roamCard">
+            <span>Go Roam World Pass</span>
+            <h2>Travel support without guessing.</h2>
+            <p>Customers can add a pass by texting <strong>ACTIVATE</strong> to <strong>6700</strong>. Up to 3 passes can be stored, but only one can be active at a time.</p>
+            <div className="roamPassGrid">
+              {goRoamPasses.map((pass) => (
+                <div key={pass.name}>
+                  <strong>{pass.name}</strong>
+                  <span>{pass.duration}</span>
+                  <p>{pass.talk} • {pass.texts} • {pass.data}</p>
+                </div>
+              ))}
+            </div>
+            <small>After high-speed data is used, speeds reduce to 512 kbps until the pass expires. Works in many countries, but not all. Mexico uses a separate roaming pass.</small>
           </article>
         </div>
       </section>
@@ -1817,14 +1873,34 @@ function UltraDetails() {
       <section className="section ultraStorePlansSection light">
         <div className="wrap">
           <div className="sectionIntro centeredIntro">
-            <span>Ultra Mobile plan store preview</span>
-            <h2>Choose a plan, pick a duration, then start the purchase.</h2>
-            <p>This is built like a store now. The purchase buttons can later connect to cart, checkout, or an activation form.</p>
+            <span>Plan showcase</span>
+            <h2>Compare Ultra Mobile monthly and multi-month pricing.</h2>
+            <p>Pick a plan and duration to preview the advertised monthly price and total upfront amount. We confirm taxes, fees, current promos, and compatibility before activation.</p>
           </div>
           <div className="ultraStorePlans">
             {ultraPlans.map((plan) => <UltraPlanStoreCard key={plan.name} plan={plan} />)}
           </div>
-          <p className="ultraFinePrint">Plan pricing, promos, taxes, fees, availability, plan terms, eSIM compatibility, and roaming availability may vary. Stop in or call and we will confirm the current best option before activation.</p>
+          <p className="ultraFinePrint">Final pricing, taxes, fees, promo eligibility, plan terms, network management, eSIM compatibility, roaming availability, and plan availability may vary. Heavy data users may notice reduced speeds during congestion. Video may stream around 480p. We will confirm everything before activation.</p>
+        </div>
+      </section>
+
+      <section className="section ultraSimSection">
+        <div className="wrap ultraSimGrid">
+          <div className="ultraSimCopy">
+            <span className="summerLabel">SIM card store preview</span>
+            <h2>Next step: sell Ultra Mobile SIM cards online.</h2>
+            <p>We can build this into a clean online SIM request and checkout flow for customers anywhere in the USA. For now, the page uses honest request buttons until payment, shipping, and activation routing are connected.</p>
+          </div>
+          <div className="simStoreCards">
+            {simStarterOptions.map((option) => (
+              <article key={option.title}>
+                <ShoppingBag size={24} />
+                <h3>{option.title}</h3>
+                <p>{option.text}</p>
+                <a href={`sms:7734137489?&body=${encodeURIComponent(`Hi CellzTech, I want to ask about Ultra Mobile. ${option.title}.`)}`}>{option.cta}</a>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </>
