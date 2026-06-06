@@ -1387,8 +1387,8 @@ I understand this is a repair request and CellzTech will contact me to confirm t
 
           <div className="bookingStage">
             <div className="bookingSlideCard">
-              <div className="slideFrame" style={{ transform: `translateX(-${step * 100}%)` }}>
-                <section className="slidePanel">
+              <div className="slideFrame dynamicSlideFrame">
+                <section className={step === 0 ? 'slidePanel activeSlidePanel' : 'slidePanel'}>
                   <span className="slideStep">Step 1</span>
                   <h2>What brand needs repair?</h2>
                   <p className="slideHint">Start with the device family. We support the major phone brands customers ask for most, plus an “Other” path when the model is not listed.</p>
@@ -1404,7 +1404,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                   </div>
                 </section>
 
-                <section className="slidePanel catalogSlide guidedCatalogSlide">
+                <section className={step === 1 ? 'slidePanel catalogSlide guidedCatalogSlide activeSlidePanel' : 'slidePanel catalogSlide guidedCatalogSlide'}>
                   <div className="guidedModelHeader">
                     <span className="slideStep">Step 2</span>
                     <h2>Find your {selectedBrand.shortLabel} model.</h2>
@@ -1504,7 +1504,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                   </button>
                 </section>
 
-                <section className="slidePanel">
+                <section className={step === 2 ? 'slidePanel activeSlidePanel' : 'slidePanel'}>
                   <span className="slideStep">Step 3</span>
                   <h2>What needs to be fixed?</h2>
                   <p className="slideHint">Choose the main issue. The visual panel will react to the selected problem.</p>
@@ -1515,7 +1515,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                   </div>
                 </section>
 
-                <section className="slidePanel">
+                <section className={step === 3 ? 'slidePanel activeSlidePanel' : 'slidePanel'}>
                   <span className="slideStep">Step 4</span>
                   <h2>Your contact details.</h2>
                   <p className="slideHint">Choose a requested date and time. This is not confirmed yet — we will contact you to confirm the repair schedule.</p>
@@ -1530,7 +1530,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                   <p className="bookingConsent">By sending this request, you agree that CellzTech / Cellz Repairz LLC may contact you about your repair request. This does not guarantee a confirmed appointment, repair price, part availability, or completion time.</p>
                 </section>
 
-                <section className="slidePanel finalSlide">
+                <section className={step === 4 ? 'slidePanel finalSlide activeSlidePanel' : 'slidePanel finalSlide'}>
                   <span className="slideStep">Step 5</span>
                   <h2>Ready to send your repair request.</h2>
                   <p className="slideHint">This will send the request to the shop backend. We will contact you to confirm the appointment time, price, and parts availability.</p>
