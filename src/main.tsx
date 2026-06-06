@@ -1404,37 +1404,37 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                   </div>
                 </section>
 
-                <section className={step === 1 ? 'slidePanel catalogSlide guidedCatalogSlide activeSlidePanel' : 'slidePanel catalogSlide guidedCatalogSlide'}>
-                  <div className="guidedModelHeader">
-                    <span className="slideStep">Step 2</span>
-                    <h2>Find your {selectedBrand.shortLabel} model.</h2>
-                    <p className="slideHint">Search first, choose a popular model, or browse by series. You can usually find your model number in Settings → About phone.</p>
+                <section className={step === 1 ? 'slidePanel catalogSlide guidedCatalogSlide modelFitSlide activeSlidePanel' : 'slidePanel catalogSlide guidedCatalogSlide modelFitSlide'}>
+                  <div className="modelFitHeader">
+                    <div>
+                      <span className="slideStep">Step 2</span>
+                      <h2>Find your {selectedBrand.shortLabel} model.</h2>
+                    </div>
+                    <p className="slideHint">Search, tap a popular model, or choose a series. We can identify the exact model in-store if you are not sure.</p>
                   </div>
 
-                  <label className="guidedSearchHero">
-                    <Search size={22} />
+                  <label className="modelFitSearch">
+                    <Search size={20} />
                     <input value={modelSearch} onChange={(e) => setModelSearch(e.target.value)} placeholder={`Search ${selectedBrand.shortLabel} model or model number`} />
                     {modelSearchTerm && <button type="button" onClick={() => setModelSearch('')}>Clear</button>}
                   </label>
 
                   {modelSearchTerm ? (
-                    <section className="guidedResultsCard searchResultsCard">
-                      <div className="guidedSectionHeader">
-                        <div>
-                          <span>Search results</span>
-                          <strong>{visibleModels.length} matching models</strong>
-                        </div>
+                    <section className="modelFitResultsOnly">
+                      <div className="modelFitSectionHeader">
+                        <span>Search results</span>
+                        <strong>{visibleModels.length} matching models</strong>
                         {booking.model && <em>Selected: {booking.model}</em>}
                       </div>
-                      <div className="guidedModelGrid">
-                        {visibleModels.map(({ model, series }) => (
-                          <button type="button" key={`${series}-${model}`} className={booking.model === model && booking.series === series ? 'guidedModelChoice selected' : 'guidedModelChoice'} onClick={() => selectModel(model, series)}>
+                      <div className="modelFitModelGrid searchMode">
+                        {visibleModels.slice(0, 12).map(({ model, series }) => (
+                          <button type="button" key={`${series}-${model}`} className={booking.model === model && booking.series === series ? 'modelFitChoice selected' : 'modelFitChoice'} onClick={() => selectModel(model, series)}>
                             <span>{model}</span>
                             <small>{series}</small>
                           </button>
                         ))}
                         {!visibleModels.length && (
-                          <button type="button" className="guidedModelChoice selected" onClick={() => selectModel('Device not listed', selectedBrand.series[0]?.name)}>
+                          <button type="button" className="modelFitChoice selected" onClick={() => selectModel('Device not listed', selectedBrand.series[0]?.name)}>
                             <span>Device not listed</span>
                             <small>We will help identify it</small>
                           </button>
@@ -1442,18 +1442,16 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                       </div>
                     </section>
                   ) : (
-                    <>
-                      <section className="guidedSection">
-                        <div className="guidedSectionHeader">
-                          <div>
-                            <span>Popular models</span>
-                            <strong>Most customers choose one of these</strong>
-                          </div>
+                    <div className="modelFitLayout">
+                      <section className="modelFitPopular">
+                        <div className="modelFitSectionHeader">
+                          <span>Popular models</span>
+                          <strong>Most common</strong>
                           <small>{selectedBrand.label}</small>
                         </div>
-                        <div className="popularModelGrid">
+                        <div className="modelFitPopularGrid">
                           {popularModels.map(({ model, series }) => (
-                            <button type="button" key={`popular-${series}-${model}`} className={booking.model === model && booking.series === series ? 'popularModelCard selected' : 'popularModelCard'} onClick={() => selectModel(model, series)}>
+                            <button type="button" key={`popular-${series}-${model}`} className={booking.model === model && booking.series === series ? 'modelFitChoice selected' : 'modelFitChoice'} onClick={() => selectModel(model, series)}>
                               <span>{model}</span>
                               <small>{series}</small>
                             </button>
@@ -1461,45 +1459,32 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                         </div>
                       </section>
 
-                      <section className="guidedSection">
-                        <div className="guidedSectionHeader">
-                          <div>
-                            <span>Browse by series</span>
-                            <strong>Choose the family your device belongs to</strong>
-                          </div>
-                          <small>{getBrandTotalModels(selectedBrand)} supported models</small>
+                      <section className="modelFitBrowse">
+                        <div className="modelFitSectionHeader">
+                          <span>Browse by series</span>
+                          <strong>{selectedSeries?.name || 'Choose a series'}</strong>
+                          {booking.model && <em>Selected: {booking.model}</em>}
                         </div>
-                        <div className="seriesCardGrid">
+                        <div className="modelFitSeriesPills">
                           {selectedBrand.series.map((series) => (
-                            <button type="button" key={series.name} className={booking.series === series.name ? 'seriesBrowseCard selected' : 'seriesBrowseCard'} onClick={() => selectSeries(series.name)}>
-                              <span>{series.name}</span>
-                              <small>{series.models.length} models</small>
+                            <button type="button" key={series.name} className={booking.series === series.name ? 'selected' : ''} onClick={() => selectSeries(series.name)}>
+                              {series.name}
                             </button>
                           ))}
                         </div>
-                      </section>
-
-                      <section className="guidedResultsCard">
-                        <div className="guidedSectionHeader">
-                          <div>
-                            <span>Selected series</span>
-                            <strong>{selectedSeries?.name || 'Choose a series'}</strong>
-                          </div>
-                          {booking.model && <em>Selected: {booking.model}</em>}
-                        </div>
-                        <div className="guidedModelGrid">
-                          {visibleModels.map(({ model, series }) => (
-                            <button type="button" key={`${series}-${model}`} className={booking.model === model && booking.series === series ? 'guidedModelChoice selected' : 'guidedModelChoice'} onClick={() => selectModel(model, series)}>
+                        <div className="modelFitModelGrid">
+                          {visibleModels.slice(0, 8).map(({ model, series }) => (
+                            <button type="button" key={`${series}-${model}`} className={booking.model === model && booking.series === series ? 'modelFitChoice selected' : 'modelFitChoice'} onClick={() => selectModel(model, series)}>
                               <span>{model}</span>
                               <small>{selectedBrand.shortLabel}</small>
                             </button>
                           ))}
                         </div>
                       </section>
-                    </>
+                    </div>
                   )}
 
-                  <button type="button" className="alwaysVisibleNotSure" onClick={() => selectModel('Device not listed', selectedBrand.series[0]?.name)}>
+                  <button type="button" className="modelFitNotSure" onClick={() => selectModel('Device not listed', selectedBrand.series[0]?.name)}>
                     I do not see my model / I am not sure
                   </button>
                 </section>
