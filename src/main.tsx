@@ -1386,7 +1386,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
           </div>
 
           <div className="bookingStage">
-            <div className="bookingSlideCard">
+            <div className={`bookingSlideCard bookingStepCard-${step + 1}`}> 
               <div className="slideFrame dynamicSlideFrame">
                 <section className={step === 0 ? 'slidePanel activeSlidePanel' : 'slidePanel'}>
                   <span className="slideStep">Step 1</span>
