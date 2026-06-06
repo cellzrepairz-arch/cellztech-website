@@ -2688,7 +2688,7 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
 .ultraHeroButtons { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
 .familyShowcaseCard {
   position: relative;
-  min-height: 470px;
+  min-height: 540px;
   padding: 38px;
   border-radius: 36px;
   overflow: hidden;
@@ -2711,7 +2711,8 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
 .familyShowcaseCard h3,
 .familyShowcaseCard p,
 .familyShowcaseCard strong,
-.familyShowcaseCard .familyLineIcons,
+.familyShowcaseCard .familyPromoDetails,
+.familyShowcaseCard .promoChecklist,
 .familyShowcaseCard a { position: relative; z-index: 1; }
 .familyShowcaseCard > span {
   text-transform: uppercase;
@@ -2732,8 +2733,9 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   margin: 22px 0 12px;
   font-size: 26px;
   line-height: 1.05;
+  max-width: 300px;
 }
-.familyShowcaseCard p { font-size: 16px; line-height: 1.6; font-weight: 800; opacity: .94; }
+.familyShowcaseCard p { font-size: 15px; line-height: 1.55; font-weight: 800; opacity: .94; max-width: 340px; }
 .sunBadge {
   position: absolute;
   right: 24px;
@@ -2750,14 +2752,63 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   text-align: center;
   box-shadow: 0 15px 40px rgba(255, 205, 35, .28);
 }
-.familyLineIcons { display: flex; gap: 10px; margin: 26px 0 32px; }
-.familyLineIcons i {
-  width: 44px;
-  height: 62px;
+.familyPromoDetails {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 22px 0 16px;
+}
+.familyPromoDetails div {
+  padding: 12px 14px;
   border-radius: 18px;
-  background: rgba(255,255,255,.18);
-  border: 1px solid rgba(255,255,255,.28);
-  box-shadow: inset 0 -18px 0 rgba(255,255,255,.08);
+  background: rgba(255,255,255,.14);
+  border: 1px solid rgba(255,255,255,.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18);
+}
+.familyPromoDetails .highlight {
+  background: linear-gradient(135deg, rgba(255, 229, 95, .96), rgba(255, 141, 36, .94));
+  color: #35145f;
+  border-color: rgba(255,255,255,.34);
+}
+.familyPromoDetails small {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: 10px;
+  font-weight: 1000;
+  opacity: .9;
+}
+.familyPromoDetails b {
+  display: block;
+  margin-top: 4px;
+  font-size: 22px;
+  line-height: 1;
+}
+.promoChecklist {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+.promoChecklist li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 850;
+  color: rgba(255,255,255,.92);
+}
+.promoChecklist li:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffe45f;
+  box-shadow: 0 0 0 4px rgba(255,228,95,.13);
 }
 .ultraPromoStripSection { background: #2e0f4f; padding: 32px 0; }
 .ultraPromoStrip {

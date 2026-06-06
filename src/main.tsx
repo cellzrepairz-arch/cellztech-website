@@ -1805,8 +1805,31 @@ function UltraDetails() {
             <span>Featured promo</span>
             <strong>4 FOR $100</strong>
             <h3>4 Ultra Unlimited lines for $100/mo</h3>
-            <p>All with international included. Great for families, workers, students, and tablets that need reliable data.</p>
-            <div className="familyLineIcons"><i /><i /><i /><i /></div>
+            <p>Bring up to four lines onto one Ultra Unlimited account and get international features included with each line.</p>
+            <div className="familyPromoDetails" aria-label="Ultra 4 for 100 promotion details">
+              <div>
+                <small>1 line</small>
+                <b>$49/mo</b>
+              </div>
+              <div>
+                <small>2 lines</small>
+                <b>$73/mo</b>
+              </div>
+              <div>
+                <small>3 lines</small>
+                <b>$85/mo</b>
+              </div>
+              <div className="highlight">
+                <small>4 lines</small>
+                <b>$100/mo</b>
+              </div>
+            </div>
+            <ul className="promoChecklist">
+              <li>No data cap on Ultra Unlimited</li>
+              <li>Unlimited nationwide talk and global text</li>
+              <li>Talk to 90+ international destinations</li>
+              <li>Hotspot included on supported plans</li>
+            </ul>
             <a className="primaryBtn compact" href="sms:7734137489?&body=Hi%20CellzTech%2C%20I%20am%20interested%20in%20the%20Ultra%20Mobile%204%20lines%20for%20%24100%20promo.%20Please%20send%20me%20details.">Ask about 4 for $100</a>
           </div>
         </div>
