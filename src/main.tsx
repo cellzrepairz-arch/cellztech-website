@@ -1473,7 +1473,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                           ))}
                         </div>
                         <div className="modelFitModelGrid">
-                          {visibleModels.slice(0, 8).map(({ model, series }) => (
+                          {visibleModels.slice(0, 4).map(({ model, series }) => (
                             <button type="button" key={`${series}-${model}`} className={booking.model === model && booking.series === series ? 'modelFitChoice selected' : 'modelFitChoice'} onClick={() => selectModel(model, series)}>
                               <span>{model}</span>
                               <small>{selectedBrand.shortLabel}</small>
