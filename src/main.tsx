@@ -1708,9 +1708,9 @@ const goRoamPasses = [
 ];
 
 const simStarterOptions = [
-  { title: 'Ship a SIM card', text: 'Request a physical Ultra Mobile SIM card shipped anywhere in the USA once checkout is connected.', cta: 'Request SIM shipping' },
-  { title: 'Pick up in Chicago', text: 'Stop by CellzTech for SIM setup, number transfer help, and activation support.', cta: 'Visit CellzTech' },
-  { title: 'Ask about eSIM', text: 'Some compatible phones may support eSIM. We can check your device before activation.', cta: 'Check eSIM compatibility' }
+  { title: 'Ship a SIM card', text: 'Need service outside Chicago? Start a request and we can help with a physical Ultra Mobile SIM shipped in the USA.', cta: 'Start SIM request' },
+  { title: 'Pick up in Chicago', text: 'Visit CellzTech for SIM setup, number transfer help, plan selection, and activation support.', cta: 'Get store directions' },
+  { title: 'Ask about eSIM', text: 'Have a compatible phone? We can check eSIM support before activation and explain your options.', cta: 'Check eSIM options' }
 ];
 
 function UltraPlanStoreCard({ plan }: { plan: UltraPlan }) {
@@ -1923,9 +1923,9 @@ function UltraDetails() {
       <section className="section ultraSimSection">
         <div className="wrap ultraSimGrid">
           <div className="ultraSimCopy">
-            <span className="summerLabel">SIM card store preview</span>
-            <h2>Next step: sell Ultra Mobile SIM cards online.</h2>
-            <p>We can build this into a clean online SIM request and checkout flow for customers anywhere in the USA. For now, the page uses honest request buttons until payment, shipping, and activation routing are connected.</p>
+            <span className="summerLabel">SIM cards and activation help</span>
+            <h2>Get an Ultra Mobile SIM shipped or activated in-store.</h2>
+            <p>Whether you are switching today, transferring a number, helping a family member, or asking about eSIM, CellzTech can guide you through the cleanest option before you pay.</p>
           </div>
           <div className="simStoreCards">
             {simStarterOptions.map((option) => (

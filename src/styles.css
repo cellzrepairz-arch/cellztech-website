@@ -6478,51 +6478,94 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   line-height: 1.55;
 }
 .ultraSimSection {
+  position: relative;
+  overflow: hidden;
   background:
-    radial-gradient(circle at 12% 12%, rgba(20, 180, 216, .18), transparent 26%),
-    radial-gradient(circle at 88% 18%, rgba(255, 204, 48, .18), transparent 24%),
-    linear-gradient(135deg, #1c0d35, #311256 55%, #4e1777);
+    radial-gradient(circle at 12% 18%, rgba(20, 180, 216, .22), transparent 25%),
+    radial-gradient(circle at 78% 12%, rgba(255, 211, 66, .14), transparent 22%),
+    radial-gradient(circle at 84% 80%, rgba(134, 55, 190, .32), transparent 28%),
+    linear-gradient(135deg, #06182f 0%, #10285d 34%, #2b1350 68%, #4a1773 100%);
   color: #fff;
 }
+.ultraSimSection:before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(circle at 50% 50%, #000 0%, transparent 72%);
+  opacity: .28;
+}
 .ultraSimGrid {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: .9fr 1.1fr;
-  gap: 30px;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.15fr);
+  gap: 34px;
   align-items: center;
 }
+.ultraSimCopy {
+  max-width: 620px;
+}
 .ultraSimCopy h2 { color: #fff; }
-.ultraSimCopy p { color: rgba(255,255,255,.82); }
-.ultraSimCopy .summerLabel { color: #35145f; }
+.ultraSimCopy p { color: rgba(255,255,255,.84); }
+.ultraSimCopy .summerLabel { color: #08335f; }
 .simStoreCards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 .simStoreCards article {
-  padding: 24px;
-  border-radius: 26px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.14);
-  box-shadow: 0 18px 55px rgba(0,0,0,.12);
+  position: relative;
+  min-height: 275px;
+  padding: 26px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(248, 245, 255, .90));
+  border: 1px solid rgba(255,255,255,.55);
+  box-shadow: 0 24px 70px rgba(0,0,0,.18);
+  overflow: hidden;
 }
-.simStoreCards svg { color: #ffd342; }
+.simStoreCards article:before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  background: linear-gradient(90deg, #1b8dff, #12c5f5, #7d39b6, #ff7a28);
+}
+.simStoreCards svg {
+  color: #176ff2;
+  background: rgba(23, 111, 242, .10);
+  border-radius: 14px;
+  padding: 6px;
+  width: 38px;
+  height: 38px;
+}
 .simStoreCards h3 {
-  margin: 14px 0 8px;
-  color: #fff;
-  font-size: 22px;
-  line-height: 1.1;
+  margin: 18px 0 10px;
+  color: #140c25;
+  font-size: 24px;
+  line-height: 1.02;
+  letter-spacing: -.04em;
 }
 .simStoreCards p {
-  color: rgba(255,255,255,.78);
-  font-weight: 750;
+  color: #4d3f63;
+  font-weight: 780;
   line-height: 1.55;
 }
 .simStoreCards a {
   display: inline-flex;
-  margin-top: 8px;
-  color: #ffd342;
+  align-items: center;
+  margin-top: 12px;
+  color: #1267df;
   font-weight: 1000;
   text-decoration: none;
+}
+.simStoreCards a:after {
+  content: '→';
+  margin-left: 8px;
 }
 @media (max-width: 1050px) {
   .ultraFeatureGrid,
