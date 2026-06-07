@@ -890,7 +890,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
       const result = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(result.message || 'The online request backend is not connected yet.');
+        throw new Error(result.message || 'The repair request could not be sent online yet.');
       }
 
       setSubmissionStatus('sent');
@@ -1547,7 +1547,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                   {submissionMessage && (
                     <p className={`submissionNotice ${submissionStatus}`}>{submissionMessage}</p>
                   )}
-                  <p className="backendNote">Backend-ready: this form posts to /api/repair-request, which can email the shop and forward the request to a Google Calendar webhook once environment variables are connected in Vercel.</p>
+                  <p className="backendNote">Your request is sent to CellzTech so we can review the device, issue, parts, and timing before confirming the repair details.</p>
                 </section>
               </div>
 

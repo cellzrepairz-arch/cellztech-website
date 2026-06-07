@@ -1,35 +1,79 @@
-# CellzTech repair request backend setup
+# CellzTech Phase 1A Backend Setup
 
-The booking form now posts to `/api/repair-request`.
+Phase 1A connects the public Book Repair form to a server-side Vercel API route.
 
-## What the API can do
+Flow:
 
-1. Send the shop an email with the repair request.
-2. Forward the same request to a calendar webhook, such as Google Apps Script, so it can create a pending Google Calendar event.
-3. If email/calendar variables are not connected yet, the frontend keeps the text-message fallback.
+1. Customer submits Book Repair on CellzTech.
+2. `/api/repair-request` validates the request.
+3. The backend creates a customer in RepairDesk.
+4. The backend creates a RepairDesk ticket.
+5. The backend saves a backup copy in Supabase.
+6. Optional notifications can still go to Resend email and Google Calendar webhook.
 
 ## Vercel environment variables
 
-Add these in Vercel project settings:
+Add these in Vercel under Project Settings > Environment Variables.
+
+### RepairDesk
 
 ```txt
-RESEND_API_KEY=your_resend_api_key
-REPAIR_TO_EMAIL=your_shop_email@example.com
-RESEND_FROM_EMAIL=CellzTech Repair Requests <requests@yourdomain.com>
-REPAIR_CALENDAR_WEBHOOK_URL=https://script.google.com/macros/s/your-web-app-id/exec
+REPAIRDESK_API_KEY=your_repairdesk_api_key
+REPAIRDESK_BASE_URL=https://api.repairdesk.co/api/web/v1
 ```
 
-`RESEND_FROM_EMAIL` must use a domain verified in Resend. For testing only, Resend may allow `onboarding@resend.dev` depending on your account limits.
+Optional, if your account requires defaults for ticket creation:
 
-## Google Calendar option
+```txt
+REPAIRDESK_STORE_ID=
+REPAIRDESK_DEFAULT_STATUS_ID=
+REPAIRDESK_DEFAULT_EMPLOYEE_ID=
+REPAIRDESK_REFERRED_BY=CellzTech website
+REPAIRDESK_FALLBACK_CUSTOMER_ID=
+```
 
-Use `backend/google-apps-script-calendar.js` as the starting point:
+RepairDesk docs say API keys are generated from Store > General Settings > Other Information, the base URL is `https://api.repairdesk.co/api/web/v1/`, responses are JSON, and the request rate is 50 requests per minute.
 
-1. Go to script.google.com.
-2. Create a new Apps Script project.
-3. Paste the file contents.
-4. Update `CALENDAR_ID` if you want a specific shop calendar instead of your primary calendar.
-5. Deploy as a Web App.
-6. Copy the Web App URL into Vercel as `REPAIR_CALENDAR_WEBHOOK_URL`.
+### Supabase backup
 
-Calendar events are intentionally titled as repair requests / pending, because the requested time is not confirmed until the shop contacts the customer.
+```txt
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+SUPABASE_REPAIR_REQUESTS_TABLE=website_repair_requests
+```
+
+Run this SQL in Supabase before enabling backup:
+
+```txt
+supabase/website_repair_requests.sql
+```
+
+Important: only use the service role key in Vercel server-side environment variables. Never place it in React/front-end code.
+
+### Optional Resend email notification
+
+```txt
+RESEND_API_KEY=
+REPAIR_TO_EMAIL=
+RESEND_FROM_EMAIL=CellzTech Repair Requests <requests@yourdomain.com>
+```
+
+### Optional calendar webhook
+
+```txt
+REPAIR_CALENDAR_WEBHOOK_URL=
+```
+
+## Testing checklist
+
+1. Deploy to Vercel with the environment variables.
+2. Submit a test repair request from the live site.
+3. Confirm the API returns success.
+4. Confirm a RepairDesk customer was created.
+5. Confirm a RepairDesk ticket was created.
+6. Confirm the row appears in Supabase `website_repair_requests`.
+7. Confirm the customer-facing success message does not say the appointment is confirmed.
+
+## Notes
+
+The RepairDesk public API exposes customer and ticket endpoints, but individual accounts may require specific field IDs/defaults. If RepairDesk rejects a ticket payload, the API route logs the exact response in Vercel logs and still tries to save the website request backup in Supabase.
