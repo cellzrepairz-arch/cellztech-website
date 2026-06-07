@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" fill="none">
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="450" cy="240" r="7" stroke="#93c5fd" stroke-opacity="0.45" stroke-width="1.4"/>
+    <path d="M450 240 L375 152 L304 72" stroke="#0f172a" stroke-opacity="0.09" stroke-width="2"/>
+    <path d="M450 240 L543 126 L628 22" stroke="#0f172a" stroke-opacity="0.08" stroke-width="2"/>
+    <path d="M450 240 L604 230 L790 206 L940 184" stroke="#2563eb" stroke-opacity="0.08" stroke-width="2"/>
+    <path d="M450 240 L548 333 L672 470" stroke="#0f172a" stroke-opacity="0.07" stroke-width="2"/>
+    <path d="M450 240 L318 328 L194 404" stroke="#0f172a" stroke-opacity="0.07" stroke-width="2"/>
+    <path d="M450 240 L289 246 L93 262 L-30 277" stroke="#2563eb" stroke-opacity="0.08" stroke-width="2"/>
+    <path d="M375 152 L329 160 L290 188" stroke="#0f172a" stroke-opacity="0.06" stroke-width="1.2"/>
+    <path d="M543 126 L596 139 L642 169" stroke="#0f172a" stroke-opacity="0.06" stroke-width="1.2"/>
+    <path d="M604 230 L646 260 L700 308" stroke="#2563eb" stroke-opacity="0.06" stroke-width="1.2"/>
+    <path d="M548 333 L527 394 L492 458" stroke="#0f172a" stroke-opacity="0.05" stroke-width="1.2"/>
+  </g>
+</svg>

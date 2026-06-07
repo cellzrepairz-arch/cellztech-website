@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <radialGradient id="impact" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(742 438) rotate(90) scale(210)">
+      <stop stop-color="#ffffff" stop-opacity="0.65"/>
+      <stop offset="0.25" stop-color="#93c5fd" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <circle cx="742" cy="438" r="210" fill="url(#impact)"/>
+  <circle cx="742" cy="438" r="10" stroke="#ffffff" stroke-opacity="0.95" stroke-width="2.5"/>
+  <circle cx="742" cy="438" r="38" stroke="#ffffff" stroke-opacity="0.28" stroke-width="1.3" stroke-dasharray="18 10"/>
+  <circle cx="742" cy="438" r="78" stroke="#bfdbfe" stroke-opacity="0.22" stroke-width="1.1" stroke-dasharray="28 16"/>
+  <circle cx="742" cy="438" r="128" stroke="#ffffff" stroke-opacity="0.16" stroke-width="1" stroke-dasharray="34 18"/>
+
+  <g filter="url(#glow)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- primary spider cracks -->
+    <path d="M742 438 L682 370 L614 310 L541 235 L468 154 L392 67" stroke="#ffffff" stroke-opacity="0.85" stroke-width="2.2"/>
+    <path d="M742 438 L807 352 L873 278 L943 184 L1018 86" stroke="#ffffff" stroke-opacity="0.82" stroke-width="2.1"/>
+    <path d="M742 438 L876 420 L1011 395 L1168 362 L1382 316" stroke="#ffffff" stroke-opacity="0.8" stroke-width="2.2"/>
+    <path d="M742 438 L840 530 L936 638 L1056 780 L1164 910" stroke="#bfdbfe" stroke-opacity="0.7" stroke-width="2"/>
+    <path d="M742 438 L631 507 L516 580 L380 666 L241 756" stroke="#ffffff" stroke-opacity="0.7" stroke-width="2"/>
+    <path d="M742 438 L596 445 L421 462 L218 484 L-10 509" stroke="#bfdbfe" stroke-opacity="0.7" stroke-width="2"/>
+    <path d="M742 438 L704 552 L654 675 L598 817 L564 910" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.8"/>
+    <path d="M742 438 L733 320 L720 214 L703 92 L686 -20" stroke="#ffffff" stroke-opacity="0.46" stroke-width="1.6"/>
+
+    <!-- angular branch fractures -->
+    <path d="M682 370 L619 374 L577 398" stroke="#ffffff" stroke-opacity="0.48" stroke-width="1.3"/>
+    <path d="M614 310 L618 258 L650 219" stroke="#bfdbfe" stroke-opacity="0.42" stroke-width="1.25"/>
+    <path d="M541 235 L485 249 L432 274" stroke="#ffffff" stroke-opacity="0.38" stroke-width="1.2"/>
+    <path d="M807 352 L860 364 L907 390" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.3"/>
+    <path d="M873 278 L870 228 L892 176" stroke="#bfdbfe" stroke-opacity="0.38" stroke-width="1.2"/>
+    <path d="M943 184 L999 192 L1058 218" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.15"/>
+    <path d="M876 420 L921 455 L972 493" stroke="#ffffff" stroke-opacity="0.45" stroke-width="1.35"/>
+    <path d="M1011 395 L1055 432 L1096 478" stroke="#bfdbfe" stroke-opacity="0.36" stroke-width="1.2"/>
+    <path d="M1168 362 L1218 386 L1279 429" stroke="#ffffff" stroke-opacity="0.36" stroke-width="1.15"/>
+    <path d="M840 530 L819 593 L775 650" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.25"/>
+    <path d="M936 638 L1006 632 L1082 650" stroke="#bfdbfe" stroke-opacity="0.34" stroke-width="1.2"/>
+    <path d="M631 507 L636 563 L668 622" stroke="#ffffff" stroke-opacity="0.4" stroke-width="1.25"/>
+    <path d="M516 580 L458 564 L398 538" stroke="#bfdbfe" stroke-opacity="0.34" stroke-width="1.15"/>
+    <path d="M421 462 L365 425 L314 370" stroke="#ffffff" stroke-opacity="0.36" stroke-width="1.15"/>
+    <path d="M218 484 L172 540 L143 604" stroke="#bfdbfe" stroke-opacity="0.3" stroke-width="1.05"/>
+
+    <!-- shard outlines around impact -->
+    <path d="M742 438 L690 417 L655 458 L708 482 Z" stroke="#ffffff" stroke-opacity="0.25" stroke-width="1"/>
+    <path d="M742 438 L781 394 L839 412 L801 462 Z" stroke="#ffffff" stroke-opacity="0.25" stroke-width="1"/>
+    <path d="M742 438 L781 487 L765 548 L716 499 Z" stroke="#bfdbfe" stroke-opacity="0.22" stroke-width="1"/>
+    <path d="M742 438 L705 377 L744 330 L785 389 Z" stroke="#ffffff" stroke-opacity="0.18" stroke-width="1"/>
+    <path d="M742 438 L650 459 L604 514 L708 482 Z" stroke="#ffffff" stroke-opacity="0.16" stroke-width="1"/>
+    <path d="M742 438 L839 412 L898 462 L801 462 Z" stroke="#bfdbfe" stroke-opacity="0.18" stroke-width="1"/>
+  </g>
+</svg>
