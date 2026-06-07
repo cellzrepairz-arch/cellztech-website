@@ -397,6 +397,14 @@ function PageDetail({ page }: { page: PageKey }) {
     return <BookRepairPage />;
   }
 
+  if (page === 'ultra') {
+    return (
+      <main className="pageMain">
+        <UltraDetails />
+      </main>
+    );
+  }
+
   return (
     <main className="pageMain">
       <section className="pageHero">
@@ -422,7 +430,6 @@ function PageDetail({ page }: { page: PageKey }) {
           </div>
         </div>
       </section>
-      {page === 'ultra' && <UltraDetails />}
       {page === 'about' && <FeaturedReviews />}
       {page === 'contact' && <ContactDetails />}
     </main>
@@ -1815,7 +1822,7 @@ function UltraDetails() {
           <div className="ultraHeroGrid">
             <div className="ultraHeroCopy">
               <span className="summerLabel">Ultra Mobile authorized activation help</span>
-              <h2>Ultra Mobile plans, family savings, and travel-ready service at CellzTech.</h2>
+              <h1>Ultra Mobile plans, family savings, and travel-ready service at CellzTech.</h1>
               <p>We help customers compare monthly and multi-month plans, family promos, number transfers, Go Roam passes, and compatibility before they pay.</p>
               <div className="ultraHeroButtons">
                 <a className="primaryBtn" href="tel:7734137489">Call for Ultra Mobile <ArrowRight size={18} /></a>

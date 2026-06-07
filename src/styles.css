@@ -2672,6 +2672,7 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   gap: 38px;
   align-items: center;
 }
+.ultraHeroCopy h1,
 .ultraHeroCopy h2 {
   font-size: clamp(42px, 5vw, 74px);
   line-height: .96;
