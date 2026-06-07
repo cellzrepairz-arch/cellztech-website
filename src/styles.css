@@ -6693,3 +6693,411 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
     gap: 26px;
   }
 }
+
+/* Mobile responsiveness polish pass: booking page + global overflow cleanup */
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+@media (max-width: 760px) {
+  .bookingPage {
+    background: linear-gradient(135deg, #07111f 0%, #0d2f55 58%, #0b4b64 100%);
+  }
+
+  .bookingSingleHero {
+    min-height: auto !important;
+    padding: 14px 0 22px !important;
+    overflow: visible !important;
+  }
+
+  .bookingSingleHero::before,
+  .bookingSingleHero::after,
+  .issueAmbient,
+  .screenShatterOverlay,
+  .backGlassOverlay,
+  .cameraIssueOverlay,
+  .waterDamageOverlay,
+  .batteryDrainOverlay,
+  .chargingFailOverlay,
+  .audioIssueOverlay,
+  .dataRecoveryOverlay,
+  .softwareIssueOverlay,
+  .otherIssueOverlay,
+  .powerIssueOverlay {
+    display: none !important;
+  }
+
+  .bookingShell {
+    width: min(100% - 22px, 1180px) !important;
+    gap: 12px !important;
+  }
+
+  .bookingTopline {
+    display: block !important;
+  }
+
+  .bookingTopline .eyebrow {
+    margin-bottom: 9px !important;
+    padding: 6px 10px !important;
+    font-size: 10px !important;
+  }
+
+  .bookingTopline h1 {
+    font-size: clamp(30px, 9vw, 38px) !important;
+    line-height: .98 !important;
+    max-width: 360px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .bookingTopline p {
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+    max-width: 360px !important;
+    margin: 0 !important;
+  }
+
+  .bookingMiniSummary {
+    display: none !important;
+  }
+
+  .stepTracker {
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 6px !important;
+    overflow: visible !important;
+  }
+
+  .stepTracker button {
+    min-width: 0 !important;
+    min-height: 44px !important;
+    padding: 6px 3px !important;
+    border-radius: 15px !important;
+    font-size: 0 !important;
+    gap: 0 !important;
+  }
+
+  .stepTracker span {
+    width: 25px !important;
+    height: 25px !important;
+    font-size: 12px !important;
+    margin: 0 auto !important;
+  }
+
+  .bookingStage {
+    display: block !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .bookingSlideCard,
+  .bookingStepCard-1,
+  .bookingStepCard-2,
+  .bookingStepCard-3,
+  .bookingStepCard-4,
+  .bookingStepCard-5 {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    border-radius: 22px !important;
+    display: block !important;
+    overflow: hidden !important;
+  }
+
+  .dynamicSlideFrame {
+    display: block !important;
+    width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .dynamicSlideFrame .slidePanel {
+    display: none !important;
+    width: 100% !important;
+    min-height: 0 !important;
+  }
+
+  .dynamicSlideFrame .slidePanel.activeSlidePanel {
+    display: block !important;
+    padding: 18px 16px 16px !important;
+    min-height: 0 !important;
+  }
+
+  .slideStep {
+    font-size: 10px !important;
+    margin-bottom: 7px !important;
+  }
+
+  .slidePanel h2,
+  .modelFitHeader h2,
+  .bookingStepCard-2 .modelFitHeader h2 {
+    font-size: clamp(24px, 7.5vw, 31px) !important;
+    line-height: 1.04 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .slideHint,
+  .modelFitHeader .slideHint,
+  .bookingStepCard-2 .modelFitHeader .slideHint {
+    font-size: 13px !important;
+    line-height: 1.42 !important;
+    max-width: none !important;
+  }
+
+  .brandGrid,
+  .bookingStepCard-1 .brandGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin-top: 12px !important;
+  }
+
+  .brandChoice,
+  .bookingStepCard-1 .brandChoice {
+    min-height: 112px !important;
+    padding: 12px 10px !important;
+    border-radius: 17px !important;
+    gap: 6px !important;
+  }
+
+  .brandIcon,
+  .bookingStepCard-1 .brandIcon {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 11px !important;
+  }
+
+  .brandChoice strong,
+  .bookingStepCard-1 .brandChoice strong {
+    font-size: 14px !important;
+    line-height: 1.08 !important;
+  }
+
+  .brandChoice small,
+  .bookingStepCard-1 .brandChoice small {
+    display: none !important;
+  }
+
+  .brandChoice em,
+  .bookingStepCard-1 .brandChoice em {
+    font-size: 10px !important;
+    padding: 3px 7px !important;
+  }
+
+  .modelFitSlide,
+  .bookingStepCard-2 .modelFitSlide.activeSlidePanel {
+    padding: 16px !important;
+  }
+
+  .modelFitHeader,
+  .bookingStepCard-2 .modelFitHeader {
+    display: block !important;
+    margin-bottom: 12px !important;
+  }
+
+  .modelFitSearch,
+  .bookingStepCard-2 .modelFitSearch {
+    min-height: 46px !important;
+    height: 46px !important;
+    padding: 0 12px !important;
+    border-radius: 16px !important;
+    margin-bottom: 11px !important;
+  }
+
+  .modelFitSearch input,
+  .bookingStepCard-2 .modelFitSearch input {
+    height: 44px !important;
+    font-size: 14px !important;
+  }
+
+  .modelFitSearch button {
+    display: none !important;
+  }
+
+  .modelFitLayout,
+  .bookingStepCard-2 .modelFitLayout {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  .modelFitPopular,
+  .modelFitBrowse,
+  .modelFitResultsOnly,
+  .bookingStepCard-2 .modelFitPopular,
+  .bookingStepCard-2 .modelFitBrowse,
+  .bookingStepCard-2 .modelFitResultsOnly {
+    padding: 10px !important;
+    border-radius: 17px !important;
+  }
+
+  .modelFitSectionHeader,
+  .bookingStepCard-2 .modelFitSectionHeader {
+    min-height: 0 !important;
+    margin-bottom: 8px !important;
+  }
+
+  .modelFitSectionHeader span,
+  .bookingStepCard-2 .modelFitSectionHeader span {
+    font-size: 9px !important;
+  }
+
+  .modelFitSectionHeader strong,
+  .bookingStepCard-2 .modelFitSectionHeader strong {
+    font-size: 14px !important;
+  }
+
+  .modelFitSectionHeader small,
+  .modelFitSectionHeader em,
+  .bookingStepCard-2 .modelFitSectionHeader small,
+  .bookingStepCard-2 .modelFitSectionHeader em {
+    font-size: 11px !important;
+  }
+
+  .modelFitPopularGrid,
+  .modelFitModelGrid,
+  .modelFitModelGrid.searchMode,
+  .bookingStepCard-2 .modelFitPopularGrid,
+  .bookingStepCard-2 .modelFitModelGrid,
+  .bookingStepCard-2 .modelFitModelGrid.searchMode {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    max-height: 168px !important;
+    overflow-y: auto !important;
+  }
+
+  .modelFitChoice,
+  .bookingStepCard-2 .modelFitChoice {
+    min-height: 48px !important;
+    padding: 7px 8px !important;
+    border-radius: 13px !important;
+    gap: 1px !important;
+  }
+
+  .modelFitChoice span,
+  .bookingStepCard-2 .modelFitChoice span {
+    font-size: 12px !important;
+    line-height: 1.05 !important;
+  }
+
+  .modelFitChoice small,
+  .bookingStepCard-2 .modelFitChoice small {
+    font-size: 10px !important;
+  }
+
+  .modelFitSeriesPills,
+  .bookingStepCard-2 .modelFitSeriesPills {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    margin: 0 0 8px !important;
+    max-height: none !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding-bottom: 4px !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modelFitSeriesPills button,
+  .bookingStepCard-2 .modelFitSeriesPills button {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    padding: 6px 9px !important;
+    font-size: 11px !important;
+    border-radius: 999px !important;
+  }
+
+  .modelFitNotSure,
+  .bookingStepCard-2 .modelFitNotSure {
+    min-height: 38px !important;
+    margin-top: 9px !important;
+    border-radius: 13px !important;
+    font-size: 12px !important;
+  }
+
+  .compactIssueGrid,
+  .singlePageChoices,
+  .compactModelGrid,
+  .slideFormGrid,
+  .finalSummaryBox {
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+  }
+
+  .issueChoice,
+  .modelChoice,
+  .choice {
+    min-height: 46px !important;
+    padding: 10px 11px !important;
+    border-radius: 14px !important;
+  }
+
+  .slideFormGrid input,
+  .slideFormGrid textarea {
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 16px !important;
+    border-radius: 14px !important;
+  }
+
+  .slideFormGrid textarea {
+    min-height: 92px !important;
+  }
+
+  .bookingConsent,
+  .backendNote {
+    font-size: 11px !important;
+    line-height: 1.42 !important;
+  }
+
+  .finalSummaryBox {
+    margin: 12px 0 !important;
+  }
+
+  .finalSummaryBox div {
+    padding: 10px 11px !important;
+    border-radius: 13px !important;
+  }
+
+  .finalActions,
+  .slideControls {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+    padding: 12px !important;
+    background: rgba(248, 250, 252, .98) !important;
+  }
+
+  .finalActions .primaryBtn,
+  .finalActions .secondaryBtn,
+  .slideControls .primaryBtn,
+  .slideControls .secondaryBtn {
+    width: 100% !important;
+    min-height: 45px !important;
+    font-size: 14px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .bookingTopline h1 {
+    font-size: 29px !important;
+  }
+
+  .brandGrid,
+  .bookingStepCard-1 .brandGrid,
+  .modelFitPopularGrid,
+  .modelFitModelGrid,
+  .modelFitModelGrid.searchMode {
+    grid-template-columns: 1fr !important;
+  }
+}
