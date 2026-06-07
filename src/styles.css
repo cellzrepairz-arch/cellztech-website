@@ -2659,11 +2659,16 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   height: 180px;
   background: linear-gradient(180deg, rgba(38, 18, 77, 0) 0%, rgba(71, 32, 121, .35) 48%, rgba(46, 15, 79, .96) 100%);
 }
-.ultraHeroGrid {
+.ultraHeroStack {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr 430px;
+  gap: 34px;
+}
+.ultraHeroGrid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 430px;
   gap: 38px;
   align-items: center;
 }
@@ -2822,6 +2827,79 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   border-radius: 50%;
   background: #ffe45f;
   box-shadow: 0 0 0 4px rgba(255,228,95,.13);
+}
+
+.ultraHeroInfoBand {
+  display: grid;
+  grid-template-columns: 1.3fr repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+.ultraInfoCard {
+  padding: 26px 24px;
+  border-radius: 28px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 18px 48px rgba(10, 18, 44, .16);
+  backdrop-filter: blur(10px);
+  color: #fff;
+}
+.ultraInfoCard svg { color: #ffd54d; }
+.ultraInfoCard > span {
+  display: block;
+  margin: 16px 0 10px;
+  color: #ffcf54;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: 12px;
+  font-weight: 1000;
+}
+.ultraInfoCard h3 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.16;
+  letter-spacing: -.03em;
+}
+.ultraInfoCard p {
+  margin: 12px 0 0;
+  color: rgba(255,255,255,.84);
+  font-weight: 760;
+  line-height: 1.55;
+}
+.ultraQuickCard {
+  background: rgba(255,255,255,.97);
+  border-color: rgba(255,255,255,.55);
+  color: #1e1532;
+}
+.ultraQuickCard > span {
+  margin: 0 0 10px;
+  color: #0c5fba;
+}
+.ultraQuickCard h3 {
+  font-size: 28px;
+  line-height: 1.02;
+}
+.ultraQuickCard ul {
+  display: grid;
+  gap: 14px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ultraQuickCard li {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.ultraQuickCard li svg {
+  color: #1479ff;
+  margin-top: 2px;
+}
+.ultraQuickCard li span {
+  color: #324862;
+  font-weight: 820;
+  line-height: 1.5;
 }
 .ultraPromoStripSection {
   background: linear-gradient(135deg, #08254a 0%, #132f63 18%, #2c1f66 42%, #4e1f78 72%, #6e2996 100%);
@@ -3011,18 +3089,25 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   .ultraHeroGrid,
   .planBuilder,
   .ultraPromoStrip { grid-template-columns: 1fr; }
+  .ultraHeroInfoBand { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ultraQuickCard { grid-column: 1 / -1; }
   .familyShowcaseCard { min-height: auto; }
 }
 @media (max-width: 760px) {
   .ultraPlanTop { flex-direction: column; padding: 24px; }
   .planBuilder { padding: 24px; }
-  .durationTabs, .simSelectorPreview { grid-template-columns: 1fr 1fr; }
+  .durationTabs,
+  .simSelectorPreview,
+  .ultraHeroInfoBand { grid-template-columns: 1fr 1fr; }
   .planSubtotal { grid-template-columns: 1fr; }
   .planSubtotal small { grid-column: auto; text-align: left; }
   .planCtas a { width: 100%; justify-content: center; }
 }
 @media (max-width: 520px) {
-  .durationTabs, .simSelectorPreview { grid-template-columns: 1fr; }
+  .durationTabs,
+  .simSelectorPreview,
+  .ultraHeroInfoBand { grid-template-columns: 1fr; }
+  .ultraQuickCard h3 { font-size: 24px; }
 }
 
 /* Camera issue ambient animation */

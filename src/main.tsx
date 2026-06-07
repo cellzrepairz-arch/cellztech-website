@@ -1800,74 +1800,97 @@ function UltraPlanStoreCard({ plan }: { plan: UltraPlan }) {
 }
 
 function UltraDetails() {
+  const quickDetails = [
+    'Plans from $15/month, with monthly and multi-month options.',
+    '4 Ultra Unlimited lines for $100/month.',
+    'International calling to Poland and 90+ destinations.',
+    'Free SIM card at CellzTech, with eSIM available on supported phones.',
+    'Bring your account number, transfer PIN, and an unlocked compatible phone.'
+  ];
+
   return (
     <>
       <section className="section ultraStoreHero">
-        <div className="wrap ultraHeroGrid">
-          <div className="ultraHeroCopy">
-            <span className="summerLabel">Ultra Mobile authorized activation help</span>
-            <h2>Ultra Mobile plans, family savings, and travel-ready service at CellzTech.</h2>
-            <p>We help customers compare monthly and multi-month plans, transfer numbers, check compatibility, activate service, and understand current Ultra Mobile promotions before they pay.</p>
-            <div className="ultraHeroButtons">
-              <a className="primaryBtn" href="tel:7734137489">Call for Ultra Mobile <ArrowRight size={18} /></a>
-              <button className="secondaryBtn" onClick={() => goTo('contact')}>Visit the store</button>
-            </div>
-          </div>
-          <div className="familyShowcaseCard">
-            <div className="sunBadge">Family<br />Deal</div>
-            <span>Featured promo</span>
-            <strong>4 FOR $100</strong>
-            <h3>4 Ultra Unlimited lines for $100/mo</h3>
-            <p>Bring up to four lines onto one Ultra Unlimited account and get international features included with each line.</p>
-            <div className="familyPromoDetails" aria-label="Ultra 4 for 100 promotion details">
-              <div>
-                <small>1 line</small>
-                <b>$49/mo</b>
-              </div>
-              <div>
-                <small>2 lines</small>
-                <b>$73/mo</b>
-              </div>
-              <div>
-                <small>3 lines</small>
-                <b>$85/mo</b>
-              </div>
-              <div className="highlight">
-                <small>4 lines</small>
-                <b>$100/mo</b>
+        <div className="wrap ultraHeroStack">
+          <div className="ultraHeroGrid">
+            <div className="ultraHeroCopy">
+              <span className="summerLabel">Ultra Mobile authorized activation help</span>
+              <h2>Ultra Mobile plans, family savings, and travel-ready service at CellzTech.</h2>
+              <p>We help customers compare monthly and multi-month plans, family promos, number transfers, Go Roam passes, and compatibility before they pay.</p>
+              <div className="ultraHeroButtons">
+                <a className="primaryBtn" href="tel:7734137489">Call for Ultra Mobile <ArrowRight size={18} /></a>
+                <button className="secondaryBtn" onClick={() => goTo('contact')}>Visit the store</button>
               </div>
             </div>
-            <ul className="promoChecklist">
-              <li>No data cap on Ultra Unlimited</li>
-              <li>Unlimited nationwide talk and global text</li>
-              <li>Talk to 90+ international destinations</li>
-              <li>Hotspot included on supported plans</li>
-            </ul>
-            <a className="primaryBtn compact" href="sms:7734137489?&body=Hi%20CellzTech%2C%20I%20am%20interested%20in%20the%20Ultra%20Mobile%204%20lines%20for%20%24100%20promo.%20Please%20send%20me%20details.">Ask about 4 for $100</a>
+            <div className="familyShowcaseCard">
+              <div className="sunBadge">Family<br />Deal</div>
+              <span>Featured promo</span>
+              <strong>4 FOR $100</strong>
+              <h3>4 Ultra Unlimited lines for $100/mo</h3>
+              <p>Bring up to four lines onto one Ultra Unlimited account and get international features included with each line.</p>
+              <div className="familyPromoDetails" aria-label="Ultra 4 for 100 promotion details">
+                <div>
+                  <small>1 line</small>
+                  <b>$49/mo</b>
+                </div>
+                <div>
+                  <small>2 lines</small>
+                  <b>$73/mo</b>
+                </div>
+                <div>
+                  <small>3 lines</small>
+                  <b>$85/mo</b>
+                </div>
+                <div className="highlight">
+                  <small>4 lines</small>
+                  <b>$100/mo</b>
+                </div>
+              </div>
+              <ul className="promoChecklist">
+                <li>No data cap on Ultra Unlimited</li>
+                <li>Unlimited nationwide talk and global text</li>
+                <li>Talk to 90+ international destinations</li>
+                <li>Hotspot included on supported plans</li>
+              </ul>
+              <a className="primaryBtn compact" href="sms:7734137489?&body=Hi%20CellzTech%2C%20I%20am%20interested%20in%20the%20Ultra%20Mobile%204%20lines%20for%20%24100%20promo.%20Please%20send%20me%20details.">Ask about 4 for $100</a>
+            </div>
           </div>
-        </div>
-      </section>
 
-      <section className="section ultraPromoStripSection">
-        <div className="wrap ultraPromoStrip">
-          <article>
-            <Globe2 size={28} />
-            <span>International roaming</span>
-            <strong>New 5-day and 15-day Go Roam Passes</strong>
-            <p>Built for quick trips and longer vacations when customers need talk, text, and data abroad.</p>
-          </article>
-          <article>
-            <CheckCircle2 size={28} />
-            <span>Limited time offer</span>
-            <strong>Buy 3 months, get the 4th month free</strong>
-            <p>Applies to eligible new customers on 1-month 8GB and higher plans. Multi-month 3, 6, and 12 month rates are separate prepaid options.</p>
-          </article>
-          <article>
-            <Wifi size={28} />
-            <span>Network</span>
-            <strong>On the T-Mobile 5G network</strong>
-            <p>Plans include nationwide talk and global text, international calling features, and hotspot on supported plans.</p>
-          </article>
+          <div className="ultraHeroInfoBand">
+            <article className="ultraInfoCard ultraQuickCard">
+              <span>Quick details</span>
+              <h3>What customers usually want to know first.</h3>
+              <ul>
+                {quickDetails.map((item) => (
+                  <li key={item}>
+                    <CheckCircle2 size={18} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+
+            <article className="ultraInfoCard">
+              <Globe2 size={26} />
+              <span>International roaming</span>
+              <h3>New 5-day and 15-day Go Roam Passes</h3>
+              <p>Built for quick trips and longer vacations when customers need talk, text, and data abroad.</p>
+            </article>
+
+            <article className="ultraInfoCard">
+              <CheckCircle2 size={26} />
+              <span>Limited time offer</span>
+              <h3>Eligible 1-month 8GB+ plans can earn a free 4th month.</h3>
+              <p>This offer applies to eligible monthly plans only. Multi-month 3, 6, and 12 month rates are separate prepaid options.</p>
+            </article>
+
+            <article className="ultraInfoCard">
+              <Wifi size={26} />
+              <span>Network</span>
+              <h3>On the T-Mobile 5G network</h3>
+              <p>Plans include nationwide talk and global text, international calling features, and hotspot on supported plans.</p>
+            </article>
+          </div>
         </div>
       </section>
 
