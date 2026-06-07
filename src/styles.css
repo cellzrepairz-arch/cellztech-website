@@ -2634,20 +2634,31 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(circle at 18% 18%, rgba(255,255,255,.70), transparent 20%),
-    radial-gradient(circle at 84% 18%, rgba(255,126,34,.22), transparent 26%),
-    linear-gradient(135deg, #fff6d5 0%, #fff 38%, #f7ecff 100%);
+    radial-gradient(circle at 12% 18%, rgba(0, 221, 255, .20), transparent 24%),
+    radial-gradient(circle at 18% 76%, rgba(0, 189, 255, .14), transparent 26%),
+    radial-gradient(circle at 84% 16%, rgba(180, 122, 255, .24), transparent 20%),
+    radial-gradient(circle at 88% 78%, rgba(255, 129, 48, .16), transparent 24%),
+    linear-gradient(118deg, #04162d 0%, #082a52 26%, #0f4f89 44%, #2d2a73 62%, #58218b 80%, #8a3a8f 100%);
 }
 .ultraStoreHero:before,
 .ultraStoreHero:after {
   content: '';
   position: absolute;
-  border-radius: 999px;
-  background: rgba(255, 132, 0, .16);
-  filter: blur(2px);
+  pointer-events: none;
 }
-.ultraStoreHero:before { width: 460px; height: 460px; left: -170px; bottom: -230px; }
-.ultraStoreHero:after { width: 360px; height: 360px; right: -120px; top: -130px; background: rgba(90, 38, 147, .14); }
+.ultraStoreHero:before {
+  inset: auto auto -210px -160px;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 203, 255, .24) 0%, rgba(0, 203, 255, .10) 36%, transparent 72%);
+  filter: blur(4px);
+}
+.ultraStoreHero:after {
+  inset: auto 0 0 0;
+  height: 180px;
+  background: linear-gradient(180deg, rgba(38, 18, 77, 0) 0%, rgba(71, 32, 121, .35) 48%, rgba(46, 15, 79, .96) 100%);
+}
 .ultraHeroGrid {
   position: relative;
   z-index: 1;
@@ -2661,13 +2672,14 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   line-height: .96;
   letter-spacing: -.06em;
   margin: 16px 0 18px;
-  color: #21152f;
+  color: #fff;
   max-width: 820px;
+  text-shadow: 0 18px 45px rgba(0,0,0,.18);
 }
 .ultraHeroCopy p {
   font-size: 20px;
   line-height: 1.65;
-  color: #563c70;
+  color: rgba(255,255,255,.84);
   max-width: 800px;
   font-weight: 700;
 }
@@ -2677,13 +2689,13 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   width: fit-content;
   padding: 10px 15px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #ffdf47, #ff8a1f);
-  color: #35145f;
+  background: linear-gradient(135deg, #dff8ff, #85deff 58%, #5db8ff);
+  color: #08335f;
   text-transform: uppercase;
   letter-spacing: .08em;
   font-size: 12px;
   font-weight: 1000;
-  box-shadow: 0 15px 35px rgba(255, 137, 35, .22);
+  box-shadow: 0 15px 35px rgba(46, 176, 255, .22);
 }
 .ultraHeroButtons { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
 .familyShowcaseCard {
@@ -2694,17 +2706,18 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   overflow: hidden;
   color: #fff;
   background:
-    radial-gradient(circle at 86% 12%, rgba(255,255,255,.22), transparent 16%),
-    radial-gradient(circle at 10% 90%, rgba(20,180,216,.46), transparent 28%),
-    linear-gradient(145deg, #381160 0%, #65289b 48%, #ff6b1a 100%);
-  box-shadow: 0 28px 80px rgba(70, 28, 123, .28);
+    radial-gradient(circle at 82% 16%, rgba(255,255,255,.18), transparent 14%),
+    radial-gradient(circle at 14% 84%, rgba(0, 209, 255, .34), transparent 28%),
+    linear-gradient(150deg, #0b2d5f 0%, #174a91 22%, #4b2a88 60%, #ff7328 100%);
+  box-shadow: 0 28px 80px rgba(18, 37, 98, .32);
+  border: 1px solid rgba(255,255,255,.08);
 }
 .familyShowcaseCard:before {
   content: '';
   position: absolute;
   inset: auto -70px -105px -60px;
   height: 220px;
-  background: rgba(255, 200, 56, .22);
+  background: linear-gradient(90deg, rgba(125, 232, 255, .18), rgba(255, 201, 64, .24));
   border-radius: 50% 50% 0 0;
 }
 .familyShowcaseCard > span,
@@ -2810,7 +2823,10 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   background: #ffe45f;
   box-shadow: 0 0 0 4px rgba(255,228,95,.13);
 }
-.ultraPromoStripSection { background: #2e0f4f; padding: 32px 0; }
+.ultraPromoStripSection {
+  background: linear-gradient(135deg, #08254a 0%, #132f63 18%, #2c1f66 42%, #4e1f78 72%, #6e2996 100%);
+  padding: 32px 0;
+}
 .ultraPromoStrip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
