@@ -7101,3 +7101,119 @@ canvas {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Final mobile Safari/Chrome Step 2 flush patch: keep the model picker centered and inside the viewport */
+@media (max-width: 760px) {
+  html,
+  body,
+  #root,
+  .app,
+  .bookingPage {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+  }
+
+  .bookingSingleHero,
+  .bookingShell,
+  .bookingStage,
+  .bookingSlideCard,
+  .bookingStepCard-2,
+  .bookingStepCard-2 .dynamicSlideFrame,
+  .bookingStepCard-2 .slidePanel,
+  .bookingStepCard-2 .modelFitSlide,
+  .bookingStepCard-2 .modelFitSearch,
+  .bookingStepCard-2 .modelFitLayout,
+  .bookingStepCard-2 .modelFitPopular,
+  .bookingStepCard-2 .modelFitBrowse,
+  .bookingStepCard-2 .modelFitResultsOnly,
+  .bookingStepCard-2 .modelFitPopularGrid,
+  .bookingStepCard-2 .modelFitModelGrid,
+  .bookingStepCard-2 .modelFitModelGrid.searchMode,
+  .bookingStepCard-2 .modelFitNotSure {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .bookingShell {
+    width: min(100% - 28px, 430px) !important;
+    max-width: 430px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .bookingStepCard-2 {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    overflow: hidden !important;
+  }
+
+  .bookingStepCard-2 .dynamicSlideFrame {
+    overflow: hidden !important;
+  }
+
+  .bookingStepCard-2 .slidePanel.activeSlidePanel,
+  .bookingStepCard-2 .modelFitSlide.activeSlidePanel {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  .bookingStepCard-2 .modelFitHeader,
+  .bookingStepCard-2 .modelFitLayout {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .bookingStepCard-2 .modelFitHeader .slideHint {
+    overflow-wrap: anywhere !important;
+  }
+
+  .bookingStepCard-2 .modelFitSearch {
+    overflow: hidden !important;
+  }
+
+  .bookingStepCard-2 .modelFitSearch input {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .bookingStepCard-2 .modelFitPopularGrid,
+  .bookingStepCard-2 .modelFitModelGrid,
+  .bookingStepCard-2 .modelFitModelGrid.searchMode {
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .bookingStepCard-2 .modelFitChoice {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .bookingStepCard-2 .modelFitSeriesPills {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .bookingStepCard-2 .modelFitSeriesPills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .bookingStepCard-2 .modelFitSeriesPills button {
+    flex: 0 0 auto !important;
+  }
+
+  .bookingStepCard-2 .slideControls {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
