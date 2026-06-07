@@ -2892,7 +2892,15 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   letter-spacing: .08em;
 }
 .planDataPill { color: #fff; background: #6a32a4; }
+.planBadges {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 .dealPill { color: #fff; background: linear-gradient(135deg, #ff4f18, #b23cc4); white-space: nowrap; height: fit-content; }
+.promoOnlyPill { background: linear-gradient(135deg, #1479ff, #18b8e8); }
 .planBuilder {
   display: grid;
   grid-template-columns: 360px 1fr;
@@ -2935,6 +2943,31 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
 }
 .durationTabs button:disabled { opacity: .42; cursor: not-allowed; }
 .durationTabs button:not(:disabled):hover { transform: translateY(-2px); }
+.promoRuleNote {
+  display: grid;
+  gap: 5px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid #e3d5ed;
+  background: linear-gradient(180deg, #fff, #faf7ff);
+  color: #17121f;
+}
+.promoRuleNote strong {
+  color: #6a32a4;
+  font-size: 14px;
+  line-height: 1.25;
+}
+.promoRuleNote span {
+  color: #674a7c;
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 800;
+}
+.promoRuleNote.activePromoRule {
+  border-color: rgba(24, 184, 232, .38);
+  background: linear-gradient(135deg, rgba(20, 121, 255, .08), rgba(24, 184, 232, .12));
+}
+.promoRuleNote.activePromoRule strong { color: #0c5fba; }
 .simSelectorPreview {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

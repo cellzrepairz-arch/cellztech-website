@@ -1579,6 +1579,7 @@ type DurationKey = '1' | '3' | '6' | '12';
 type UltraPlan = {
   name: string;
   badge?: string;
+  promoEligible?: boolean;
   basePrice: string;
   data: string;
   highlight: string;
@@ -1622,7 +1623,7 @@ const ultraPlans: UltraPlan[] = [
   },
   {
     name: '8GB Plan',
-    badge: '4th Month Free Eligible',
+    promoEligible: true,
     basePrice: '$24',
     data: '8GB',
     highlight: 'A smart choice for customers who want more data and strong value.',
@@ -1636,7 +1637,7 @@ const ultraPlans: UltraPlan[] = [
   },
   {
     name: '12GB Plan',
-    badge: '4th Month Free Eligible',
+    promoEligible: true,
     basePrice: '$29',
     data: '12GB',
     highlight: 'More high-speed data for maps, social apps, messaging, and video.',
@@ -1650,7 +1651,7 @@ const ultraPlans: UltraPlan[] = [
   },
   {
     name: '24GB Plan',
-    badge: '4th Month Free Eligible',
+    promoEligible: true,
     basePrice: '$39',
     data: '24GB',
     highlight: 'For heavier monthly data use without jumping to unlimited.',
@@ -1665,6 +1666,7 @@ const ultraPlans: UltraPlan[] = [
   {
     name: 'Ultra Unlimited Plan',
     badge: 'Most Popular',
+    promoEligible: true,
     basePrice: '$49',
     data: 'Unlimited',
     highlight: 'Unlimited data with hotspot and family-line savings available.',
@@ -1679,6 +1681,7 @@ const ultraPlans: UltraPlan[] = [
   {
     name: 'Ultra Unlimited+ Plan',
     badge: 'Premium',
+    promoEligible: true,
     basePrice: '$59',
     data: 'Unlimited+',
     highlight: 'Premium unlimited with more hotspot for customers who use more.',
@@ -1723,7 +1726,10 @@ function UltraPlanStoreCard({ plan }: { plan: UltraPlan }) {
           <h3>{plan.name}</h3>
           <p>{plan.highlight}</p>
         </div>
-        {plan.badge && <strong className="dealPill">{plan.badge}</strong>}
+        <div className="planBadges">
+          {plan.promoEligible && <strong className="dealPill promoOnlyPill">1-month promo eligible</strong>}
+          {plan.badge && <strong className="dealPill">{plan.badge}</strong>}
+        </div>
       </div>
 
       <div className="planBuilder">
@@ -1753,11 +1759,18 @@ function UltraPlanStoreCard({ plan }: { plan: UltraPlan }) {
                   disabled={!option}
                 >
                   <span>{tab.label}</span>
-                  <small>{option ? (option.badge || tab.sublabel) : 'Ask in store'}</small>
+                  <small>{option ? (plan.promoEligible && tab.key === '1' ? '4th month free eligible' : tab.sublabel) : 'Ask in store'}</small>
                 </button>
               );
             })}
           </div>
+
+          {plan.promoEligible && (
+            <div className={`promoRuleNote ${duration === '1' ? 'activePromoRule' : ''}`}>
+              <strong>{duration === '1' ? '4th month free promo applies here.' : 'Multi-month pricing selected.'}</strong>
+              <span>{duration === '1' ? 'For eligible new customers on 1-month 8GB+ plans, the 4th monthly renewal can be free when the line remains eligible.' : 'The 3, 6, and 12 month choices are prepaid multi-month rates. They are not the 4th-month-free monthly promo.'}</span>
+            </div>
+          )}
 
           <div className="simSelectorPreview">
             <div>
@@ -1847,7 +1860,7 @@ function UltraDetails() {
             <CheckCircle2 size={28} />
             <span>Limited time offer</span>
             <strong>Buy 3 months, get the 4th month free</strong>
-            <p>Available for new customers on eligible 8GB and higher single-month plans upon renewal.</p>
+            <p>Applies to eligible new customers on 1-month 8GB and higher plans. Multi-month 3, 6, and 12 month rates are separate prepaid options.</p>
           </article>
           <article>
             <Wifi size={28} />
