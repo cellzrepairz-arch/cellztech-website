@@ -29,7 +29,7 @@ import {
 import './styles.css';
 import { deviceCatalog, getBrandTotalModels } from './deviceCatalog';
 
-type PageKey = 'home' | 'repairs' | 'ultra' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book';
+type PageKey = 'home' | 'repairs' | 'ultra' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'admin';
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk' | 'cs' | 'ru';
 
 const routes: Record<PageKey, string> = {
@@ -41,7 +41,8 @@ const routes: Record<PageKey, string> = {
   accessories: '/accessories',
   about: '/about',
   contact: '/contact',
-  book: '/book-repair'
+  book: '/book-repair',
+  admin: '/admin'
 };
 
 const pathToPage = Object.entries(routes).reduce((acc, [key, value]) => {
@@ -59,12 +60,12 @@ const languages: { key: LanguageKey; label: string; name: string }[] = [
 ];
 
 const navLabels: Record<LanguageKey, Record<PageKey, string>> = {
-  en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact', book: 'Book Repair' },
-  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Reservar reparación' },
-  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Umów naprawę' },
-  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Запис на ремонт' },
-  cs: { home: 'Domů', repairs: 'Opravy', ultra: 'Ultra Mobile', buyback: 'Výkup', phones: 'Telefony', accessories: 'Příslušenství', about: 'O nás', contact: 'Kontakt', book: 'Objednat opravu' },
-  ru: { home: 'Главная', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Выкуп', phones: 'Телефоны', accessories: 'Аксессуары', about: 'О нас', contact: 'Контакты', book: 'Записаться' }
+  en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact', book: 'Book Repair', admin: 'Admin' },
+  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Reservar reparación', admin: 'Admin' },
+  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Umów naprawę', admin: 'Admin' },
+  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Запис на ремонт', admin: 'Admin' },
+  cs: { home: 'Domů', repairs: 'Opravy', ultra: 'Ultra Mobile', buyback: 'Výkup', phones: 'Telefony', accessories: 'Příslušenství', about: 'O nás', contact: 'Kontakt', book: 'Objednat opravu', admin: 'Admin' },
+  ru: { home: 'Главная', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Выкуп', phones: 'Телефоны', accessories: 'Аксессуары', about: 'О нас', contact: 'Контакты', book: 'Записаться', admin: 'Admin' }
 };
 
 const serviceCards = [
@@ -193,6 +194,13 @@ const pageData: Record<PageKey, { eyebrow: string; title: string; text: string; 
     text: 'Choose your Apple device, model, repair issue, and contact details. This first version opens a ready-to-send text message to the shop while we prepare the full backend later.',
     bullets: ['Apple repairs first', 'Samsung, Motorola, and Google Pixel can be added next', 'No payment is collected online'],
     cta: 'Start repair request'
+  },
+  admin: {
+    eyebrow: 'Admin',
+    title: 'CellzTech repair request dashboard.',
+    text: 'Private staff view for website repair requests, RepairDesk leads, and backend status.',
+    bullets: ['Staff-only access', 'RepairDesk lead tracking', 'Supabase backup visibility'],
+    cta: 'Open admin'
   }
 };
 
@@ -366,6 +374,198 @@ function TrustSection() {
   );
 }
 
+
+type AdminRepairRequest = {
+  id: string;
+  submitted_at?: string;
+  status?: string;
+  source?: string;
+  device?: string;
+  series?: string;
+  model?: string;
+  issue?: string;
+  customer_name?: string;
+  customer_phone?: string;
+  customer_email?: string;
+  requested_date?: string;
+  requested_time?: string;
+  notes?: string;
+  repairdesk_customer_id?: string | null;
+  repairdesk_lead_id?: string | null;
+  repairdesk_lead_order_id?: string | null;
+  repairdesk_ticket_id?: string | null;
+  integration_errors?: unknown;
+};
+
+function formatAdminDate(value?: string) {
+  if (!value) return 'Not available';
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return value;
+  return parsed.toLocaleString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit'
+  });
+}
+
+function AdminDashboard() {
+  const [adminKey, setAdminKey] = useState(() => window.sessionStorage.getItem('cellztech_admin_key') || '');
+  const [inputKey, setInputKey] = useState(adminKey);
+  const [requests, setRequests] = useState<AdminRepairRequest[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [query, setQuery] = useState('');
+
+  const loadRequests = React.useCallback(async (key: string) => {
+    if (!key.trim()) {
+      setError('Enter the CellzTech admin key to view repair requests.');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/admin/repair-requests', {
+        headers: { 'x-cellztech-admin-key': key.trim() }
+      });
+      const data = await response.json();
+      if (!response.ok || !data.ok) {
+        throw new Error(data.message || 'Could not load repair requests.');
+      }
+      window.sessionStorage.setItem('cellztech_admin_key', key.trim());
+      setAdminKey(key.trim());
+      setInputKey(key.trim());
+      setRequests(data.requests || []);
+    } catch (err) {
+      setRequests([]);
+      setError(err instanceof Error ? err.message : 'Could not load repair requests.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (adminKey) loadRequests(adminKey);
+  }, [adminKey, loadRequests]);
+
+  const filteredRequests = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    if (!term) return requests;
+    return requests.filter((request) => [
+      request.customer_name,
+      request.customer_phone,
+      request.customer_email,
+      request.model,
+      request.issue,
+      request.repairdesk_lead_order_id,
+      request.status
+    ].some((value) => String(value || '').toLowerCase().includes(term)));
+  }, [requests, query]);
+
+  const leadCount = requests.filter((request) => request.repairdesk_lead_id || request.repairdesk_lead_order_id).length;
+  const failedCount = requests.filter((request) => request.integration_errors).length;
+
+  const submitKey = (event: React.FormEvent) => {
+    event.preventDefault();
+    loadRequests(inputKey);
+  };
+
+  return (
+    <main className="adminShell">
+      <section className="adminHero">
+        <div className="wrap adminHeroGrid">
+          <div>
+            <span className="adminEyebrow">CellzTech private admin</span>
+            <h1>Repair requests, RepairDesk leads, and backend status in one clean view.</h1>
+            <p>Use this dashboard to review website submissions, confirm customer contact details, and match requests to RepairDesk leads before the customer arrives.</p>
+          </div>
+          <div className="adminStatsCard">
+            <div><span>Total requests</span><strong>{requests.length}</strong></div>
+            <div><span>RepairDesk leads</span><strong>{leadCount}</strong></div>
+            <div><span>Needs review</span><strong>{failedCount}</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section adminSection">
+        <div className="wrap adminPanel">
+          <form className="adminLoginBar" onSubmit={submitKey}>
+            <div>
+              <label htmlFor="adminKey">Admin access key</label>
+              <p>Protected by your Vercel environment variable. Do not share this key publicly.</p>
+            </div>
+            <input
+              id="adminKey"
+              type="password"
+              value={inputKey}
+              onChange={(event) => setInputKey(event.target.value)}
+              placeholder="Enter admin key"
+              autoComplete="current-password"
+            />
+            <button className="primaryBtn compact" type="submit">Load requests</button>
+          </form>
+
+          {error && <div className="adminNotice error">{error}</div>}
+
+          <div className="adminToolbar">
+            <div className="adminSearch">
+              <Search size={18} />
+              <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by name, phone, email, model, issue, or lead ID" />
+            </div>
+            <button className="secondaryBtn compact" onClick={() => loadRequests(adminKey || inputKey)} disabled={loading}>{loading ? 'Loading…' : 'Refresh'}</button>
+          </div>
+
+          <div className="adminRequestGrid">
+            {filteredRequests.map((request) => {
+              const hasLead = Boolean(request.repairdesk_lead_id || request.repairdesk_lead_order_id);
+              const needsReview = Boolean(request.integration_errors);
+              return (
+                <article className="adminRequestCard" key={request.id}>
+                  <div className="adminRequestTop">
+                    <div>
+                      <span className="adminTimestamp">{formatAdminDate(request.submitted_at)}</span>
+                      <h2>{request.customer_name || 'Unknown customer'}</h2>
+                      <p>{request.customer_phone || 'No phone'} · {request.customer_email || 'No email'}</p>
+                    </div>
+                    <span className={needsReview ? 'adminStatus warning' : hasLead ? 'adminStatus success' : 'adminStatus'}>
+                      {needsReview ? 'Review' : hasLead ? 'Lead created' : 'Saved'}
+                    </span>
+                  </div>
+
+                  <div className="adminDeviceLine">
+                    <strong>{request.model || 'Unknown model'}</strong>
+                    <span>{request.issue || 'Issue not provided'}</span>
+                  </div>
+
+                  <div className="adminMetaGrid">
+                    <div><span>Requested</span><strong>{request.requested_date || 'No date'} {request.requested_time || ''}</strong></div>
+                    <div><span>RepairDesk lead</span><strong>{request.repairdesk_lead_order_id || request.repairdesk_lead_id || 'Not created'}</strong></div>
+                    <div><span>Customer ID</span><strong>{request.repairdesk_customer_id || 'Not saved'}</strong></div>
+                    <div><span>Status</span><strong>{request.status || 'Saved'}</strong></div>
+                  </div>
+
+                  {request.notes && <p className="adminNotes">{request.notes}</p>}
+                  {needsReview && <p className="adminErrorText">Integration warning saved. Check Supabase for the full JSON response.</p>}
+                </article>
+              );
+            })}
+          </div>
+
+          {!loading && filteredRequests.length === 0 && (
+            <div className="adminEmptyState">
+              <h2>No repair requests found.</h2>
+              <p>Once a customer submits the Book Repair form, the request will appear here after the backend saves it.</p>
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
+  );
+}
+
 function PageDetail({ page }: { page: PageKey }) {
   const data = pageData[page];
   const isHome = page === 'home';
@@ -395,6 +595,10 @@ function PageDetail({ page }: { page: PageKey }) {
 
   if (page === 'book') {
     return <BookRepairPage />;
+  }
+
+  if (page === 'admin') {
+    return <AdminDashboard />;
   }
 
   if (page === 'ultra') {

@@ -61,6 +61,24 @@ function findId(payload, keys = ['id', 'customer_id', 'ticket_id']) {
   return '';
 }
 
+function findValue(payload, keys = []) {
+  if (!payload || typeof payload !== 'object') return '';
+
+  for (const key of keys) {
+    if (payload[key] !== undefined && payload[key] !== null && String(payload[key]).trim() !== '') {
+      return String(payload[key]);
+    }
+  }
+
+  const nestedCandidates = [payload.data, payload.customer, payload.ticket, payload.result, payload.response, payload.leadResponse];
+  for (const candidate of nestedCandidates) {
+    const value = findValue(candidate, keys);
+    if (value) return value;
+  }
+
+  return '';
+}
+
 function formatRequest(body) {
   return [
     `Device: ${body.device}`,
@@ -75,7 +93,7 @@ function formatRequest(body) {
     `Email: ${body.email}`,
     `Notes: ${body.notes || 'None'}`,
     '',
-    body.repairDeskLeadId ? `RepairDesk lead: ${body.repairDeskLeadId}` : 'RepairDesk lead: Pending / not connected',
+    body.repairDeskLeadOrderId ? `RepairDesk lead: ${body.repairDeskLeadOrderId}` : (body.repairDeskLeadId ? `RepairDesk lead: ${body.repairDeskLeadId}` : 'RepairDesk lead: Pending / not connected'),
     body.repairDeskTicketId ? `RepairDesk ticket: ${body.repairDeskTicketId}` : 'RepairDesk ticket: Pending / not connected',
     body.repairDeskCustomerId ? `RepairDesk customer: ${body.repairDeskCustomerId}` : 'RepairDesk customer: Pending / not connected',
     '',
@@ -96,7 +114,7 @@ function formatHtml(body) {
     ['Email', body.email],
     ['Notes', body.notes || 'None'],
     ['RepairDesk customer', body.repairDeskCustomerId || 'Pending / not connected'],
-    ['RepairDesk lead', body.repairDeskLeadId || 'Pending / not connected'],
+    ['RepairDesk lead', body.repairDeskLeadOrderId || body.repairDeskLeadId || 'Pending / not connected'],
     ['RepairDesk ticket', body.repairDeskTicketId || 'Pending / not connected']
   ];
 
@@ -118,14 +136,14 @@ function formatHtml(body) {
 
 async function sendEmail(body) {
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.REPAIR_TO_EMAIL;
-  const from = process.env.RESEND_FROM_EMAIL || 'CellzTech Repair Requests <onboarding@resend.dev>';
+  const to = process.env.CELLZTECH_NOTIFY_EMAIL || process.env.REPAIR_TO_EMAIL;
+  const from = process.env.CELLZTECH_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'CellzTech Repair Requests <onboarding@resend.dev>';
 
   if (!apiKey || !to) {
-    return { skipped: true, reason: 'Missing RESEND_API_KEY or REPAIR_TO_EMAIL' };
+    return { skipped: true, reason: 'Missing RESEND_API_KEY or CELLZTECH_NOTIFY_EMAIL' };
   }
 
-  const subjectPrefix = body.repairDeskLeadId ? `RepairDesk Lead #${body.repairDeskLeadId}` : (body.repairDeskTicketId ? `RepairDesk #${body.repairDeskTicketId}` : 'New repair request');
+  const subjectPrefix = body.repairDeskLeadOrderId ? `RepairDesk Lead ${body.repairDeskLeadOrderId}` : (body.repairDeskLeadId ? `RepairDesk Lead #${body.repairDeskLeadId}` : (body.repairDeskTicketId ? `RepairDesk #${body.repairDeskTicketId}` : 'New repair request'));
   const subject = `${subjectPrefix}: ${body.model} - ${body.issue}`;
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -828,6 +846,7 @@ async function createRepairDeskLead(body, customerId, customerResponse, ticketAt
         skipped: false,
         type: 'lead',
         id: findId(result.data, ['lead_id', 'appointment_id', 'id', 'aid', 'code', 'ticket_id', 'tid']),
+        orderId: findValue(result.data, ['order_id', 'lead_order_id', 'appointment_order_id', 'orderId', 'lead_number', 'appointment_number']),
         response: { createdVia: 'appointment/create', winningAttempt: attempt.label, leadResponse: result.data, ticketAttempts }
       };
     }
@@ -919,6 +938,7 @@ function buildSupabaseRecord(body, status, repairDeskCustomerResult, repairDeskL
     status,
     repairdesk_customer_id: repairDeskCustomerResult?.id || null,
     repairdesk_lead_id: repairDeskLeadResult?.id || null,
+    repairdesk_lead_order_id: repairDeskLeadResult?.orderId || null,
     repairdesk_ticket_id: repairDeskTicketResult?.id || null,
     repairdesk_customer_response: repairDeskCustomerResult?.response || null,
     repairdesk_lead_response: repairDeskLeadResult?.response || null,
@@ -993,6 +1013,7 @@ export default async function handler(req, res) {
       ...normalized,
       repairDeskCustomerId: repairDeskCustomerResult?.id || '',
       repairDeskLeadId: repairDeskLeadResult?.id || '',
+      repairDeskLeadOrderId: repairDeskLeadResult?.orderId || '',
       repairDeskTicketId: repairDeskTicketResult?.id || ''
     };
 
@@ -1045,6 +1066,7 @@ export default async function handler(req, res) {
         ? 'Repair request sent. We will contact you to confirm the requested date, time, price, and parts availability.'
         : 'Repair request sent. We will contact you to confirm the requested date, time, price, and parts availability.',
       repairDeskLeadId: repairDeskLeadResult?.id || null,
+      repairDeskLeadOrderId: repairDeskLeadResult?.orderId || null,
       repairDeskTicketId: repairDeskTicketResult?.id || null,
       repairDeskCustomerId: repairDeskCustomerResult?.id || null,
       backupSaved: !supabaseResult?.skipped,

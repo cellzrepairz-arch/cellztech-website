@@ -7217,3 +7217,291 @@ canvas {
     box-sizing: border-box !important;
   }
 }
+
+/* CellzTech private admin dashboard */
+.adminShell {
+  min-height: 100vh;
+  background: #061427;
+  color: #fff;
+}
+.adminHero {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 0 42px;
+  background:
+    radial-gradient(circle at 16% 16%, rgba(37, 99, 235, .32), transparent 28%),
+    radial-gradient(circle at 84% 20%, rgba(14, 165, 233, .18), transparent 25%),
+    linear-gradient(135deg, #061427 0%, #0b2646 54%, #102f5e 100%);
+}
+.adminHero:after {
+  content: '';
+  position: absolute;
+  inset: auto -10% -38% -10%;
+  height: 220px;
+  background: rgba(255,255,255,.06);
+  border-radius: 50% 50% 0 0;
+}
+.adminHeroGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 32px;
+  align-items: end;
+}
+.adminEyebrow {
+  display: inline-flex;
+  width: fit-content;
+  padding: 9px 13px;
+  border-radius: 999px;
+  background: rgba(147, 197, 253, .16);
+  border: 1px solid rgba(191, 219, 254, .22);
+  color: #93c5fd;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: 12px;
+  font-weight: 1000;
+}
+.adminHero h1 {
+  max-width: 900px;
+  margin: 18px 0 18px;
+  font-size: clamp(38px, 6vw, 70px);
+  line-height: .95;
+  letter-spacing: -.06em;
+}
+.adminHero p {
+  max-width: 760px;
+  margin: 0;
+  color: rgba(255,255,255,.78);
+  font-size: 19px;
+  line-height: 1.6;
+  font-weight: 700;
+}
+.adminStatsCard {
+  display: grid;
+  gap: 12px;
+  padding: 22px;
+  border-radius: 28px;
+  background: rgba(255,255,255,.94);
+  color: #0f172a;
+  box-shadow: 0 24px 70px rgba(0,0,0,.22);
+}
+.adminStatsCard div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #f8fafc;
+  border: 1px solid #dbeafe;
+}
+.adminStatsCard span {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.adminStatsCard strong {
+  font-size: 30px;
+  letter-spacing: -.04em;
+}
+.adminSection {
+  background: #f4f8ff;
+  color: #0f172a;
+}
+.adminPanel {
+  display: grid;
+  gap: 20px;
+}
+.adminLoginBar,
+.adminToolbar,
+.adminEmptyState {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  border-radius: 26px;
+  background: #fff;
+  border: 1px solid #dbeafe;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, .06);
+}
+.adminLoginBar > div { flex: 1; }
+.adminLoginBar label {
+  display: block;
+  font-size: 16px;
+  font-weight: 1000;
+}
+.adminLoginBar p {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-weight: 700;
+}
+.adminLoginBar input,
+.adminSearch input {
+  width: 100%;
+  border: 1px solid #dbeafe;
+  border-radius: 999px;
+  background: #f8fbff;
+  padding: 14px 16px;
+  font: inherit;
+  font-weight: 800;
+  color: #0f172a;
+  outline: none;
+}
+.adminLoginBar input { max-width: 320px; }
+.adminSearch {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid #dbeafe;
+  background: #f8fbff;
+}
+.adminSearch input {
+  border: 0;
+  background: transparent;
+  padding-left: 0;
+}
+.adminNotice {
+  padding: 16px 18px;
+  border-radius: 20px;
+  font-weight: 900;
+}
+.adminNotice.error {
+  background: #fff1f2;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+}
+.adminRequestGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.adminRequestCard {
+  padding: 22px;
+  border-radius: 28px;
+  background: #fff;
+  border: 1px solid #dbeafe;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, .06);
+}
+.adminRequestTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: start;
+}
+.adminTimestamp {
+  display: block;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 1000;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.adminRequestCard h2 {
+  margin: 7px 0 4px;
+  font-size: 28px;
+  letter-spacing: -.04em;
+}
+.adminRequestCard p {
+  margin: 0;
+  color: #64748b;
+  font-weight: 760;
+  line-height: 1.5;
+}
+.adminStatus {
+  flex: none;
+  display: inline-flex;
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #3730a3;
+  font-size: 12px;
+  font-weight: 1000;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.adminStatus.success {
+  background: #dcfce7;
+  color: #166534;
+}
+.adminStatus.warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+.adminDeviceLine {
+  margin: 18px 0;
+  padding: 18px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #eff6ff, #f8fafc);
+  border: 1px solid #dbeafe;
+}
+.adminDeviceLine strong {
+  display: block;
+  font-size: 21px;
+  letter-spacing: -.03em;
+}
+.adminDeviceLine span {
+  display: block;
+  margin-top: 4px;
+  color: #475569;
+  font-weight: 850;
+}
+.adminMetaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.adminMetaGrid div {
+  padding: 13px;
+  border-radius: 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+.adminMetaGrid span {
+  display: block;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 1000;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.adminMetaGrid strong {
+  display: block;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+.adminNotes {
+  margin-top: 16px !important;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+.adminErrorText {
+  margin-top: 14px !important;
+  color: #92400e !important;
+  font-weight: 900 !important;
+}
+.adminEmptyState {
+  display: block;
+  text-align: center;
+  padding: 40px 20px;
+}
+.adminEmptyState h2 { margin: 0 0 8px; }
+.adminEmptyState p { margin: 0; color: #64748b; font-weight: 750; }
+@media (max-width: 1000px) {
+  .adminHeroGrid,
+  .adminRequestGrid { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .adminHero { padding-top: 44px; }
+  .adminLoginBar,
+  .adminToolbar { flex-direction: column; align-items: stretch; }
+  .adminLoginBar input { max-width: none; }
+  .adminMetaGrid { grid-template-columns: 1fr; }
+  .adminRequestTop { flex-direction: column; }
+}

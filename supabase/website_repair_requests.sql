@@ -15,6 +15,7 @@ create table if not exists public.website_repair_requests (
   status text not null default 'website_request_saved',
   repairdesk_customer_id text,
   repairdesk_lead_id text,
+  repairdesk_lead_order_id text,
   repairdesk_ticket_id text,
   repairdesk_customer_response jsonb,
   repairdesk_lead_response jsonb,
@@ -60,3 +61,15 @@ create index if not exists website_repair_requests_repairdesk_lead_id_idx
 
 -- These tables are written from Vercel API routes with the Supabase service role key.
 -- Do not expose SUPABASE_SERVICE_ROLE_KEY in browser/front-end code.
+
+
+alter table public.website_repair_requests
+  add column if not exists repairdesk_lead_order_id text;
+
+create index if not exists website_repair_requests_repairdesk_lead_order_id_idx
+  on public.website_repair_requests (repairdesk_lead_order_id);
+
+-- CellzTech writes these tables through secure Vercel API routes, not directly from the public browser.
+-- RLS is disabled here to prevent server-side service-key writes from being blocked by Supabase project defaults.
+alter table public.website_repair_requests disable row level security;
+alter table public.repairdesk_oauth_tokens disable row level security;
