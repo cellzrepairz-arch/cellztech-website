@@ -113,8 +113,8 @@ function normalizeStoreTime(dateValue, timeValue) {
   const day = Number.isNaN(date.getTime()) ? 1 : date.getDay();
   const isSaturday = day === 6;
   const isSunday = day === 0;
-  const open = isSaturday ? 10 * 60 : 9 * 60 + 30;
-  const close = isSaturday ? 16 * 60 : 19 * 60;
+  const open = isSaturday ? 11 * 60 : 11 * 60;
+  const close = isSaturday ? 15 * 60 : 19 * 60;
   if (isSunday) return '';
   const rounded = Math.round(rawMinutes / 30) * 30;
   const clamped = Math.max(open, Math.min(close - 30, rounded));

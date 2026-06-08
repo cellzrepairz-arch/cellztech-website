@@ -30,7 +30,7 @@ import './styles.css';
 import { deviceCatalog, getBrandTotalModels } from './deviceCatalog';
 
 type PageKey = 'home' | 'repairs' | 'ultra' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'admin';
-type LanguageKey = 'en' | 'es' | 'pl' | 'uk' | 'cs' | 'ru';
+type LanguageKey = 'en' | 'es' | 'pl' | 'uk';
 
 const routes: Record<PageKey, string> = {
   home: '/',
@@ -52,20 +52,16 @@ const pathToPage = Object.entries(routes).reduce((acc, [key, value]) => {
 
 const languages: { key: LanguageKey; label: string; name: string }[] = [
   { key: 'en', label: 'EN', name: 'English' },
-  { key: 'es', label: 'ES', name: 'Spanish' },
-  { key: 'pl', label: 'PL', name: 'Polish' },
-  { key: 'uk', label: 'UK', name: 'Ukrainian' },
-  { key: 'cs', label: 'CZ', name: 'Czech' },
-  { key: 'ru', label: 'RU', name: 'Russian' }
+  { key: 'pl', label: 'PL', name: 'Polski' },
+  { key: 'es', label: 'ES', name: 'Español' },
+  { key: 'uk', label: 'UK', name: 'Українська' }
 ];
 
 const navLabels: Record<LanguageKey, Record<PageKey, string>> = {
   en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact', book: 'Book Repair', admin: 'Admin' },
-  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Reservar reparación', admin: 'Admin' },
-  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Umów naprawę', admin: 'Admin' },
-  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Запис на ремонт', admin: 'Admin' },
-  cs: { home: 'Domů', repairs: 'Opravy', ultra: 'Ultra Mobile', buyback: 'Výkup', phones: 'Telefony', accessories: 'Příslušenství', about: 'O nás', contact: 'Kontakt', book: 'Objednat opravu', admin: 'Admin' },
-  ru: { home: 'Главная', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Выкуп', phones: 'Телефоны', accessories: 'Аксессуары', about: 'О нас', contact: 'Контакты', book: 'Записаться', admin: 'Admin' }
+  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Zgłoś naprawę', admin: 'Admin' },
+  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Solicitar reparación', admin: 'Admin' },
+  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Заявка на ремонт', admin: 'Admin' }
 };
 
 const serviceCards = [
@@ -204,6 +200,99 @@ const pageData: Record<PageKey, { eyebrow: string; title: string; text: string; 
   }
 };
 
+
+const localizedPageData: Record<LanguageKey, typeof pageData> = {
+  en: pageData,
+  pl: {
+    home: { eyebrow: 'Lokalny serwis technologiczny w Chicago', title: 'Naprawa telefonów, plany komórkowe, telefony, akcesoria i skup w Chicago.', text: 'CellzTech łączy naprawy telefonów, aktywacje Ultra Mobile, sprzedaż używanych telefonów, akcesoria oraz wyceny skupu iPhone’ów przez Apex Tech Exchange w jednym, prostym miejscu.', bullets: ['Naprawa iPhone, Samsung, iPad, Motorola i Google Pixel', 'Aktywacje Ultra Mobile oraz pomoc przy przenoszeniu numeru', 'Telefony używane, akcesoria i szybkie wyceny skupu iPhone’ów'] },
+    repairs: { eyebrow: 'Naprawa telefonów w Chicago', title: 'Naprawa telefonów w Chicago — zrobiona rzetelnie.', text: 'Pomagamy przy pękniętych ekranach, słabych bateriach, problemach z ładowaniem, tylnej szybce, aparatach, tabletach i wielu innych usterkach. W CellzTech jasno wyjaśniamy dostępne opcje przed rozpoczęciem naprawy.', bullets: ['iPhone, Samsung, iPad, Motorola, Google Pixel i tablety', 'Ekrany, baterie, porty ładowania, tylne szybki, aparaty i diagnostyka', 'Jasna informacja przed rozpoczęciem pracy', 'Dobrej jakości części i podejście nastawione na gwarancję'], cta: 'Zadzwoń w sprawie naprawy' },
+    ultra: { eyebrow: 'Ultra Mobile w CellzTech', title: 'Przestań przepłacać za telefon i skorzystaj z lokalnej pomocy przy zmianie operatora.', text: 'Pomagamy porównać plany Ultra Mobile, sprawdzić kompatybilność telefonu, przenieść numer i aktywować usługę w sklepie.', bullets: ['Plany od 15 USD miesięcznie', '4 linie Ultra Unlimited za 100 USD miesięcznie', 'Połączenia międzynarodowe do Polski i ponad 90 krajów', 'Działa w sieci T-Mobile 5G', 'Darmowa karta SIM w CellzTech', 'Przynieś numer konta, transfer PIN i odblokowany kompatybilny telefon'], cta: 'Zapytaj o Ultra Mobile' },
+    buyback: { eyebrow: 'Apex Tech Exchange', title: 'Sprzedaj iPhone’a i otrzymaj szybką wycenę skupu.', text: 'Apex Tech Exchange to nasz system wyceny skupu iPhone’ów. Zacznij online, a następnie skontaktuj się z nami lub odwiedź sklep, aby dokończyć proces.', bullets: ['Natychmiastowa wycena iPhone’a', 'Prosty lokalny proces', 'Obsługiwane przez Apex Tech Exchange'], cta: 'Sprawdź wycenę', external: 'https://www.apextechexchange.com' },
+    phones: { eyebrow: 'Telefony na sprzedaż', title: 'Telefony używane i odblokowane dostępne w sklepie.', text: 'Kup lokalnie telefon używany z pomocą przy konfiguracji, przenoszeniu danych i wyborze odpowiedniego planu komórkowego.', bullets: ['Używane iPhone’y i inne telefony zależnie od dostępności', 'Odblokowane modele', 'Lokalna pomoc przy konfiguracji i jasne informacje o gwarancji'], cta: 'Zadzwoń w sprawie telefonów' },
+    accessories: { eyebrow: 'Akcesoria', title: 'Codzienne akcesoria do telefonu bez zgadywania.', text: 'W sklepie znajdziesz ładowarki, kable, etui, szkła ochronne i inne praktyczne akcesoria.', bullets: ['Ładowarki i kable', 'Etui i szkła ochronne', 'Lokalna pomoc w dobraniu odpowiedniego produktu'], cta: 'Zadzwoń w sprawie akcesoriów' },
+    about: { eyebrow: 'O CellzTech', title: 'Nowoczesna marka prowadzona przez Cellz Repairz LLC.', text: 'CellzTech to nowoczesne centrum usług Cellz Repairz. Cel jest prosty: ułatwić klientom naprawę telefonu, usługę komórkową, zakup telefonu, akcesoria i skup.', bullets: ['Lokalny sklep w Chicago', 'Prowadzone przez Cellz Repairz LLC', 'Praktyczna pomoc zamiast korporacyjnego zamieszania'], cta: 'Skontaktuj się z nami' },
+    contact: { eyebrow: 'Odwiedź nas lub zadzwoń', title: 'Wpadnij albo zadzwoń do CellzTech po lokalną pomoc technologiczną.', text: 'Znajdujemy się pod adresem 3412 N Harlem Ave STE A, Chicago, IL 60634. Zadzwoń w sprawie napraw, Ultra Mobile, skupu, telefonów i akcesoriów.', bullets: ['3412 N Harlem Ave STE A, Chicago, IL 60634', '773-413-7489', 'CellzTech jest prowadzone przez Cellz Repairz LLC'], cta: 'Zadzwoń do CellzTech' },
+    book: { eyebrow: 'Zgłoszenie naprawy', title: 'Wyślij zgłoszenie naprawy do CellzTech.', text: 'Wybierz markę, model, usterkę oraz preferowane okno czasowe. Skontaktujemy się z Tobą, aby potwierdzić szczegóły, cenę i dostępność części.', bullets: ['Najpierw naprawy Apple', 'Samsung, Motorola i Google Pixel obsługiwane w kolejnym etapie', 'Płatność online nie jest pobierana'], cta: 'Rozpocznij zgłoszenie' },
+    admin: pageData.admin
+  },
+  es: {
+    home: { eyebrow: 'Tienda local de tecnología en Chicago', title: 'Reparación de teléfonos, planes móviles, teléfonos, accesorios y recompra en Chicago.', text: 'CellzTech reúne reparación de dispositivos, activaciones de Ultra Mobile, teléfonos usados, accesorios y cotizaciones instantáneas de iPhone mediante Apex Tech Exchange en una experiencia local y sencilla.', bullets: ['Reparación de iPhone, Samsung, iPad, Motorola y Google Pixel', 'Activaciones de Ultra Mobile y ayuda para transferir tu número', 'Teléfonos usados, accesorios y cotizaciones instantáneas para iPhone'] },
+    repairs: { eyebrow: 'Reparación de teléfonos en Chicago', title: 'Reparación de teléfonos en Chicago, hecha correctamente.', text: 'Te ayudamos con pantallas rotas, baterías débiles, problemas de carga, cristal trasero, cámaras, tabletas y más. En CellzTech explicamos tus opciones con claridad antes de empezar.', bullets: ['iPhone, Samsung, iPad, Motorola, Google Pixel y tabletas', 'Pantallas, baterías, puertos de carga, cristal trasero, cámaras y diagnóstico', 'Consejo claro antes de comenzar la reparación', 'Piezas de calidad y servicio enfocado en garantía'], cta: 'Llamar por reparación' },
+    ultra: { eyebrow: 'Ultra Mobile en CellzTech', title: 'Deja de pagar de más por tu servicio móvil y recibe ayuda local para cambiarte.', text: 'Ayudamos a comparar planes de Ultra Mobile, revisar compatibilidad, transferir tu número y activar el servicio en la tienda.', bullets: ['Planes desde $15 al mes', '4 líneas Ultra Unlimited por $100 al mes', 'Llamadas internacionales a más de 90 destinos', 'Funciona en la red 5G de T-Mobile', 'Tarjeta SIM gratis en CellzTech', 'Trae tu número de cuenta, PIN de transferencia y un teléfono desbloqueado compatible'], cta: 'Preguntar por Ultra Mobile' },
+    buyback: { eyebrow: 'Apex Tech Exchange', title: 'Vende tu iPhone con una cotización instantánea.', text: 'Apex Tech Exchange es nuestro sistema de recompra para estimaciones rápidas de iPhone. Empieza en línea y luego contáctanos o visita la tienda para completar el proceso.', bullets: ['Cotización instantánea para iPhone', 'Proceso local sencillo', 'Impulsado por Apex Tech Exchange'], cta: 'Obtener cotización', external: 'https://www.apextechexchange.com' },
+    phones: { eyebrow: 'Teléfonos en venta', title: 'Teléfonos usados y desbloqueados disponibles en tienda.', text: 'Compra localmente con ayuda para configurar tu dispositivo, transferir información y elegir el plan móvil adecuado.', bullets: ['iPhones usados y otros dispositivos según disponibilidad', 'Opciones de teléfonos desbloqueados', 'Ayuda local de configuración e información clara de garantía'], cta: 'Llamar por teléfonos' },
+    accessories: { eyebrow: 'Accesorios', title: 'Accesorios diarios para tu teléfono sin complicaciones.', text: 'Encuentra cargadores, cables, fundas, protectores de pantalla y otros accesorios prácticos en tienda.', bullets: ['Cargadores y cables', 'Fundas y protectores de pantalla', 'Ayuda local para elegir el producto correcto'], cta: 'Llamar por accesorios' },
+    about: { eyebrow: 'Acerca de CellzTech', title: 'Una marca moderna operada por Cellz Repairz LLC.', text: 'CellzTech es el centro moderno de servicios de Cellz Repairz. El objetivo es simple: hacer más fácil la reparación, el servicio móvil, la compra de teléfonos, los accesorios y la recompra.', bullets: ['Tienda local en Chicago', 'Operada por Cellz Repairz LLC', 'Ayuda práctica sin confusión corporativa'], cta: 'Contáctanos' },
+    contact: { eyebrow: 'Visítanos o llama', title: 'Pasa por la tienda o llama a CellzTech para ayuda local.', text: 'Estamos en 3412 N Harlem Ave STE A, Chicago, IL 60634. Llámanos para reparaciones, Ultra Mobile, recompra, teléfonos y accesorios.', bullets: ['3412 N Harlem Ave STE A, Chicago, IL 60634', '773-413-7489', 'CellzTech es operado por Cellz Repairz LLC'], cta: 'Llamar a CellzTech' },
+    book: { eyebrow: 'Solicitud de reparación', title: 'Envía una solicitud de reparación a CellzTech.', text: 'Elige la marca, el modelo, el problema y una ventana preferida para dejar el equipo. Te contactaremos para confirmar detalles, precio y disponibilidad de piezas.', bullets: ['Primero reparaciones Apple', 'Samsung, Motorola y Google Pixel se pueden ampliar después', 'No se cobra ningún pago en línea'], cta: 'Iniciar solicitud' },
+    admin: pageData.admin
+  },
+  uk: {
+    home: { eyebrow: 'Місцева технічна майстерня в Чикаго', title: 'Ремонт телефонів, мобільні плани, телефони, аксесуари та викуп у Чикаго.', text: 'CellzTech поєднує ремонт пристроїв, активації Ultra Mobile, вживані телефони, аксесуари та миттєві оцінки iPhone через Apex Tech Exchange в одному зручному місцевому сервісі.', bullets: ['Ремонт iPhone, Samsung, iPad, Motorola та Google Pixel', 'Активації Ultra Mobile і допомога з перенесенням номера', 'Вживані телефони, аксесуари та швидка оцінка iPhone для викупу'] },
+    repairs: { eyebrow: 'Ремонт телефонів у Чикаго', title: 'Ремонт телефонів у Чикаго — якісно та чесно.', text: 'Ми допомагаємо з розбитими екранами, слабкими батареями, проблемами заряджання, заднім склом, камерами, планшетами та іншими несправностями. У CellzTech ми зрозуміло пояснюємо варіанти до початку ремонту.', bullets: ['iPhone, Samsung, iPad, Motorola, Google Pixel і планшети', 'Екрани, батареї, порти заряджання, заднє скло, камери та діагностика', 'Чітка консультація перед початком роботи', 'Якісні деталі та сервіс із увагою до гарантії'], cta: 'Зателефонувати щодо ремонту' },
+    ultra: { eyebrow: 'Ultra Mobile у CellzTech', title: 'Не переплачуйте за мобільний зв’язок — отримайте місцеву допомогу з переходом.', text: 'Ми допомагаємо порівняти плани Ultra Mobile, перевірити сумісність телефону, перенести номер і активувати послугу в магазині.', bullets: ['Плани від $15 на місяць', '4 лінії Ultra Unlimited за $100 на місяць', 'Міжнародні дзвінки до понад 90 напрямків', 'Працює в мережі T-Mobile 5G', 'Безкоштовна SIM-картка в CellzTech', 'Принесіть номер облікового запису, transfer PIN і розблокований сумісний телефон'], cta: 'Запитати про Ultra Mobile' },
+    buyback: { eyebrow: 'Apex Tech Exchange', title: 'Продайте свій iPhone з миттєвою оцінкою.', text: 'Apex Tech Exchange — це наша система швидкої оцінки iPhone для викупу. Почніть онлайн, а потім зв’яжіться з нами або завітайте до магазину.', bullets: ['Миттєва оцінка iPhone', 'Простий місцевий процес', 'Працює через Apex Tech Exchange'], cta: 'Отримати оцінку', external: 'https://www.apextechexchange.com' },
+    phones: { eyebrow: 'Телефони у продажу', title: 'Вживані та розблоковані телефони доступні в магазині.', text: 'Купуйте локально з допомогою в налаштуванні, перенесенні даних і виборі правильного мобільного плану.', bullets: ['Вживані iPhone та інші пристрої за наявності', 'Розблоковані моделі', 'Місцева допомога з налаштуванням і зрозуміла інформація про гарантію'], cta: 'Зателефонувати щодо телефонів' },
+    accessories: { eyebrow: 'Аксесуари', title: 'Щоденні аксесуари для телефону без зайвих сумнівів.', text: 'У магазині є зарядні пристрої, кабелі, чохли, захисне скло та інші практичні аксесуари.', bullets: ['Зарядні пристрої та кабелі', 'Чохли та захисне скло', 'Місцева допомога з вибором потрібного товару'], cta: 'Зателефонувати щодо аксесуарів' },
+    about: { eyebrow: 'Про CellzTech', title: 'Сучасний бренд, яким керує Cellz Repairz LLC.', text: 'CellzTech — це сучасний сервісний центр Cellz Repairz. Мета проста: зробити ремонт телефонів, мобільний зв’язок, продаж телефонів, аксесуари та викуп зручнішими для місцевих клієнтів.', bullets: ['Місцевий магазин у Чикаго', 'Керується Cellz Repairz LLC', 'Практична допомога без корпоративної плутанини'], cta: 'Зв’язатися з нами' },
+    contact: { eyebrow: 'Завітайте або зателефонуйте', title: 'Завітайте до CellzTech або зателефонуйте для місцевої технічної допомоги.', text: 'Ми знаходимося за адресою 3412 N Harlem Ave STE A, Chicago, IL 60634. Телефонуйте щодо ремонту, Ultra Mobile, викупу, телефонів і аксесуарів.', bullets: ['3412 N Harlem Ave STE A, Chicago, IL 60634', '773-413-7489', 'CellzTech керується Cellz Repairz LLC'], cta: 'Зателефонувати до CellzTech' },
+    book: { eyebrow: 'Заявка на ремонт', title: 'Надішліть заявку на ремонт до CellzTech.', text: 'Виберіть бренд, модель, проблему та зручне вікно для здачі пристрою. Ми зв’яжемося з вами, щоб підтвердити деталі, ціну та наявність деталей.', bullets: ['Спочатку ремонт Apple', 'Samsung, Motorola та Google Pixel можна додати далі', 'Оплата онлайн не стягується'], cta: 'Почати заявку' },
+    admin: pageData.admin
+  }
+};
+
+const homeText = {
+  en: { eyebrow: 'Chicago local tech shop', title: 'Phone repair, wireless plans, phones, accessories, and buyback in Chicago.', text: 'CellzTech is a modern local hub for repairs, Ultra Mobile activations, used phones, accessories, and instant iPhone buyback quotes through Apex Tech Exchange.', book: 'Book a repair', call: 'Call CellzTech', ultra: 'Switch to Ultra Mobile', sell: 'Sell your iPhone', trust: ['High-quality parts', 'Clear local service', 'Warranty-focused repairs'], start: 'Start here', need: 'What do you need today?', note: 'Fast help for common phone problems, upgrades, and wireless questions.', choose: 'Choose a service', servicesTitle: 'Everything customers ask for most, organized in one place.', servicesText: 'Repairs, wireless savings, buyback, phones, and accessories are separated clearly so customers can get to the right page fast.', why: 'Why customers choose CellzTech', whyTitle: 'Built for practical local service, not corporate store confusion.', whyText: 'The website should feel like the shop: clear, helpful, professional, and focused on getting the customer to the right solution.', visit: 'Visit the store', ready: 'Ready when you are', readyTitle: 'Call or stop in for repair help, Ultra Mobile, buyback, phones, and accessories.' },
+  pl: { eyebrow: 'Lokalny serwis technologiczny w Chicago', title: 'Naprawa telefonów, plany komórkowe, telefony, akcesoria i skup w Chicago.', text: 'CellzTech to nowoczesne lokalne miejsce dla napraw, aktywacji Ultra Mobile, telefonów używanych, akcesoriów i natychmiastowych wycen skupu iPhone’ów przez Apex Tech Exchange.', book: 'Zgłoś naprawę', call: 'Zadzwoń do CellzTech', ultra: 'Przejdź na Ultra Mobile', sell: 'Sprzedaj iPhone’a', trust: ['Dobrej jakości części', 'Jasna lokalna obsługa', 'Naprawy z naciskiem na gwarancję'], start: 'Zacznij tutaj', need: 'Czego dziś potrzebujesz?', note: 'Szybka pomoc przy typowych problemach z telefonem, zmianie urządzenia i pytaniach o usługę komórkową.', choose: 'Wybierz usługę', servicesTitle: 'Najczęstsze potrzeby klientów, uporządkowane w jednym miejscu.', servicesText: 'Naprawy, oszczędności na telefonie, skup, telefony i akcesoria są rozdzielone jasno, aby klient szybko trafił na właściwą stronę.', why: 'Dlaczego klienci wybierają CellzTech', whyTitle: 'Stworzone dla praktycznej lokalnej obsługi, nie dla zamieszania jak w korporacyjnym salonie.', whyText: 'Strona powinna działać tak jak sklep: jasno, pomocnie, profesjonalnie i z naciskiem na znalezienie właściwego rozwiązania.', visit: 'Odwiedź sklep', ready: 'Jesteśmy gotowi, kiedy Ty jesteś', readyTitle: 'Zadzwoń lub wpadnij po pomoc z naprawą, Ultra Mobile, skupem, telefonami i akcesoriami.' },
+  es: { eyebrow: 'Tienda local de tecnología en Chicago', title: 'Reparación de teléfonos, planes móviles, teléfonos, accesorios y recompra en Chicago.', text: 'CellzTech es un centro local moderno para reparaciones, activaciones de Ultra Mobile, teléfonos usados, accesorios y cotizaciones instantáneas para iPhone mediante Apex Tech Exchange.', book: 'Solicitar reparación', call: 'Llamar a CellzTech', ultra: 'Cambiar a Ultra Mobile', sell: 'Vender tu iPhone', trust: ['Piezas de calidad', 'Servicio local claro', 'Reparaciones enfocadas en garantía'], start: 'Empieza aquí', need: '¿Qué necesitas hoy?', note: 'Ayuda rápida para problemas comunes de teléfonos, cambios de equipo y preguntas sobre servicio móvil.', choose: 'Elige un servicio', servicesTitle: 'Lo que más piden los clientes, organizado en un solo lugar.', servicesText: 'Reparaciones, ahorro móvil, recompra, teléfonos y accesorios están separados claramente para llegar rápido a la página correcta.', why: 'Por qué los clientes eligen CellzTech', whyTitle: 'Creado para un servicio local práctico, no para la confusión de una tienda corporativa.', whyText: 'El sitio debe sentirse como la tienda: claro, útil, profesional y enfocado en llevar al cliente a la solución correcta.', visit: 'Visitar la tienda', ready: 'Listos cuando tú lo estés', readyTitle: 'Llama o visítanos para reparaciones, Ultra Mobile, recompra, teléfonos y accesorios.' },
+  uk: { eyebrow: 'Місцева технічна майстерня в Чикаго', title: 'Ремонт телефонів, мобільні плани, телефони, аксесуари та викуп у Чикаго.', text: 'CellzTech — сучасний місцевий центр для ремонту, активацій Ultra Mobile, вживаних телефонів, аксесуарів і миттєвих оцінок iPhone через Apex Tech Exchange.', book: 'Заявка на ремонт', call: 'Зателефонувати до CellzTech', ultra: 'Перейти на Ultra Mobile', sell: 'Продати iPhone', trust: ['Якісні деталі', 'Зрозумілий місцевий сервіс', 'Ремонт із увагою до гарантії'], start: 'Почніть тут', need: 'Що вам потрібно сьогодні?', note: 'Швидка допомога з типовими проблемами телефонів, оновленням пристрою та питаннями мобільного зв’язку.', choose: 'Виберіть послугу', servicesTitle: 'Найпоширеніші запити клієнтів, зібрані в одному місці.', servicesText: 'Ремонт, економія на мобільному зв’язку, викуп, телефони та аксесуари розділені чітко, щоб клієнт швидко знайшов потрібну сторінку.', why: 'Чому клієнти обирають CellzTech', whyTitle: 'Створено для практичного місцевого сервісу, а не для плутанини корпоративного магазину.', whyText: 'Сайт має відчуватися як магазин: зрозуміло, корисно, професійно та з фокусом на правильне рішення.', visit: 'Відвідати магазин', ready: 'Ми готові, коли готові ви', readyTitle: 'Зателефонуйте або завітайте щодо ремонту, Ultra Mobile, викупу, телефонів та аксесуарів.' }
+};
+
+
+const localizedServiceCards: Record<LanguageKey, typeof serviceCards> = {
+  en: serviceCards,
+  pl: [
+    { key: 'repairs', icon: Wrench, title: 'Naprawy', text: 'iPhone, Samsung, iPad, Motorola, Google Pixel, ekrany, baterie, porty ładowania, aparaty, tylne szybki i odzyskiwanie danych.', cta: 'Napraw moje urządzenie' },
+    { key: 'ultra', icon: Wifi, title: 'Ultra Mobile', text: 'Przestań przepłacać za telefon. Pomagamy zmienić operatora, zachować numer, sprawdzić kompatybilność i wybrać plan.', cta: 'Zmień i oszczędzaj' },
+    { key: 'buyback', icon: DollarSign, title: 'Skup', text: 'Masz iPhone’a, który leży w szufladzie? Sprawdź natychmiastową wycenę przez Apex Tech Exchange.', cta: 'Sprawdź wycenę' },
+    { key: 'phones', icon: Smartphone, title: 'Telefony', text: 'Używane i odblokowane telefony dostępne w sklepie z pomocą przy konfiguracji i praktyczną informacją o gwarancji.', cta: 'Zobacz telefony' },
+    { key: 'accessories', icon: ShoppingBag, title: 'Akcesoria', text: 'Ładowarki, kable, etui, szkła ochronne i codzienne akcesoria do telefonu dostępne lokalnie.', cta: 'Zobacz akcesoria' }
+  ],
+  es: [
+    { key: 'repairs', icon: Wrench, title: 'Reparaciones', text: 'iPhone, Samsung, iPad, Motorola, Google Pixel, pantallas, baterías, puertos de carga, cámaras, cristal trasero y recuperación de datos.', cta: 'Reparar mi dispositivo' },
+    { key: 'ultra', icon: Wifi, title: 'Ultra Mobile', text: 'Deja de pagar de más. Te ayudamos a cambiarte, conservar tu número, revisar compatibilidad y elegir un plan.', cta: 'Cambiar y ahorrar' },
+    { key: 'buyback', icon: DollarSign, title: 'Recompra', text: '¿Tienes un iPhone guardado en un cajón? Obtén una cotización instantánea con Apex Tech Exchange.', cta: 'Obtener cotización' },
+    { key: 'phones', icon: Smartphone, title: 'Teléfonos', text: 'Teléfonos usados y desbloqueados disponibles en tienda con ayuda local de configuración y garantía práctica.', cta: 'Ver teléfonos' },
+    { key: 'accessories', icon: ShoppingBag, title: 'Accesorios', text: 'Cargadores, cables, fundas, protectores de pantalla y accesorios diarios disponibles localmente.', cta: 'Ver accesorios' }
+  ],
+  uk: [
+    { key: 'repairs', icon: Wrench, title: 'Ремонт', text: 'iPhone, Samsung, iPad, Motorola, Google Pixel, екрани, батареї, порти заряджання, камери, заднє скло та відновлення даних.', cta: 'Відремонтувати пристрій' },
+    { key: 'ultra', icon: Wifi, title: 'Ultra Mobile', text: 'Не переплачуйте за зв’язок. Ми допоможемо перейти, зберегти номер, перевірити сумісність і вибрати план.', cta: 'Перейти й заощадити' },
+    { key: 'buyback', icon: DollarSign, title: 'Викуп', text: 'Маєте iPhone, який лежить без діла? Отримайте миттєву оцінку через Apex Tech Exchange.', cta: 'Отримати оцінку' },
+    { key: 'phones', icon: Smartphone, title: 'Телефони', text: 'Вживані й розблоковані телефони в магазині з місцевою допомогою в налаштуванні та гарантії.', cta: 'Переглянути телефони' },
+    { key: 'accessories', icon: ShoppingBag, title: 'Аксесуари', text: 'Зарядні пристрої, кабелі, чохли, захисне скло та щоденні аксесуари доступні локально.', cta: 'Переглянути аксесуари' }
+  ]
+};
+
+const localizedTrustItems: Record<LanguageKey, typeof trustItems> = {
+  en: trustItems,
+  pl: [
+    { icon: ShieldCheck, title: 'Naprawy nastawione na jakość', text: 'Używamy dobrych części i jasno tłumaczymy gwarancję, bez obiecywania rzeczy nierealnych.' },
+    { icon: MessageCircle, title: 'Jasna lokalna pomoc', text: 'Proste odpowiedzi i praktyczne wyjaśnienia od sklepu, który codziennie pracuje z telefonami.' },
+    { icon: Store, title: 'Więcej niż naprawy', text: 'Naprawy, Ultra Mobile, sprzedaż telefonów, akcesoria i skup w jednym miejscu.' }
+  ],
+  es: [
+    { icon: ShieldCheck, title: 'Reparaciones enfocadas en calidad', text: 'Usamos piezas de calidad y explicamos la garantía con claridad, sin prometer lo imposible.' },
+    { icon: MessageCircle, title: 'Consejo local claro', text: 'Respuestas directas y explicaciones prácticas de una tienda que trabaja con teléfonos todos los días.' },
+    { icon: Store, title: 'Más que reparaciones', text: 'Reparaciones, Ultra Mobile, teléfonos, accesorios y recompra en un solo lugar.' }
+  ],
+  uk: [
+    { icon: ShieldCheck, title: 'Ремонт із фокусом на якість', text: 'Ми використовуємо якісні деталі та чітко пояснюємо гарантію, без нереалістичних обіцянок.' },
+    { icon: MessageCircle, title: 'Зрозуміла місцева порада', text: 'Прямі відповіді та практичні пояснення від майстерні, яка щодня працює з телефонами.' },
+    { icon: Store, title: 'Більше ніж ремонт', text: 'Ремонт, Ultra Mobile, продаж телефонів, аксесуари та викуп в одному місці.' }
+  ]
+};
+
 function goTo(page: PageKey) {
   const path = routes[page];
   window.history.pushState({}, '', path);
@@ -254,7 +343,7 @@ function Header({ page, setPage, lang, setLang }: { page: PageKey; setPage: (p: 
                 {languages.map((language) => <option key={language.key} value={language.key}>{language.label}</option>)}
               </select>
             </div>
-            <button className="bookHeaderButton" onClick={() => navigate('book')}>Book Repair</button>
+            <button className="bookHeaderButton" onClick={() => navigate('book')}>{labels.book}</button>
             <a className="callButton" href="tel:7734137489">Call</a>
             <button className="menuButton" onClick={() => setOpen(!open)} aria-label="Menu">{open ? <X /> : <Menu />}</button>
           </div>
@@ -269,33 +358,35 @@ function Header({ page, setPage, lang, setLang }: { page: PageKey; setPage: (p: 
   );
 }
 
-function Hero() {
+function Hero({ lang }: { lang: LanguageKey }) {
+  const copy = homeText[lang];
+  const cards = localizedServiceCards[lang];
   return (
     <section className="hero">
       <div className="wrap heroGrid">
         <div className="heroCopy">
-          <div className="eyebrow"><Star size={15} /> Chicago local tech shop</div>
-          <h1>Phone repair, wireless plans, phones, accessories, and buyback in Chicago.</h1>
-          <p>CellzTech is a modern local hub for repairs, Ultra Mobile activations, used phones, accessories, and instant iPhone buyback quotes through Apex Tech Exchange.</p>
+          <div className="eyebrow"><Star size={15} /> {copy.eyebrow}</div>
+          <h1>{copy.title}</h1>
+          <p>{copy.text}</p>
           <div className="heroCtas">
-            <button className="primaryBtn" onClick={() => goTo('book')}>Book a repair <ArrowRight size={18} /></button>
-            <a className="secondaryBtn" href="tel:7734137489">Call CellzTech</a>
-            <button className="secondaryBtn" onClick={() => goTo('ultra')}>Switch to Ultra Mobile</button>
-            <button className="secondaryBtn ghost" onClick={() => goTo('buyback')}>Sell your iPhone</button>
+            <button className="primaryBtn" onClick={() => goTo('book')}>{copy.book} <ArrowRight size={18} /></button>
+            <a className="secondaryBtn" href="tel:7734137489">{copy.call}</a>
+            <button className="secondaryBtn" onClick={() => goTo('ultra')}>{copy.ultra}</button>
+            <button className="secondaryBtn ghost" onClick={() => goTo('buyback')}>{copy.sell}</button>
           </div>
           <div className="miniTrust">
-            <span><CheckCircle2 size={16} /> High-quality parts</span>
-            <span><CheckCircle2 size={16} /> Clear local service</span>
-            <span><CheckCircle2 size={16} /> Warranty-focused repairs</span>
+            <span><CheckCircle2 size={16} /> {copy.trust[0]}</span>
+            <span><CheckCircle2 size={16} /> {copy.trust[1]}</span>
+            <span><CheckCircle2 size={16} /> {copy.trust[2]}</span>
           </div>
         </div>
         <div className="servicePanel" aria-label="Service options">
           <div className="panelHeader">
-            <span>Start here</span>
-            <strong>What do you need today?</strong>
+            <span>{copy.start}</span>
+            <strong>{copy.need}</strong>
           </div>
           <div className="panelList">
-            {serviceCards.map((service) => {
+            {cards.map((service) => {
               const Icon = service.icon;
               return (
                 <button key={service.key} onClick={() => goTo(service.key)}>
@@ -307,7 +398,7 @@ function Hero() {
             })}
           </div>
           <div className="panelNote">
-            <Search size={16} /> Fast help for common phone problems, upgrades, and wireless questions.
+            <Search size={16} /> {copy.note}
           </div>
         </div>
       </div>
@@ -315,17 +406,19 @@ function Hero() {
   );
 }
 
-function ServiceGrid() {
+function ServiceGrid({ lang }: { lang: LanguageKey }) {
+  const copy = homeText[lang];
+  const cards = localizedServiceCards[lang];
   return (
     <section className="section light">
       <div className="wrap">
         <div className="sectionIntro">
-          <span>Choose a service</span>
-          <h2>Everything customers ask for most, organized in one place.</h2>
-          <p>Repairs, wireless savings, buyback, phones, and accessories are separated clearly so customers can get to the right page fast.</p>
+          <span>{copy.choose}</span>
+          <h2>{copy.servicesTitle}</h2>
+          <p>{copy.servicesText}</p>
         </div>
         <div className="cardsGrid">
-          {serviceCards.map((card) => {
+          {cards.map((card) => {
             const Icon = card.icon;
             return (
               <article className="serviceCard" key={card.key}>
@@ -342,21 +435,23 @@ function ServiceGrid() {
   );
 }
 
-function TrustSection() {
+function TrustSection({ lang }: { lang: LanguageKey }) {
+  const copy = homeText[lang];
+  const items = localizedTrustItems[lang];
   return (
     <section className="section">
       <div className="wrap split">
         <div>
-          <span className="label">Why customers choose CellzTech</span>
-          <h2>Built for practical local service, not corporate store confusion.</h2>
-          <p className="lead">The website should feel like the shop: clear, helpful, professional, and focused on getting the customer to the right solution.</p>
+          <span className="label">{copy.why}</span>
+          <h2>{copy.whyTitle}</h2>
+          <p className="lead">{copy.whyText}</p>
           <div className="inlineActions">
             <a className="primaryBtn compact" href="tel:7734137489">Call 773-413-7489</a>
-            <button className="secondaryBtn compact" onClick={() => goTo('contact')}>Visit the store</button>
+            <button className="secondaryBtn compact" onClick={() => goTo('contact')}>{copy.visit}</button>
           </div>
         </div>
         <div className="trustStack">
-          {trustItems.map((item) => {
+          {items.map((item) => {
             const Icon = item.icon;
             return (
               <div className="trustItem" key={item.title}>
@@ -627,21 +722,22 @@ function AdminDashboard() {
   );
 }
 
-function PageDetail({ page }: { page: PageKey }) {
-  const data = pageData[page];
+function PageDetail({ page, lang }: { page: PageKey; lang: LanguageKey }) {
+  const data = localizedPageData[lang][page];
+  const copy = homeText[lang];
   const isHome = page === 'home';
 
   if (isHome) {
     return (
       <>
-        <Hero />
-        <ServiceGrid />
-        <TrustSection />
+        <Hero lang={lang} />
+        <ServiceGrid lang={lang} />
+        <TrustSection lang={lang} />
         <section className="section ctaBand">
           <div className="wrap ctaPanel">
             <div>
-              <span className="label">Ready when you are</span>
-              <h2>Call or stop in for repair help, Ultra Mobile, buyback, phones, and accessories.</h2>
+              <span className="label">{copy.ready}</span>
+              <h2>{copy.readyTitle}</h2>
             </div>
             <a className="primaryBtn" href="tel:7734137489">Call CellzTech <ArrowRight size={18} /></a>
           </div>
@@ -651,11 +747,11 @@ function PageDetail({ page }: { page: PageKey }) {
   }
 
   if (page === 'repairs') {
-    return <RepairsPage />;
+    return <RepairsPage lang={lang} />;
   }
 
   if (page === 'book') {
-    return <BookRepairPage />;
+    return <BookRepairPage lang={lang} />;
   }
 
   if (page === 'admin') {
@@ -665,7 +761,7 @@ function PageDetail({ page }: { page: PageKey }) {
   if (page === 'ultra') {
     return (
       <main className="pageMain">
-        <UltraDetails />
+        <UltraDetails lang={lang} />
       </main>
     );
   }
@@ -684,11 +780,11 @@ function PageDetail({ page }: { page: PageKey }) {
               ) : (
                 <a className="primaryBtn" href="tel:7734137489">{data.cta || 'Call CellzTech'} <ArrowRight size={18} /></a>
               )}
-              <button className="secondaryBtn" onClick={() => goTo('contact')}>Visit us</button>
+              <button className="secondaryBtn" onClick={() => goTo('contact')}>{homeText[lang].visit}</button>
             </div>
           </div>
           <div className="detailCard">
-            <h2>Quick details</h2>
+            <h2>{lang === 'en' ? 'Quick details' : lang === 'pl' ? 'Najważniejsze informacje' : lang === 'es' ? 'Detalles rápidos' : 'Коротко'}</h2>
             <ul>
               {data.bullets.map((bullet) => <li key={bullet}><CheckCircle2 size={18} /> {bullet}</li>)}
             </ul>
@@ -741,7 +837,8 @@ function FeaturedReviews() {
   );
 }
 
-function RepairsPage() {
+function RepairsPage({ lang }: { lang: LanguageKey }) {
+  const data = localizedPageData[lang].repairs;
   const repairServices = [
     { icon: Smartphone, title: 'iPhone Repair', text: 'Screens, batteries, charging ports, back glass, cameras, speakers, and common iPhone repairs.' },
     { icon: TabletSmartphone, title: 'Samsung Repair', text: 'Screen replacement, battery service, charging problems, camera issues, and common Samsung repairs.' },
@@ -894,6 +991,27 @@ function RepairsPage() {
 type BookingField = 'device' | 'series' | 'model' | 'issue' | 'name' | 'phone' | 'email' | 'requestedDate' | 'requestedTime' | 'notes';
 
 const repairIssues = ['Cracked screen', 'Battery replacement', 'Charging port issue', 'Back glass', 'Camera issue', 'Speaker or microphone', 'Device will not turn on', 'Water damage', 'Data recovery', 'Software issue', 'Other / not sure'];
+
+const issueTranslations: Record<string, Record<LanguageKey, string>> = {
+  'Cracked screen': { en: 'Cracked screen', pl: 'Pęknięty ekran', es: 'Pantalla rota', uk: 'Розбитий екран' },
+  'Battery replacement': { en: 'Battery replacement', pl: 'Wymiana baterii', es: 'Cambio de batería', uk: 'Заміна батареї' },
+  'Charging port issue': { en: 'Charging port issue', pl: 'Problem z portem ładowania', es: 'Problema con el puerto de carga', uk: 'Проблема з портом заряджання' },
+  'Back glass': { en: 'Back glass', pl: 'Tylna szybka', es: 'Cristal trasero', uk: 'Заднє скло' },
+  'Camera issue': { en: 'Camera issue', pl: 'Problem z aparatem', es: 'Problema con la cámara', uk: 'Проблема з камерою' },
+  'Speaker or microphone': { en: 'Speaker or microphone', pl: 'Głośnik lub mikrofon', es: 'Altavoz o micrófono', uk: 'Динамік або мікрофон' },
+  'Device will not turn on': { en: 'Device will not turn on', pl: 'Urządzenie się nie włącza', es: 'El dispositivo no enciende', uk: 'Пристрій не вмикається' },
+  'Water damage': { en: 'Water damage', pl: 'Zalanie', es: 'Daño por agua', uk: 'Пошкодження водою' },
+  'Data recovery': { en: 'Data recovery', pl: 'Odzyskiwanie danych', es: 'Recuperación de datos', uk: 'Відновлення даних' },
+  'Software issue': { en: 'Software issue', pl: 'Problem z oprogramowaniem', es: 'Problema de software', uk: 'Проблема з програмним забезпеченням' },
+  'Other / not sure': { en: 'Other / not sure', pl: 'Inne / nie wiem', es: 'Otro / no estoy seguro', uk: 'Інше / не впевнений' }
+};
+
+const bookText: Record<LanguageKey, any> = {
+  en: { eyebrow: 'Book repair', title: 'Book your repair.', intro: 'Choose your brand, model, issue, and preferred drop-off window. We will confirm the final schedule, pricing, and parts availability before you come in.', current: 'Current request', repairRequest: 'repair request', steps: ['Brand', 'Model', 'Issue', 'Contact', 'Send'], step: 'Step', brandTitle: 'What brand needs repair?', brandHint: 'Start with the device family. We support the major phone brands customers ask for most, plus an “Other” path when the model is not listed.', modelTitle: 'Find your model.', modelHint: 'Search, tap a popular model, or choose a series. We can identify the exact model in-store if you are not sure.', searchPlaceholder: 'Search model or model number', clear: 'Clear', searchResults: 'Search results', matching: 'matching models', selected: 'Selected', notListed: 'Device not listed', helpIdentify: 'We will help identify it', popular: 'Popular models', common: 'Most common', browse: 'Browse by series', chooseSeries: 'Choose a series', notSure: '{b.notSure}', issueTitle: 'What needs to be fixed?', issueHint: 'Choose the main issue. The visual panel will react to the selected problem.', contactTitle: 'Your contact details.', contactHint: 'Choose a preferred drop-off window during posted store hours. This is a request only — we will contact you to confirm the repair schedule.', name: 'Name', phone: 'Phone', email: 'Email', required: 'Required', date: 'Requested date', window: 'Preferred drop-off window', chooseWindow: 'Select an available store-hour window', chooseDate: 'Choose a date first', notes: 'Notes', notesPlaceholder: 'Example: Screen is cracked but touch still works.', consent: 'By sending this request, you agree that CellzTech / Cellz Repairz LLC may contact you about your repair request. This does not guarantee a confirmed appointment, repair price, part availability, or completion time.', finalTitle: 'Ready to send your repair request.', finalHint: 'This will send the request to CellzTech. We will contact you to confirm the drop-off window, price, and parts availability.', brand: 'Brand', series: 'Series', model: 'Model', issue: 'Issue', notSelected: 'Not selected', notProvided: 'Not provided', submit: 'Submit repair request', sending: 'Sending request...', textInstead: 'Text instead', callInstead: 'Call instead', backendNote: 'Your request is sent to CellzTech so we can review the device, issue, parts, and timing before confirming the repair details.', back: 'Back', next: 'Next step', startOver: 'Start over' },
+  pl: { eyebrow: 'Zgłoszenie naprawy', title: 'Zgłoś naprawę.', intro: 'Wybierz markę, model, usterkę i preferowane okno oddania urządzenia. Przed wizytą potwierdzimy termin, cenę i dostępność części.', current: 'Aktualne zgłoszenie', repairRequest: 'zgłoszenie naprawy', steps: ['Marka', 'Model', 'Usterka', 'Kontakt', 'Wyślij'], step: 'Krok', brandTitle: 'Jaka marka wymaga naprawy?', brandHint: 'Zacznij od rodzaju urządzenia. Obsługujemy najpopularniejsze marki telefonów, a jeśli modelu nie ma na liście, wybierz ścieżkę „Inne”.', modelTitle: 'Znajdź swój model.', modelHint: 'Wyszukaj, wybierz popularny model albo serię. Jeśli nie masz pewności, pomożemy ustalić dokładny model w sklepie.', searchPlaceholder: 'Szukaj modelu lub numeru modelu', clear: 'Wyczyść', searchResults: 'Wyniki wyszukiwania', matching: 'pasujących modeli', selected: 'Wybrano', notListed: 'Urządzenia nie ma na liście', helpIdentify: 'Pomożemy je rozpoznać', popular: 'Popularne modele', common: 'Najczęstsze', browse: 'Przeglądaj według serii', chooseSeries: 'Wybierz serię', notSure: 'Nie widzę modelu / nie mam pewności', issueTitle: 'Co trzeba naprawić?', issueHint: 'Wybierz główną usterkę. Panel wizualny dopasuje się do wybranego problemu.', contactTitle: 'Dane kontaktowe.', contactHint: 'Wybierz preferowane okno oddania urządzenia w godzinach pracy. To jest zgłoszenie — skontaktujemy się z Tobą, aby potwierdzić termin.', name: 'Imię i nazwisko', phone: 'Telefon', email: 'E-mail', required: 'Wymagane', date: 'Preferowana data', window: 'Preferowane okno oddania', chooseWindow: 'Wybierz dostępne okno w godzinach pracy', chooseDate: 'Najpierw wybierz datę', notes: 'Uwagi', notesPlaceholder: 'Przykład: Ekran jest pęknięty, ale dotyk działa.', consent: 'Wysyłając zgłoszenie, zgadzasz się, że CellzTech / Cellz Repairz LLC może skontaktować się z Tobą w sprawie naprawy. To nie gwarantuje potwierdzonej wizyty, ceny, dostępności części ani czasu ukończenia.', finalTitle: 'Gotowe do wysłania zgłoszenia.', finalHint: 'Zgłoszenie trafi do CellzTech. Skontaktujemy się, aby potwierdzić okno oddania, cenę i dostępność części.', brand: 'Marka', series: 'Seria', model: 'Model', issue: 'Usterka', notSelected: 'Nie wybrano', notProvided: 'Nie podano', submit: 'Wyślij zgłoszenie', sending: 'Wysyłanie zgłoszenia...', textInstead: 'Wyślij SMS', callInstead: 'Zadzwoń', backendNote: 'Zgłoszenie trafia do CellzTech, abyśmy mogli sprawdzić urządzenie, usterkę, części i termin przed potwierdzeniem szczegółów naprawy.', back: 'Wstecz', next: 'Dalej', startOver: 'Zacznij od nowa' },
+  es: { eyebrow: 'Solicitud de reparación', title: 'Solicita tu reparación.', intro: 'Elige la marca, el modelo, el problema y una ventana preferida para dejar el equipo. Confirmaremos el horario, el precio y la disponibilidad de piezas antes de que vengas.', current: 'Solicitud actual', repairRequest: 'solicitud de reparación', steps: ['Marca', 'Modelo', 'Problema', 'Contacto', 'Enviar'], step: 'Paso', brandTitle: '¿Qué marca necesita reparación?', brandHint: 'Empieza con la familia del dispositivo. Atendemos las marcas más solicitadas y también tenemos una opción “Otro” si el modelo no aparece.', modelTitle: 'Encuentra tu modelo.', modelHint: 'Busca, toca un modelo popular o elige una serie. Si no estás seguro, podemos identificar el modelo exacto en la tienda.', searchPlaceholder: 'Buscar modelo o número de modelo', clear: 'Borrar', searchResults: 'Resultados de búsqueda', matching: 'modelos encontrados', selected: 'Seleccionado', notListed: 'Dispositivo no listado', helpIdentify: 'Te ayudaremos a identificarlo', popular: 'Modelos populares', common: 'Más comunes', browse: 'Buscar por serie', chooseSeries: 'Elige una serie', notSure: 'No veo mi modelo / no estoy seguro', issueTitle: '¿Qué se necesita reparar?', issueHint: 'Elige el problema principal. El panel visual reaccionará al problema seleccionado.', contactTitle: 'Tus datos de contacto.', contactHint: 'Elige una ventana preferida para dejar el equipo durante el horario publicado. Es una solicitud; te contactaremos para confirmar.', name: 'Nombre', phone: 'Teléfono', email: 'Correo electrónico', required: 'Requerido', date: 'Fecha solicitada', window: 'Ventana preferida para dejar el equipo', chooseWindow: 'Selecciona una ventana disponible', chooseDate: 'Primero elige una fecha', notes: 'Notas', notesPlaceholder: 'Ejemplo: La pantalla está rota, pero el táctil funciona.', consent: 'Al enviar esta solicitud, aceptas que CellzTech / Cellz Repairz LLC pueda contactarte sobre tu reparación. Esto no garantiza una cita confirmada, precio, disponibilidad de piezas ni tiempo de finalización.', finalTitle: 'Listo para enviar tu solicitud.', finalHint: 'Esto enviará la solicitud a CellzTech. Te contactaremos para confirmar la ventana, el precio y la disponibilidad de piezas.', brand: 'Marca', series: 'Serie', model: 'Modelo', issue: 'Problema', notSelected: 'No seleccionado', notProvided: 'No proporcionado', submit: 'Enviar solicitud', sending: 'Enviando solicitud...', textInstead: 'Enviar texto', callInstead: 'Llamar', backendNote: 'Tu solicitud se envía a CellzTech para revisar el dispositivo, el problema, las piezas y el horario antes de confirmar los detalles.', back: 'Atrás', next: 'Siguiente', startOver: 'Empezar de nuevo' },
+  uk: { eyebrow: 'Заявка на ремонт', title: 'Надішліть заявку на ремонт.', intro: 'Виберіть бренд, модель, проблему та зручне вікно для здачі пристрою. Перед вашим візитом ми підтвердимо час, ціну та наявність деталей.', current: 'Поточна заявка', repairRequest: 'заявка на ремонт', steps: ['Бренд', 'Модель', 'Проблема', 'Контакт', 'Надіслати'], step: 'Крок', brandTitle: 'Який бренд потребує ремонту?', brandHint: 'Почніть із типу пристрою. Ми підтримуємо найпопулярніші бренди, а якщо моделі немає в списку, виберіть “Інше”.', modelTitle: 'Знайдіть свою модель.', modelHint: 'Скористайтеся пошуком, виберіть популярну модель або серію. Якщо не впевнені, ми визначимо точну модель у магазині.', searchPlaceholder: 'Пошук моделі або номера моделі', clear: 'Очистити', searchResults: 'Результати пошуку', matching: 'збігів моделей', selected: 'Вибрано', notListed: 'Пристрою немає в списку', helpIdentify: 'Ми допоможемо визначити модель', popular: 'Популярні моделі', common: 'Найчастіші', browse: 'Перегляд за серією', chooseSeries: 'Виберіть серію', notSure: 'Не бачу моделі / не впевнений', issueTitle: 'Що потрібно відремонтувати?', issueHint: 'Виберіть основну проблему. Візуальна панель зміниться відповідно до вибраної несправності.', contactTitle: 'Ваші контактні дані.', contactHint: 'Виберіть зручне вікно для здачі пристрою в робочі години. Це заявка — ми зв’яжемося з вами для підтвердження.', name: 'Ім’я', phone: 'Телефон', email: 'Електронна пошта', required: 'Обов’язково', date: 'Бажана дата', window: 'Зручне вікно для здачі', chooseWindow: 'Виберіть доступне вікно', chooseDate: 'Спочатку виберіть дату', notes: 'Примітки', notesPlaceholder: 'Приклад: Екран розбитий, але сенсор працює.', consent: 'Надсилаючи заявку, ви погоджуєтеся, що CellzTech / Cellz Repairz LLC може зв’язатися з вами щодо ремонту. Це не гарантує підтвердженого запису, ціни, наявності деталей або часу виконання.', finalTitle: 'Готово до надсилання заявки.', finalHint: 'Заявка буде надіслана до CellzTech. Ми зв’яжемося з вами, щоб підтвердити час, ціну та наявність деталей.', brand: 'Бренд', series: 'Серія', model: 'Модель', issue: 'Проблема', notSelected: 'Не вибрано', notProvided: 'Не вказано', submit: 'Надіслати заявку', sending: 'Надсилання заявки...', textInstead: 'Надіслати SMS', callInstead: 'Зателефонувати', backendNote: 'Ваша заявка надсилається до CellzTech, щоб ми перевірили пристрій, проблему, деталі та час перед підтвердженням ремонту.', back: 'Назад', next: 'Далі', startOver: 'Почати спочатку' }
+};
 
 const storeHoursByDay = [
   { label: 'Sunday', closed: true, note: 'Closed' },
@@ -1114,7 +1232,8 @@ function BookingVisual({ issue }: { issue: string }) {
   );
 }
 
-function BookRepairPage() {
+function BookRepairPage({ lang }: { lang: LanguageKey }) {
+  const b = bookText[lang];
   const [step, setStep] = useState(0);
   const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [submissionMessage, setSubmissionMessage] = useState('');
@@ -1260,11 +1379,11 @@ I understand this is a repair request and CellzTech will contact me to confirm t
   };
 
   const steps = [
-    { label: 'Brand', done: !!booking.device },
-    { label: 'Model', done: !!booking.model },
-    { label: 'Issue', done: !!booking.issue },
-    { label: 'Contact', done: hasContactDetails },
-    { label: 'Send', done: canSubmit }
+    { label: b.steps[0], done: !!booking.device },
+    { label: b.steps[1], done: !!booking.model },
+    { label: b.steps[2], done: !!booking.issue },
+    { label: b.steps[3], done: hasContactDetails },
+    { label: b.steps[4], done: canSubmit }
   ];
 
   const canGoNext =
@@ -1731,14 +1850,14 @@ I understand this is a repair request and CellzTech will contact me to confirm t
         <div className="wrap bookingShell">
           <div className="bookingTopline">
             <div>
-              <div className="eyebrow"><Wrench size={15} /> Book repair</div>
-              <h1>Book your repair.</h1>
-              <p>Choose your brand, model, issue, and preferred drop-off window. We will confirm the final schedule, pricing, and parts availability before you come in.</p>
+              <div className="eyebrow"><Wrench size={15} /> {b.eyebrow}</div>
+              <h1>{b.title}</h1>
+              <p>{b.intro}</p>
             </div>
             <div className="bookingMiniSummary">
-              <span>Current request</span>
+              <span>{b.current}</span>
               <strong>{booking.model || booking.series || booking.device}</strong>
-              <small>{booking.issue || `${booking.device} repair request`}</small>
+              <small>{booking.issue ? issueTranslations[booking.issue]?.[lang] || booking.issue : `${booking.device} ${b.repairRequest}`}</small>
             </div>
           </div>
 
@@ -1754,16 +1873,16 @@ I understand this is a repair request and CellzTech will contact me to confirm t
             <div className={`bookingSlideCard bookingStepCard-${step + 1}`}> 
               <div className="slideFrame dynamicSlideFrame">
                 <section className={step === 0 ? 'slidePanel activeSlidePanel' : 'slidePanel'}>
-                  <span className="slideStep">Step 1</span>
-                  <h2>What brand needs repair?</h2>
-                  <p className="slideHint">Start with the device family. We support the major phone brands customers ask for most, plus an “Other” path when the model is not listed.</p>
+                  <span className="slideStep">{b.step} 1</span>
+                  <h2>{b.brandTitle}</h2>
+                  <p className="slideHint">{b.brandHint}</p>
                   <div className="brandGrid">
                     {deviceCatalog.map((brand) => (
                       <button type="button" key={brand.brand} className={booking.device === brand.brand ? 'brandChoice selected' : 'brandChoice'} onClick={() => selectBrand(brand.brand)}>
                         <span className="brandIcon"><Smartphone size={22} /></span>
                         <strong>{brand.label}</strong>
                         <small>{brand.description}</small>
-                        <em>{getBrandTotalModels(brand)} models</em>
+                        <em>{getBrandTotalModels(brand)} {lang === 'en' ? 'models' : lang === 'pl' ? 'modeli' : lang === 'es' ? 'modelos' : 'моделей'}</em>
                       </button>
                     ))}
                   </div>
@@ -1772,24 +1891,24 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                 <section className={step === 1 ? 'slidePanel catalogSlide guidedCatalogSlide modelFitSlide activeSlidePanel' : 'slidePanel catalogSlide guidedCatalogSlide modelFitSlide'}>
                   <div className="modelFitHeader">
                     <div>
-                      <span className="slideStep">Step 2</span>
-                      <h2>Find your {selectedBrand.shortLabel} model.</h2>
+                      <span className="slideStep">{b.step} 2</span>
+                      <h2>{b.modelTitle}</h2>
                     </div>
-                    <p className="slideHint">Search, tap a popular model, or choose a series. We can identify the exact model in-store if you are not sure.</p>
+                    <p className="slideHint">{b.modelHint}</p>
                   </div>
 
                   <label className="modelFitSearch">
                     <Search size={20} />
-                    <input value={modelSearch} onChange={(e) => setModelSearch(e.target.value)} placeholder={`Search ${selectedBrand.shortLabel} model or model number`} />
-                    {modelSearchTerm && <button type="button" onClick={() => setModelSearch('')}>Clear</button>}
+                    <input value={modelSearch} onChange={(e) => setModelSearch(e.target.value)} placeholder={`${b.searchPlaceholder}`}  />
+                    {modelSearchTerm && <button type="button" onClick={() => setModelSearch('')}>{b.clear}</button>}
                   </label>
 
                   {modelSearchTerm ? (
                     <section className="modelFitResultsOnly">
                       <div className="modelFitSectionHeader">
-                        <span>Search results</span>
-                        <strong>{visibleModels.length} matching models</strong>
-                        {booking.model && <em>Selected: {booking.model}</em>}
+                        <span>{b.searchResults}</span>
+                        <strong>{visibleModels.length} {b.matching}</strong>
+                        {booking.model && <em>{b.selected}: {booking.model}</em>}
                       </div>
                       <div className="modelFitModelGrid searchMode">
                         {visibleModels.slice(0, 12).map(({ model, series }) => (
@@ -1800,8 +1919,8 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                         ))}
                         {!visibleModels.length && (
                           <button type="button" className="modelFitChoice selected" onClick={() => selectModel('Device not listed', selectedBrand.series[0]?.name)}>
-                            <span>Device not listed</span>
-                            <small>We will help identify it</small>
+                            <span>{b.notListed}</span>
+                            <small>{b.helpIdentify}</small>
                           </button>
                         )}
                       </div>
@@ -1810,8 +1929,8 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                     <div className="modelFitLayout">
                       <section className="modelFitPopular">
                         <div className="modelFitSectionHeader">
-                          <span>Popular models</span>
-                          <strong>Most common</strong>
+                          <span>{b.popular}</span>
+                          <strong>{b.common}</strong>
                           <small>{selectedBrand.label}</small>
                         </div>
                         <div className="modelFitPopularGrid">
@@ -1826,9 +1945,9 @@ I understand this is a repair request and CellzTech will contact me to confirm t
 
                       <section className="modelFitBrowse">
                         <div className="modelFitSectionHeader">
-                          <span>Browse by series</span>
-                          <strong>{selectedSeries?.name || 'Choose a series'}</strong>
-                          {booking.model && <em>Selected: {booking.model}</em>}
+                          <span>{b.browse}</span>
+                          <strong>{selectedSeries?.name || b.chooseSeries}</strong>
+                          {booking.model && <em>{b.selected}: {booking.model}</em>}
                         </div>
                         <div className="modelFitSeriesPills">
                           {selectedBrand.series.map((series) => (
@@ -1850,78 +1969,78 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                   )}
 
                   <button type="button" className="modelFitNotSure" onClick={() => selectModel('Device not listed', selectedBrand.series[0]?.name)}>
-                    I do not see my model / I am not sure
+                    {b.notSure}
                   </button>
                 </section>
 
                 <section className={step === 2 ? 'slidePanel activeSlidePanel' : 'slidePanel'}>
-                  <span className="slideStep">Step 3</span>
-                  <h2>What needs to be fixed?</h2>
-                  <p className="slideHint">Choose the main issue. The visual panel will react to the selected problem.</p>
+                  <span className="slideStep">{b.step} 3</span>
+                  <h2>{b.issueTitle}</h2>
+                  <p className="slideHint">{b.issueHint}</p>
                   <div className="issueGrid compactIssueGrid">
                     {repairIssues.map((issue) => (
-                      <button type="button" key={issue} className={booking.issue === issue ? 'issueChoice selected' : 'issueChoice'} onClick={() => setField('issue', issue)}>{issue}</button>
+                      <button type="button" key={issue} className={booking.issue === issue ? 'issueChoice selected' : 'issueChoice'} onClick={() => setField('issue', issue)}>{issueTranslations[issue]?.[lang] || issue}</button>
                     ))}
                   </div>
                 </section>
 
                 <section className={step === 3 ? 'slidePanel activeSlidePanel' : 'slidePanel'}>
-                  <span className="slideStep">Step 4</span>
-                  <h2>Your contact details.</h2>
-                  <p className="slideHint">Choose a preferred drop-off window during posted store hours. This is a request only — we will contact you to confirm the repair schedule.</p>
+                  <span className="slideStep">{b.step} 4</span>
+                  <h2>{b.contactTitle}</h2>
+                  <p className="slideHint">{b.contactHint}</p>
                   <div className="formGrid slideFormGrid">
-                    <label><span className="fieldLabel">Name <span className="requiredTag">Required</span></span><input value={booking.name} onChange={(e) => setField('name', e.target.value)} placeholder="Your name" required /></label>
-                    <label><span className="fieldLabel">Phone <span className="requiredTag">Required</span></span><input value={booking.phone} onChange={(e) => setField('phone', e.target.value)} placeholder="Your phone number" required /></label>
-                    <label><span className="fieldLabel">Email <span className="requiredTag">Required</span></span><input type="email" value={booking.email} onChange={(e) => setField('email', e.target.value)} placeholder="you@example.com" required /></label>
-                    <label><span className="fieldLabel">Requested date <span className="requiredTag">Required</span></span><input type="date" min={minimumRequestDate} value={booking.requestedDate} onChange={(e) => setRequestedDate(e.target.value)} required /></label>
+                    <label><span className="fieldLabel">{b.name} <span className="requiredTag">{b.required}</span></span><input value={booking.name} onChange={(e) => setField('name', e.target.value)} placeholder={b.name} required /></label>
+                    <label><span className="fieldLabel">{b.phone} <span className="requiredTag">{b.required}</span></span><input value={booking.phone} onChange={(e) => setField('phone', e.target.value)} placeholder={b.phone} required /></label>
+                    <label><span className="fieldLabel">{b.email} <span className="requiredTag">{b.required}</span></span><input type="email" value={booking.email} onChange={(e) => setField('email', e.target.value)} placeholder="you@example.com" required /></label>
+                    <label><span className="fieldLabel">{b.date} <span className="requiredTag">{b.required}</span></span><input type="date" min={minimumRequestDate} value={booking.requestedDate} onChange={(e) => setRequestedDate(e.target.value)} required /></label>
                     <label className="fullField bookingTimeField">
-                      <span className="fieldLabel">Preferred drop-off window <span className="requiredTag">Required</span></span>
+                      <span className="fieldLabel">{b.window} <span className="requiredTag">{b.required}</span></span>
                       <select value={booking.requestedTime} onChange={(e) => setField('requestedTime', e.target.value)} disabled={!booking.requestedDate || requestedTimeSlots.length === 0} required>
-                        <option value="">{booking.requestedDate ? 'Select an available store-hour window' : 'Choose a date first'}</option>
+                        <option value="">{booking.requestedDate ? b.chooseWindow : b.chooseDate}</option>
                         {requestedTimeSlots.map((slot) => <option key={slot.value} value={slot.value}>{slot.label}</option>)}
                       </select>
                       <small className={requestedTimeSlots.length ? 'storeHoursNote' : 'storeHoursNote closed'}>{storeHoursNote}</small>
                     </label>
-                    <label className="fullField">Notes<textarea value={booking.notes} onChange={(e) => setField('notes', e.target.value)} placeholder="Example: Screen is cracked but touch still works." /></label>
+                    <label className="fullField">{b.notes}<textarea value={booking.notes} onChange={(e) => setField('notes', e.target.value)} placeholder={b.notesPlaceholder} /></label>
                   </div>
-                  <p className="bookingConsent">By sending this request, you agree that CellzTech / Cellz Repairz LLC may contact you about your repair request. This does not guarantee a confirmed appointment, repair price, part availability, or completion time.</p>
+                  <p className="bookingConsent">{b.consent}</p>
                 </section>
 
                 <section className={step === 4 ? 'slidePanel finalSlide activeSlidePanel' : 'slidePanel finalSlide'}>
-                  <span className="slideStep">Step 5</span>
-                  <h2>Ready to send your repair request.</h2>
-                  <p className="slideHint">This will send the request to CellzTech. We will contact you to confirm the drop-off window, price, and parts availability.</p>
+                  <span className="slideStep">{b.step} 5</span>
+                  <h2>{b.finalTitle}</h2>
+                  <p className="slideHint">{b.finalHint}</p>
                   <div className="finalSummaryBox">
-                    <div><strong>Brand</strong><span>{booking.device}</span></div>
-                    <div><strong>Series</strong><span>{booking.series || 'Not selected'}</span></div>
-                    <div><strong>Model</strong><span>{booking.model || 'Not selected'}</span></div>
-                    <div><strong>Issue</strong><span>{booking.issue || 'Not selected'}</span></div>
-                    <div><strong>Requested date</strong><span>{booking.requestedDate || 'Not selected'}</span></div>
-                    <div><strong>Preferred drop-off window</strong><span>{requestedTimeLabel || 'Not selected'}</span></div>
-                    <div><strong>Name</strong><span>{booking.name || 'Not provided'}</span></div>
-                    <div><strong>Phone</strong><span>{booking.phone || 'Not provided'}</span></div>
-                    <div><strong>Email</strong><span>{booking.email || 'Not provided'}</span></div>
+                    <div><strong>{b.brand}</strong><span>{booking.device}</span></div>
+                    <div><strong>{b.series}</strong><span>{booking.series || b.notSelected}</span></div>
+                    <div><strong>{b.model}</strong><span>{booking.model || b.notSelected}</span></div>
+                    <div><strong>{b.issue}</strong><span>{booking.issue ? issueTranslations[booking.issue]?.[lang] || booking.issue : b.notSelected}</span></div>
+                    <div><strong>{b.date}</strong><span>{booking.requestedDate || b.notSelected}</span></div>
+                    <div><strong>{b.window}</strong><span>{requestedTimeLabel || b.notSelected}</span></div>
+                    <div><strong>{b.name}</strong><span>{booking.name || b.notProvided}</span></div>
+                    <div><strong>{b.phone}</strong><span>{booking.phone || b.notProvided}</span></div>
+                    <div><strong>{b.email}</strong><span>{booking.email || b.notProvided}</span></div>
                   </div>
                   <div className="finalActions">
                     <button type="button" className={canSubmit ? 'primaryBtn' : 'primaryBtn disabled'} onClick={submitRepairRequest} disabled={!canSubmit || submissionStatus === 'sending'}>
-                      {submissionStatus === 'sending' ? 'Sending request...' : 'Submit repair request'} <ArrowRight size={18} />
+                      {submissionStatus === 'sending' ? b.sending : b.submit} <ArrowRight size={18} />
                     </button>
-                    <a className="secondaryBtn" href={canSubmit ? smsLink : undefined} aria-disabled={!canSubmit}>Text instead</a>
-                    <a className="secondaryBtn" href="tel:7734137489">Call instead</a>
+                    <a className="secondaryBtn" href={canSubmit ? smsLink : undefined} aria-disabled={!canSubmit}>{b.textInstead}</a>
+                    <a className="secondaryBtn" href="tel:7734137489">{b.callInstead}</a>
                   </div>
                   {submissionMessage && (
                     <p className={`submissionNotice ${submissionStatus}`}>{submissionMessage}</p>
                   )}
-                  <p className="backendNote">Your request is sent to CellzTech so we can review the device, issue, parts, and timing before confirming the repair details.</p>
+                  <p className="backendNote">{b.backendNote}</p>
                 </section>
               </div>
 
               <div className="slideControls">
-                <button type="button" className="secondaryBtn compact" onClick={goBack} disabled={step === 0}>Back</button>
+                <button type="button" className="secondaryBtn compact" onClick={goBack} disabled={step === 0}>{b.back}</button>
                 {step < steps.length - 1 ? (
-                  <button type="button" className="primaryBtn compact" onClick={goNext} disabled={!canGoNext}>Next step <ArrowRight size={16} /></button>
+                  <button type="button" className="primaryBtn compact" onClick={goNext} disabled={!canGoNext}>{b.next} <ArrowRight size={16} /></button>
                 ) : (
-                  <button type="button" className="secondaryBtn compact" onClick={() => setStep(0)}>Start over</button>
+                  <button type="button" className="secondaryBtn compact" onClick={() => setStep(0)}>{b.startOver}</button>
                 )}
               </div>
             </div>
@@ -2171,7 +2290,7 @@ function UltraPlanStoreCard({ plan }: { plan: UltraPlan }) {
   );
 }
 
-function UltraDetails() {
+function UltraDetails({ lang }: { lang: LanguageKey }) {
   const quickDetails = [
     'Plans from $15/month, with monthly and multi-month options.',
     '4 Ultra Unlimited lines for $100/month.',
@@ -2376,26 +2495,32 @@ function FeatureGrid({ items }: { items: { icon: React.ElementType; title: strin
   );
 }
 
-function Footer() {
+function Footer({ lang }: { lang: LanguageKey }) {
+  const footerText = {
+    en: { desc: 'Phone repair, Ultra Mobile, buyback, phones, and accessories in Chicago.', services: 'Services', visit: 'Visit', websites: 'Websites' },
+    pl: { desc: 'Naprawa telefonów, Ultra Mobile, skup, telefony i akcesoria w Chicago.', services: 'Usługi', visit: 'Odwiedź nas', websites: 'Strony' },
+    es: { desc: 'Reparación de teléfonos, Ultra Mobile, recompra, teléfonos y accesorios en Chicago.', services: 'Servicios', visit: 'Visítanos', websites: 'Sitios web' },
+    uk: { desc: 'Ремонт телефонів, Ultra Mobile, викуп, телефони та аксесуари в Чикаго.', services: 'Послуги', visit: 'Адреса', websites: 'Сайти' }
+  }[lang];
   return (
     <footer className="footer">
       <div className="wrap footerGrid">
         <div>
           <div className="footerLogo">Cellz<span>Tech</span></div>
-          <p>Phone repair, Ultra Mobile, buyback, phones, and accessories in Chicago.</p>
+          <p>{footerText.desc}</p>
           <strong>CellzTech is operated by Cellz Repairz LLC.</strong>
         </div>
         <div>
-          <h3>Services</h3>
-          {(['repairs', 'ultra', 'buyback', 'phones', 'accessories'] as PageKey[]).map((item) => <button key={item} onClick={() => goTo(item)}>{pageData[item].eyebrow}</button>)}
+          <h3>{footerText.services}</h3>
+          {(['repairs', 'ultra', 'buyback', 'phones', 'accessories'] as PageKey[]).map((item) => <button key={item} onClick={() => goTo(item)}>{localizedPageData[lang][item].eyebrow}</button>)}
         </div>
         <div>
-          <h3>Visit</h3>
+          <h3>{footerText.visit}</h3>
           <p>3412 N Harlem Ave STE A<br />Chicago, IL 60634</p>
           <a href="tel:7734137489">773-413-7489</a>
         </div>
         <div>
-          <h3>Websites</h3>
+          <h3>{footerText.websites}</h3>
           <a href="https://www.cellztech.com">cellztech.com</a>
           <a href="https://www.apextechexchange.com">apextechexchange.com</a>
           <a href="https://www.serwiskomorkowy.com">serwiskomorkowy.com</a>
@@ -2423,8 +2548,8 @@ function App() {
   return (
     <>
       <Header page={page} setPage={setPage} lang={lang} setLang={setLang} />
-      <PageDetail page={page} />
-      <Footer />
+      <PageDetail page={page} lang={lang} />
+      <Footer lang={lang} />
     </>
   );
 }
