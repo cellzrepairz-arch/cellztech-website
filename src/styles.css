@@ -7997,3 +7997,174 @@ canvas {
   .radarPanel { min-height: auto; }
   .missionStrip { grid-template-columns: 1fr; }
 }
+
+/* Ultra SIM request flow */
+.ultraSimRequestHero {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(38, 156, 255, .18), transparent 32%),
+    radial-gradient(circle at 90% 0%, rgba(126, 48, 180, .22), transparent 34%),
+    linear-gradient(135deg, #061525 0%, #0b3145 45%, #4b176b 100%);
+  color: #fff;
+  min-height: calc(100vh - 120px);
+}
+.simRequestGrid {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(520px, 1.15fr);
+  gap: 36px;
+  align-items: start;
+}
+.simRequestIntro h1 {
+  max-width: 720px;
+  font-size: clamp(3rem, 7vw, 5.4rem);
+  line-height: .92;
+  letter-spacing: -.07em;
+  margin: 22px 0;
+}
+.simRequestIntro p {
+  color: rgba(255,255,255,.82);
+  font-size: 1.14rem;
+  line-height: 1.65;
+  max-width: 680px;
+}
+.simPromiseGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 28px;
+}
+.simPromiseGrid div {
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.08);
+  border-radius: 20px;
+  padding: 18px;
+  display: grid;
+  gap: 7px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+}
+.simPromiseGrid svg { color: #ffe047; }
+.simPromiseGrid strong { color: #fff; font-size: .92rem; }
+.simPromiseGrid span { color: rgba(255,255,255,.72); font-size: .82rem; line-height: 1.35; }
+.simRequestForm {
+  background: rgba(255,255,255,.96);
+  color: #0f172a;
+  border: 1px solid rgba(219,234,254,.9);
+  border-radius: 32px;
+  padding: 28px;
+  box-shadow: 0 30px 80px rgba(2, 6, 23, .34);
+}
+.simRequestForm h2 {
+  margin: 22px 0 12px;
+  font-size: 1.15rem;
+  letter-spacing: -.02em;
+}
+.simOptionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.simOptionGrid button {
+  border: 1px solid #dbeafe;
+  background: #f8fbff;
+  border-radius: 18px;
+  padding: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: .18s ease;
+}
+.simOptionGrid button strong { display: block; font-size: .95rem; margin-bottom: 6px; }
+.simOptionGrid button span { color: #64748b; font-size: .8rem; line-height: 1.35; }
+.simOptionGrid button.selected {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+  background: #eff6ff;
+}
+.simRequestForm label {
+  display: grid;
+  gap: 8px;
+  color: #334155;
+  font-weight: 850;
+  font-size: .9rem;
+}
+.simRequestForm input,
+.simRequestForm select,
+.simRequestForm textarea {
+  width: 100%;
+  border: 1px solid #dbeafe;
+  border-radius: 16px;
+  background: #fff;
+  color: #0f172a;
+  font: inherit;
+  font-weight: 750;
+  padding: 14px 15px;
+  outline: none;
+}
+.simRequestForm textarea { min-height: 100px; resize: vertical; }
+.simRequestForm input:focus,
+.simRequestForm select:focus,
+.simRequestForm textarea:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+.simFieldGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.simFieldGrid .wide { grid-column: 1 / -1; }
+.checkboxLine {
+  display: flex !important;
+  align-items: center;
+  grid-template-columns: auto 1fr;
+  flex-direction: row;
+  gap: 12px !important;
+  margin: 14px 0;
+}
+.checkboxLine input { width: 18px; height: 18px; }
+.simFinePrint {
+  color: #64748b;
+  font-size: .86rem;
+  line-height: 1.45;
+  margin: 16px 0;
+}
+.formSuccess,
+.formError {
+  border-radius: 18px;
+  padding: 14px 16px;
+  font-weight: 850;
+  margin: 14px 0;
+}
+.formSuccess { background: #ecfdf5; color: #047857; border: 1px solid #bbf7d0; }
+.formError { background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
+.simStoreCards button {
+  border: 0;
+  background: transparent;
+  color: #ffe047;
+  font: inherit;
+  font-weight: 900;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+.adminTabs {
+  display: flex;
+  gap: 8px;
+  background: #edf5ff;
+  border: 1px solid #dbeafe;
+  padding: 6px;
+  border-radius: 999px;
+}
+.adminTabs button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: transparent;
+  color: #334155;
+  font-weight: 900;
+  cursor: pointer;
+}
+.adminTabs button.active { background: #fff; color: #1d4ed8; box-shadow: 0 8px 20px rgba(15,23,42,.08); }
+.adminMetaGrid .wide { grid-column: 1 / -1; }
+.simAdminCard .adminDeviceLine { background: linear-gradient(135deg, #f5f3ff, #eff6ff); }
+@media (max-width: 980px) {
+  .simRequestGrid { grid-template-columns: 1fr; }
+  .simOptionGrid, .simPromiseGrid, .simFieldGrid { grid-template-columns: 1fr; }
+}

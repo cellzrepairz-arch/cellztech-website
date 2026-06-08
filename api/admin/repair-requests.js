@@ -34,27 +34,42 @@ export default async function handler(req, res) {
 
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const table = process.env.SUPABASE_REPAIR_REQUESTS_TABLE || 'website_repair_requests';
+  const repairTable = process.env.SUPABASE_REPAIR_REQUESTS_TABLE || 'website_repair_requests';
+  const simTable = process.env.SUPABASE_SIM_REQUESTS_TABLE || 'ultra_sim_requests';
 
   if (!supabaseUrl || !serviceKey) {
     return res.status(503).json({ ok: false, message: 'Supabase is not configured.' });
   }
 
   const limit = Math.min(Math.max(Number(req.query?.limit || 75), 1), 200);
-  const url = `${supabaseUrl.replace(/\/+$/, '')}/rest/v1/${table}?select=*&order=submitted_at.desc&limit=${limit}`;
+  const headers = {
+    apikey: serviceKey,
+    Authorization: `Bearer ${serviceKey}`,
+    Accept: 'application/json'
+  };
 
-  const response = await fetch(url, {
-    headers: {
-      apikey: serviceKey,
-      Authorization: `Bearer ${serviceKey}`,
-      Accept: 'application/json'
+  async function loadTable(table) {
+    const url = `${supabaseUrl.replace(/\/+$/, '')}/rest/v1/${table}?select=*&order=submitted_at.desc&limit=${limit}`;
+    const response = await fetch(url, { headers });
+    const data = await parseJsonResponse(response);
+    if (!response.ok) {
+      return { ok: false, status: response.status, data };
     }
-  });
-
-  const data = await parseJsonResponse(response);
-  if (!response.ok) {
-    return res.status(response.status).json({ ok: false, message: 'Could not load repair requests.', details: data });
+    return { ok: true, data: Array.isArray(data) ? data : [] };
   }
 
-  return res.status(200).json({ ok: true, requests: Array.isArray(data) ? data : [] });
+  const repairResult = await loadTable(repairTable);
+  if (!repairResult.ok) {
+    return res.status(repairResult.status).json({ ok: false, message: 'Could not load repair requests.', details: repairResult.data });
+  }
+
+  const simResult = await loadTable(simTable);
+  const simRequests = simResult.ok ? simResult.data : [];
+
+  return res.status(200).json({
+    ok: true,
+    requests: repairResult.data,
+    simRequests,
+    simWarning: simResult.ok ? null : simResult.data
+  });
 }

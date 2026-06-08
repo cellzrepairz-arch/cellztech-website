@@ -73,3 +73,35 @@ create index if not exists website_repair_requests_repairdesk_lead_order_id_idx
 -- RLS is disabled here to prevent server-side service-key writes from being blocked by Supabase project defaults.
 alter table public.website_repair_requests disable row level security;
 alter table public.repairdesk_oauth_tokens disable row level security;
+
+-- Ultra Mobile SIM card request intake for Phase 3.
+create table if not exists public.ultra_sim_requests (
+  id uuid primary key default gen_random_uuid(),
+  submitted_at timestamptz not null default now(),
+  source text,
+  status text not null default 'sim_request_saved',
+  request_type text not null,
+  plan_interest text,
+  needs_activation_help boolean default true,
+  customer_name text not null,
+  customer_phone text not null,
+  customer_email text not null,
+  shipping_address text,
+  shipping_city text,
+  shipping_state text,
+  shipping_zip text,
+  notes text,
+  raw_payload jsonb,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists ultra_sim_requests_submitted_at_idx
+  on public.ultra_sim_requests (submitted_at desc);
+
+create index if not exists ultra_sim_requests_customer_email_idx
+  on public.ultra_sim_requests (customer_email);
+
+create index if not exists ultra_sim_requests_request_type_idx
+  on public.ultra_sim_requests (request_type);
+
+alter table public.ultra_sim_requests disable row level security;

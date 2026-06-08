@@ -29,7 +29,7 @@ import {
 import './styles.css';
 import { deviceCatalog, getBrandTotalModels } from './deviceCatalog';
 
-type PageKey = 'home' | 'repairs' | 'ultra' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'admin';
+type PageKey = 'home' | 'repairs' | 'ultra' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'sim' | 'admin';
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk';
 
 const routes: Record<PageKey, string> = {
@@ -42,6 +42,7 @@ const routes: Record<PageKey, string> = {
   about: '/about',
   contact: '/contact',
   book: '/book-repair',
+  sim: '/ultra-sim',
   admin: '/admin'
 };
 
@@ -58,10 +59,10 @@ const languages: { key: LanguageKey; label: string; name: string }[] = [
 ];
 
 const navLabels: Record<LanguageKey, Record<PageKey, string>> = {
-  en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact', book: 'Book Repair', admin: 'Admin' },
-  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Zgłoś naprawę', admin: 'Admin' },
-  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Solicitar reparación', admin: 'Admin' },
-  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Заявка на ремонт', admin: 'Admin' }
+  en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact', book: 'Book Repair', sim: 'SIM Request', admin: 'Admin' },
+  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Zgłoś naprawę', sim: 'Zamów SIM', admin: 'Admin' },
+  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Solicitar reparación', sim: 'Pedir SIM', admin: 'Admin' },
+  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Заявка на ремонт', sim: 'Запит SIM', admin: 'Admin' }
 };
 
 const serviceCards = [
@@ -191,6 +192,13 @@ const pageData: Record<PageKey, { eyebrow: string; title: string; text: string; 
     bullets: ['Apple repairs first', 'Samsung, Motorola, and Google Pixel can be added next', 'No payment is collected online'],
     cta: 'Start repair request'
   },
+  sim: {
+    eyebrow: 'Ultra Mobile SIM request',
+    title: 'Request an Ultra Mobile SIM card for pickup or shipping.',
+    text: 'Start a SIM request for store pickup, U.S. shipping, or eSIM help. We will confirm availability, activation details, shipping, and payment before anything is finalized.',
+    bullets: ['Physical SIM shipping request', 'Store pickup at CellzTech', 'eSIM help for compatible phones'],
+    cta: 'Start SIM request'
+  },
   admin: {
     eyebrow: 'Admin',
     title: 'CellzTech repair request dashboard.',
@@ -213,6 +221,7 @@ const localizedPageData: Record<LanguageKey, typeof pageData> = {
     about: { eyebrow: 'O CellzTech', title: 'Nowoczesna marka prowadzona przez Cellz Repairz LLC.', text: 'CellzTech to nowoczesne centrum usług Cellz Repairz. Cel jest prosty: ułatwić klientom naprawę telefonu, usługę komórkową, zakup telefonu, akcesoria i skup.', bullets: ['Lokalny sklep w Chicago', 'Prowadzone przez Cellz Repairz LLC', 'Praktyczna pomoc zamiast korporacyjnego zamieszania'], cta: 'Skontaktuj się z nami' },
     contact: { eyebrow: 'Odwiedź nas lub zadzwoń', title: 'Wpadnij albo zadzwoń do CellzTech po lokalną pomoc technologiczną.', text: 'Znajdujemy się pod adresem 3412 N Harlem Ave STE A, Chicago, IL 60634. Zadzwoń w sprawie napraw, Ultra Mobile, skupu, telefonów i akcesoriów.', bullets: ['3412 N Harlem Ave STE A, Chicago, IL 60634', '773-413-7489', 'CellzTech jest prowadzone przez Cellz Repairz LLC'], cta: 'Zadzwoń do CellzTech' },
     book: { eyebrow: 'Zgłoszenie naprawy', title: 'Wyślij zgłoszenie naprawy do CellzTech.', text: 'Wybierz markę, model, usterkę oraz preferowane okno czasowe. Skontaktujemy się z Tobą, aby potwierdzić szczegóły, cenę i dostępność części.', bullets: ['Najpierw naprawy Apple', 'Samsung, Motorola i Google Pixel obsługiwane w kolejnym etapie', 'Płatność online nie jest pobierana'], cta: 'Rozpocznij zgłoszenie' },
+    sim: { eyebrow: 'Prośba o kartę SIM Ultra Mobile', title: 'Zamów kartę SIM Ultra Mobile do odbioru lub wysyłki.', text: 'Rozpocznij prośbę o kartę SIM do odbioru w sklepie, wysyłki na terenie USA albo pomocy z eSIM. Potwierdzimy dostępność, aktywację, wysyłkę i płatność przed finalizacją.', bullets: ['Prośba o wysyłkę fizycznej karty SIM', 'Odbiór w CellzTech', 'Pomoc z eSIM dla zgodnych telefonów'], cta: 'Rozpocznij prośbę o SIM' },
     admin: pageData.admin
   },
   es: {
@@ -225,6 +234,7 @@ const localizedPageData: Record<LanguageKey, typeof pageData> = {
     about: { eyebrow: 'Acerca de CellzTech', title: 'Una marca moderna operada por Cellz Repairz LLC.', text: 'CellzTech es el centro moderno de servicios de Cellz Repairz. El objetivo es simple: hacer más fácil la reparación, el servicio móvil, la compra de teléfonos, los accesorios y la recompra.', bullets: ['Tienda local en Chicago', 'Operada por Cellz Repairz LLC', 'Ayuda práctica sin confusión corporativa'], cta: 'Contáctanos' },
     contact: { eyebrow: 'Visítanos o llama', title: 'Pasa por la tienda o llama a CellzTech para ayuda local.', text: 'Estamos en 3412 N Harlem Ave STE A, Chicago, IL 60634. Llámanos para reparaciones, Ultra Mobile, recompra, teléfonos y accesorios.', bullets: ['3412 N Harlem Ave STE A, Chicago, IL 60634', '773-413-7489', 'CellzTech es operado por Cellz Repairz LLC'], cta: 'Llamar a CellzTech' },
     book: { eyebrow: 'Solicitud de reparación', title: 'Envía una solicitud de reparación a CellzTech.', text: 'Elige la marca, el modelo, el problema y una ventana preferida para dejar el equipo. Te contactaremos para confirmar detalles, precio y disponibilidad de piezas.', bullets: ['Primero reparaciones Apple', 'Samsung, Motorola y Google Pixel se pueden ampliar después', 'No se cobra ningún pago en línea'], cta: 'Iniciar solicitud' },
+    sim: { eyebrow: 'Solicitud de SIM Ultra Mobile', title: 'Solicita una tarjeta SIM Ultra Mobile para recoger o enviar.', text: 'Inicia una solicitud para recoger en tienda, envío dentro de EE. UU. o ayuda con eSIM. Confirmaremos disponibilidad, activación, envío y pago antes de finalizar.', bullets: ['Solicitud de envío de SIM física', 'Recoger en CellzTech', 'Ayuda con eSIM en teléfonos compatibles'], cta: 'Iniciar solicitud de SIM' },
     admin: pageData.admin
   },
   uk: {
@@ -237,6 +247,7 @@ const localizedPageData: Record<LanguageKey, typeof pageData> = {
     about: { eyebrow: 'Про CellzTech', title: 'Сучасний бренд, яким керує Cellz Repairz LLC.', text: 'CellzTech — це сучасний сервісний центр Cellz Repairz. Мета проста: зробити ремонт телефонів, мобільний зв’язок, продаж телефонів, аксесуари та викуп зручнішими для місцевих клієнтів.', bullets: ['Місцевий магазин у Чикаго', 'Керується Cellz Repairz LLC', 'Практична допомога без корпоративної плутанини'], cta: 'Зв’язатися з нами' },
     contact: { eyebrow: 'Завітайте або зателефонуйте', title: 'Завітайте до CellzTech або зателефонуйте для місцевої технічної допомоги.', text: 'Ми знаходимося за адресою 3412 N Harlem Ave STE A, Chicago, IL 60634. Телефонуйте щодо ремонту, Ultra Mobile, викупу, телефонів і аксесуарів.', bullets: ['3412 N Harlem Ave STE A, Chicago, IL 60634', '773-413-7489', 'CellzTech керується Cellz Repairz LLC'], cta: 'Зателефонувати до CellzTech' },
     book: { eyebrow: 'Заявка на ремонт', title: 'Надішліть заявку на ремонт до CellzTech.', text: 'Виберіть бренд, модель, проблему та зручне вікно для здачі пристрою. Ми зв’яжемося з вами, щоб підтвердити деталі, ціну та наявність деталей.', bullets: ['Спочатку ремонт Apple', 'Samsung, Motorola та Google Pixel можна додати далі', 'Оплата онлайн не стягується'], cta: 'Почати заявку' },
+    sim: { eyebrow: 'Запит SIM Ultra Mobile', title: 'Замовте SIM-картку Ultra Mobile для самовивозу або доставки.', text: 'Надішліть запит на SIM для самовивозу, доставки по США або допомоги з eSIM. Ми підтвердимо наявність, активацію, доставку та оплату до завершення.', bullets: ['Запит на доставку фізичної SIM-картки', 'Самовивіз у CellzTech', 'Допомога з eSIM для сумісних телефонів'], cta: 'Почати запит SIM' },
     admin: pageData.admin
   }
 };
@@ -492,6 +503,23 @@ type AdminRepairRequest = {
   integration_errors?: unknown;
 };
 
+type AdminSimRequest = {
+  id: string;
+  submitted_at?: string;
+  status?: string;
+  request_type?: string;
+  plan_interest?: string;
+  needs_activation_help?: boolean;
+  customer_name?: string;
+  customer_phone?: string;
+  customer_email?: string;
+  shipping_address?: string;
+  shipping_city?: string;
+  shipping_state?: string;
+  shipping_zip?: string;
+  notes?: string;
+};
+
 function formatAdminDate(value?: string) {
   if (!value) return 'Not available';
   const parsed = new Date(value);
@@ -509,6 +537,8 @@ function AdminDashboard() {
   const [adminKey, setAdminKey] = useState('');
   const [inputKey, setInputKey] = useState('');
   const [requests, setRequests] = useState<AdminRepairRequest[]>([]);
+  const [simRequests, setSimRequests] = useState<AdminSimRequest[]>([]);
+  const [adminView, setAdminView] = useState<'repairs' | 'sim'>('repairs');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [query, setQuery] = useState('');
@@ -533,9 +563,11 @@ function AdminDashboard() {
       setAdminKey(key.trim());
       setInputKey('');
       setRequests(data.requests || []);
+      setSimRequests(data.simRequests || []);
     } catch (err) {
       setAdminKey('');
       setRequests([]);
+      setSimRequests([]);
       setError(err instanceof Error ? err.message : 'Access denied. Check the admin key and try again.');
     } finally {
       setLoading(false);
@@ -556,6 +588,21 @@ function AdminDashboard() {
     ].some((value) => String(value || '').toLowerCase().includes(term)));
   }, [requests, query]);
 
+  const filteredSimRequests = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    if (!term) return simRequests;
+    return simRequests.filter((request) => [
+      request.customer_name,
+      request.customer_phone,
+      request.customer_email,
+      request.request_type,
+      request.plan_interest,
+      request.shipping_city,
+      request.shipping_state,
+      request.status
+    ].some((value) => String(value || '').toLowerCase().includes(term)));
+  }, [simRequests, query]);
+
   const leadCount = requests.filter((request) => request.repairdesk_lead_id || request.repairdesk_lead_order_id).length;
   const failedCount = requests.filter((request) => request.integration_errors).length;
 
@@ -568,6 +615,7 @@ function AdminDashboard() {
     setAdminKey('');
     setInputKey('');
     setRequests([]);
+    setSimRequests([]);
     setQuery('');
     setError('');
   };
@@ -666,6 +714,10 @@ function AdminDashboard() {
           {error && <div className="adminNotice error">{error}</div>}
 
           <div className="adminToolbar">
+            <div className="adminTabs" aria-label="Admin request type">
+              <button className={adminView === 'repairs' ? 'active' : ''} onClick={() => setAdminView('repairs')}>Repair requests ({requests.length})</button>
+              <button className={adminView === 'sim' ? 'active' : ''} onClick={() => setAdminView('sim')}>Ultra SIM requests ({simRequests.length})</button>
+            </div>
             <div className="adminSearch">
               <Search size={18} />
               <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by name, phone, email, model, issue, or lead ID" />
@@ -674,46 +726,79 @@ function AdminDashboard() {
             <button className="secondaryBtn compact" onClick={signOut}>Lock console</button>
           </div>
 
-          <div className="adminRequestGrid">
-            {filteredRequests.map((request) => {
-              const hasLead = Boolean(request.repairdesk_lead_id || request.repairdesk_lead_order_id);
-              const needsReview = Boolean(request.integration_errors);
-              return (
-                <article className="adminRequestCard" key={request.id}>
-                  <div className="adminRequestTop">
-                    <div>
-                      <span className="adminTimestamp">{formatAdminDate(request.submitted_at)}</span>
-                      <h2>{request.customer_name || 'Unknown customer'}</h2>
-                      <p>{request.customer_phone || 'No phone'} · {request.customer_email || 'No email'}</p>
+          {adminView === 'repairs' ? (
+            <div className="adminRequestGrid">
+              {filteredRequests.map((request) => {
+                const hasLead = Boolean(request.repairdesk_lead_order_id || request.repairdesk_lead_id);
+                const needsReview = Boolean(request.integration_errors);
+                return (
+                  <article className="adminRequestCard" key={request.id}>
+                    <div className="adminRequestTop">
+                      <div>
+                        <span className="adminTimestamp">{formatAdminDate(request.submitted_at)}</span>
+                        <h3>{request.customer_name || 'Unnamed customer'}</h3>
+                        <p>{request.customer_phone || 'No phone'} • {request.customer_email || 'No email'}</p>
+                      </div>
+                      <span className={needsReview ? 'adminStatus warning' : hasLead ? 'adminStatus success' : 'adminStatus'}>
+                        {needsReview ? 'Needs review' : hasLead ? 'Lead created' : 'Saved'}
+                      </span>
                     </div>
-                    <span className={needsReview ? 'adminStatus warning' : hasLead ? 'adminStatus success' : 'adminStatus'}>
-                      {needsReview ? 'Review' : hasLead ? 'Lead created' : 'Saved'}
-                    </span>
-                  </div>
-
-                  <div className="adminDeviceLine">
-                    <strong>{request.model || 'Unknown model'}</strong>
-                    <span>{request.issue || 'Issue not provided'}</span>
-                  </div>
-
-                  <div className="adminMetaGrid">
-                    <div><span>Requested</span><strong>{request.requested_date || 'No date'} {request.requested_time || ''}</strong></div>
-                    <div><span>RepairDesk lead</span><strong>{request.repairdesk_lead_order_id || request.repairdesk_lead_id || 'Not created'}</strong></div>
-                    <div><span>Customer ID</span><strong>{request.repairdesk_customer_id || 'Not saved'}</strong></div>
-                    <div><span>Status</span><strong>{request.status || 'Saved'}</strong></div>
-                  </div>
-
-                  {request.notes && <p className="adminNotes">{request.notes}</p>}
-                  {needsReview && <p className="adminErrorText">Integration warning saved. Check Supabase for the full JSON response.</p>}
-                </article>
-              );
-            })}
-          </div>
-
-          {!loading && filteredRequests.length === 0 && (
-            <div className="adminEmptyState">
-              <h2>No repair requests found.</h2>
-              <p>Once a customer submits the Book Repair form, the request will appear here after the backend saves it.</p>
+                    <div className="adminDeviceLine">
+                      <strong>{request.model || 'Unknown model'}</strong>
+                      <span>{request.issue || 'No issue listed'}</span>
+                    </div>
+                    <div className="adminMetaGrid">
+                      <div><span>Requested</span><strong>{request.requested_date || 'Not set'} {request.requested_time || ''}</strong></div>
+                      <div><span>RepairDesk lead</span><strong>{request.repairdesk_lead_order_id || request.repairdesk_lead_id || 'Not created'}</strong></div>
+                      <div><span>Customer ID</span><strong>{request.repairdesk_customer_id || 'Not created'}</strong></div>
+                      <div><span>Status</span><strong>{request.status || 'Saved'}</strong></div>
+                    </div>
+                    {request.notes && <p className="adminNotes">{request.notes}</p>}
+                    {needsReview && <p className="adminErrorText">Integration warning saved. Check Supabase for the full JSON response.</p>}
+                  </article>
+                );
+              })}
+              {!filteredRequests.length && (
+                <div className="adminEmptyState">
+                  <h3>No repair requests found</h3>
+                  <p>Try another search or submit a test repair request from the booking page.</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="adminRequestGrid">
+              {filteredSimRequests.map((request) => {
+                const typeLabel = request.request_type === 'shipping' ? 'Ship SIM' : request.request_type === 'pickup' ? 'Pickup SIM' : 'eSIM help';
+                const address = [request.shipping_address, request.shipping_city, request.shipping_state, request.shipping_zip].filter(Boolean).join(', ');
+                return (
+                  <article className="adminRequestCard simAdminCard" key={request.id}>
+                    <div className="adminRequestTop">
+                      <div>
+                        <span className="adminTimestamp">{formatAdminDate(request.submitted_at)}</span>
+                        <h3>{request.customer_name || 'Unnamed customer'}</h3>
+                        <p>{request.customer_phone || 'No phone'} • {request.customer_email || 'No email'}</p>
+                      </div>
+                      <span className="adminStatus success">SIM request</span>
+                    </div>
+                    <div className="adminDeviceLine">
+                      <strong>{typeLabel}</strong>
+                      <span>{request.plan_interest || 'No plan selected'}</span>
+                    </div>
+                    <div className="adminMetaGrid">
+                      <div><span>Activation help</span><strong>{request.needs_activation_help ? 'Yes' : 'No / not sure'}</strong></div>
+                      <div><span>Status</span><strong>{request.status || 'Saved'}</strong></div>
+                      <div className="wide"><span>Shipping</span><strong>{address || 'Not needed / not provided'}</strong></div>
+                    </div>
+                    {request.notes && <p className="adminNotes">{request.notes}</p>}
+                  </article>
+                );
+              })}
+              {!filteredSimRequests.length && (
+                <div className="adminEmptyState">
+                  <h3>No SIM requests found</h3>
+                  <p>Try another search or submit a test Ultra SIM request.</p>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -721,6 +806,9 @@ function AdminDashboard() {
     </main>
   );
 }
+
+
+
 
 function PageDetail({ page, lang }: { page: PageKey; lang: LanguageKey }) {
   const data = localizedPageData[lang][page];
@@ -746,18 +834,10 @@ function PageDetail({ page, lang }: { page: PageKey; lang: LanguageKey }) {
     );
   }
 
-  if (page === 'repairs') {
-    return <RepairsPage lang={lang} />;
-  }
-
-  if (page === 'book') {
-    return <BookRepairPage lang={lang} />;
-  }
-
-  if (page === 'admin') {
-    return <AdminDashboard />;
-  }
-
+  if (page === 'repairs') return <RepairsPage lang={lang} />;
+  if (page === 'book') return <BookRepairPage lang={lang} />;
+  if (page === 'admin') return <AdminDashboard />;
+  if (page === 'sim') return <UltraSimRequestPage lang={lang} />;
   if (page === 'ultra') {
     return (
       <main className="pageMain">
@@ -796,8 +876,6 @@ function PageDetail({ page, lang }: { page: PageKey; lang: LanguageKey }) {
     </main>
   );
 }
-
-
 
 function FeaturedReviews() {
   const shuffledReviews = useMemo(() => [...featuredReviews].sort(() => Math.random() - 0.5), []);
@@ -2666,7 +2744,7 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
                 <ShoppingBag size={24} />
                 <h3>{option.title}</h3>
                 <p>{option.text}</p>
-                <a href={`sms:7734137489?&body=${encodeURIComponent(`Hi CellzTech, I want to ask about Ultra Mobile. ${option.title}.`)}`}>{option.cta}</a>
+                <button type="button" onClick={() => goTo('sim')}>{option.cta}</button>
               </article>
             ))}
           </div>
@@ -2675,6 +2753,149 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
     </>
   );
 }
+
+const simRequestCopy = {
+  en: {
+    badge: 'Ultra Mobile SIM request',
+    title: 'Request an Ultra Mobile SIM card.',
+    text: 'Choose shipping, store pickup, or eSIM help. This is not checkout yet — we will confirm SIM availability, activation details, shipping, and payment before anything is finalized.',
+    options: [
+      { key: 'shipping', title: 'Ship a physical SIM', text: 'Request a physical Ultra Mobile SIM card shipped anywhere in the USA.' },
+      { key: 'pickup', title: 'Pick up in Chicago', text: 'Reserve a SIM for pickup and activation help at CellzTech.' },
+      { key: 'esim', title: 'Ask about eSIM', text: 'Check whether your compatible phone can use Ultra Mobile eSIM.' }
+    ],
+    plan: 'Plan you are interested in', choosePlan: 'Choose a plan or select not sure', activation: 'I need help activating or transferring my number', contact: 'Contact details', name: 'Full name', phone: 'Phone number', email: 'Email address', shipping: 'Shipping address', address: 'Street address', city: 'City', state: 'State', zip: 'ZIP code', notes: 'Notes', notesPlaceholder: 'Example: I need a SIM for a family member in another state.', submit: 'Send SIM request', sending: 'Sending request...', success: 'SIM request sent. We will contact you to confirm availability, shipping, activation, and payment details.', error: 'Please check the form and try again.', disclaimer: 'SIM shipping and activation are not confirmed until CellzTech contacts you. Taxes, shipping, plan pricing, promo eligibility, and activation details may vary.'
+  },
+  pl: {
+    badge: 'Prośba o kartę SIM Ultra Mobile', title: 'Zamów kartę SIM Ultra Mobile.', text: 'Wybierz wysyłkę, odbiór w sklepie albo pomoc z eSIM. To jeszcze nie jest płatność online — potwierdzimy dostępność SIM, aktywację, wysyłkę i płatność przed finalizacją.',
+    options: [
+      { key: 'shipping', title: 'Wyślij fizyczną kartę SIM', text: 'Poproś o wysyłkę fizycznej karty SIM Ultra Mobile na terenie USA.' },
+      { key: 'pickup', title: 'Odbiór w Chicago', text: 'Zarezerwuj SIM do odbioru i pomocy przy aktywacji w CellzTech.' },
+      { key: 'esim', title: 'Zapytaj o eSIM', text: 'Sprawdź, czy Twój zgodny telefon może użyć eSIM Ultra Mobile.' }
+    ],
+    plan: 'Plan, który Cię interesuje', choosePlan: 'Wybierz plan albo zaznacz, że nie masz pewności', activation: 'Potrzebuję pomocy z aktywacją lub przeniesieniem numeru', contact: 'Dane kontaktowe', name: 'Imię i nazwisko', phone: 'Numer telefonu', email: 'Adres e-mail', shipping: 'Adres wysyłki', address: 'Ulica i numer', city: 'Miasto', state: 'Stan', zip: 'Kod ZIP', notes: 'Uwagi', notesPlaceholder: 'Przykład: Potrzebuję SIM dla członka rodziny w innym stanie.', submit: 'Wyślij prośbę o SIM', sending: 'Wysyłanie...', success: 'Prośba o SIM została wysłana. Skontaktujemy się, aby potwierdzić dostępność, wysyłkę, aktywację i płatność.', error: 'Sprawdź formularz i spróbuj ponownie.', disclaimer: 'Wysyłka SIM i aktywacja nie są potwierdzone, dopóki CellzTech się z Tobą nie skontaktuje. Podatki, wysyłka, ceny planów, uprawnienia do promocji i szczegóły aktywacji mogą się różnić.'
+  },
+  es: {
+    badge: 'Solicitud de SIM Ultra Mobile', title: 'Solicita una tarjeta SIM Ultra Mobile.', text: 'Elige envío, recogida en tienda o ayuda con eSIM. Todavía no es un pago en línea; confirmaremos disponibilidad, activación, envío y pago antes de finalizar.',
+    options: [
+      { key: 'shipping', title: 'Enviar una SIM física', text: 'Solicita una tarjeta SIM física de Ultra Mobile enviada dentro de EE. UU.' },
+      { key: 'pickup', title: 'Recoger en Chicago', text: 'Reserva una SIM para recogerla y recibir ayuda de activación en CellzTech.' },
+      { key: 'esim', title: 'Preguntar por eSIM', text: 'Revisa si tu teléfono compatible puede usar eSIM de Ultra Mobile.' }
+    ],
+    plan: 'Plan que te interesa', choosePlan: 'Elige un plan o selecciona no estoy seguro', activation: 'Necesito ayuda para activar o transferir mi número', contact: 'Datos de contacto', name: 'Nombre completo', phone: 'Teléfono', email: 'Correo electrónico', shipping: 'Dirección de envío', address: 'Dirección', city: 'Ciudad', state: 'Estado', zip: 'Código postal', notes: 'Notas', notesPlaceholder: 'Ejemplo: Necesito una SIM para un familiar en otro estado.', submit: 'Enviar solicitud de SIM', sending: 'Enviando...', success: 'Solicitud de SIM enviada. Te contactaremos para confirmar disponibilidad, envío, activación y pago.', error: 'Revisa el formulario e inténtalo de nuevo.', disclaimer: 'El envío de SIM y la activación no quedan confirmados hasta que CellzTech te contacte. Impuestos, envío, precio del plan, elegibilidad de promociones y detalles de activación pueden variar.'
+  },
+  uk: {
+    badge: 'Запит SIM Ultra Mobile', title: 'Надішліть запит на SIM-картку Ultra Mobile.', text: 'Виберіть доставку, самовивіз із магазину або допомогу з eSIM. Це ще не онлайн-оплата — ми підтвердимо наявність SIM, активацію, доставку й оплату до завершення.',
+    options: [
+      { key: 'shipping', title: 'Надіслати фізичну SIM', text: 'Запит на доставку фізичної SIM-картки Ultra Mobile по США.' },
+      { key: 'pickup', title: 'Самовивіз у Чикаго', text: 'Зарезервуйте SIM для самовивозу та допомоги з активацією в CellzTech.' },
+      { key: 'esim', title: 'Запитати про eSIM', text: 'Перевірте, чи сумісний телефон може використовувати eSIM Ultra Mobile.' }
+    ],
+    plan: 'План, який вас цікавить', choosePlan: 'Виберіть план або позначте, що не впевнені', activation: 'Потрібна допомога з активацією або перенесенням номера', contact: 'Контактні дані', name: 'Повне ім’я', phone: 'Телефон', email: 'Електронна пошта', shipping: 'Адреса доставки', address: 'Вулиця та номер', city: 'Місто', state: 'Штат', zip: 'ZIP-код', notes: 'Примітки', notesPlaceholder: 'Приклад: Потрібна SIM для родича в іншому штаті.', submit: 'Надіслати запит SIM', sending: 'Надсилання...', success: 'Запит SIM надіслано. Ми зв’яжемося, щоб підтвердити наявність, доставку, активацію й оплату.', error: 'Перевірте форму та спробуйте ще раз.', disclaimer: 'Доставка SIM і активація не підтверджені, доки CellzTech не зв’яжеться з вами. Податки, доставка, ціна плану, умови акцій і деталі активації можуть відрізнятися.'
+  }
+} as const;
+
+function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
+  const copy = simRequestCopy[lang] || simRequestCopy.en;
+  const [form, setForm] = useState({ requestType: 'shipping', planInterest: '', needsActivationHelp: true, name: '', phone: '', email: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '', notes: '' });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [message, setMessage] = useState('');
+
+  const update = (key: string, value: string | boolean) => setForm((current) => ({ ...current, [key]: value }));
+
+  const submit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setStatus('sending');
+    setMessage('');
+    try {
+      const response = await fetch('/api/sim-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.message || copy.error);
+      setStatus('success');
+      setMessage(copy.success);
+    } catch (error) {
+      setStatus('error');
+      setMessage(error instanceof Error ? error.message : copy.error);
+    }
+  };
+
+  return (
+    <main className="pageMain">
+      <section className="section ultraSimRequestHero">
+        <div className="wrap simRequestGrid">
+          <div className="simRequestIntro">
+            <span className="summerLabel">{copy.badge}</span>
+            <h1>{copy.title}</h1>
+            <p>{copy.text}</p>
+            <div className="simPromiseGrid">
+              <div><ShoppingBag size={22} /><strong>SIM</strong><span>Physical SIM or eSIM help</span></div>
+              <div><MapPin size={22} /><strong>Pickup</strong><span>CellzTech Chicago</span></div>
+              <div><Phone size={22} /><strong>Confirm</strong><span>We contact you first</span></div>
+            </div>
+          </div>
+
+          <form className="simRequestForm" onSubmit={submit}>
+            <div className="simOptionGrid" role="radiogroup" aria-label="SIM request type">
+              {copy.options.map((option) => (
+                <button key={option.key} type="button" className={form.requestType === option.key ? 'selected' : ''} onClick={() => update('requestType', option.key)}>
+                  <strong>{option.title}</strong>
+                  <span>{option.text}</span>
+                </button>
+              ))}
+            </div>
+
+            <label>{copy.plan}
+              <select value={form.planInterest} onChange={(event) => update('planInterest', event.target.value)}>
+                <option value="">{copy.choosePlan}</option>
+                <option value="4GB $19/mo">4GB - $19/mo</option>
+                <option value="8GB $24/mo">8GB - $24/mo</option>
+                <option value="12GB $29/mo">12GB - $29/mo</option>
+                <option value="24GB $39/mo">24GB - $39/mo</option>
+                <option value="Ultra Unlimited $49/mo">Ultra Unlimited - $49/mo</option>
+                <option value="Ultra Unlimited+ $59/mo">Ultra Unlimited+ - $59/mo</option>
+                <option value="Not sure">Not sure yet</option>
+              </select>
+            </label>
+
+            <label className="checkboxLine">
+              <input type="checkbox" checked={form.needsActivationHelp} onChange={(event) => update('needsActivationHelp', event.target.checked)} />
+              <span>{copy.activation}</span>
+            </label>
+
+            <h2>{copy.contact}</h2>
+            <div className="simFieldGrid">
+              <label>{copy.name}<input required value={form.name} onChange={(event) => update('name', event.target.value)} /></label>
+              <label>{copy.phone}<input required value={form.phone} onChange={(event) => update('phone', event.target.value)} /></label>
+              <label>{copy.email}<input required type="email" value={form.email} onChange={(event) => update('email', event.target.value)} /></label>
+            </div>
+
+            {form.requestType === 'shipping' && (
+              <>
+                <h2>{copy.shipping}</h2>
+                <div className="simFieldGrid">
+                  <label className="wide">{copy.address}<input required value={form.shippingAddress} onChange={(event) => update('shippingAddress', event.target.value)} /></label>
+                  <label>{copy.city}<input required value={form.shippingCity} onChange={(event) => update('shippingCity', event.target.value)} /></label>
+                  <label>{copy.state}<input required value={form.shippingState} onChange={(event) => update('shippingState', event.target.value)} /></label>
+                  <label>{copy.zip}<input required value={form.shippingZip} onChange={(event) => update('shippingZip', event.target.value)} /></label>
+                </div>
+              </>
+            )}
+
+            <label>{copy.notes}<textarea value={form.notes} placeholder={copy.notesPlaceholder} onChange={(event) => update('notes', event.target.value)} /></label>
+            <p className="simFinePrint">{copy.disclaimer}</p>
+            {message && <div className={status === 'success' ? 'formSuccess' : 'formError'}>{message}</div>}
+            <button className="primaryBtn" type="submit" disabled={status === 'sending'}>{status === 'sending' ? copy.sending : copy.submit} <ArrowRight size={18} /></button>
+          </form>
+        </div>
+      </section>
+    </main>
+  );
+}
+
 
 function ContactDetails() {
   return (
