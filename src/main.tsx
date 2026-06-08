@@ -837,55 +837,120 @@ function FeaturedReviews() {
   );
 }
 
+const localizedRepairContent = {
+  en: {
+    heroCta: 'Book repair', call: 'Call for repair', directions: 'Get directions', summaryLabel: 'Repair help for', servicesLabel: 'Repair services', servicesTitle: 'Common repairs and device problems we help with.', servicesText: 'Start with the repair category that matches your issue. If you are not sure what is wrong, call or stop in and we can inspect the device.', smallSigns: 'Do not ignore the small signs', smallTitle: 'Small phone problems often turn into bigger repairs.', smallText: 'Charging at an angle, fast battery drain, ghost touch, camera blur, or a cracked screen can get worse over time. We can help you understand what is happening before you spend money on the wrong solution.', startRequest: 'Start repair request', callNumber: 'Call 773-413-7489', whyLabel: 'Why customers choose CellzTech', whyTitle: 'Clear advice, practical pricing, and repair work we stand behind.', processLabel: 'What to expect', processTitle: 'A simple repair process from start to finish.', readyLabel: 'Ready when you are', ctaTitle: 'Do not wait. Get your phone checked today.', ctaText: 'Cracked screen? Weak battery? Charging problem? Stop by CellzTech or call us and we will help you figure out the best repair option.', callNow: 'Call now',
+    services: [
+      ['iPhone Repair', 'Screens, batteries, charging ports, back glass, cameras, speakers, and common iPhone repairs.'],
+      ['Samsung Repair', 'Screen replacement, battery service, charging problems, camera issues, and common Samsung repairs.'],
+      ['iPad & Tablet Repair', 'Cracked screens, battery problems, charging ports, and tablet diagnostics.'],
+      ['Charging & Battery Issues', 'If your phone charges slowly, dies fast, or only works at an angle, stop in for help.'],
+      ['Back Glass & Camera Repair', 'Repair options for cracked back glass, broken camera lens glass, and camera-related issues.'],
+      ['Diagnostics & Data Recovery', 'If your phone will not turn on or you need important data, we can inspect the device and explain possible options.']
+    ],
+    trust: [
+      ['Clear repair advice', 'We explain what is wrong with your device and your repair options before starting any work.'],
+      ['High-quality parts', 'We use high-quality parts and offer one of the best warranties on repairs.'],
+      ['Local Chicago service', 'You are working with a local shop, not a corporate call center.'],
+      ['Fair, practical pricing', 'We give clear pricing before the repair so you know what to expect.'],
+      ['Experienced repair help', 'We work on iPhones, Samsung devices, iPads, tablets, Motorola, Google Pixel, and more.'],
+      ['Warranty-focused repairs', 'We stand behind our work and explain warranty coverage clearly.']
+    ],
+    problems: ['Cracked screen or touch problems', 'Weak battery or random shutdowns', 'Phone not charging or loose charging port', 'Broken back glass or camera lens glass', 'Camera, speaker, microphone, or button problems', 'Device will not turn on or needs diagnostics'],
+    steps: [['1','Tell us the issue','Bring the device in or call the shop and explain what is happening.'], ['2','We check options','We explain the likely repair, pricing, timing, and warranty information.'], ['3','We repair the device','Once approved, we complete the repair using the right parts and tools.'], ['4','You test before leaving','We want you to understand the repair and leave with confidence.']]
+  },
+  pl: {
+    heroCta: 'Zgłoś naprawę', call: 'Zadzwoń w sprawie naprawy', directions: 'Pokaż trasę', summaryLabel: 'Pomagamy przy naprawie', servicesLabel: 'Usługi naprawcze', servicesTitle: 'Najczęstsze naprawy i problemy z urządzeniami.', servicesText: 'Wybierz kategorię, która najlepiej pasuje do usterki. Jeśli nie masz pewności, zadzwoń lub odwiedź sklep — sprawdzimy urządzenie i jasno wyjaśnimy możliwości.', smallSigns: 'Nie ignoruj drobnych objawów', smallTitle: 'Małe problemy z telefonem często przeradzają się w większe naprawy.', smallText: 'Ładowanie tylko pod kątem, szybkie rozładowywanie baterii, samoczynny dotyk, zamazany obraz z aparatu albo pęknięty ekran mogą z czasem się pogarszać. Pomożemy ustalić, co się dzieje, zanim wydasz pieniądze na niewłaściwe rozwiązanie.', startRequest: 'Rozpocznij zgłoszenie', callNumber: 'Zadzwoń 773-413-7489', whyLabel: 'Dlaczego klienci wybierają CellzTech', whyTitle: 'Jasna porada, uczciwe podejście do ceny i naprawy, za którymi stoimy.', processLabel: 'Jak wygląda proces', processTitle: 'Prosty przebieg naprawy od początku do końca.', readyLabel: 'Jesteśmy gotowi, kiedy Ty jesteś', ctaTitle: 'Nie czekaj. Sprawdź swój telefon już dziś.', ctaText: 'Pęknięty ekran? Słaba bateria? Problem z ładowaniem? Odwiedź CellzTech albo zadzwoń, a pomożemy dobrać najlepszą opcję naprawy.', callNow: 'Zadzwoń teraz',
+    services: [
+      ['Naprawa iPhone’a', 'Ekrany, baterie, porty ładowania, tylne szybki, aparaty, głośniki i typowe naprawy iPhone’ów.'],
+      ['Naprawa Samsung', 'Wymiana ekranu, serwis baterii, problemy z ładowaniem, aparatem i typowe naprawy urządzeń Samsung.'],
+      ['Naprawa iPada i tabletów', 'Pęknięte ekrany, problemy z baterią, porty ładowania i diagnostyka tabletów.'],
+      ['Problemy z ładowaniem i baterią', 'Jeśli telefon ładuje się wolno, szybko się rozładowuje albo działa tylko pod odpowiednim kątem, przyjdź po pomoc.'],
+      ['Tylna szybka i aparat', 'Opcje naprawy pękniętej tylnej szybki, szkła aparatu oraz usterek związanych z kamerą.'],
+      ['Diagnostyka i odzyskiwanie danych', 'Jeśli telefon się nie włącza albo potrzebujesz ważnych danych, sprawdzimy urządzenie i wyjaśnimy możliwe rozwiązania.']
+    ],
+    trust: [
+      ['Jasna porada naprawcza', 'Wyjaśniamy, co dzieje się z urządzeniem i jakie są opcje przed rozpoczęciem pracy.'],
+      ['Dobrej jakości części', 'Używamy dobrej jakości części i oferujemy jedną z najlepszych gwarancji na naprawy.'],
+      ['Lokalna obsługa w Chicago', 'Rozmawiasz z lokalnym serwisem, a nie z anonimowym centrum obsługi.'],
+      ['Uczciwa, praktyczna wycena', 'Podajemy jasną cenę przed naprawą, aby klient wiedział, czego się spodziewać.'],
+      ['Doświadczona pomoc serwisowa', 'Pracujemy z iPhone’ami, Samsungami, iPadami, tabletami, Motorolą, Google Pixel i innymi urządzeniami.'],
+      ['Naprawy z naciskiem na gwarancję', 'Stoimy za swoją pracą i jasno wyjaśniamy zakres gwarancji.']
+    ],
+    problems: ['Pęknięty ekran lub problemy z dotykiem', 'Słaba bateria albo losowe wyłączanie', 'Telefon nie ładuje się lub port ładowania jest luźny', 'Pęknięta tylna szybka albo szkło aparatu', 'Problemy z aparatem, głośnikiem, mikrofonem lub przyciskami', 'Urządzenie się nie włącza albo wymaga diagnostyki'],
+    steps: [['1','Opisz usterkę','Przynieś urządzenie lub zadzwoń i powiedz, co się dzieje.'], ['2','Sprawdzamy opcje','Wyjaśniamy możliwą naprawę, cenę, czas i informacje o gwarancji.'], ['3','Naprawiamy urządzenie','Po akceptacji wykonujemy naprawę z użyciem odpowiednich części i narzędzi.'], ['4','Testujesz przed wyjściem','Chcemy, aby klient rozumiał naprawę i wychodził z pewnością.']]
+  },
+  es: {
+    heroCta: 'Solicitar reparación', call: 'Llamar por reparación', directions: 'Cómo llegar', summaryLabel: 'Ayuda de reparación para', servicesLabel: 'Servicios de reparación', servicesTitle: 'Reparaciones comunes y problemas de dispositivos.', servicesText: 'Elige la categoría que coincida con tu problema. Si no estás seguro, llama o visita la tienda y podemos revisar el equipo.', smallSigns: 'No ignores las señales pequeñas', smallTitle: 'Los problemas pequeños del teléfono pueden convertirse en reparaciones más grandes.', smallText: 'Cargar solo en cierto ángulo, batería que se descarga rápido, toques fantasma, cámara borrosa o una pantalla rota pueden empeorar con el tiempo. Te ayudamos a entender qué pasa antes de gastar dinero en la solución equivocada.', startRequest: 'Iniciar solicitud', callNumber: 'Llamar 773-413-7489', whyLabel: 'Por qué los clientes eligen CellzTech', whyTitle: 'Consejo claro, precios prácticos y reparaciones respaldadas.', processLabel: 'Qué esperar', processTitle: 'Un proceso de reparación simple de principio a fin.', readyLabel: 'Listos cuando tú lo estés', ctaTitle: 'No esperes. Revisa tu teléfono hoy.', ctaText: '¿Pantalla rota? ¿Batería débil? ¿Problema de carga? Visita CellzTech o llámanos y te ayudaremos a encontrar la mejor opción de reparación.', callNow: 'Llamar ahora',
+    services: [
+      ['Reparación de iPhone', 'Pantallas, baterías, puertos de carga, cristal trasero, cámaras, altavoces y reparaciones comunes de iPhone.'],
+      ['Reparación de Samsung', 'Cambio de pantalla, servicio de batería, problemas de carga, cámara y reparaciones comunes de Samsung.'],
+      ['Reparación de iPad y tabletas', 'Pantallas rotas, problemas de batería, puertos de carga y diagnóstico de tabletas.'],
+      ['Carga y batería', 'Si tu teléfono carga lento, se apaga rápido o solo carga en cierto ángulo, ven por ayuda.'],
+      ['Cristal trasero y cámara', 'Opciones para cristal trasero roto, vidrio de cámara dañado y problemas relacionados con la cámara.'],
+      ['Diagnóstico y recuperación de datos', 'Si tu teléfono no enciende o necesitas datos importantes, podemos revisar el equipo y explicar las opciones.']
+    ],
+    trust: [
+      ['Consejo claro', 'Explicamos qué le pasa al dispositivo y las opciones antes de comenzar cualquier trabajo.'],
+      ['Piezas de calidad', 'Usamos piezas de calidad y ofrecemos una de las mejores garantías en reparaciones.'],
+      ['Servicio local en Chicago', 'Trabajas con una tienda local, no con un centro corporativo.'],
+      ['Precios claros y prácticos', 'Damos el precio antes de la reparación para que sepas qué esperar.'],
+      ['Experiencia en reparación', 'Trabajamos con iPhone, Samsung, iPad, tabletas, Motorola, Google Pixel y más.'],
+      ['Reparaciones con garantía', 'Respaldamos nuestro trabajo y explicamos claramente la cobertura de garantía.']
+    ],
+    problems: ['Pantalla rota o problemas táctiles', 'Batería débil o apagados inesperados', 'El teléfono no carga o el puerto está flojo', 'Cristal trasero o vidrio de cámara roto', 'Problemas de cámara, altavoz, micrófono o botones', 'El dispositivo no enciende o necesita diagnóstico'],
+    steps: [['1','Cuéntanos el problema','Trae el equipo o llama a la tienda y explica qué está pasando.'], ['2','Revisamos las opciones','Explicamos la posible reparación, precio, tiempo e información de garantía.'], ['3','Reparamos el equipo','Cuando apruebas, completamos la reparación con las piezas y herramientas correctas.'], ['4','Pruebas antes de salir','Queremos que entiendas la reparación y salgas con confianza.']]
+  },
+  uk: {
+    heroCta: 'Заявка на ремонт', call: 'Зателефонувати щодо ремонту', directions: 'Маршрут', summaryLabel: 'Допомога з ремонтом', servicesLabel: 'Послуги ремонту', servicesTitle: 'Поширені ремонти та проблеми з пристроями.', servicesText: 'Виберіть категорію, яка найкраще відповідає вашій проблемі. Якщо ви не впевнені, зателефонуйте або завітайте — ми перевіримо пристрій.', smallSigns: 'Не ігноруйте невеликі ознаки', smallTitle: 'Невеликі проблеми з телефоном часто перетворюються на більший ремонт.', smallText: 'Заряджання лише під кутом, швидке розряджання, самовільні натискання, розмиття камери або тріщина на екрані можуть погіршитися з часом. Ми допоможемо зрозуміти проблему перед тим, як витрачати гроші на неправильне рішення.', startRequest: 'Почати заявку', callNumber: 'Зателефонувати 773-413-7489', whyLabel: 'Чому клієнти обирають CellzTech', whyTitle: 'Зрозуміла порада, практичні ціни та ремонт, за який ми відповідаємо.', processLabel: 'Чого очікувати', processTitle: 'Простий процес ремонту від початку до кінця.', readyLabel: 'Ми готові, коли готові ви', ctaTitle: 'Не чекайте. Перевірте телефон сьогодні.', ctaText: 'Розбитий екран? Слабка батарея? Проблема із заряджанням? Завітайте до CellzTech або зателефонуйте, і ми допоможемо обрати найкращий варіант ремонту.', callNow: 'Зателефонувати зараз',
+    services: [
+      ['Ремонт iPhone', 'Екрани, батареї, порти заряджання, заднє скло, камери, динаміки та типові ремонти iPhone.'],
+      ['Ремонт Samsung', 'Заміна екрана, обслуговування батареї, проблеми із заряджанням, камерою та типові ремонти Samsung.'],
+      ['Ремонт iPad і планшетів', 'Розбиті екрани, проблеми з батареєю, порти заряджання та діагностика планшетів.'],
+      ['Проблеми із заряджанням і батареєю', 'Якщо телефон заряджається повільно, швидко розряджається або працює лише під кутом, зверніться по допомогу.'],
+      ['Заднє скло та камера', 'Варіанти ремонту тріснутого заднього скла, скла камери та проблем, пов’язаних із камерою.'],
+      ['Діагностика та відновлення даних', 'Якщо телефон не вмикається або потрібні важливі дані, ми перевіримо пристрій і пояснимо можливі варіанти.']
+    ],
+    trust: [
+      ['Зрозуміла порада', 'Ми пояснюємо, що сталося з пристроєм і які є варіанти перед початком роботи.'],
+      ['Якісні деталі', 'Ми використовуємо якісні деталі та пропонуємо одну з найкращих гарантій на ремонт.'],
+      ['Місцевий сервіс у Чикаго', 'Ви працюєте з місцевою майстернею, а не з корпоративним кол-центром.'],
+      ['Чесні та практичні ціни', 'Ми повідомляємо ціну перед ремонтом, щоб ви знали, чого очікувати.'],
+      ['Досвідчена допомога з ремонтом', 'Ми працюємо з iPhone, Samsung, iPad, планшетами, Motorola, Google Pixel та іншими пристроями.'],
+      ['Ремонт із гарантією', 'Ми відповідаємо за свою роботу та чітко пояснюємо гарантійне покриття.']
+    ],
+    problems: ['Розбитий екран або проблеми з сенсором', 'Слабка батарея або раптове вимкнення', 'Телефон не заряджається або порт заряджання розхитаний', 'Розбите заднє скло або скло камери', 'Проблеми з камерою, динаміком, мікрофоном або кнопками', 'Пристрій не вмикається або потребує діагностики'],
+    steps: [['1','Опишіть проблему','Принесіть пристрій або зателефонуйте до магазину й поясніть, що відбувається.'], ['2','Ми перевіряємо варіанти','Пояснюємо можливий ремонт, ціну, час і гарантійну інформацію.'], ['3','Ми ремонтуємо пристрій','Після підтвердження виконуємо ремонт з відповідними деталями та інструментами.'], ['4','Ви тестуєте перед виходом','Ми хочемо, щоб ви розуміли ремонт і виходили впевнено.']]
+  }
+} as const;
+
 function RepairsPage({ lang }: { lang: LanguageKey }) {
   const data = localizedPageData[lang].repairs;
-  const repairServices = [
-    { icon: Smartphone, title: 'iPhone Repair', text: 'Screens, batteries, charging ports, back glass, cameras, speakers, and common iPhone repairs.' },
-    { icon: TabletSmartphone, title: 'Samsung Repair', text: 'Screen replacement, battery service, charging problems, camera issues, and common Samsung repairs.' },
-    { icon: TabletSmartphone, title: 'iPad & Tablet Repair', text: 'Cracked screens, battery problems, charging ports, and tablet diagnostics.' },
-    { icon: BatteryCharging, title: 'Charging & Battery Issues', text: 'If your phone charges slowly, dies fast, or only works at an angle, stop in for help.' },
-    { icon: Camera, title: 'Back Glass & Camera Repair', text: 'Repair options for cracked back glass, broken camera lens glass, and camera-related issues.' },
-    { icon: Search, title: 'Diagnostics & Data Recovery', text: 'If your phone will not turn on or you need important data, we can inspect the device and explain possible options.' }
-  ];
-
-  const repairTrust = [
-    { icon: MessageCircle, title: 'Clear repair advice', text: 'We explain what is wrong with your device and your repair options before starting any work.' },
-    { icon: ShieldCheck, title: 'High-quality parts', text: 'We use high-quality parts and offer one of the best warranties on repairs.' },
-    { icon: Store, title: 'Local Chicago service', text: 'You are working with a local shop, not a corporate call center.' },
-    { icon: DollarSign, title: 'Fair, practical pricing', text: 'We give clear pricing before the repair so you know what to expect.' },
-    { icon: Wrench, title: 'Experienced repair help', text: 'We work on iPhones, Samsung devices, iPads, tablets, Motorola, Google Pixel, and more.' },
-    { icon: CheckCircle2, title: 'Warranty-focused repairs', text: 'We stand behind our work and explain warranty coverage clearly.' }
-  ];
-
-  const commonProblems = [
-    'Cracked screen or touch problems',
-    'Weak battery or random shutdowns',
-    'Phone not charging or loose charging port',
-    'Broken back glass or camera lens glass',
-    'Camera, speaker, microphone, or button problems',
-    'Device will not turn on or needs diagnostics'
-  ];
+  const rt = localizedRepairContent[lang];
+  const serviceIcons = [Smartphone, TabletSmartphone, TabletSmartphone, BatteryCharging, Camera, Search];
+  const repairServices = rt.services.map(([title, text], index) => ({ icon: serviceIcons[index], title, text }));
+  const trustIcons = [MessageCircle, ShieldCheck, Store, DollarSign, Wrench, CheckCircle2];
+  const repairTrust = rt.trust.map(([title, text], index) => ({ icon: trustIcons[index], title, text }));
+  const commonProblems = rt.problems;
 
   return (
     <main className="pageMain repairsPage">
       <section className="repairHero">
         <div className="wrap repairHeroGrid">
           <div>
-            <div className="eyebrow"><Wrench size={15} /> Phone repair in Chicago</div>
-            <h1>Phone repair in Chicago, done right.</h1>
-            <p>Get local help for cracked screens, weak batteries, charging issues, back glass, cameras, tablets, and more. At CellzTech, we explain your options clearly before starting the repair and use high-quality parts whenever available.</p>
+            <div className="eyebrow"><Wrench size={15} /> {data.eyebrow}</div>
+            <h1>{data.title}</h1>
+            <p>{data.text}</p>
             <div className="pageActions">
-              <button className="primaryBtn" onClick={() => goTo('book')}>Book repair <ArrowRight size={18} /></button>
-              <a className="secondaryBtn" href="tel:7734137489">Call for repair</a>
-              <a className="secondaryBtn" href="https://maps.google.com/?q=3412+N+Harlem+Ave+STE+A+Chicago+IL+60634" target="_blank" rel="noreferrer">Get directions</a>
+              <button className="primaryBtn" onClick={() => goTo('book')}>{rt.heroCta} <ArrowRight size={18} /></button>
+              <a className="secondaryBtn" href="tel:7734137489">{rt.call}</a>
+              <a className="secondaryBtn" href="https://maps.google.com/?q=3412+N+Harlem+Ave+STE+A+Chicago+IL+60634" target="_blank" rel="noreferrer">{rt.directions}</a>
             </div>
           </div>
           <div className="repairSummaryCard">
-            <span>Repair help for</span>
+            <span>{rt.summaryLabel}</span>
             <ul>
-              <li><CheckCircle2 size={18} /> iPhone, Samsung, iPad, Motorola, Google Pixel, and tablets</li>
-              <li><CheckCircle2 size={18} /> Screens, batteries, charging ports, back glass, cameras, and diagnostics</li>
-              <li><CheckCircle2 size={18} /> High-quality parts and warranty-focused service</li>
+              {data.bullets.slice(0, 3).map((bullet) => <li key={bullet}><CheckCircle2 size={18} /> {bullet}</li>)}
             </ul>
           </div>
         </div>
@@ -894,9 +959,9 @@ function RepairsPage({ lang }: { lang: LanguageKey }) {
       <section className="section light">
         <div className="wrap">
           <div className="sectionIntro centeredIntro">
-            <span>Repair services</span>
-            <h2>Common repairs and device problems we help with.</h2>
-            <p>Start with the repair category that matches your issue. If you are not sure what is wrong, call or stop in and we can inspect the device.</p>
+            <span>{rt.servicesLabel}</span>
+            <h2>{rt.servicesTitle}</h2>
+            <p>{rt.servicesText}</p>
           </div>
           <div className="repairCardsGrid">
             {repairServices.map((item) => {
@@ -916,12 +981,12 @@ function RepairsPage({ lang }: { lang: LanguageKey }) {
       <section className="section repairProblems">
         <div className="wrap split repairProblemSplit">
           <div>
-            <span className="label">Do not ignore the small signs</span>
-            <h2>Small phone problems often turn into bigger repairs.</h2>
-            <p className="lead">Charging at an angle, fast battery drain, ghost touch, camera blur, or a cracked screen can get worse over time. We can help you understand what is happening before you spend money on the wrong solution.</p>
+            <span className="label">{rt.smallSigns}</span>
+            <h2>{rt.smallTitle}</h2>
+            <p className="lead">{rt.smallText}</p>
             <div className="inlineActions">
-              <button className="primaryBtn compact" onClick={() => goTo('book')}>Start repair request</button>
-              <a className="secondaryBtn compact" href="tel:7734137489">Call 773-413-7489</a>
+              <button className="primaryBtn compact" onClick={() => goTo('book')}>{rt.startRequest}</button>
+              <a className="secondaryBtn compact" href="tel:7734137489">{rt.callNumber}</a>
             </div>
           </div>
           <div className="problemList">
@@ -933,8 +998,8 @@ function RepairsPage({ lang }: { lang: LanguageKey }) {
       <section className="section light">
         <div className="wrap">
           <div className="sectionIntro centeredIntro">
-            <span>Why customers choose CellzTech</span>
-            <h2>Clear advice, practical pricing, and repair work we stand behind.</h2>
+            <span>{rt.whyLabel}</span>
+            <h2>{rt.whyTitle}</h2>
           </div>
           <div className="trustGridExpanded">
             {repairTrust.map((item) => {
@@ -956,14 +1021,11 @@ function RepairsPage({ lang }: { lang: LanguageKey }) {
       <section className="section repairProcess">
         <div className="wrap">
           <div className="sectionIntro centeredIntro">
-            <span>What to expect</span>
-            <h2>A simple repair process from start to finish.</h2>
+            <span>{rt.processLabel}</span>
+            <h2>{rt.processTitle}</h2>
           </div>
           <div className="processSteps">
-            <div><strong>1</strong><h3>Tell us the issue</h3><p>Bring the device in or call the shop and explain what is happening.</p></div>
-            <div><strong>2</strong><h3>We check options</h3><p>We explain the likely repair, pricing, timing, and warranty information.</p></div>
-            <div><strong>3</strong><h3>We repair the device</h3><p>Once approved, we complete the repair using the right parts and tools.</p></div>
-            <div><strong>4</strong><h3>You test before leaving</h3><p>We want you to understand the repair and leave with confidence.</p></div>
+            {rt.steps.map(([number, title, text]) => <div key={number}><strong>{number}</strong><h3>{title}</h3><p>{text}</p></div>)}
           </div>
         </div>
       </section>
@@ -971,15 +1033,15 @@ function RepairsPage({ lang }: { lang: LanguageKey }) {
       <section className="section ctaBand">
         <div className="wrap ctaPanel repairCtaPanel">
           <div>
-            <span className="label">Ready when you are</span>
-            <h2>Do not wait. Get your phone checked today.</h2>
-            <p>Cracked screen? Weak battery? Charging problem? Stop by CellzTech or call us and we will help you figure out the best repair option.</p>
+            <span className="label">{rt.readyLabel}</span>
+            <h2>{rt.ctaTitle}</h2>
+            <p>{rt.ctaText}</p>
             <p><strong>CellzTech</strong><br />3412 N Harlem Ave STE A, Chicago, IL 60634</p>
           </div>
           <div className="ctaButtonsStack">
-            <button className="primaryBtn" onClick={() => goTo('book')}>Book repair <ArrowRight size={18} /></button>
-            <a className="secondaryBtn" href="tel:7734137489">Call now</a>
-            <a className="secondaryBtn" href="https://maps.google.com/?q=3412+N+Harlem+Ave+STE+A+Chicago+IL+60634" target="_blank" rel="noreferrer">Get directions</a>
+            <button className="primaryBtn" onClick={() => goTo('book')}>{rt.heroCta} <ArrowRight size={18} /></button>
+            <a className="secondaryBtn" href="tel:7734137489">{rt.callNow}</a>
+            <a className="secondaryBtn" href="https://maps.google.com/?q=3412+N+Harlem+Ave+STE+A+Chicago+IL+60634" target="_blank" rel="noreferrer">{rt.directions}</a>
           </div>
         </div>
       </section>
