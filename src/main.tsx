@@ -2204,42 +2204,230 @@ const simStarterOptions = [
   { title: 'Ask about eSIM', text: 'Have a compatible phone? We can check eSIM support before activation and explain your options.', cta: 'Check eSIM options' }
 ];
 
-function UltraPlanStoreCard({ plan }: { plan: UltraPlan }) {
+
+const ultraCopy: Record<LanguageKey, {
+  hero: { label: string; title: string; text: string; call: string; visit: string };
+  family: { badge: string; label: string; title: string; text: string; cta: string; checklist: string[]; lineLabels: string[] };
+  quick: { label: string; title: string; items: string[] };
+  infoCards: { icon: 'globe' | 'check' | 'wifi'; label: string; title: string; text: string }[];
+  familyFeature: { label: string; title: string; text: string; fine: string };
+  roamFeature: { label: string; title: string; textPrefix: string; textMiddle: string; textSuffix: string; fine: string };
+  planSection: { label: string; title: string; text: string; finePrint: string };
+  simSection: { label: string; title: string; text: string; options: { title: string; text: string; cta: string }[] };
+  planCard: {
+    promoEligible: string;
+    includes: string;
+    activation: string;
+    activationItems: string[];
+    promoApplyTitle: string;
+    promoApplyText: string;
+    multiTitle: string;
+    multiText: string;
+    simTitle: string;
+    simText: string;
+    esimTitle: string;
+    esimText: string;
+    subtotal: string;
+    askPricing: string;
+    taxes: string;
+    startPurchase: string;
+    callPlan: string;
+    askStore: string;
+    fourthFree: string;
+  };
+  durationTabs: { key: DurationKey; label: string; sublabel: string }[];
+  passes: typeof goRoamPasses;
+  plans: Record<string, { name: string; badge?: string; highlight: string; includes: string[] }>;
+}> = {
+  en: {
+    hero: { label: 'Ultra Mobile authorized activation help', title: 'Ultra Mobile plans, family savings, and travel-ready service at CellzTech.', text: 'We help customers compare monthly and multi-month plans, family promos, number transfers, Go Roam passes, and compatibility before they pay.', call: 'Call for Ultra Mobile', visit: 'Visit the store' },
+    family: { badge: 'Family\nDeal', label: 'Featured promo', title: '4 Ultra Unlimited lines for $100/mo', text: 'Bring up to four lines onto one Ultra Unlimited account and get international features included with each line.', cta: 'Ask about 4 for $100', checklist: ['No data cap on Ultra Unlimited', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Hotspot included on supported plans'], lineLabels: ['1 line', '2 lines', '3 lines', '4 lines'] },
+    quick: { label: 'Quick details', title: 'What customers usually want to know first.', items: ['Plans from $15/month, with monthly and multi-month options.', '4 Ultra Unlimited lines for $100/month.', 'International calling to Poland and 90+ destinations.', 'Free SIM card at CellzTech, with eSIM available on supported phones.', 'Bring your account number, transfer PIN, and an unlocked compatible phone.'] },
+    infoCards: [
+      { icon: 'globe', label: 'International roaming', title: 'New 5-day and 15-day Go Roam Passes', text: 'Built for quick trips and longer vacations when customers need talk, text, and data abroad.' },
+      { icon: 'check', label: 'Limited time offer', title: 'Eligible 1-month 8GB+ plans can earn a free 4th month.', text: 'This offer applies to eligible monthly plans only. Multi-month 3, 6, and 12 month rates are separate prepaid options.' },
+      { icon: 'wifi', label: 'Network', title: 'On the T-Mobile 5G network', text: 'Plans include nationwide talk and global text, international calling features, and hotspot on supported plans.' }
+    ],
+    familyFeature: { label: 'Family plan math', title: 'Unlimited lines get stronger as you add more.', text: 'The current 4-line showcase starts from one Ultra Unlimited line and adds savings as the account grows.', fine: 'Promo eligibility, taxes, fees, account status, and plan availability must be confirmed before activation.' },
+    roamFeature: { label: 'Go Roam World Pass', title: 'Travel support without guessing.', textPrefix: 'Customers can add a pass by texting', textMiddle: 'to', textSuffix: 'Up to 3 passes can be stored, but only one can be active at a time.', fine: 'After high-speed data is used, speeds reduce to 512 kbps until the pass expires. Works in many countries, but not all. Mexico uses a separate roaming pass.' },
+    planSection: { label: 'Plan showcase', title: 'Compare Ultra Mobile monthly and multi-month pricing.', text: 'Pick a plan and duration to preview the advertised monthly price and total upfront amount. We confirm taxes, fees, current promos, and compatibility before activation.', finePrint: 'Final pricing, taxes, fees, promo eligibility, plan terms, network management, eSIM compatibility, roaming availability, and plan availability may vary. Heavy data users may notice reduced speeds during congestion. Video may stream around 480p. We will confirm everything before activation.' },
+    simSection: { label: 'SIM cards and activation help', title: 'Get an Ultra Mobile SIM shipped or activated in-store.', text: 'Whether you are switching today, transferring a number, helping a family member, or asking about eSIM, CellzTech can guide you through the cleanest option before you pay.', options: simStarterOptions },
+    planCard: { promoEligible: '1-month promo eligible', includes: 'Plan Includes:', activation: 'Activation help:', activationItems: ['$0 activation fee at CellzTech', 'Free SIM card', 'We help transfer your number in-store'], promoApplyTitle: '4th month free promo applies here.', promoApplyText: 'For eligible new customers on 1-month 8GB+ plans, the 4th monthly renewal can be free when the line remains eligible.', multiTitle: 'Multi-month pricing selected.', multiText: 'The 3, 6, and 12 month choices are prepaid multi-month rates. They are not the 4th-month-free monthly promo.', simTitle: 'SIM Card', simText: 'Free SIM card at CellzTech', esimTitle: 'eSIM', esimText: 'Available on select compatible phones', subtotal: 'Subtotal preview:', askPricing: 'Ask in store for current pricing', taxes: 'Taxes and fees may apply.', startPurchase: 'Start purchase', callPlan: 'Call about this plan', askStore: 'Ask in store', fourthFree: '4th month free eligible' },
+    durationTabs,
+    passes: goRoamPasses,
+    plans: {
+      '500MB Plan': { name: '500MB Plan', highlight: 'A simple starter plan for light data, talk, and text.', includes: ['500MB of 5G / 4G LTE data per month', 'Unlimited nationwide talk and global text', 'International calling support', 'Mobile hotspot included'] },
+      '4GB Plan': { name: '4GB Plan', highlight: 'Affordable everyday service with international calling features.', includes: ['4GB of 5G / 4G LTE data per month', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Mobile hotspot included'] },
+      '8GB Plan': { name: '8GB Plan', highlight: 'A smart choice for customers who want more data and strong value.', includes: ['8GB of 5G / 4G LTE data per month', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Mobile hotspot included'] },
+      '12GB Plan': { name: '12GB Plan', highlight: 'More high-speed data for maps, social apps, messaging, and video.', includes: ['12GB of 5G / 4G LTE data per month', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Mobile hotspot included'] },
+      '24GB Plan': { name: '24GB Plan', highlight: 'For heavier monthly data use without jumping to unlimited.', includes: ['24GB of 5G / 4G LTE data per month', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Mobile hotspot included'] },
+      'Ultra Unlimited Plan': { name: 'Ultra Unlimited Plan', badge: 'Most Popular', highlight: 'Unlimited data with hotspot and family-line savings available.', includes: ['Unlimited 5G / 4G LTE data per month', 'No data cap', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Up to 10GB mobile hotspot'] },
+      'Ultra Unlimited+ Plan': { name: 'Ultra Unlimited+ Plan', badge: 'Premium', highlight: 'Premium unlimited with more hotspot for customers who use more.', includes: ['Unlimited 5G / 4G LTE data per month', 'No data cap', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Talk and text in Mexico and Canada', 'Up to 25GB mobile hotspot'] }
+    }
+  },
+  pl: {
+    hero: { label: 'Autoryzowana pomoc przy aktywacji Ultra Mobile', title: 'Plany Ultra Mobile, oszczędności rodzinne i obsługa gotowa na podróże w CellzTech.', text: 'Pomagamy porównać plany miesięczne i wielomiesięczne, promocje rodzinne, przeniesienie numeru, pakiety Go Roam oraz zgodność telefonu — zanim klient zapłaci.', call: 'Zadzwoń w sprawie Ultra Mobile', visit: 'Odwiedź sklep' },
+    family: { badge: 'Oferta\nrodzinna', label: 'Wyróżniona promocja', title: '4 linie Ultra Unlimited za $100/mies.', text: 'Dodaj do czterech linii na jednym koncie Ultra Unlimited i korzystaj z funkcji międzynarodowych na każdej linii.', cta: 'Zapytaj o 4 linie za $100', checklist: ['Brak limitu danych w Ultra Unlimited', 'Nielimitowane rozmowy krajowe i wiadomości globalne', 'Rozmowy do ponad 90 kierunków międzynarodowych', 'Hotspot w wybranych planach'], lineLabels: ['1 linia', '2 linie', '3 linie', '4 linie'] },
+    quick: { label: 'Najważniejsze informacje', title: 'To, o co klienci pytają najczęściej.', items: ['Plany od $15 miesięcznie, z opcjami miesięcznymi i wielomiesięcznymi.', '4 linie Ultra Unlimited za $100 miesięcznie.', 'Rozmowy międzynarodowe do Polski i ponad 90 kierunków.', 'Darmowa karta SIM w CellzTech; eSIM dostępny w wybranych kompatybilnych telefonach.', 'Przynieś numer konta, transfer PIN oraz odblokowany, kompatybilny telefon.'] },
+    infoCards: [
+      { icon: 'globe', label: 'Roaming międzynarodowy', title: 'Nowe pakiety Go Roam na 5 i 15 dni', text: 'Dla krótkich wyjazdów i dłuższych wakacji, gdy klienci potrzebują rozmów, SMS-ów i danych za granicą.' },
+      { icon: 'check', label: 'Oferta czasowa', title: 'Wybrane miesięczne plany 8GB+ mogą otrzymać 4. miesiąc gratis.', text: 'Oferta dotyczy tylko kwalifikujących się planów miesięcznych. Pakiety 3-, 6- i 12-miesięczne to osobne opcje przedpłacone.' },
+      { icon: 'wifi', label: 'Sieć', title: 'W sieci 5G T-Mobile', text: 'Plany obejmują rozmowy krajowe, wiadomości globalne, funkcje rozmów międzynarodowych oraz hotspot w wybranych planach.' }
+    ],
+    familyFeature: { label: 'Ceny rodzinne', title: 'Im więcej linii Unlimited, tym większa wartość.', text: 'Aktualna promocja zaczyna się od jednej linii Ultra Unlimited i daje większe oszczędności po dodaniu kolejnych linii.', fine: 'Kwalifikacja do promocji, podatki, opłaty, status konta i dostępność planu muszą zostać potwierdzone przed aktywacją.' },
+    roamFeature: { label: 'Go Roam World Pass', title: 'Pomoc w podróży bez zgadywania.', textPrefix: 'Klienci mogą dodać pakiet, wysyłając SMS', textMiddle: 'na numer', textSuffix: 'Można przechowywać do 3 pakietów, ale aktywny może być tylko jeden naraz.', fine: 'Po wykorzystaniu szybkich danych prędkość spada do 512 kbps do końca ważności pakietu. Usługa działa w wielu krajach, ale nie we wszystkich. Meksyk korzysta z osobnego pakietu roamingowego.' },
+    planSection: { label: 'Porównanie planów', title: 'Porównaj miesięczne i wielomiesięczne ceny Ultra Mobile.', text: 'Wybierz plan i okres, aby zobaczyć reklamowaną cenę miesięczną oraz kwotę płatną z góry. Przed aktywacją potwierdzamy podatki, opłaty, aktualne promocje i zgodność telefonu.', finePrint: 'Ostateczna cena, podatki, opłaty, kwalifikacja do promocji, warunki planu, zarządzanie siecią, zgodność eSIM, roaming i dostępność planów mogą się różnić. Użytkownicy zużywający dużo danych mogą zauważyć niższe prędkości podczas przeciążenia sieci. Wideo może być odtwarzane w jakości około 480p. Wszystko potwierdzimy przed aktywacją.' },
+    simSection: { label: 'Karty SIM i pomoc przy aktywacji', title: 'Zamów kartę SIM Ultra Mobile lub aktywuj usługę w sklepie.', text: 'Niezależnie od tego, czy przenosisz numer, pomagasz członkowi rodziny czy pytasz o eSIM, CellzTech pomoże wybrać najprostsze rozwiązanie przed płatnością.', options: [
+      { title: 'Wysyłka karty SIM', text: 'Potrzebujesz usługi poza Chicago? Rozpocznij zapytanie, a pomożemy z fizyczną kartą SIM Ultra Mobile wysyłaną na terenie USA.', cta: 'Rozpocznij zapytanie o SIM' },
+      { title: 'Odbiór w Chicago', text: 'Odwiedź CellzTech, aby uzyskać pomoc z kartą SIM, przeniesieniem numeru, wyborem planu i aktywacją.', cta: 'Pokaż dojazd do sklepu' },
+      { title: 'Zapytaj o eSIM', text: 'Masz kompatybilny telefon? Sprawdzimy obsługę eSIM przed aktywacją i wyjaśnimy dostępne opcje.', cta: 'Sprawdź opcje eSIM' }
+    ] },
+    planCard: { promoEligible: 'Promocja dla planu 1-miesięcznego', includes: 'Plan obejmuje:', activation: 'Pomoc przy aktywacji:', activationItems: ['Aktywacja $0 w CellzTech', 'Darmowa karta SIM', 'Pomagamy przenieść numer w sklepie'], promoApplyTitle: 'Tutaj obowiązuje promocja 4. miesiąc gratis.', promoApplyText: 'Dla nowych kwalifikujących się klientów na miesięcznych planach 8GB+ czwarta miesięczna odnowa może być gratis, jeśli linia nadal spełnia warunki.', multiTitle: 'Wybrano cenę wielomiesięczną.', multiText: 'Opcje 3, 6 i 12 miesięcy to przedpłacone pakiety wielomiesięczne. Nie są częścią promocji 4. miesiąc gratis.', simTitle: 'Karta SIM', simText: 'Darmowa karta SIM w CellzTech', esimTitle: 'eSIM', esimText: 'Dostępny w wybranych kompatybilnych telefonach', subtotal: 'Podgląd ceny:', askPricing: 'Zapytaj w sklepie o aktualną cenę', taxes: 'Mogą obowiązywać podatki i opłaty.', startPurchase: 'Rozpocznij zakup', callPlan: 'Zadzwoń w sprawie planu', askStore: 'Zapytaj w sklepie', fourthFree: 'Możliwy 4. miesiąc gratis' },
+    durationTabs: [{ key: '1', label: '1 miesiąc', sublabel: 'Miesięcznie' }, { key: '3', label: '3 miesiące', sublabel: 'Większa oszczędność' }, { key: '6', label: '6 miesięcy', sublabel: 'Lepsza wartość' }, { key: '12', label: '12 miesięcy', sublabel: 'Najlepsza wartość' }],
+    passes: [{ name: '$5 Go Roam Pass', duration: '5 dni', talk: '100 minut', texts: '100 SMS', data: '1GB szybkich danych' }, { name: '$10 Go Roam Pass', duration: '15 dni', talk: '300 minut', texts: '300 SMS', data: '5GB szybkich danych' }],
+    plans: {}
+  },
+  es: {
+    hero: { label: 'Ayuda autorizada con activaciones Ultra Mobile', title: 'Planes Ultra Mobile, ahorros familiares y servicio listo para viajar en CellzTech.', text: 'Ayudamos a comparar planes mensuales y de varios meses, promociones familiares, transferencias de número, pases Go Roam y compatibilidad antes de pagar.', call: 'Llamar sobre Ultra Mobile', visit: 'Visitar la tienda' },
+    family: { badge: 'Oferta\nfamiliar', label: 'Promoción destacada', title: '4 líneas Ultra Unlimited por $100/mes', text: 'Agrega hasta cuatro líneas en una cuenta Ultra Unlimited y recibe funciones internacionales incluidas en cada línea.', cta: 'Preguntar por 4 por $100', checklist: ['Sin límite de datos en Ultra Unlimited', 'Llamadas nacionales ilimitadas y mensajes globales', 'Llamadas a más de 90 destinos internacionales', 'Hotspot incluido en planes compatibles'], lineLabels: ['1 línea', '2 líneas', '3 líneas', '4 líneas'] },
+    quick: { label: 'Detalles rápidos', title: 'Lo que los clientes suelen preguntar primero.', items: ['Planes desde $15 al mes, con opciones mensuales y de varios meses.', '4 líneas Ultra Unlimited por $100 al mes.', 'Llamadas internacionales a Polonia y más de 90 destinos.', 'Tarjeta SIM gratis en CellzTech; eSIM disponible en teléfonos compatibles seleccionados.', 'Trae tu número de cuenta, PIN de transferencia y un teléfono desbloqueado compatible.'] },
+    infoCards: [
+      { icon: 'globe', label: 'Roaming internacional', title: 'Nuevos pases Go Roam de 5 y 15 días', text: 'Pensados para viajes cortos y vacaciones más largas cuando necesitas llamadas, textos y datos en el extranjero.' },
+      { icon: 'check', label: 'Oferta por tiempo limitado', title: 'Planes mensuales elegibles de 8GB+ pueden recibir el 4.º mes gratis.', text: 'Esta oferta aplica solo a planes mensuales elegibles. Los planes prepagados de 3, 6 y 12 meses son opciones separadas.' },
+      { icon: 'wifi', label: 'Red', title: 'En la red 5G de T-Mobile', text: 'Los planes incluyen llamadas nacionales, mensajes globales, funciones de llamadas internacionales y hotspot en planes compatibles.' }
+    ],
+    familyFeature: { label: 'Cálculo familiar', title: 'Las líneas Unlimited tienen más valor al agregar más.', text: 'La promoción actual empieza con una línea Ultra Unlimited y aumenta los ahorros a medida que crece la cuenta.', fine: 'La elegibilidad de la promoción, impuestos, cargos, estado de la cuenta y disponibilidad del plan deben confirmarse antes de la activación.' },
+    roamFeature: { label: 'Go Roam World Pass', title: 'Ayuda para viajar sin adivinar.', textPrefix: 'Los clientes pueden agregar un pase enviando', textMiddle: 'al', textSuffix: 'Se pueden guardar hasta 3 pases, pero solo uno puede estar activo a la vez.', fine: 'Después de usar los datos de alta velocidad, la velocidad baja a 512 kbps hasta que expire el pase. Funciona en muchos países, pero no en todos. México usa un pase de roaming separado.' },
+    planSection: { label: 'Comparación de planes', title: 'Compara precios mensuales y de varios meses de Ultra Mobile.', text: 'Elige un plan y duración para ver el precio mensual anunciado y el total por adelantado. Confirmamos impuestos, cargos, promociones actuales y compatibilidad antes de activar.', finePrint: 'El precio final, impuestos, cargos, elegibilidad de promoción, términos del plan, administración de red, compatibilidad eSIM, disponibilidad de roaming y planes pueden variar. Los usuarios con alto consumo de datos pueden notar velocidades reducidas durante congestión. El video puede transmitirse alrededor de 480p. Confirmaremos todo antes de la activación.' },
+    simSection: { label: 'Tarjetas SIM y ayuda de activación', title: 'Recibe una SIM Ultra Mobile por envío o actívala en la tienda.', text: 'Ya sea que cambies hoy, transfieras un número, ayudes a un familiar o preguntes por eSIM, CellzTech te guía hacia la opción más clara antes de pagar.', options: [
+      { title: 'Enviar una tarjeta SIM', text: '¿Necesitas servicio fuera de Chicago? Inicia una solicitud y podemos ayudar con una SIM física de Ultra Mobile enviada dentro de EE. UU.', cta: 'Iniciar solicitud de SIM' },
+      { title: 'Recoger en Chicago', text: 'Visita CellzTech para ayuda con SIM, transferencia de número, selección de plan y activación.', cta: 'Ver cómo llegar' },
+      { title: 'Preguntar por eSIM', text: '¿Tienes un teléfono compatible? Podemos verificar eSIM antes de la activación y explicar tus opciones.', cta: 'Ver opciones de eSIM' }
+    ] },
+    planCard: { promoEligible: 'Promoción para plan de 1 mes', includes: 'El plan incluye:', activation: 'Ayuda de activación:', activationItems: ['Activación de $0 en CellzTech', 'Tarjeta SIM gratis', 'Ayudamos a transferir tu número en la tienda'], promoApplyTitle: 'Aquí aplica la promoción del 4.º mes gratis.', promoApplyText: 'Para clientes nuevos elegibles en planes mensuales de 8GB+, la cuarta renovación mensual puede ser gratis si la línea sigue cumpliendo los requisitos.', multiTitle: 'Precio de varios meses seleccionado.', multiText: 'Las opciones de 3, 6 y 12 meses son tarifas prepagadas de varios meses. No forman parte de la promoción del 4.º mes gratis.', simTitle: 'Tarjeta SIM', simText: 'Tarjeta SIM gratis en CellzTech', esimTitle: 'eSIM', esimText: 'Disponible en teléfonos compatibles seleccionados', subtotal: 'Vista previa del subtotal:', askPricing: 'Pregunta en tienda por el precio actual', taxes: 'Pueden aplicar impuestos y cargos.', startPurchase: 'Iniciar compra', callPlan: 'Llamar sobre este plan', askStore: 'Pregunta en tienda', fourthFree: 'Elegible para 4.º mes gratis' },
+    durationTabs: [{ key: '1', label: '1 mes', sublabel: 'Mensual' }, { key: '3', label: '3 meses', sublabel: 'Más ahorro' }, { key: '6', label: '6 meses', sublabel: 'Mejor valor' }, { key: '12', label: '12 meses', sublabel: 'Mejor valor anual' }],
+    passes: [{ name: 'Pase Go Roam de $5', duration: '5 días', talk: '100 minutos', texts: '100 SMS', data: '1GB de datos de alta velocidad' }, { name: 'Pase Go Roam de $10', duration: '15 días', talk: '300 minutos', texts: '300 SMS', data: '5GB de datos de alta velocidad' }],
+    plans: {}
+  },
+  uk: {
+    hero: { label: 'Авторизована допомога з активацією Ultra Mobile', title: 'Плани Ultra Mobile, сімейна економія та зв’язок для подорожей у CellzTech.', text: 'Ми допомагаємо порівняти місячні та багатомісячні плани, сімейні акції, перенесення номера, пакети Go Roam і сумісність телефону до оплати.', call: 'Зателефонувати щодо Ultra Mobile', visit: 'Відвідати магазин' },
+    family: { badge: 'Сімейна\nпропозиція', label: 'Головна акція', title: '4 лінії Ultra Unlimited за $100/міс.', text: 'Додайте до чотирьох ліній в один обліковий запис Ultra Unlimited і отримайте міжнародні функції для кожної лінії.', cta: 'Запитати про 4 за $100', checklist: ['Без ліміту даних в Ultra Unlimited', 'Безлімітні дзвінки по США та глобальні SMS', 'Дзвінки до понад 90 міжнародних напрямків', 'Hotspot у підтримуваних планах'], lineLabels: ['1 лінія', '2 лінії', '3 лінії', '4 лінії'] },
+    quick: { label: 'Коротко', title: 'Що клієнти зазвичай хочуть знати спочатку.', items: ['Плани від $15 на місяць, з місячними та багатомісячними варіантами.', '4 лінії Ultra Unlimited за $100 на місяць.', 'Міжнародні дзвінки до Польщі та понад 90 напрямків.', 'Безкоштовна SIM-карта в CellzTech; eSIM доступна на вибраних сумісних телефонах.', 'Принесіть номер акаунта, transfer PIN та розблокований сумісний телефон.'] },
+    infoCards: [
+      { icon: 'globe', label: 'Міжнародний роумінг', title: 'Нові пакети Go Roam на 5 і 15 днів', text: 'Для коротких поїздок і довших відпусток, коли потрібні дзвінки, SMS і дані за кордоном.' },
+      { icon: 'check', label: 'Обмежена пропозиція', title: 'Вибрані місячні плани 8GB+ можуть отримати 4-й місяць безкоштовно.', text: 'Пропозиція діє лише для відповідних місячних планів. 3-, 6- і 12-місячні варіанти є окремими передплаченими планами.' },
+      { icon: 'wifi', label: 'Мережа', title: 'У мережі 5G T-Mobile', text: 'Плани включають дзвінки по США, глобальні SMS, міжнародні дзвінки та hotspot у підтримуваних планах.' }
+    ],
+    familyFeature: { label: 'Сімейний розрахунок', title: 'Лінії Unlimited стають вигіднішими, коли їх більше.', text: 'Поточна пропозиція починається з однієї лінії Ultra Unlimited і дає більше економії, коли додаються нові лінії.', fine: 'Участь в акції, податки, збори, статус акаунта та доступність плану потрібно підтвердити перед активацією.' },
+    roamFeature: { label: 'Go Roam World Pass', title: 'Підтримка в подорожах без здогадок.', textPrefix: 'Клієнти можуть додати пакет, надіславши SMS', textMiddle: 'на номер', textSuffix: 'Можна зберігати до 3 пакетів, але активним може бути лише один.', fine: 'Після використання швидкісних даних швидкість знижується до 512 kbps до завершення дії пакета. Працює в багатьох країнах, але не в усіх. Для Мексики використовується окремий роумінговий пакет.' },
+    planSection: { label: 'Огляд планів', title: 'Порівняйте місячні та багатомісячні ціни Ultra Mobile.', text: 'Виберіть план і тривалість, щоб побачити рекламовану місячну ціну та суму до оплати наперед. Ми підтвердимо податки, збори, актуальні акції та сумісність перед активацією.', finePrint: 'Кінцева ціна, податки, збори, участь в акціях, умови плану, керування мережею, сумісність eSIM, доступність роумінгу та планів можуть відрізнятися. Користувачі з великим обсягом даних можуть помітити нижчу швидкість під час навантаження мережі. Відео може транслюватися приблизно у 480p. Ми все підтвердимо перед активацією.' },
+    simSection: { label: 'SIM-карти та допомога з активацією', title: 'Отримайте SIM Ultra Mobile поштою або активуйте в магазині.', text: 'Якщо ви переходите сьогодні, переносите номер, допомагаєте родичу або питаєте про eSIM, CellzTech підкаже найзручніший варіант перед оплатою.', options: [
+      { title: 'Надіслати SIM-карту', text: 'Потрібен сервіс поза Чикаго? Почніть запит, і ми допоможемо з фізичною SIM Ultra Mobile з доставкою по США.', cta: 'Почати запит SIM' },
+      { title: 'Забрати в Чикаго', text: 'Відвідайте CellzTech для допомоги з SIM, перенесенням номера, вибором плану та активацією.', cta: 'Показати маршрут' },
+      { title: 'Запитати про eSIM', text: 'Маєте сумісний телефон? Ми перевіримо підтримку eSIM перед активацією та пояснимо варіанти.', cta: 'Перевірити eSIM' }
+    ] },
+    planCard: { promoEligible: 'Акція для плану на 1 місяць', includes: 'План включає:', activation: 'Допомога з активацією:', activationItems: ['Активація $0 у CellzTech', 'Безкоштовна SIM-карта', 'Допомагаємо перенести номер у магазині'], promoApplyTitle: 'Тут діє акція 4-й місяць безкоштовно.', promoApplyText: 'Для нових відповідних клієнтів на місячних планах 8GB+ четверте місячне поновлення може бути безкоштовним, якщо лінія надалі відповідає умовам.', multiTitle: 'Вибрано багатомісячну ціну.', multiText: 'Варіанти 3, 6 і 12 місяців — це передплачені багатомісячні тарифи. Вони не є частиною акції 4-го місяця безкоштовно.', simTitle: 'SIM-карта', simText: 'Безкоштовна SIM-карта в CellzTech', esimTitle: 'eSIM', esimText: 'Доступна на вибраних сумісних телефонах', subtotal: 'Попередній підсумок:', askPricing: 'Запитайте в магазині про актуальну ціну', taxes: 'Можуть застосовуватися податки та збори.', startPurchase: 'Почати покупку', callPlan: 'Зателефонувати про цей план', askStore: 'Запитайте в магазині', fourthFree: 'Можливий 4-й місяць безкоштовно' },
+    durationTabs: [{ key: '1', label: '1 місяць', sublabel: 'Щомісяця' }, { key: '3', label: '3 місяці', sublabel: 'Більша економія' }, { key: '6', label: '6 місяців', sublabel: 'Краща вартість' }, { key: '12', label: '12 місяців', sublabel: 'Найкраща вартість' }],
+    passes: [{ name: 'Go Roam Pass за $5', duration: '5 днів', talk: '100 хвилин', texts: '100 SMS', data: '1GB швидкісних даних' }, { name: 'Go Roam Pass за $10', duration: '15 днів', talk: '300 хвилин', texts: '300 SMS', data: '5GB швидкісних даних' }],
+    plans: {}
+  }
+};
+
+['pl', 'es', 'uk'].forEach((key) => {
+  const lang = key as LanguageKey;
+  ultraCopy[lang].plans = ultraCopy.en.plans;
+});
+
+ultraCopy.pl.plans = {
+  '500MB Plan': { name: 'Plan 500MB', highlight: 'Prosty plan startowy dla osób, które używają niewielkiej ilości danych oraz potrzebują rozmów i SMS-ów.', includes: ['500MB danych 5G / 4G LTE miesięcznie', 'Nielimitowane rozmowy krajowe i wiadomości globalne', 'Obsługa rozmów międzynarodowych', 'Hotspot mobilny w cenie'] },
+  '4GB Plan': { name: 'Plan 4GB', highlight: 'Przystępna cenowo codzienna usługa z funkcjami rozmów międzynarodowych.', includes: ['4GB danych 5G / 4G LTE miesięcznie', 'Nielimitowane rozmowy krajowe i wiadomości globalne', 'Rozmowy do ponad 90 kierunków międzynarodowych', 'Rozmowy i SMS-y w Meksyku oraz Kanadzie', 'Hotspot mobilny w cenie'] },
+  '8GB Plan': { name: 'Plan 8GB', highlight: 'Rozsądny wybór dla klientów, którzy chcą więcej danych i dobrej ceny.', includes: ['8GB danych 5G / 4G LTE miesięcznie', 'Nielimitowane rozmowy krajowe i wiadomości globalne', 'Rozmowy do ponad 90 kierunków międzynarodowych', 'Rozmowy i SMS-y w Meksyku oraz Kanadzie', 'Hotspot mobilny w cenie'] },
+  '12GB Plan': { name: 'Plan 12GB', highlight: 'Więcej szybkich danych na mapy, komunikatory, media społecznościowe i wideo.', includes: ['12GB danych 5G / 4G LTE miesięcznie', 'Nielimitowane rozmowy krajowe i wiadomości globalne', 'Rozmowy do ponad 90 kierunków międzynarodowych', 'Rozmowy i SMS-y w Meksyku oraz Kanadzie', 'Hotspot mobilny w cenie'] },
+  '24GB Plan': { name: 'Plan 24GB', highlight: 'Dla osób, które zużywają więcej danych, ale nie potrzebują jeszcze planu Unlimited.', includes: ['24GB danych 5G / 4G LTE miesięcznie', 'Nielimitowane rozmowy krajowe i wiadomości globalne', 'Rozmowy do ponad 90 kierunków międzynarodowych', 'Rozmowy i SMS-y w Meksyku oraz Kanadzie', 'Hotspot mobilny w cenie'] },
+  'Ultra Unlimited Plan': { name: 'Plan Ultra Unlimited', badge: 'Najpopularniejszy', highlight: 'Nielimitowane dane, hotspot i możliwość oszczędności przy liniach rodzinnych.', includes: ['Nielimitowane dane 5G / 4G LTE miesięcznie', 'Brak limitu danych', 'Nielimitowane rozmowy krajowe i wiadomości globalne', 'Rozmowy do ponad 90 kierunków międzynarodowych', 'Rozmowy i SMS-y w Meksyku oraz Kanadzie', 'Do 10GB hotspotu mobilnego'] },
+  'Ultra Unlimited+ Plan': { name: 'Plan Ultra Unlimited+', badge: 'Premium', highlight: 'Plan premium z większym hotspotem dla klientów, którzy używają telefonu intensywniej.', includes: ['Nielimitowane dane 5G / 4G LTE miesięcznie', 'Brak limitu danych', 'Nielimitowane rozmowy krajowe i wiadomości globalne', 'Rozmowy do ponad 90 kierunków międzynarodowych', 'Rozmowy i SMS-y w Meksyku oraz Kanadzie', 'Do 25GB hotspotu mobilnego'] }
+};
+
+ultraCopy.es.plans = {
+  '500MB Plan': { name: 'Plan 500MB', highlight: 'Un plan sencillo para uso ligero de datos, llamadas y mensajes.', includes: ['500MB de datos 5G / 4G LTE al mes', 'Llamadas nacionales ilimitadas y mensajes globales', 'Soporte para llamadas internacionales', 'Hotspot móvil incluido'] },
+  '4GB Plan': { name: 'Plan 4GB', highlight: 'Servicio diario económico con funciones de llamadas internacionales.', includes: ['4GB de datos 5G / 4G LTE al mes', 'Llamadas nacionales ilimitadas y mensajes globales', 'Llamadas a más de 90 destinos internacionales', 'Llamadas y mensajes en México y Canadá', 'Hotspot móvil incluido'] },
+  '8GB Plan': { name: 'Plan 8GB', highlight: 'Una opción inteligente para clientes que quieren más datos y buen valor.', includes: ['8GB de datos 5G / 4G LTE al mes', 'Llamadas nacionales ilimitadas y mensajes globales', 'Llamadas a más de 90 destinos internacionales', 'Llamadas y mensajes en México y Canadá', 'Hotspot móvil incluido'] },
+  '12GB Plan': { name: 'Plan 12GB', highlight: 'Más datos de alta velocidad para mapas, redes sociales, mensajes y video.', includes: ['12GB de datos 5G / 4G LTE al mes', 'Llamadas nacionales ilimitadas y mensajes globales', 'Llamadas a más de 90 destinos internacionales', 'Llamadas y mensajes en México y Canadá', 'Hotspot móvil incluido'] },
+  '24GB Plan': { name: 'Plan 24GB', highlight: 'Para mayor uso de datos mensual sin pasar todavía a un plan ilimitado.', includes: ['24GB de datos 5G / 4G LTE al mes', 'Llamadas nacionales ilimitadas y mensajes globales', 'Llamadas a más de 90 destinos internacionales', 'Llamadas y mensajes en México y Canadá', 'Hotspot móvil incluido'] },
+  'Ultra Unlimited Plan': { name: 'Plan Ultra Unlimited', badge: 'Más popular', highlight: 'Datos ilimitados con hotspot y ahorros disponibles para líneas familiares.', includes: ['Datos ilimitados 5G / 4G LTE al mes', 'Sin límite de datos', 'Llamadas nacionales ilimitadas y mensajes globales', 'Llamadas a más de 90 destinos internacionales', 'Llamadas y mensajes en México y Canadá', 'Hasta 10GB de hotspot móvil'] },
+  'Ultra Unlimited+ Plan': { name: 'Plan Ultra Unlimited+', badge: 'Premium', highlight: 'Ilimitado premium con más hotspot para clientes que usan más datos.', includes: ['Datos ilimitados 5G / 4G LTE al mes', 'Sin límite de datos', 'Llamadas nacionales ilimitadas y mensajes globales', 'Llamadas a más de 90 destinos internacionales', 'Llamadas y mensajes en México y Canadá', 'Hasta 25GB de hotspot móvil'] }
+};
+
+ultraCopy.uk.plans = {
+  '500MB Plan': { name: 'План 500MB', highlight: 'Простий стартовий план для невеликого використання даних, дзвінків і повідомлень.', includes: ['500MB даних 5G / 4G LTE на місяць', 'Безлімітні дзвінки по США та глобальні SMS', 'Підтримка міжнародних дзвінків', 'Мобільний hotspot включено'] },
+  '4GB Plan': { name: 'План 4GB', highlight: 'Доступний щоденний сервіс із функціями міжнародних дзвінків.', includes: ['4GB даних 5G / 4G LTE на місяць', 'Безлімітні дзвінки по США та глобальні SMS', 'Дзвінки до понад 90 міжнародних напрямків', 'Дзвінки та SMS у Мексиці й Канаді', 'Мобільний hotspot включено'] },
+  '8GB Plan': { name: 'План 8GB', highlight: 'Розумний вибір для клієнтів, яким потрібно більше даних і вигідна ціна.', includes: ['8GB даних 5G / 4G LTE на місяць', 'Безлімітні дзвінки по США та глобальні SMS', 'Дзвінки до понад 90 міжнародних напрямків', 'Дзвінки та SMS у Мексиці й Канаді', 'Мобільний hotspot включено'] },
+  '12GB Plan': { name: 'План 12GB', highlight: 'Більше швидкісних даних для карт, соцмереж, повідомлень і відео.', includes: ['12GB даних 5G / 4G LTE на місяць', 'Безлімітні дзвінки по США та глобальні SMS', 'Дзвінки до понад 90 міжнародних напрямків', 'Дзвінки та SMS у Мексиці й Канаді', 'Мобільний hotspot включено'] },
+  '24GB Plan': { name: 'План 24GB', highlight: 'Для більшого щомісячного використання даних без переходу на Unlimited.', includes: ['24GB даних 5G / 4G LTE на місяць', 'Безлімітні дзвінки по США та глобальні SMS', 'Дзвінки до понад 90 міжнародних напрямків', 'Дзвінки та SMS у Мексиці й Канаді', 'Мобільний hotspot включено'] },
+  'Ultra Unlimited Plan': { name: 'План Ultra Unlimited', badge: 'Найпопулярніший', highlight: 'Безлімітні дані з hotspot і сімейною економією для додаткових ліній.', includes: ['Безлімітні дані 5G / 4G LTE на місяць', 'Без ліміту даних', 'Безлімітні дзвінки по США та глобальні SMS', 'Дзвінки до понад 90 міжнародних напрямків', 'Дзвінки та SMS у Мексиці й Канаді', 'До 10GB мобільного hotspot'] },
+  'Ultra Unlimited+ Plan': { name: 'План Ultra Unlimited+', badge: 'Premium', highlight: 'Преміальний безлімітний план із більшим hotspot для активніших користувачів.', includes: ['Безлімітні дані 5G / 4G LTE на місяць', 'Без ліміту даних', 'Безлімітні дзвінки по США та глобальні SMS', 'Дзвінки до понад 90 міжнародних напрямків', 'Дзвінки та SMS у Мексиці й Канаді', 'До 25GB мобільного hotspot'] }
+};
+
+function localizeMonthly(value: string, lang: LanguageKey) {
+  if (lang === 'pl') return value.replace('/mo', '/mies.');
+  if (lang === 'es') return value.replace('/mo', '/mes');
+  if (lang === 'uk') return value.replace('/mo', '/міс.');
+  return value;
+}
+
+function localizeBilled(value: string, lang: LanguageKey) {
+  if (lang === 'pl') return value.replace('total', 'razem');
+  if (lang === 'es') return value.replace('total', 'total');
+  if (lang === 'uk') return value.replace('total', 'разом');
+  return value;
+}
+
+function UltraIcon({ icon }: { icon: 'globe' | 'check' | 'wifi' }) {
+  if (icon === 'globe') return <Globe2 size={26} />;
+  if (icon === 'check') return <CheckCircle2 size={26} />;
+  return <Wifi size={26} />;
+}
+
+function UltraPlanStoreCard({ plan, lang }: { plan: UltraPlan; lang: LanguageKey }) {
   const [duration, setDuration] = useState<DurationKey>('1');
+  const copy = ultraCopy[lang] || ultraCopy.en;
+  const planText = copy.plans[plan.name] || ultraCopy.en.plans[plan.name];
   const selected = plan.durations[duration] || plan.durations['1'];
-  const smsPlanText = encodeURIComponent(`Hi CellzTech, I am interested in Ultra Mobile. Plan: ${plan.name}. Duration: ${selected?.label || 'Not selected'}. Price shown: ${selected?.monthly || plan.basePrice + '/mo'}. Please help me activate or transfer my number.`);
+  const selectedTab = copy.durationTabs.find((tab) => tab.key === duration);
+  const selectedLabel = selectedTab?.label || selected?.label || 'Not selected';
+  const selectedMonthly = selected?.monthly ? localizeMonthly(selected.monthly, lang) : `${plan.basePrice}/mo`;
+  const selectedBilled = selected?.billed ? localizeBilled(selected.billed, lang) : copy.planCard.askPricing;
+  const smsPlanText = encodeURIComponent(`${copy.planCard.startPurchase}: Ultra Mobile. ${planText.name}. ${selectedLabel}. ${selectedMonthly}.`);
 
   return (
     <article className={`ultraStorePlan ${plan.badge === 'Most Popular' ? 'bestPlan' : ''}`}>
       <div className="ultraPlanTop">
         <div>
           <span className="planDataPill">{plan.data}</span>
-          <h3>{plan.name}</h3>
-          <p>{plan.highlight}</p>
+          <h3>{planText.name}</h3>
+          <p>{planText.highlight}</p>
         </div>
         <div className="planBadges">
-          {plan.promoEligible && <strong className="dealPill promoOnlyPill">1-month promo eligible</strong>}
-          {plan.badge && <strong className="dealPill">{plan.badge}</strong>}
+          {plan.promoEligible && <strong className="dealPill promoOnlyPill">{copy.planCard.promoEligible}</strong>}
+          {(planText.badge || plan.badge) && <strong className="dealPill">{planText.badge || plan.badge}</strong>}
         </div>
       </div>
 
       <div className="planBuilder">
         <aside className="planIncludes">
-          <strong>Plan Includes:</strong>
-          <ul>{plan.includes.map((item) => <li key={item}>{item}</li>)}</ul>
+          <strong>{copy.planCard.includes}</strong>
+          <ul>{planText.includes.map((item) => <li key={item}>{item}</li>)}</ul>
           <div className="activationDetails">
-            <strong>Activation help:</strong>
+            <strong>{copy.planCard.activation}</strong>
             <ul>
-              <li>$0 activation fee at CellzTech</li>
-              <li>Free SIM card</li>
-              <li>We help transfer your number in-store</li>
+              {copy.planCard.activationItems.map((item) => <li key={item}>{item}</li>)}
             </ul>
           </div>
         </aside>
 
         <div className="planPurchasePanel">
-          <div className="durationTabs" role="tablist" aria-label={`${plan.name} duration options`}>
-            {durationTabs.map((tab) => {
+          <div className="durationTabs" role="tablist" aria-label={`${planText.name} duration options`}>
+            {copy.durationTabs.map((tab) => {
               const option = plan.durations[tab.key];
               return (
                 <button
@@ -2250,7 +2438,7 @@ function UltraPlanStoreCard({ plan }: { plan: UltraPlan }) {
                   disabled={!option}
                 >
                   <span>{tab.label}</span>
-                  <small>{option ? (plan.promoEligible && tab.key === '1' ? '4th month free eligible' : tab.sublabel) : 'Ask in store'}</small>
+                  <small>{option ? (plan.promoEligible && tab.key === '1' ? copy.planCard.fourthFree : tab.sublabel) : copy.planCard.askStore}</small>
                 </button>
               );
             })}
@@ -2258,31 +2446,31 @@ function UltraPlanStoreCard({ plan }: { plan: UltraPlan }) {
 
           {plan.promoEligible && (
             <div className={`promoRuleNote ${duration === '1' ? 'activePromoRule' : ''}`}>
-              <strong>{duration === '1' ? '4th month free promo applies here.' : 'Multi-month pricing selected.'}</strong>
-              <span>{duration === '1' ? 'For eligible new customers on 1-month 8GB+ plans, the 4th monthly renewal can be free when the line remains eligible.' : 'The 3, 6, and 12 month choices are prepaid multi-month rates. They are not the 4th-month-free monthly promo.'}</span>
+              <strong>{duration === '1' ? copy.planCard.promoApplyTitle : copy.planCard.multiTitle}</strong>
+              <span>{duration === '1' ? copy.planCard.promoApplyText : copy.planCard.multiText}</span>
             </div>
           )}
 
           <div className="simSelectorPreview">
             <div>
-              <strong>SIM Card</strong>
-              <span>Free SIM card at CellzTech</span>
+              <strong>{copy.planCard.simTitle}</strong>
+              <span>{copy.planCard.simText}</span>
             </div>
             <div>
-              <strong>eSIM</strong>
-              <span>Available on select compatible phones</span>
+              <strong>{copy.planCard.esimTitle}</strong>
+              <span>{copy.planCard.esimText}</span>
             </div>
           </div>
 
           <div className="planSubtotal">
-            <span>Subtotal preview:</span>
-            <strong>{selected?.monthly || `${plan.basePrice}/mo`}</strong>
-            <small>{selected?.billed || 'Ask in store for current pricing'}<br />Taxes and fees may apply.</small>
+            <span>{copy.planCard.subtotal}</span>
+            <strong>{selectedMonthly}</strong>
+            <small>{selectedBilled}<br />{copy.planCard.taxes}</small>
           </div>
 
           <div className="planCtas">
-            <a className="primaryBtn" href={`sms:7734137489?&body=${smsPlanText}`}>Start purchase <ShoppingBag size={18} /></a>
-            <a className="secondaryBtn" href="tel:7734137489">Call about this plan</a>
+            <a className="primaryBtn" href={`sms:7734137489?&body=${smsPlanText}`}>{copy.planCard.startPurchase} <ShoppingBag size={18} /></a>
+            <a className="secondaryBtn" href="tel:7734137489">{copy.planCard.callPlan}</a>
           </div>
         </div>
       </div>
@@ -2291,13 +2479,7 @@ function UltraPlanStoreCard({ plan }: { plan: UltraPlan }) {
 }
 
 function UltraDetails({ lang }: { lang: LanguageKey }) {
-  const quickDetails = [
-    'Plans from $15/month, with monthly and multi-month options.',
-    '4 Ultra Unlimited lines for $100/month.',
-    'International calling to Poland and 90+ destinations.',
-    'Free SIM card at CellzTech, with eSIM available on supported phones.',
-    'Bring your account number, transfer PIN, and an unlocked compatible phone.'
-  ];
+  const copy = ultraCopy[lang] || ultraCopy.en;
 
   return (
     <>
@@ -2305,54 +2487,41 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
         <div className="wrap ultraHeroStack">
           <div className="ultraHeroGrid">
             <div className="ultraHeroCopy">
-              <span className="summerLabel">Ultra Mobile authorized activation help</span>
-              <h1>Ultra Mobile plans, family savings, and travel-ready service at CellzTech.</h1>
-              <p>We help customers compare monthly and multi-month plans, family promos, number transfers, Go Roam passes, and compatibility before they pay.</p>
+              <span className="summerLabel">{copy.hero.label}</span>
+              <h1>{copy.hero.title}</h1>
+              <p>{copy.hero.text}</p>
               <div className="ultraHeroButtons">
-                <a className="primaryBtn" href="tel:7734137489">Call for Ultra Mobile <ArrowRight size={18} /></a>
-                <button className="secondaryBtn" onClick={() => goTo('contact')}>Visit the store</button>
+                <a className="primaryBtn" href="tel:7734137489">{copy.hero.call} <ArrowRight size={18} /></a>
+                <button className="secondaryBtn" onClick={() => goTo('contact')}>{copy.hero.visit}</button>
               </div>
             </div>
             <div className="familyShowcaseCard">
-              <div className="sunBadge">Family<br />Deal</div>
-              <span>Featured promo</span>
+              <div className="sunBadge">{copy.family.badge.split('\n').map((part) => <React.Fragment key={part}>{part}<br /></React.Fragment>)}</div>
+              <span>{copy.family.label}</span>
               <strong>4 FOR $100</strong>
-              <h3>4 Ultra Unlimited lines for $100/mo</h3>
-              <p>Bring up to four lines onto one Ultra Unlimited account and get international features included with each line.</p>
+              <h3>{copy.family.title}</h3>
+              <p>{copy.family.text}</p>
               <div className="familyPromoDetails" aria-label="Ultra 4 for 100 promotion details">
-                <div>
-                  <small>1 line</small>
-                  <b>$49/mo</b>
-                </div>
-                <div>
-                  <small>2 lines</small>
-                  <b>$73/mo</b>
-                </div>
-                <div>
-                  <small>3 lines</small>
-                  <b>$85/mo</b>
-                </div>
-                <div className="highlight">
-                  <small>4 lines</small>
-                  <b>$100/mo</b>
-                </div>
+                {familyLinePrices.map((item, index) => (
+                  <div key={item.label} className={index === 3 ? 'highlight' : ''}>
+                    <small>{copy.family.lineLabels[index] || item.label}</small>
+                    <b>{localizeMonthly(item.price, lang)}</b>
+                  </div>
+                ))}
               </div>
               <ul className="promoChecklist">
-                <li>No data cap on Ultra Unlimited</li>
-                <li>Unlimited nationwide talk and global text</li>
-                <li>Talk to 90+ international destinations</li>
-                <li>Hotspot included on supported plans</li>
+                {copy.family.checklist.map((item) => <li key={item}>{item}</li>)}
               </ul>
-              <a className="primaryBtn compact" href="sms:7734137489?&body=Hi%20CellzTech%2C%20I%20am%20interested%20in%20the%20Ultra%20Mobile%204%20lines%20for%20%24100%20promo.%20Please%20send%20me%20details.">Ask about 4 for $100</a>
+              <a className="primaryBtn compact" href="sms:7734137489?&body=Hi%20CellzTech%2C%20I%20am%20interested%20in%20the%20Ultra%20Mobile%204%20lines%20for%20%24100%20promo.%20Please%20send%20me%20details.">{copy.family.cta}</a>
             </div>
           </div>
 
           <div className="ultraHeroInfoBand">
             <article className="ultraInfoCard ultraQuickCard">
-              <span>Quick details</span>
-              <h3>What customers usually want to know first.</h3>
+              <span>{copy.quick.label}</span>
+              <h3>{copy.quick.title}</h3>
               <ul>
-                {quickDetails.map((item) => (
+                {copy.quick.items.map((item) => (
                   <li key={item}>
                     <CheckCircle2 size={18} />
                     <span>{item}</span>
@@ -2361,26 +2530,14 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
               </ul>
             </article>
 
-            <article className="ultraInfoCard">
-              <Globe2 size={26} />
-              <span>International roaming</span>
-              <h3>New 5-day and 15-day Go Roam Passes</h3>
-              <p>Built for quick trips and longer vacations when customers need talk, text, and data abroad.</p>
-            </article>
-
-            <article className="ultraInfoCard">
-              <CheckCircle2 size={26} />
-              <span>Limited time offer</span>
-              <h3>Eligible 1-month 8GB+ plans can earn a free 4th month.</h3>
-              <p>This offer applies to eligible monthly plans only. Multi-month 3, 6, and 12 month rates are separate prepaid options.</p>
-            </article>
-
-            <article className="ultraInfoCard">
-              <Wifi size={26} />
-              <span>Network</span>
-              <h3>On the T-Mobile 5G network</h3>
-              <p>Plans include nationwide talk and global text, international calling features, and hotspot on supported plans.</p>
-            </article>
+            {copy.infoCards.map((card) => (
+              <article className="ultraInfoCard" key={card.title}>
+                <UltraIcon icon={card.icon} />
+                <span>{card.label}</span>
+                <h3>{card.title}</h3>
+                <p>{card.text}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -2388,26 +2545,26 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
       <section className="section ultraFeatureSection light">
         <div className="wrap ultraFeatureGrid">
           <article className="ultraFeatureCard familyPricingCard">
-            <span>Family plan math</span>
-            <h2>Unlimited lines get stronger as you add more.</h2>
-            <p>The current 4-line showcase starts from one Ultra Unlimited line and adds savings as the account grows.</p>
+            <span>{copy.familyFeature.label}</span>
+            <h2>{copy.familyFeature.title}</h2>
+            <p>{copy.familyFeature.text}</p>
             <div className="familyPriceGrid">
-              {familyLinePrices.map((item) => (
+              {familyLinePrices.map((item, index) => (
                 <div key={item.label}>
-                  <span>{item.label}</span>
-                  <strong>{item.price}</strong>
+                  <span>{copy.family.lineLabels[index] || item.label}</span>
+                  <strong>{localizeMonthly(item.price, lang)}</strong>
                 </div>
               ))}
             </div>
-            <small>Promo eligibility, taxes, fees, account status, and plan availability must be confirmed before activation.</small>
+            <small>{copy.familyFeature.fine}</small>
           </article>
 
           <article className="ultraFeatureCard roamCard">
-            <span>Go Roam World Pass</span>
-            <h2>Travel support without guessing.</h2>
-            <p>Customers can add a pass by texting <strong>ACTIVATE</strong> to <strong>6700</strong>. Up to 3 passes can be stored, but only one can be active at a time.</p>
+            <span>{copy.roamFeature.label}</span>
+            <h2>{copy.roamFeature.title}</h2>
+            <p>{copy.roamFeature.textPrefix} <strong>ACTIVATE</strong> {copy.roamFeature.textMiddle} <strong>6700</strong>. {copy.roamFeature.textSuffix}</p>
             <div className="roamPassGrid">
-              {goRoamPasses.map((pass) => (
+              {copy.passes.map((pass) => (
                 <div key={pass.name}>
                   <strong>{pass.name}</strong>
                   <span>{pass.duration}</span>
@@ -2415,7 +2572,7 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
                 </div>
               ))}
             </div>
-            <small>After high-speed data is used, speeds reduce to 512 kbps until the pass expires. Works in many countries, but not all. Mexico uses a separate roaming pass.</small>
+            <small>{copy.roamFeature.fine}</small>
           </article>
         </div>
       </section>
@@ -2423,26 +2580,26 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
       <section className="section ultraStorePlansSection light">
         <div className="wrap">
           <div className="sectionIntro centeredIntro">
-            <span>Plan showcase</span>
-            <h2>Compare Ultra Mobile monthly and multi-month pricing.</h2>
-            <p>Pick a plan and duration to preview the advertised monthly price and total upfront amount. We confirm taxes, fees, current promos, and compatibility before activation.</p>
+            <span>{copy.planSection.label}</span>
+            <h2>{copy.planSection.title}</h2>
+            <p>{copy.planSection.text}</p>
           </div>
           <div className="ultraStorePlans">
-            {ultraPlans.map((plan) => <UltraPlanStoreCard key={plan.name} plan={plan} />)}
+            {ultraPlans.map((plan) => <UltraPlanStoreCard key={plan.name} plan={plan} lang={lang} />)}
           </div>
-          <p className="ultraFinePrint">Final pricing, taxes, fees, promo eligibility, plan terms, network management, eSIM compatibility, roaming availability, and plan availability may vary. Heavy data users may notice reduced speeds during congestion. Video may stream around 480p. We will confirm everything before activation.</p>
+          <p className="ultraFinePrint">{copy.planSection.finePrint}</p>
         </div>
       </section>
 
       <section className="section ultraSimSection">
         <div className="wrap ultraSimGrid">
           <div className="ultraSimCopy">
-            <span className="summerLabel">SIM cards and activation help</span>
-            <h2>Get an Ultra Mobile SIM shipped or activated in-store.</h2>
-            <p>Whether you are switching today, transferring a number, helping a family member, or asking about eSIM, CellzTech can guide you through the cleanest option before you pay.</p>
+            <span className="summerLabel">{copy.simSection.label}</span>
+            <h2>{copy.simSection.title}</h2>
+            <p>{copy.simSection.text}</p>
           </div>
           <div className="simStoreCards">
-            {simStarterOptions.map((option) => (
+            {copy.simSection.options.map((option) => (
               <article key={option.title}>
                 <ShoppingBag size={24} />
                 <h3>{option.title}</h3>
