@@ -201,53 +201,233 @@ async function createRepairDeskCustomer(body) {
 
   return {
     skipped: false,
-    id: findId(data, ['customer_id', 'id']),
+    id: findId(data, ['customer_id', 'cid', 'id', 'code']),
     response: data
   };
 }
 
-function buildRepairDeskTicketPayload(body, customerId) {
+
+function asArray(value) {
+  if (Array.isArray(value)) return value;
+  if (!value || typeof value !== 'object') return [];
+  for (const key of ['data', 'devices', 'items', 'results', 'response', 'problems', 'services']) {
+    if (Array.isArray(value[key])) return value[key];
+    if (value[key] && typeof value[key] === 'object') {
+      const nested = asArray(value[key]);
+      if (nested.length) return nested;
+    }
+  }
+  return [];
+}
+
+function textFromCandidate(candidate) {
+  if (!candidate || typeof candidate !== 'object') return '';
+  return Object.values(candidate)
+    .filter((value) => ['string', 'number'].includes(typeof value))
+    .join(' ')
+    .toLowerCase();
+}
+
+function scoreCandidate(candidate, terms) {
+  const text = textFromCandidate(candidate);
+  return terms.reduce((score, term) => {
+    const normalized = String(term || '').toLowerCase().trim();
+    if (!normalized) return score;
+    if (text.includes(normalized)) return score + normalized.length;
+    return score;
+  }, 0);
+}
+
+function chooseBestCandidate(items, terms) {
+  let best = null;
+  let bestScore = 0;
+  for (const item of items) {
+    const score = scoreCandidate(item, terms);
+    if (score > bestScore) {
+      best = item;
+      bestScore = score;
+    }
+  }
+  return best;
+}
+
+function getObjectId(value) {
+  return findId(value, ['id', 'device_id', 'deviceId', 'did', 'problem_id', 'problemId', 'service_id', 'serviceId', 'pid']);
+}
+
+async function tryRepairDeskJson(path) {
+  try {
+    const response = await repairDeskFetch(path);
+    const data = await parseJsonResponse(response);
+    if (!response.ok) return null;
+    return data;
+  } catch (error) {
+    console.error(`RepairDesk catalog lookup failed for ${path}`, error);
+    return null;
+  }
+}
+
+async function resolveRepairDeskDevice(body) {
+  const querySets = [
+    `/devices?brand=${encodeURIComponent(body.device)}&type=${encodeURIComponent(body.series || '')}`,
+    `/devices?manufacturer=${encodeURIComponent(body.device)}&type=${encodeURIComponent(body.series || '')}`,
+    `/devices?brand=${encodeURIComponent(body.device)}&model=${encodeURIComponent(body.model)}`,
+    `/devices?keyword=${encodeURIComponent(body.model)}`,
+    `/devices`
+  ];
+
+  const terms = [body.model, body.series, body.device];
+  for (const path of querySets) {
+    const data = await tryRepairDeskJson(path);
+    const items = asArray(data);
+    const match = chooseBestCandidate(items, terms);
+    if (match) return match;
+  }
+  return null;
+}
+
+async function resolveRepairDeskProblem(body, deviceObject) {
+  const deviceId = getObjectId(deviceObject);
+  const candidates = [];
+  if (deviceId) candidates.push(`/problems/${encodeURIComponent(deviceId)}`);
+  const terms = [body.issue, 'screen', 'display', 'lcd'];
+
+  for (const path of candidates) {
+    const data = await tryRepairDeskJson(path);
+    const items = asArray(data);
+    const match = chooseBestCandidate(items, terms);
+    if (match) return match;
+  }
+  return null;
+}
+
+function buildFallbackDeviceObject(body) {
+  return compactObject({
+    brand: body.device,
+    manufacturer: body.device,
+    type: body.series,
+    category: body.series,
+    model: body.model,
+    device_model: body.model,
+    device_name: body.model,
+    name: body.model,
+    title: body.model
+  });
+}
+
+function buildFallbackProblemObject(body) {
+  return compactObject({
+    name: body.issue,
+    title: body.issue,
+    problem: body.issue,
+    problem_name: body.issue,
+    service_name: body.issue,
+    issue: body.issue
+  });
+}
+
+async function buildRepairDeskTicketPayload(body, customerId, customerResponse) {
   const requestSummary = formatRequest({ ...body, repairDeskCustomerId: customerId });
   const preferredStatus = process.env.REPAIRDESK_DEFAULT_STATUS_ID;
   const preferredEmployee = process.env.REPAIRDESK_DEFAULT_EMPLOYEE_ID;
   const preferredStore = process.env.REPAIRDESK_STORE_ID;
+  const customerObject = compactObject({
+    id: customerId,
+    cid: customerId,
+    customer_id: customerId,
+    name: body.name,
+    first_name: splitName(body.name).firstName,
+    last_name: splitName(body.name).lastName,
+    email: body.email,
+    phone: body.phone,
+    mobile: body.phone,
+    ...(customerResponse?.data && typeof customerResponse.data === 'object' ? customerResponse.data : {})
+  });
+
+  const resolvedDevice = await resolveRepairDeskDevice(body);
+  const deviceObject = compactObject({
+    ...buildFallbackDeviceObject(body),
+    ...(resolvedDevice && typeof resolvedDevice === 'object' ? resolvedDevice : {})
+  });
+  const deviceId = getObjectId(deviceObject);
+
+  const resolvedProblem = await resolveRepairDeskProblem(body, deviceObject);
+  const problemObject = compactObject({
+    ...buildFallbackProblemObject(body),
+    ...(resolvedProblem && typeof resolvedProblem === 'object' ? resolvedProblem : {})
+  });
+  const problemId = getObjectId(problemObject);
+
+  const ticketLine = compactObject({
+    device: deviceObject,
+    device_id: deviceId,
+    problem: problemObject,
+    problem_id: problemId,
+    service: problemObject,
+    service_id: problemId,
+    issue: body.issue,
+    notes: requestSummary,
+    diagnostic_note: requestSummary
+  });
 
   return compactObject({
     customer_id: customerId,
     customerId,
-    customer: customerId,
+    cid: customerId,
+    customer: customerObject,
     customer_name: body.name,
     customer_email: body.email,
     customer_phone: body.phone,
     name: body.name,
     email: body.email,
     phone: body.phone,
-    device: body.device,
+    device: deviceObject,
+    device_id: deviceId,
+    deviceId: deviceId,
+    devices: [deviceObject],
+    device_object: deviceObject,
     brand: body.device,
     manufacturer: body.device,
     series: body.series,
     model: body.model,
     device_model: body.model,
-    problem: body.issue,
+    problem: problemObject,
+    problem_id: problemId,
+    problemId: problemId,
+    problems: [problemObject],
+    service: problemObject,
+    service_id: problemId,
     issue: body.issue,
     repair_problem: body.issue,
+    ticket_items: [ticketLine],
+    line_items: [ticketLine],
+    repair_items: [ticketLine],
     subject: `${body.model} - ${body.issue}`,
     description: requestSummary,
     notes: requestSummary,
     diagnostic_note: requestSummary,
     requested_date: body.requestedDate,
     requested_time: body.requestedTime,
+    appointment_date: body.requestedDate,
+    appointment_time: body.requestedTime,
     source: 'CellzTech website',
     status_id: preferredStatus,
     assigned_to: preferredEmployee,
     employee_id: preferredEmployee,
     store_id: preferredStore,
-    location_id: preferredStore
+    location_id: preferredStore,
+    website_request: {
+      requested_date: body.requestedDate,
+      requested_time: body.requestedTime,
+      notes: body.notes,
+      selected_device_text: `${body.device} ${body.series} ${body.model}`,
+      selected_issue_text: body.issue
+    }
   });
 }
 
-async function createRepairDeskTicket(body, customerId) {
-  const payload = buildRepairDeskTicketPayload(body, customerId);
+async function createRepairDeskTicket(body, customerId, customerResponse) {
+  const payload = await buildRepairDeskTicketPayload(body, customerId, customerResponse);
   const response = await repairDeskFetch('/tickets', {
     method: 'POST',
     body: JSON.stringify(payload)
@@ -255,12 +435,17 @@ async function createRepairDeskTicket(body, customerId) {
   const data = await parseJsonResponse(response);
 
   if (!response.ok) {
-    throw new Error(`RepairDesk ticket error: ${JSON.stringify(data).slice(0, 500)}`);
+    return {
+      skipped: false,
+      id: '',
+      response: data,
+      error: `RepairDesk ticket error: ${JSON.stringify(data).slice(0, 800)}`
+    };
   }
 
   return {
     skipped: false,
-    id: findId(data, ['ticket_id', 'id']),
+    id: findId(data, ['ticket_id', 'tid', 'id', 'ticketId', 'ticket_number', 'ticket_no', 'number', 'ticket_code']),
     response: data
   };
 }
@@ -361,7 +546,8 @@ export default async function handler(req, res) {
     try {
       repairDeskCustomerResult = await createRepairDeskCustomer(normalized);
       const customerId = repairDeskCustomerResult.id || process.env.REPAIRDESK_FALLBACK_CUSTOMER_ID || '';
-      repairDeskTicketResult = await createRepairDeskTicket(normalized, customerId);
+      repairDeskTicketResult = await createRepairDeskTicket(normalized, customerId, repairDeskCustomerResult.response);
+      if (repairDeskTicketResult?.error) integrationErrors.push(repairDeskTicketResult.error);
     } catch (error) {
       console.error(error);
       integrationErrors.push(error instanceof Error ? error.message : 'RepairDesk integration failed');
