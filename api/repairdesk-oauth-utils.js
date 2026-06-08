@@ -27,6 +27,31 @@ export async function parseJsonResponse(response) {
   }
 }
 
+function compactPreview(value, limit = 900) {
+  try {
+    return JSON.stringify(value).slice(0, limit);
+  } catch {
+    return String(value).slice(0, limit);
+  }
+}
+
+function normalizeTokenResponse(payload) {
+  if (!payload || typeof payload !== 'object') return payload;
+  if (payload.access_token) return payload;
+
+  const candidates = [payload.data, payload.result, payload.response, payload.token, payload.tokens];
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    if (Array.isArray(candidate)) {
+      const found = candidate.find((item) => item?.access_token);
+      if (found) return found;
+    }
+    if (candidate?.access_token) return candidate;
+  }
+
+  return payload;
+}
+
 function requireSupabaseConfig() {
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -56,17 +81,18 @@ function supabaseHeaders(prefer) {
 }
 
 export async function saveRepairDeskTokens(tokenResponse) {
-  if (!tokenResponse?.access_token) {
-    throw new Error('RepairDesk token response did not include an access token');
+  const tokens = normalizeTokenResponse(tokenResponse);
+  if (!tokens?.access_token) {
+    throw new Error(`RepairDesk token response did not include an access token. Response preview: ${compactPreview(tokenResponse)}`);
   }
 
-  const expiresIn = Number(tokenResponse.expires_in || 3600);
+  const expiresIn = Number(tokens.expires_in || 3600);
   const expiresAt = new Date(Date.now() + Math.max(expiresIn - 120, 60) * 1000).toISOString();
   const record = {
     id: 'primary',
-    access_token: tokenResponse.access_token,
-    refresh_token: tokenResponse.refresh_token || null,
-    token_type: tokenResponse.token_type || 'Bearer',
+    access_token: tokens.access_token,
+    refresh_token: tokens.refresh_token || null,
+    token_type: tokens.token_type || 'Bearer',
     expires_at: expiresAt,
     raw_response: tokenResponse,
     updated_at: new Date().toISOString()
@@ -80,7 +106,7 @@ export async function saveRepairDeskTokens(tokenResponse) {
   const data = await parseJsonResponse(response);
 
   if (!response.ok) {
-    throw new Error(`Could not save RepairDesk OAuth tokens: ${JSON.stringify(data).slice(0, 500)}`);
+    throw new Error(`Could not save RepairDesk OAuth tokens: ${compactPreview(data, 500)}`);
   }
 
   return data;
@@ -94,10 +120,40 @@ export async function getSavedRepairDeskTokens() {
   const data = await parseJsonResponse(response);
 
   if (!response.ok) {
-    throw new Error(`Could not read RepairDesk OAuth tokens: ${JSON.stringify(data).slice(0, 500)}`);
+    throw new Error(`Could not read RepairDesk OAuth tokens: ${compactPreview(data, 500)}`);
   }
 
   return Array.isArray(data) ? data[0] : null;
+}
+
+async function postRepairDeskTokenRequest(body) {
+  const url = `${getOAuthBaseUrl()}/token`;
+
+  const jsonResponse = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify(body)
+  });
+  const jsonData = await parseJsonResponse(jsonResponse);
+  const normalizedJsonData = normalizeTokenResponse(jsonData);
+
+  if (jsonResponse.ok && normalizedJsonData?.access_token) return normalizedJsonData;
+
+  const formResponse = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json' },
+    body: new URLSearchParams(body).toString()
+  });
+  const formData = await parseJsonResponse(formResponse);
+  const normalizedFormData = normalizeTokenResponse(formData);
+
+  if (formResponse.ok && normalizedFormData?.access_token) return normalizedFormData;
+
+  if (!jsonResponse.ok && !formResponse.ok) {
+    throw new Error(`RepairDesk OAuth token exchange failed. JSON response: ${compactPreview(jsonData, 500)}. Form response: ${compactPreview(formData, 500)}`);
+  }
+
+  throw new Error(`RepairDesk token response did not include an access token. JSON response: ${compactPreview(jsonData, 500)}. Form response: ${compactPreview(formData, 500)}`);
 }
 
 export async function exchangeRepairDeskCodeForTokens(code, redirectUri) {
@@ -108,24 +164,13 @@ export async function exchangeRepairDeskCodeForTokens(code, redirectUri) {
     throw new Error('Missing REPAIRDESK_CLIENT_ID or REPAIRDESK_CLIENT_SECRET');
   }
 
-  const response = await fetch(`${getOAuthBaseUrl()}/token`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      grant_type: 'authorization_code',
-      code,
-      redirect_uri: redirectUri,
-      client_id: clientId,
-      client_secret: clientSecret
-    })
+  return postRepairDeskTokenRequest({
+    grant_type: 'authorization_code',
+    code,
+    redirect_uri: redirectUri,
+    client_id: clientId,
+    client_secret: clientSecret
   });
-  const data = await parseJsonResponse(response);
-
-  if (!response.ok) {
-    throw new Error(`RepairDesk OAuth token exchange failed: ${JSON.stringify(data).slice(0, 700)}`);
-  }
-
-  return data;
 }
 
 export async function refreshRepairDeskTokens(refreshToken) {
@@ -139,23 +184,12 @@ export async function refreshRepairDeskTokens(refreshToken) {
     throw new Error('Missing RepairDesk refresh token. Reconnect RepairDesk OAuth.');
   }
 
-  const response = await fetch(`${getOAuthBaseUrl()}/token`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken,
-      client_id: clientId,
-      client_secret: clientSecret
-    })
+  return postRepairDeskTokenRequest({
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken,
+    client_id: clientId,
+    client_secret: clientSecret
   });
-  const data = await parseJsonResponse(response);
-
-  if (!response.ok) {
-    throw new Error(`RepairDesk OAuth refresh failed: ${JSON.stringify(data).slice(0, 700)}`);
-  }
-
-  return data;
 }
 
 export async function getRepairDeskAccessToken() {
