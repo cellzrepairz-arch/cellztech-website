@@ -75,6 +75,7 @@ function formatRequest(body) {
     `Email: ${body.email}`,
     `Notes: ${body.notes || 'None'}`,
     '',
+    body.repairDeskLeadId ? `RepairDesk lead: ${body.repairDeskLeadId}` : 'RepairDesk lead: Pending / not connected',
     body.repairDeskTicketId ? `RepairDesk ticket: ${body.repairDeskTicketId}` : 'RepairDesk ticket: Pending / not connected',
     body.repairDeskCustomerId ? `RepairDesk customer: ${body.repairDeskCustomerId}` : 'RepairDesk customer: Pending / not connected',
     '',
@@ -95,6 +96,7 @@ function formatHtml(body) {
     ['Email', body.email],
     ['Notes', body.notes || 'None'],
     ['RepairDesk customer', body.repairDeskCustomerId || 'Pending / not connected'],
+    ['RepairDesk lead', body.repairDeskLeadId || 'Pending / not connected'],
     ['RepairDesk ticket', body.repairDeskTicketId || 'Pending / not connected']
   ];
 
@@ -123,7 +125,7 @@ async function sendEmail(body) {
     return { skipped: true, reason: 'Missing RESEND_API_KEY or REPAIR_TO_EMAIL' };
   }
 
-  const subjectPrefix = body.repairDeskTicketId ? `RepairDesk #${body.repairDeskTicketId}` : 'New repair request';
+  const subjectPrefix = body.repairDeskLeadId ? `RepairDesk Lead #${body.repairDeskLeadId}` : (body.repairDeskTicketId ? `RepairDesk #${body.repairDeskTicketId}` : 'New repair request');
   const subject = `${subjectPrefix}: ${body.model} - ${body.issue}`;
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -252,7 +254,101 @@ function chooseBestCandidate(items, terms) {
 }
 
 function getObjectId(value) {
-  return findId(value, ['id', 'device_id', 'deviceId', 'did', 'problem_id', 'problemId', 'service_id', 'serviceId', 'pid']);
+  return findId(value, ['id', 'device_id', 'deviceId', 'device', 'did', 'model_id', 'modelId', 'product_id', 'problem_id', 'problemId', 'service_id', 'serviceId', 'pid']);
+}
+
+function getObjectName(value, fallback = '') {
+  if (!value || typeof value !== 'object') return fallback;
+  for (const key of ['name', 'title', 'device_name', 'deviceName', 'model', 'model_name', 'problem', 'problem_name', 'service_name', 'display_name']) {
+    if (value[key]) return String(value[key]);
+  }
+  return fallback;
+}
+
+function toUnixTimestamp(dateValue, timeValue) {
+  const raw = `${dateValue || ''}T${timeValue || '12:00'}`;
+  const parsed = new Date(raw);
+  if (!Number.isNaN(parsed.getTime())) return Math.floor(parsed.getTime() / 1000);
+  return Math.floor((Date.now() + 86400000) / 1000);
+}
+
+function toRepairDeskDateTime(dateValue, timeValue, offsetMinutes = 0) {
+  const raw = `${dateValue || ''}T${timeValue || '12:00'}`;
+  const parsed = new Date(raw);
+  const date = Number.isNaN(parsed.getTime()) ? new Date(Date.now() + 86400000) : parsed;
+  date.setMinutes(date.getMinutes() + offsetMinutes);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  return `${year}/${month}/${day} ${hours}:${minutes}`;
+}
+
+function flattenObjects(value, output = [], depth = 0) {
+  if (!value || depth > 8) return output;
+  if (Array.isArray(value)) {
+    value.forEach((item) => flattenObjects(item, output, depth + 1));
+    return output;
+  }
+  if (typeof value === 'object') {
+    output.push(value);
+    Object.values(value).forEach((item) => {
+      if (item && typeof item === 'object') flattenObjects(item, output, depth + 1);
+    });
+  }
+  return output;
+}
+
+function moneyNumber(value, fallback = 0) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed.toFixed(2) : Number(fallback).toFixed(2);
+}
+
+function makeRepairDeskTicketLine({ body, deviceId, deviceName, problemId, problemName, requestSummary }) {
+  const assignedTo = process.env.REPAIRDESK_DEFAULT_EMPLOYEE_ID;
+  const repairCategoryId = process.env.REPAIRDESK_DEFAULT_REPAIR_CATEGORY_ID || process.env.REPAIRDESK_POST_PRE_CATEGORY_ID || process.env.REPAIRDESK_REPAIR_CATEGORY_ID;
+  const taxClass = process.env.REPAIRDESK_DEFAULT_TAX_CLASS_ID;
+  const warranty = process.env.REPAIRDESK_DEFAULT_WARRANTY || '0';
+  const taskType = process.env.REPAIRDESK_DEFAULT_TASK_TYPE || '0';
+  const status = process.env.REPAIRDESK_DEFAULT_LINE_STATUS || 'In Progress';
+  const dueOn = toUnixTimestamp(body.requestedDate, body.requestedTime);
+  const serviceItem = compactObject({
+    id: problemId,
+    name: problemName || body.issue
+  });
+
+  return compactObject({
+    imei: '',
+    public_comments: `Website repair request: ${body.issue}. ${body.notes || ''}`.trim(),
+    public_comment_flag: 1,
+    PreConditions: [],
+    status,
+    PostPreCategory: repairCategoryId,
+    task_type: Number.isFinite(Number(taskType)) ? Number(taskType) : taskType,
+    device: deviceId || deviceName || body.model,
+    staff_comments: requestSummary,
+    warranty,
+    lineItemId: 0,
+    repairProdItems: serviceItem.name ? [serviceItem] : [],
+    line_discount: 0,
+    taxclass: taxClass,
+    device_location: '',
+    warranty_timeframe: process.env.REPAIRDESK_DEFAULT_WARRANTY_TIMEFRAME || '',
+    Parts: [],
+    supplied: [],
+    security_code: '',
+    network: '',
+    serial: '',
+    price: Number(process.env.REPAIRDESK_DEFAULT_REPAIR_PRICE || 0),
+    due_on: dueOn,
+    tax_inclusive: process.env.REPAIRDESK_TAX_INCLUSIVE || '1',
+    assigned_to: assignedTo,
+    repairCategId: repairCategoryId,
+    images: [],
+    pre_image_urls: [],
+    post_image_urls: []
+  });
 }
 
 async function tryRepairDeskJson(path) {
@@ -426,27 +522,354 @@ async function buildRepairDeskTicketPayload(body, customerId, customerResponse) 
   });
 }
 
-async function createRepairDeskTicket(body, customerId, customerResponse) {
-  const payload = await buildRepairDeskTicketPayload(body, customerId, customerResponse);
-  const response = await repairDeskFetch('/tickets', {
+async function postRepairDeskJson(path, payload) {
+  const response = await repairDeskFetch(path, {
     method: 'POST',
     body: JSON.stringify(payload)
   });
   const data = await parseJsonResponse(response);
+  return { ok: response.ok, status: response.status, data };
+}
 
-  if (!response.ok) {
-    return {
-      skipped: false,
-      id: '',
-      response: data,
-      error: `RepairDesk ticket error: ${JSON.stringify(data).slice(0, 800)}`
-    };
+function buildTicketPayloadAttempts(basePayload, body, customerId, customerResponse) {
+  const requestSummary = formatRequest({ ...body, repairDeskCustomerId: customerId });
+  const customerData = customerResponse?.data && typeof customerResponse.data === 'object' ? customerResponse.data : {};
+  const deviceObject = basePayload.device || buildFallbackDeviceObject(body);
+  const problemObject = basePayload.problem || buildFallbackProblemObject(body);
+  const deviceId = basePayload.device_id || getObjectId(deviceObject);
+  const problemId = basePayload.problem_id || getObjectId(problemObject);
+  const deviceName = getObjectName(deviceObject, body.model);
+  const problemName = getObjectName(problemObject, body.issue);
+  const employeeId = process.env.REPAIRDESK_DEFAULT_EMPLOYEE_ID;
+
+  const customerBlock = compactObject({
+    id: customerId,
+    cid: customerId,
+    customer_id: customerId,
+    first_name: splitName(body.name).firstName,
+    last_name: splitName(body.name).lastName,
+    name: body.name,
+    email: body.email,
+    phone: body.phone,
+    mobile: body.phone,
+    ...customerData
+  });
+
+  const common = compactObject({
+    customer_id: customerId,
+    customer: customerBlock,
+    cid: customerId,
+    name: body.name,
+    email: body.email,
+    phone: body.phone,
+    subject: `${body.model} - ${body.issue}`,
+    description: requestSummary,
+    notes: requestSummary,
+    diagnostic_note: requestSummary,
+    source: 'CellzTech website',
+    requested_date: body.requestedDate,
+    requested_time: body.requestedTime,
+    appointment_date: body.requestedDate,
+    appointment_time: body.requestedTime,
+    store_id: process.env.REPAIRDESK_STORE_ID,
+    location_id: process.env.REPAIRDESK_STORE_ID,
+    status_id: process.env.REPAIRDESK_DEFAULT_STATUS_ID,
+    employee_id: employeeId
+  });
+
+  const docsLine = makeRepairDeskTicketLine({ body, deviceId, deviceName, problemId, problemName, requestSummary });
+
+  const docsPayload = compactObject({
+    devices: [docsLine],
+    customFields: [
+      {
+        website_request: {
+          label: 'Website Request',
+          value: 'CellzTech website'
+        },
+        requested_time: {
+          label: 'Requested Time',
+          value: `${body.requestedDate} ${body.requestedTime}`
+        }
+      }
+    ],
+    summary: compactObject({
+      signature: '',
+      how_did_u_find_us: 'CellzTech website',
+      customer_id: customerId,
+      estimate_id: '',
+      employee_id: employeeId
+    })
+  });
+
+  const line = compactObject({
+    device: deviceId || deviceName || body.model,
+    device_id: deviceId,
+    device_name: deviceName || body.model,
+    model: body.model,
+    manufacturer: body.device,
+    brand: body.device,
+    problem: problemId || problemName || body.issue,
+    problem_id: problemId,
+    service: problemId || problemName || body.issue,
+    service_id: problemId,
+    issue: body.issue,
+    notes: requestSummary
+  });
+
+  return [
+    // Attempt 1: match the RepairDesk documented /tickets schema exactly.
+    { label: 'documented_devices_summary_schema', payload: docsPayload },
+
+    // Attempt 2: same documented schema, but with lightweight text service when no RepairDesk problem id was found.
+    {
+      label: 'documented_schema_text_service',
+      payload: {
+        ...docsPayload,
+        devices: [
+          compactObject({
+            ...docsLine,
+            device: deviceId || deviceName || body.model,
+            repairProdItems: [compactObject({ id: problemId, name: problemName || body.issue })],
+            Parts: []
+          })
+        ]
+      }
+    },
+
+    // Attempt 3: original rich object. Kept for accounts that accept nested device/problem objects.
+    { label: 'rich_object', payload: basePayload },
+
+    // Attempt 4: RepairDesk sometimes validates `device` as a required scalar. Use the device id when found, otherwise model text.
+    {
+      label: 'flat_scalar_device',
+      payload: compactObject({
+        ...common,
+        device: deviceId || deviceName || body.model,
+        device_id: deviceId,
+        device_name: deviceName || body.model,
+        model: body.model,
+        manufacturer: body.device,
+        brand: body.device,
+        problem: problemId || problemName || body.issue,
+        problem_id: problemId,
+        service: problemId || problemName || body.issue,
+        service_id: problemId,
+        issue: body.issue,
+        items: [line],
+        ticket_items: [line]
+      })
+    },
+
+    // Attempt 5: Some RepairDesk endpoints expect arrays/line-items and text labels.
+    {
+      label: 'line_items_text_device',
+      payload: compactObject({
+        ...common,
+        device: deviceId || deviceName || body.model,
+        problem: problemId || problemName || body.issue,
+        issue: body.issue,
+        repairs: [line],
+        repair_items: [line],
+        line_items: [line],
+        devices: [makeRepairDeskTicketLine({ body, deviceId, deviceName, problemId, problemName, requestSummary })],
+        problems: [compactObject({ id: problemId, name: problemName || body.issue })]
+      })
+    }
+  ];
+}
+
+async function resolveRepairDeskAppointmentCatalog(body) {
+  const catalog = { device: null, problem: null, repairType: null, serviceType: null };
+
+  try {
+    const inventory = await tryRepairDeskJson('/appointment/inventory');
+    const objects = flattenObjects(inventory);
+    catalog.device = chooseBestCandidate(objects, [body.model, body.series, body.device]);
+    catalog.problem = chooseBestCandidate(objects, [body.issue, 'screen', 'display', 'lcd']);
+  } catch (error) {
+    console.error('RepairDesk appointment inventory lookup failed', error);
+  }
+
+  try {
+    const repairTypes = await tryRepairDeskJson('/appointment/repairtypes');
+    const items = flattenObjects(repairTypes);
+    catalog.repairType = chooseBestCandidate(items, [body.issue, body.series, body.device, 'repair']);
+  } catch (error) {
+    console.error('RepairDesk appointment repair type lookup failed', error);
+  }
+
+  try {
+    const serviceTypes = await tryRepairDeskJson('/appointment/servicetypes');
+    const items = flattenObjects(serviceTypes);
+    catalog.serviceType = chooseBestCandidate(items, ['walk in', 'drop off', 'in store', 'store', 'repair']);
+  } catch (error) {
+    console.error('RepairDesk appointment service type lookup failed', error);
+  }
+
+  return catalog;
+}
+
+async function buildLeadPayloadAttempts(body, customerId, customerResponse, ticketErrorSummary = '') {
+  const { firstName, lastName } = splitName(body.name);
+  const requestSummary = [
+    formatRequest({ ...body, repairDeskCustomerId: customerId }),
+    ticketErrorSummary ? `\nTicket API fallback reason: ${ticketErrorSummary}` : ''
+  ].join('\n');
+  const customerData = customerResponse?.data && typeof customerResponse.data === 'object' ? customerResponse.data : {};
+  const catalog = await resolveRepairDeskAppointmentCatalog(body);
+
+  const deviceId = process.env.REPAIRDESK_DEFAULT_APPOINTMENT_DEVICE_ID || getObjectId(catalog.device) || getObjectId(customerData.device) || '';
+  const deviceName = getObjectName(catalog.device, body.model);
+  const problemId = process.env.REPAIRDESK_DEFAULT_APPOINTMENT_PROBLEM_ID || getObjectId(catalog.problem) || '';
+  const problemName = process.env.REPAIRDESK_DEFAULT_APPOINTMENT_PROBLEM_NAME || getObjectName(catalog.problem, body.issue);
+  const repairType = process.env.REPAIRDESK_DEFAULT_APPOINTMENT_REPAIR_TYPE || getObjectId(catalog.repairType) || '1';
+  const serviceType = process.env.REPAIRDESK_DEFAULT_APPOINTMENT_SERVICE_TYPE || getObjectId(catalog.serviceType) || '3';
+  const price = moneyNumber(process.env.REPAIRDESK_DEFAULT_LEAD_PRICE || 0);
+  const tax = moneyNumber(process.env.REPAIRDESK_DEFAULT_LEAD_TAX || 0);
+  const startTime = toRepairDeskDateTime(body.requestedDate, body.requestedTime, 0);
+  const endTime = toRepairDeskDateTime(body.requestedDate, body.requestedTime, Number(process.env.REPAIRDESK_DEFAULT_LEAD_MINUTES || 60));
+
+  const documentedDevice = compactObject({
+    repairType,
+    imei: '',
+    serial: '',
+    device: deviceId || deviceName || body.model,
+    price,
+    serviceType,
+    tax,
+    repairProdItems: [compactObject({ id: problemId, name: problemName || body.issue })].filter((item) => item.name),
+    additionalProblem: body.issue,
+    customerNotes: requestSummary,
+    securityCode: '',
+    startTime,
+    endTime
+  });
+
+  const summary = compactObject({
+    firstName: firstName || body.name,
+    lastName,
+    email: body.email,
+    mobile: body.phone,
+    zipCode: '',
+    address: '',
+    referredBy: process.env.REPAIRDESK_REFERRED_BY || 'CellzTech website'
+  });
+
+  const customerBlock = compactObject({
+    id: customerId,
+    cid: customerId,
+    customer_id: customerId,
+    first_name: firstName,
+    last_name: lastName,
+    name: body.name,
+    email: body.email,
+    phone: body.phone,
+    mobile: body.phone,
+    ...customerData
+  });
+
+  const documentedPayload = {
+    summary,
+    devices: [documentedDevice]
+  };
+
+  return [
+    { label: 'documented_appointment_schema', payload: documentedPayload },
+    {
+      label: 'documented_appointment_schema_with_customer_id',
+      payload: {
+        summary: compactObject({ ...summary, customer_id: customerId, customerId, cid: customerId }),
+        devices: [documentedDevice]
+      }
+    },
+    {
+      label: 'appointment_schema_text_device',
+      payload: {
+        summary,
+        devices: [
+          compactObject({
+            ...documentedDevice,
+            device: deviceName || body.model,
+            repairProdItems: [compactObject({ id: problemId, name: problemName || body.issue })].filter((item) => item.name)
+          })
+        ]
+      }
+    },
+    {
+      label: 'appointment_public_schema',
+      payload: compactObject({
+        summary,
+        customer: customerBlock,
+        customer_id: customerId,
+        devices: [documentedDevice],
+        device: deviceId || deviceName || body.model,
+        problem: problemId || problemName || body.issue,
+        repair_type: repairType,
+        date: body.requestedDate,
+        time: body.requestedTime,
+        notes: requestSummary,
+        source: 'CellzTech website'
+      })
+    }
+  ];
+}
+
+async function createRepairDeskLead(body, customerId, customerResponse, ticketAttempts) {
+  const ticketErrorSummary = JSON.stringify(ticketAttempts || []).slice(0, 700);
+  const attempts = await buildLeadPayloadAttempts(body, customerId, customerResponse, ticketErrorSummary);
+  const responses = [];
+
+  for (const attempt of attempts) {
+    const result = await postRepairDeskJson('/appointment/create', attempt.payload);
+    responses.push({ label: attempt.label, ok: result.ok, status: result.status, response: result.data });
+    if (result.ok && result.data?.success !== false) {
+      return {
+        skipped: false,
+        type: 'lead',
+        id: findId(result.data, ['lead_id', 'appointment_id', 'id', 'aid', 'code', 'ticket_id', 'tid']),
+        response: { createdVia: 'appointment/create', winningAttempt: attempt.label, leadResponse: result.data, ticketAttempts }
+      };
+    }
   }
 
   return {
     skipped: false,
-    id: findId(data, ['ticket_id', 'tid', 'id', 'ticketId', 'ticket_number', 'ticket_no', 'number', 'ticket_code']),
-    response: data
+    type: 'lead',
+    id: '',
+    response: { createdVia: 'appointment/create', attempts: responses, ticketAttempts },
+    error: `RepairDesk lead error: ${JSON.stringify(responses).slice(0, 1000)}`
+  };
+}
+
+async function createRepairDeskTicket(body, customerId, customerResponse) {
+  const basePayload = await buildRepairDeskTicketPayload(body, customerId, customerResponse);
+  const attempts = buildTicketPayloadAttempts(basePayload, body, customerId, customerResponse);
+  const responses = [];
+
+  for (const attempt of attempts) {
+    const result = await postRepairDeskJson('/tickets', attempt.payload);
+    responses.push({ label: attempt.label, ok: result.ok, status: result.status, response: result.data });
+    if (result.ok && result.data?.success !== false) {
+      return {
+        skipped: false,
+        type: 'ticket',
+        id: findId(result.data, ['ticket_id', 'tid', 'id', 'ticketId', 'ticket_number', 'ticket_no', 'number', 'ticket_code', 'code']),
+        response: { createdVia: 'tickets', winningAttempt: attempt.label, ticketResponse: result.data }
+      };
+    }
+  }
+
+  // Launch-safe fallback: if the true ticket endpoint rejects the device payload, create a RepairDesk Lead/Appointment.
+  const leadResult = await createRepairDeskLead(body, customerId, customerResponse, responses);
+  if (leadResult?.id) return leadResult;
+
+  return {
+    skipped: false,
+    type: 'ticket',
+    id: '',
+    response: { createdVia: 'tickets_then_appointment_fallback', ticketAttempts: responses, leadResult: leadResult?.response || null },
+    error: `RepairDesk ticket/lead error: ${JSON.stringify({ ticketAttempts: responses, leadResult }).slice(0, 1200)}`
   };
 }
 
@@ -479,7 +902,7 @@ async function insertSupabaseBackup(record) {
   return { skipped: false, response: data };
 }
 
-function buildSupabaseRecord(body, status, repairDeskCustomerResult, repairDeskTicketResult, integrationErrors) {
+function buildSupabaseRecord(body, status, repairDeskCustomerResult, repairDeskLeadResult, repairDeskTicketResult, integrationErrors) {
   return {
     submitted_at: body.submittedAt,
     source: body.source,
@@ -495,13 +918,16 @@ function buildSupabaseRecord(body, status, repairDeskCustomerResult, repairDeskT
     notes: body.notes,
     status,
     repairdesk_customer_id: repairDeskCustomerResult?.id || null,
+    repairdesk_lead_id: repairDeskLeadResult?.id || null,
     repairdesk_ticket_id: repairDeskTicketResult?.id || null,
     repairdesk_customer_response: repairDeskCustomerResult?.response || null,
+    repairdesk_lead_response: repairDeskLeadResult?.response || null,
     repairdesk_ticket_response: repairDeskTicketResult?.response || null,
     integration_errors: integrationErrors.length ? integrationErrors : null,
     raw_payload: body
   };
 }
+
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -537,6 +963,7 @@ export default async function handler(req, res) {
 
   const integrationErrors = [];
   let repairDeskCustomerResult = { skipped: true, reason: 'Not attempted' };
+  let repairDeskLeadResult = { skipped: true, reason: 'Not attempted' };
   let repairDeskTicketResult = { skipped: true, reason: 'Not attempted' };
   let supabaseResult = { skipped: true, reason: 'Not attempted' };
   let emailResult = { skipped: true, reason: 'Not attempted' };
@@ -546,23 +973,32 @@ export default async function handler(req, res) {
     try {
       repairDeskCustomerResult = await createRepairDeskCustomer(normalized);
       const customerId = repairDeskCustomerResult.id || process.env.REPAIRDESK_FALLBACK_CUSTOMER_ID || '';
-      repairDeskTicketResult = await createRepairDeskTicket(normalized, customerId, repairDeskCustomerResult.response);
-      if (repairDeskTicketResult?.error) integrationErrors.push(repairDeskTicketResult.error);
+
+      // Website repair requests are leads first. Staff can convert the lead to a ticket in RepairDesk after confirming parts, price, and timing.
+      repairDeskLeadResult = await createRepairDeskLead(normalized, customerId, repairDeskCustomerResult.response, []);
+      if (repairDeskLeadResult?.error) integrationErrors.push(repairDeskLeadResult.error);
+
+      // Optional: still attempt a true RepairDesk ticket if enabled. Lead creation remains the launch-safe primary workflow.
+      if (String(process.env.REPAIRDESK_CREATE_TICKET_TOO || '').toLowerCase() === 'true') {
+        repairDeskTicketResult = await createRepairDeskTicket(normalized, customerId, repairDeskCustomerResult.response);
+        if (repairDeskTicketResult?.error) integrationErrors.push(repairDeskTicketResult.error);
+      }
     } catch (error) {
       console.error(error);
       integrationErrors.push(error instanceof Error ? error.message : 'RepairDesk integration failed');
     }
 
-    const status = repairDeskTicketResult?.id ? 'repairdesk_ticket_created' : 'website_request_saved';
+    const status = repairDeskTicketResult?.id ? 'repairdesk_ticket_created' : (repairDeskLeadResult?.id ? 'repairdesk_lead_created' : 'website_request_saved');
     const enriched = {
       ...normalized,
       repairDeskCustomerId: repairDeskCustomerResult?.id || '',
+      repairDeskLeadId: repairDeskLeadResult?.id || '',
       repairDeskTicketId: repairDeskTicketResult?.id || ''
     };
 
     try {
       supabaseResult = await insertSupabaseBackup(
-        buildSupabaseRecord(normalized, status, repairDeskCustomerResult, repairDeskTicketResult, integrationErrors)
+        buildSupabaseRecord(normalized, status, repairDeskCustomerResult, repairDeskLeadResult, repairDeskTicketResult, integrationErrors)
       );
     } catch (error) {
       console.error(error);
@@ -580,6 +1016,7 @@ export default async function handler(req, res) {
     }
 
     const anyIntegrationWorked = !!(
+      repairDeskLeadResult?.id ||
       repairDeskTicketResult?.id ||
       repairDeskCustomerResult?.id ||
       !supabaseResult?.skipped ||
@@ -593,6 +1030,7 @@ export default async function handler(req, res) {
         message: 'The online backend is installed, but RepairDesk/Supabase is not fully connected yet. Please text or call the store for now.',
         integrations: {
           repairDeskCustomer: repairDeskCustomerResult,
+          repairDeskLead: repairDeskLeadResult,
           repairDeskTicket: repairDeskTicketResult,
           supabase: supabaseResult,
           email: emailResult,
@@ -606,6 +1044,7 @@ export default async function handler(req, res) {
       message: repairDeskTicketResult?.id
         ? 'Repair request sent. We will contact you to confirm the requested date, time, price, and parts availability.'
         : 'Repair request sent. We will contact you to confirm the requested date, time, price, and parts availability.',
+      repairDeskLeadId: repairDeskLeadResult?.id || null,
       repairDeskTicketId: repairDeskTicketResult?.id || null,
       repairDeskCustomerId: repairDeskCustomerResult?.id || null,
       backupSaved: !supabaseResult?.skipped,
