@@ -411,8 +411,8 @@ function formatAdminDate(value?: string) {
 }
 
 function AdminDashboard() {
-  const [adminKey, setAdminKey] = useState(() => window.sessionStorage.getItem('cellztech_admin_key') || '');
-  const [inputKey, setInputKey] = useState(adminKey);
+  const [adminKey, setAdminKey] = useState('');
+  const [inputKey, setInputKey] = useState('');
   const [requests, setRequests] = useState<AdminRepairRequest[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -420,7 +420,7 @@ function AdminDashboard() {
 
   const loadRequests = React.useCallback(async (key: string) => {
     if (!key.trim()) {
-      setError('Enter the CellzTech admin key to view repair requests.');
+      setError('Enter the CellzTech admin access key to continue.');
       return;
     }
 
@@ -433,23 +433,19 @@ function AdminDashboard() {
       });
       const data = await response.json();
       if (!response.ok || !data.ok) {
-        throw new Error(data.message || 'Could not load repair requests.');
+        throw new Error(data.message || 'Access denied. Check the admin key and try again.');
       }
-      window.sessionStorage.setItem('cellztech_admin_key', key.trim());
       setAdminKey(key.trim());
-      setInputKey(key.trim());
+      setInputKey('');
       setRequests(data.requests || []);
     } catch (err) {
+      setAdminKey('');
       setRequests([]);
-      setError(err instanceof Error ? err.message : 'Could not load repair requests.');
+      setError(err instanceof Error ? err.message : 'Access denied. Check the admin key and try again.');
     } finally {
       setLoading(false);
     }
   }, []);
-
-  React.useEffect(() => {
-    if (adminKey) loadRequests(adminKey);
-  }, [adminKey, loadRequests]);
 
   const filteredRequests = useMemo(() => {
     const term = query.trim().toLowerCase();
@@ -473,6 +469,65 @@ function AdminDashboard() {
     loadRequests(inputKey);
   };
 
+  const signOut = () => {
+    setAdminKey('');
+    setInputKey('');
+    setRequests([]);
+    setQuery('');
+    setError('');
+  };
+
+  if (!adminKey) {
+    return (
+      <main className="adminLoginShell">
+        <section className="adminAccessPanel" aria-label="CellzTech admin login">
+          <div className="adminMatrixGlow" aria-hidden="true" />
+          <div className="adminTerminalCard">
+            <div className="terminalTopBar">
+              <span />
+              <span />
+              <span />
+              <strong>classified.cellztech.local</strong>
+            </div>
+
+            <div className="terminalScreen">
+              <span className="terminalEyebrow"><ShieldCheck size={16} /> Secure staff access</span>
+              <h1>CellzTech Command</h1>
+              <p className="terminalCopy">Private repair request console. Authorized CellzTech staff only.</p>
+
+              <div className="terminalLines" aria-hidden="true">
+                <code>&gt; initializing secure channel...</code>
+                <code>&gt; RepairDesk bridge: standby</code>
+                <code>&gt; Supabase vault: encrypted route</code>
+                <code>&gt; agent verification required</code>
+              </div>
+
+              <form className="terminalLoginForm" onSubmit={submitKey}>
+                <label htmlFor="adminKey">Access key</label>
+                <div className="terminalInputWrap">
+                  <span>KEY</span>
+                  <input
+                    id="adminKey"
+                    type="password"
+                    value={inputKey}
+                    onChange={(event) => setInputKey(event.target.value)}
+                    placeholder="Enter private admin key"
+                    autoComplete="current-password"
+                    autoFocus
+                  />
+                </div>
+                <button className="terminalButton" type="submit" disabled={loading}>{loading ? 'Authenticating…' : 'Unlock console'}</button>
+              </form>
+
+              {error && <div className="terminalError">{error}</div>}
+              <p className="terminalFootnote">No repair data is displayed until the correct key is verified.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="adminShell">
       <section className="adminHero">
@@ -480,7 +535,7 @@ function AdminDashboard() {
           <div>
             <span className="adminEyebrow">CellzTech private admin</span>
             <h1>Repair requests, RepairDesk leads, and backend status in one clean view.</h1>
-            <p>Use this dashboard to review website submissions, confirm customer contact details, and match requests to RepairDesk leads before the customer arrives.</p>
+            <p>Review website submissions, confirm customer details, and match requests to RepairDesk leads before the customer arrives.</p>
           </div>
           <div className="adminStatsCard">
             <div><span>Total requests</span><strong>{requests.length}</strong></div>
@@ -492,22 +547,6 @@ function AdminDashboard() {
 
       <section className="section adminSection">
         <div className="wrap adminPanel">
-          <form className="adminLoginBar" onSubmit={submitKey}>
-            <div>
-              <label htmlFor="adminKey">Admin access key</label>
-              <p>Protected by your Vercel environment variable. Do not share this key publicly.</p>
-            </div>
-            <input
-              id="adminKey"
-              type="password"
-              value={inputKey}
-              onChange={(event) => setInputKey(event.target.value)}
-              placeholder="Enter admin key"
-              autoComplete="current-password"
-            />
-            <button className="primaryBtn compact" type="submit">Load requests</button>
-          </form>
-
           {error && <div className="adminNotice error">{error}</div>}
 
           <div className="adminToolbar">
@@ -515,7 +554,8 @@ function AdminDashboard() {
               <Search size={18} />
               <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by name, phone, email, model, issue, or lead ID" />
             </div>
-            <button className="secondaryBtn compact" onClick={() => loadRequests(adminKey || inputKey)} disabled={loading}>{loading ? 'Loading…' : 'Refresh'}</button>
+            <button className="secondaryBtn compact" onClick={() => loadRequests(adminKey)} disabled={loading}>{loading ? 'Loading…' : 'Refresh'}</button>
+            <button className="secondaryBtn compact" onClick={signOut}>Lock console</button>
           </div>
 
           <div className="adminRequestGrid">
