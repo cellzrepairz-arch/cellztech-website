@@ -4677,8 +4677,50 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   padding: 4px 7px;
 }
 .slideFormGrid input[type="date"],
-.slideFormGrid input[type="time"] {
+.slideFormGrid input[type="time"],
+.slideFormGrid select {
   color: var(--text);
+}
+.slideFormGrid select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 15px;
+  font: inherit;
+  font-weight: 850;
+  outline: none;
+  background: #f8fbff;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #2563eb 50%), linear-gradient(135deg, #2563eb 50%, transparent 50%);
+  background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+.slideFormGrid select:focus {
+  border-color: #93c5fd;
+  background-color: white;
+  box-shadow: 0 0 0 4px #dbeafe;
+}
+.slideFormGrid select:disabled {
+  color: #94a3b8;
+  background-color: #eef3fb;
+  cursor: not-allowed;
+}
+.bookingTimeField {
+  padding: 14px;
+  border: 1px solid rgba(37, 99, 235, .13);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(248, 251, 255, .92), rgba(255,255,255,.88));
+}
+.storeHoursNote {
+  display: block;
+  color: #475569;
+  font-size: 12px;
+  line-height: 1.45;
+  font-weight: 800;
+}
+.storeHoursNote.closed {
+  color: #b42318;
 }
 
 /* Booking backend submission state */
@@ -7043,7 +7085,8 @@ canvas {
   }
 
   .slideFormGrid input,
-  .slideFormGrid textarea {
+  .slideFormGrid textarea,
+  .slideFormGrid select {
     width: 100% !important;
     min-width: 0 !important;
     font-size: 16px !important;

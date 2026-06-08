@@ -79,6 +79,59 @@ function findValue(payload, keys = []) {
   return '';
 }
 
+
+function displayTime(value) {
+  if (!value) return '';
+  if (String(value).includes('AM') || String(value).includes('PM')) return String(value);
+  const [hourText, minuteText] = String(value).split(':');
+  const hour = Number(hourText);
+  const minute = Number(minuteText || 0);
+  if (Number.isNaN(hour)) return String(value);
+  const suffix = hour >= 12 ? 'PM' : 'AM';
+  const displayHour = hour % 12 || 12;
+  return `${displayHour}:${String(minute).padStart(2, '0')} ${suffix}`;
+}
+
+function minutesToTime(totalMinutes) {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+}
+
+function timeMinutes(value) {
+  const [hourText, minuteText] = String(value || '').split(':');
+  const hour = Number(hourText);
+  const minute = Number(minuteText || 0);
+  if (Number.isNaN(hour)) return null;
+  return (hour * 60) + (Number.isNaN(minute) ? 0 : minute);
+}
+
+function normalizeStoreTime(dateValue, timeValue) {
+  const rawMinutes = timeMinutes(timeValue);
+  if (rawMinutes === null) return String(timeValue || '');
+  const date = new Date(`${dateValue}T12:00:00`);
+  const day = Number.isNaN(date.getTime()) ? 1 : date.getDay();
+  const isSaturday = day === 6;
+  const isSunday = day === 0;
+  const open = isSaturday ? 10 * 60 : 9 * 60 + 30;
+  const close = isSaturday ? 16 * 60 : 19 * 60;
+  if (isSunday) return '';
+  const rounded = Math.round(rawMinutes / 30) * 30;
+  const clamped = Math.max(open, Math.min(close - 30, rounded));
+  return minutesToTime(clamped);
+}
+
+function formatTimeWindow(value) {
+  const startMinutes = timeMinutes(value);
+  if (startMinutes === null) return displayTime(value);
+  const endValue = minutesToTime(startMinutes + 30);
+  return `${displayTime(value)} - ${displayTime(endValue)}`;
+}
+
+function preferredTimeText(body) {
+  return body.requestedTimeLabel || (body.requestedTime ? formatTimeWindow(body.requestedTime) : 'Not selected');
+}
+
 function formatRequest(body) {
   return [
     `Device: ${body.device}`,
@@ -86,7 +139,7 @@ function formatRequest(body) {
     `Model: ${body.model}`,
     `Issue: ${body.issue}`,
     `Requested date: ${body.requestedDate}`,
-    `Requested time: ${body.requestedTime}`,
+    `Preferred drop-off window: ${preferredTimeText(body)}`,
     '',
     `Name: ${body.name}`,
     `Phone: ${body.phone}`,
@@ -108,7 +161,7 @@ function formatHtml(body) {
     ['Model', body.model],
     ['Issue', body.issue],
     ['Requested date', body.requestedDate],
-    ['Requested time', body.requestedTime],
+    ['Preferred drop-off window', preferredTimeText(body)],
     ['Name', body.name],
     ['Phone', body.phone],
     ['Email', body.email],
@@ -258,7 +311,7 @@ function scoreCandidate(candidate, terms) {
   }, 0);
 }
 
-function chooseBestCandidate(items, terms) {
+function chooseBestCandidate(items, terms, minimumScore = 1) {
   let best = null;
   let bestScore = 0;
   for (const item of items) {
@@ -268,7 +321,24 @@ function chooseBestCandidate(items, terms) {
       bestScore = score;
     }
   }
-  return best;
+  return bestScore >= minimumScore ? best : null;
+}
+
+function issueSearchTerms(issue) {
+  const value = String(issue || '').toLowerCase();
+  const terms = [issue];
+
+  if (value.includes('charg')) terms.push('charging port', 'charge port', 'charger port', 'dock connector', 'usb port', 'lightning port', 'usb-c port', 'charging');
+  if (value.includes('screen') || value.includes('display') || value.includes('crack')) terms.push('screen', 'display', 'lcd', 'digitizer', 'glass');
+  if (value.includes('batter')) terms.push('battery', 'battery replacement');
+  if (value.includes('back')) terms.push('back glass', 'rear glass', 'housing');
+  if (value.includes('camera')) terms.push('camera', 'front camera', 'rear camera');
+  if (value.includes('speaker') || value.includes('microphone') || value.includes('audio')) terms.push('speaker', 'microphone', 'audio', 'earpiece');
+  if (value.includes('water') || value.includes('liquid')) terms.push('water damage', 'liquid damage');
+  if (value.includes('data')) terms.push('data recovery', 'data transfer');
+  if (value.includes('software')) terms.push('software', 'restore', 'update');
+
+  return Array.from(new Set(terms.filter(Boolean)));
 }
 
 function getObjectId(value) {
@@ -404,7 +474,7 @@ async function resolveRepairDeskProblem(body, deviceObject) {
   const deviceId = getObjectId(deviceObject);
   const candidates = [];
   if (deviceId) candidates.push(`/problems/${encodeURIComponent(deviceId)}`);
-  const terms = [body.issue, 'screen', 'display', 'lcd'];
+  const terms = issueSearchTerms(body.issue);
 
   for (const path of candidates) {
     const data = await tryRepairDeskJson(path);
@@ -521,9 +591,9 @@ async function buildRepairDeskTicketPayload(body, customerId, customerResponse) 
     notes: requestSummary,
     diagnostic_note: requestSummary,
     requested_date: body.requestedDate,
-    requested_time: body.requestedTime,
+    requested_time: preferredTimeText(body),
     appointment_date: body.requestedDate,
-    appointment_time: body.requestedTime,
+    appointment_time: preferredTimeText(body),
     source: 'CellzTech website',
     status_id: preferredStatus,
     assigned_to: preferredEmployee,
@@ -532,7 +602,7 @@ async function buildRepairDeskTicketPayload(body, customerId, customerResponse) 
     location_id: preferredStore,
     website_request: {
       requested_date: body.requestedDate,
-      requested_time: body.requestedTime,
+      requested_time: preferredTimeText(body),
       notes: body.notes,
       selected_device_text: `${body.device} ${body.series} ${body.model}`,
       selected_issue_text: body.issue
@@ -586,9 +656,9 @@ function buildTicketPayloadAttempts(basePayload, body, customerId, customerRespo
     diagnostic_note: requestSummary,
     source: 'CellzTech website',
     requested_date: body.requestedDate,
-    requested_time: body.requestedTime,
+    requested_time: preferredTimeText(body),
     appointment_date: body.requestedDate,
-    appointment_time: body.requestedTime,
+    appointment_time: preferredTimeText(body),
     store_id: process.env.REPAIRDESK_STORE_ID,
     location_id: process.env.REPAIRDESK_STORE_ID,
     status_id: process.env.REPAIRDESK_DEFAULT_STATUS_ID,
@@ -607,7 +677,7 @@ function buildTicketPayloadAttempts(basePayload, body, customerId, customerRespo
         },
         requested_time: {
           label: 'Requested Time',
-          value: `${body.requestedDate} ${body.requestedTime}`
+          value: `${body.requestedDate} ${preferredTimeText(body)}`
         }
       }
     ],
@@ -704,7 +774,7 @@ async function resolveRepairDeskAppointmentCatalog(body) {
     const inventory = await tryRepairDeskJson('/appointment/inventory');
     const objects = flattenObjects(inventory);
     catalog.device = chooseBestCandidate(objects, [body.model, body.series, body.device]);
-    catalog.problem = chooseBestCandidate(objects, [body.issue, 'screen', 'display', 'lcd']);
+    catalog.problem = chooseBestCandidate(objects, issueSearchTerms(body.issue), 4);
   } catch (error) {
     console.error('RepairDesk appointment inventory lookup failed', error);
   }
@@ -740,7 +810,8 @@ async function buildLeadPayloadAttempts(body, customerId, customerResponse, tick
   const deviceId = process.env.REPAIRDESK_DEFAULT_APPOINTMENT_DEVICE_ID || getObjectId(catalog.device) || getObjectId(customerData.device) || '';
   const deviceName = getObjectName(catalog.device, body.model);
   const problemId = process.env.REPAIRDESK_DEFAULT_APPOINTMENT_PROBLEM_ID || getObjectId(catalog.problem) || '';
-  const problemName = process.env.REPAIRDESK_DEFAULT_APPOINTMENT_PROBLEM_NAME || getObjectName(catalog.problem, body.issue);
+  const matchedProblemName = catalog.problem ? getObjectName(catalog.problem, body.issue) : '';
+  const problemName = process.env.REPAIRDESK_DEFAULT_APPOINTMENT_PROBLEM_NAME || matchedProblemName || body.issue;
   const repairType = process.env.REPAIRDESK_DEFAULT_APPOINTMENT_REPAIR_TYPE || getObjectId(catalog.repairType) || '1';
   const serviceType = process.env.REPAIRDESK_DEFAULT_APPOINTMENT_SERVICE_TYPE || getObjectId(catalog.serviceType) || '3';
   const price = moneyNumber(process.env.REPAIRDESK_DEFAULT_LEAD_PRICE || 0);
@@ -825,7 +896,7 @@ async function buildLeadPayloadAttempts(body, customerId, customerResponse, tick
         problem: problemId || problemName || body.issue,
         repair_type: repairType,
         date: body.requestedDate,
-        time: body.requestedTime,
+        time: preferredTimeText(body),
         notes: requestSummary,
         source: 'CellzTech website'
       })
@@ -933,7 +1004,7 @@ function buildSupabaseRecord(body, status, repairDeskCustomerResult, repairDeskL
     customer_phone: body.phone,
     customer_email: body.email,
     requested_date: body.requestedDate,
-    requested_time: body.requestedTime,
+    requested_time: preferredTimeText(body),
     notes: body.notes,
     status,
     repairdesk_customer_id: repairDeskCustomerResult?.id || null,
@@ -974,12 +1045,17 @@ export default async function handler(req, res) {
     phone: String(body.phone).trim(),
     email: String(body.email).trim().toLowerCase(),
     requestedDate: String(body.requestedDate).trim(),
-    requestedTime: String(body.requestedTime).trim(),
+    requestedTime: normalizeStoreTime(String(body.requestedDate).trim(), String(body.requestedTime).trim()),
+    requestedTimeLabel: '',
     requestedDateTime: String(body.requestedDateTime || '').trim(),
     notes: String(body.notes || '').trim(),
     source: String(body.source || 'CellzTech website').trim(),
     submittedAt: new Date().toISOString()
   };
+  normalized.requestedTimeLabel = String(body.requestedTimeLabel || '').trim() || formatTimeWindow(normalized.requestedTime);
+  normalized.requestedDateTime = normalized.requestedDate && normalized.requestedTimeLabel
+    ? `${normalized.requestedDate} at ${normalized.requestedTimeLabel}`
+    : normalized.requestedDateTime;
 
   const integrationErrors = [];
   let repairDeskCustomerResult = { skipped: true, reason: 'Not attempted' };

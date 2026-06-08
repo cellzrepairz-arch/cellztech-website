@@ -895,6 +895,84 @@ type BookingField = 'device' | 'series' | 'model' | 'issue' | 'name' | 'phone' |
 
 const repairIssues = ['Cracked screen', 'Battery replacement', 'Charging port issue', 'Back glass', 'Camera issue', 'Speaker or microphone', 'Device will not turn on', 'Water damage', 'Data recovery', 'Software issue', 'Other / not sure'];
 
+const storeHoursByDay = [
+  { label: 'Sunday', closed: true, note: 'Closed' },
+  { label: 'Monday', open: '09:30', close: '19:00', note: '9:30 AM - 7:00 PM' },
+  { label: 'Tuesday', open: '09:30', close: '19:00', note: '9:30 AM - 7:00 PM' },
+  { label: 'Wednesday', open: '09:30', close: '19:00', note: '9:30 AM - 7:00 PM' },
+  { label: 'Thursday', open: '09:30', close: '19:00', note: '9:30 AM - 7:00 PM' },
+  { label: 'Friday', open: '09:30', close: '19:00', note: '9:30 AM - 7:00 PM' },
+  { label: 'Saturday', open: '10:00', close: '16:00', note: '10:00 AM - 4:00 PM' }
+] as const;
+
+function localDateFromInput(value: string) {
+  if (!value) return null;
+  const [year, month, day] = value.split('-').map(Number);
+  if (!year || !month || !day) return null;
+  return new Date(year, month - 1, day);
+}
+
+function minutesFromTime(value: string) {
+  const [hours, minutes] = value.split(':').map(Number);
+  return (hours * 60) + (minutes || 0);
+}
+
+function timeFromMinutes(totalMinutes: number) {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+}
+
+function formatTimeLabel(value: string) {
+  const [hourText, minuteText] = value.split(':');
+  const hour = Number(hourText);
+  const minute = Number(minuteText || 0);
+  const suffix = hour >= 12 ? 'PM' : 'AM';
+  const displayHour = hour % 12 || 12;
+  return `${displayHour}:${String(minute).padStart(2, '0')} ${suffix}`;
+}
+
+function formatTimeWindowLabel(value: string) {
+  const start = minutesFromTime(value);
+  const end = start + 30;
+  return `${formatTimeLabel(value)} - ${formatTimeLabel(timeFromMinutes(end))}`;
+}
+
+function getBookingTimeSlots(dateValue: string) {
+  const date = localDateFromInput(dateValue);
+  if (!date) return [];
+  const dayHours = storeHoursByDay[date.getDay()];
+  if ('closed' in dayHours && dayHours.closed) return [];
+  if (!('open' in dayHours) || !dayHours.open || !dayHours.close) return [];
+
+  const open = minutesFromTime(dayHours.open);
+  const close = minutesFromTime(dayHours.close);
+  const lastSlot = close - 30;
+  const slots: { value: string; label: string }[] = [];
+
+  for (let minutes = open; minutes <= lastSlot; minutes += 30) {
+    const value = timeFromMinutes(minutes);
+    slots.push({ value, label: formatTimeWindowLabel(value) });
+  }
+
+  return slots;
+}
+
+function getStoreHoursNote(dateValue: string) {
+  const date = localDateFromInput(dateValue);
+  if (!date) return 'Choose a date to see available request windows. Store hours: Mon-Fri 9:30 AM-7:00 PM, Sat 10:00 AM-4:00 PM, Sun closed.';
+  const dayHours = storeHoursByDay[date.getDay()];
+  return `${dayHours.label}: ${dayHours.note}. Times are request windows and still need confirmation from CellzTech.`;
+}
+
+function todayInputValue() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 function getIssueVisual(issue: string) {
   const lower = issue.toLowerCase();
   if (lower.includes('screen')) return 'screen';
@@ -1114,10 +1192,24 @@ function BookRepairPage() {
     setBooking((current) => ({ ...current, [field]: value }));
   };
 
+  const requestedTimeSlots = useMemo(() => getBookingTimeSlots(booking.requestedDate), [booking.requestedDate]);
+  const storeHoursNote = useMemo(() => getStoreHoursNote(booking.requestedDate), [booking.requestedDate]);
+  const minimumRequestDate = useMemo(() => todayInputValue(), []);
+
+  const setRequestedDate = (value: string) => {
+    const nextSlots = getBookingTimeSlots(value);
+    setBooking((current) => ({
+      ...current,
+      requestedDate: value,
+      requestedTime: nextSlots.some((slot) => slot.value === current.requestedTime) ? current.requestedTime : ''
+    }));
+  };
+
   const visualType = getIssueVisual(booking.issue);
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(booking.email.trim());
   const hasContactDetails = !!(booking.name.trim() && booking.phone.trim() && isEmailValid && booking.requestedDate && booking.requestedTime);
-  const requestedDateTime = booking.requestedDate && booking.requestedTime ? `${booking.requestedDate} at ${booking.requestedTime}` : 'Not provided';
+  const requestedTimeLabel = booking.requestedTime ? formatTimeWindowLabel(booking.requestedTime) : '';
+  const requestedDateTime = booking.requestedDate && booking.requestedTime ? `${booking.requestedDate} at ${requestedTimeLabel}` : 'Not provided';
   const requestMessage = `Hi CellzTech, I would like to start a repair request.
 
 Device: ${booking.device || 'Not selected'}
@@ -1148,6 +1240,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
         body: JSON.stringify({
           ...booking,
           requestedDateTime,
+          requestedTimeLabel,
           source: 'CellzTech website'
         })
       });
@@ -1640,7 +1733,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
             <div>
               <div className="eyebrow"><Wrench size={15} /> Book repair</div>
               <h1>Book your repair.</h1>
-              <p>Choose your brand, series, model, repair issue, and requested appointment time. The backend is prepared for shop email and calendar routing.</p>
+              <p>Choose your brand, model, issue, and preferred drop-off window. We will confirm the final schedule, pricing, and parts availability before you come in.</p>
             </div>
             <div className="bookingMiniSummary">
               <span>Current request</span>
@@ -1775,13 +1868,20 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                 <section className={step === 3 ? 'slidePanel activeSlidePanel' : 'slidePanel'}>
                   <span className="slideStep">Step 4</span>
                   <h2>Your contact details.</h2>
-                  <p className="slideHint">Choose a requested date and time. This is not confirmed yet — we will contact you to confirm the repair schedule.</p>
+                  <p className="slideHint">Choose a preferred drop-off window during posted store hours. This is a request only — we will contact you to confirm the repair schedule.</p>
                   <div className="formGrid slideFormGrid">
                     <label><span className="fieldLabel">Name <span className="requiredTag">Required</span></span><input value={booking.name} onChange={(e) => setField('name', e.target.value)} placeholder="Your name" required /></label>
                     <label><span className="fieldLabel">Phone <span className="requiredTag">Required</span></span><input value={booking.phone} onChange={(e) => setField('phone', e.target.value)} placeholder="Your phone number" required /></label>
                     <label><span className="fieldLabel">Email <span className="requiredTag">Required</span></span><input type="email" value={booking.email} onChange={(e) => setField('email', e.target.value)} placeholder="you@example.com" required /></label>
-                    <label><span className="fieldLabel">Requested date <span className="requiredTag">Required</span></span><input type="date" value={booking.requestedDate} onChange={(e) => setField('requestedDate', e.target.value)} required /></label>
-                    <label><span className="fieldLabel">Requested time <span className="requiredTag">Required</span></span><input type="time" value={booking.requestedTime} onChange={(e) => setField('requestedTime', e.target.value)} required /></label>
+                    <label><span className="fieldLabel">Requested date <span className="requiredTag">Required</span></span><input type="date" min={minimumRequestDate} value={booking.requestedDate} onChange={(e) => setRequestedDate(e.target.value)} required /></label>
+                    <label className="fullField bookingTimeField">
+                      <span className="fieldLabel">Preferred drop-off window <span className="requiredTag">Required</span></span>
+                      <select value={booking.requestedTime} onChange={(e) => setField('requestedTime', e.target.value)} disabled={!booking.requestedDate || requestedTimeSlots.length === 0} required>
+                        <option value="">{booking.requestedDate ? 'Select an available store-hour window' : 'Choose a date first'}</option>
+                        {requestedTimeSlots.map((slot) => <option key={slot.value} value={slot.value}>{slot.label}</option>)}
+                      </select>
+                      <small className={requestedTimeSlots.length ? 'storeHoursNote' : 'storeHoursNote closed'}>{storeHoursNote}</small>
+                    </label>
                     <label className="fullField">Notes<textarea value={booking.notes} onChange={(e) => setField('notes', e.target.value)} placeholder="Example: Screen is cracked but touch still works." /></label>
                   </div>
                   <p className="bookingConsent">By sending this request, you agree that CellzTech / Cellz Repairz LLC may contact you about your repair request. This does not guarantee a confirmed appointment, repair price, part availability, or completion time.</p>
@@ -1790,14 +1890,14 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                 <section className={step === 4 ? 'slidePanel finalSlide activeSlidePanel' : 'slidePanel finalSlide'}>
                   <span className="slideStep">Step 5</span>
                   <h2>Ready to send your repair request.</h2>
-                  <p className="slideHint">This will send the request to the shop backend. We will contact you to confirm the appointment time, price, and parts availability.</p>
+                  <p className="slideHint">This will send the request to CellzTech. We will contact you to confirm the drop-off window, price, and parts availability.</p>
                   <div className="finalSummaryBox">
                     <div><strong>Brand</strong><span>{booking.device}</span></div>
                     <div><strong>Series</strong><span>{booking.series || 'Not selected'}</span></div>
                     <div><strong>Model</strong><span>{booking.model || 'Not selected'}</span></div>
                     <div><strong>Issue</strong><span>{booking.issue || 'Not selected'}</span></div>
                     <div><strong>Requested date</strong><span>{booking.requestedDate || 'Not selected'}</span></div>
-                    <div><strong>Requested time</strong><span>{booking.requestedTime || 'Not selected'}</span></div>
+                    <div><strong>Preferred drop-off window</strong><span>{requestedTimeLabel || 'Not selected'}</span></div>
                     <div><strong>Name</strong><span>{booking.name || 'Not provided'}</span></div>
                     <div><strong>Phone</strong><span>{booking.phone || 'Not provided'}</span></div>
                     <div><strong>Email</strong><span>{booking.email || 'Not provided'}</span></div>
