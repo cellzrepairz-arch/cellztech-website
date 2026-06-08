@@ -897,12 +897,12 @@ const repairIssues = ['Cracked screen', 'Battery replacement', 'Charging port is
 
 const storeHoursByDay = [
   { label: 'Sunday', closed: true, note: 'Closed' },
-  { label: 'Monday', open: '09:30', close: '19:00', note: '9:30 AM - 7:00 PM' },
-  { label: 'Tuesday', open: '09:30', close: '19:00', note: '9:30 AM - 7:00 PM' },
-  { label: 'Wednesday', open: '09:30', close: '19:00', note: '9:30 AM - 7:00 PM' },
-  { label: 'Thursday', open: '09:30', close: '19:00', note: '9:30 AM - 7:00 PM' },
-  { label: 'Friday', open: '09:30', close: '19:00', note: '9:30 AM - 7:00 PM' },
-  { label: 'Saturday', open: '10:00', close: '16:00', note: '10:00 AM - 4:00 PM' }
+  { label: 'Monday', open: '11:00', close: '19:00', note: '11:00 AM - 7:00 PM' },
+  { label: 'Tuesday', open: '11:00', close: '19:00', note: '11:00 AM - 7:00 PM' },
+  { label: 'Wednesday', open: '11:00', close: '19:00', note: '11:00 AM - 7:00 PM' },
+  { label: 'Thursday', open: '11:00', close: '19:00', note: '11:00 AM - 7:00 PM' },
+  { label: 'Friday', open: '11:00', close: '19:00', note: '11:00 AM - 7:00 PM' },
+  { label: 'Saturday', open: '11:00', close: '15:00', note: '11:00 AM - 3:00 PM' }
 ] as const;
 
 function localDateFromInput(value: string) {
@@ -960,7 +960,7 @@ function getBookingTimeSlots(dateValue: string) {
 
 function getStoreHoursNote(dateValue: string) {
   const date = localDateFromInput(dateValue);
-  if (!date) return 'Choose a date to see available request windows. Store hours: Mon-Fri 9:30 AM-7:00 PM, Sat 10:00 AM-4:00 PM, Sun closed.';
+  if (!date) return 'Choose a date to see available request windows. Store hours: Mon-Fri 11:00 AM-7:00 PM, Sat 11:00 AM-3:00 PM, Sun closed.';
   const dayHours = storeHoursByDay[date.getDay()];
   return `${dayHours.label}: ${dayHours.note}. Times are request windows and still need confirmation from CellzTech.`;
 }
