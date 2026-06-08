@@ -491,36 +491,57 @@ function AdminDashboard() {
             </div>
 
             <div className="terminalScreen">
-              <span className="terminalEyebrow"><ShieldCheck size={16} /> Secure staff access</span>
-              <h1>CellzTech Command</h1>
-              <p className="terminalCopy">Private repair request console. Authorized CellzTech staff only.</p>
+              <div className="spyLoginHeader">
+                <span className="terminalEyebrow"><ShieldCheck size={16} /> Secure staff access</span>
+                <span className="classifiedStamp">CLASSIFIED</span>
+              </div>
+              <h1>Agent Console</h1>
+              <p className="terminalCopy">Private CellzTech repair intelligence terminal. Authorized staff only.</p>
 
-              <div className="terminalLines" aria-hidden="true">
-                <code>&gt; initializing secure channel...</code>
-                <code>&gt; RepairDesk bridge: standby</code>
-                <code>&gt; Supabase vault: encrypted route</code>
-                <code>&gt; agent verification required</code>
+              <div className="spyConsoleGrid" aria-hidden="true">
+                <div className="terminalLines pixelPanel">
+                  <code>&gt; BOOTING CELLZTECH OS/1987...</code>
+                  <code>&gt; REPAIRDESK LINK: ARMED</code>
+                  <code>&gt; SUPABASE VAULT: SEALED</code>
+                  <code>&gt; CUSTOMER DATA: HIDDEN</code>
+                  <code>&gt; AGENT KEY REQUIRED<span className="terminalCursor">_</span></code>
+                </div>
+                <div className="radarPanel pixelPanel">
+                  <div className="radarScope">
+                    <span className="radarSweep" />
+                    <i className="radarDot one" />
+                    <i className="radarDot two" />
+                    <i className="radarDot three" />
+                  </div>
+                  <small>SCAN MODE</small>
+                </div>
+              </div>
+
+              <div className="missionStrip" aria-hidden="true">
+                <span>MISSION: LEADS</span>
+                <span>CHANNEL: SECURE</span>
+                <span>TRACE: OFF</span>
               </div>
 
               <form className="terminalLoginForm" onSubmit={submitKey}>
-                <label htmlFor="adminKey">Access key</label>
-                <div className="terminalInputWrap">
+                <label htmlFor="adminKey">Enter agent access key</label>
+                <div className="terminalInputWrap pixelInput">
                   <span>KEY</span>
                   <input
                     id="adminKey"
                     type="password"
                     value={inputKey}
                     onChange={(event) => setInputKey(event.target.value)}
-                    placeholder="Enter private admin key"
+                    placeholder="••••••••••••••"
                     autoComplete="current-password"
                     autoFocus
                   />
                 </div>
-                <button className="terminalButton" type="submit" disabled={loading}>{loading ? 'Authenticating…' : 'Unlock console'}</button>
+                <button className="terminalButton pixelButton" type="submit" disabled={loading}>{loading ? 'Decrypting…' : 'Authenticate agent'}</button>
               </form>
 
               {error && <div className="terminalError">{error}</div>}
-              <p className="terminalFootnote">No repair data is displayed until the correct key is verified.</p>
+              <p className="terminalFootnote">This route reveals no repair data until the private key is verified.</p>
             </div>
           </div>
         </section>

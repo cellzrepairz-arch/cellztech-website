@@ -7712,3 +7712,245 @@ canvas {
   .adminMetaGrid { grid-template-columns: 1fr; }
   .adminRequestTop { flex-direction: column; }
 }
+
+/* Old-school spy terminal upgrade */
+.adminLoginShell {
+  background:
+    radial-gradient(circle at 20% 18%, rgba(31, 255, 123, .16), transparent 24%),
+    radial-gradient(circle at 78% 18%, rgba(0, 184, 255, .10), transparent 22%),
+    radial-gradient(circle at 50% 100%, rgba(22, 163, 74, .10), transparent 28%),
+    linear-gradient(135deg, #010403 0%, #031107 42%, #020617 100%);
+}
+.adminLoginShell:before {
+  background-image:
+    linear-gradient(rgba(114, 255, 169, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(114, 255, 169, .055) 1px, transparent 1px);
+  background-size: 18px 18px;
+  mask-image: none;
+  opacity: .72;
+}
+.adminTerminalCard {
+  border-radius: 12px;
+  border-color: rgba(105, 255, 157, .42);
+  background: rgba(1, 9, 5, .90);
+  box-shadow:
+    0 0 0 2px rgba(105, 255, 157, .10),
+    0 30px 90px rgba(0,0,0,.58),
+    inset 0 0 44px rgba(21, 255, 116, .07);
+  image-rendering: pixelated;
+}
+.terminalTopBar {
+  background: #061007;
+  border-bottom-color: rgba(105, 255, 157, .30);
+  padding: 12px 14px;
+}
+.terminalTopBar span {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+}
+.terminalTopBar strong,
+.terminalScreen,
+.terminalButton,
+.terminalInputWrap input,
+.terminalLoginForm label,
+.terminalLines code,
+.terminalFootnote,
+.classifiedStamp,
+.missionStrip span,
+.radarPanel small {
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.terminalScreen {
+  padding: clamp(24px, 5vw, 46px);
+}
+.spyLoginHeader {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.terminalEyebrow {
+  border-radius: 4px;
+  background: rgba(20, 255, 123, .08);
+  color: #7cff9b;
+  border-color: rgba(124, 255, 155, .34);
+  text-shadow: 0 0 10px rgba(124, 255, 155, .55);
+}
+.classifiedStamp {
+  display: inline-flex;
+  padding: 8px 10px;
+  border: 2px solid rgba(255, 78, 78, .82);
+  color: #ff6969;
+  transform: rotate(3deg);
+  font-size: 13px;
+  font-weight: 1000;
+  letter-spacing: .14em;
+  text-shadow: 0 0 10px rgba(255, 78, 78, .42);
+  box-shadow: inset 0 0 16px rgba(255, 78, 78, .07);
+}
+.terminalScreen h1 {
+  margin-top: 20px;
+  color: #caffd2;
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: clamp(40px, 8vw, 70px);
+  letter-spacing: -.04em;
+  text-transform: uppercase;
+  text-shadow:
+    2px 0 0 rgba(0, 255, 120, .28),
+    -2px 0 0 rgba(0, 183, 255, .18),
+    0 0 26px rgba(124, 255, 155, .30);
+}
+.terminalCopy {
+  color: rgba(202, 255, 210, .74);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: 16px;
+}
+.spyConsoleGrid {
+  display: grid;
+  grid-template-columns: 1fr 152px;
+  gap: 14px;
+  margin: 26px 0 18px;
+}
+.pixelPanel {
+  border-radius: 6px;
+  background:
+    linear-gradient(rgba(0, 0, 0, .34), rgba(0, 0, 0, .34)),
+    repeating-linear-gradient(0deg, rgba(124, 255, 155, .035) 0, rgba(124, 255, 155, .035) 2px, transparent 2px, transparent 6px);
+  border: 1px solid rgba(124, 255, 155, .28);
+  box-shadow: inset 0 0 28px rgba(124, 255, 155, .05);
+}
+.terminalLines {
+  margin: 0;
+  padding: 16px;
+  gap: 9px;
+}
+.terminalLines code {
+  color: #86ff9d;
+  font-size: 12px;
+  letter-spacing: .03em;
+  text-shadow: 0 0 12px rgba(124, 255, 155, .46);
+}
+.terminalCursor {
+  animation: spyBlink .85s steps(1, end) infinite;
+}
+.radarPanel {
+  display: grid;
+  place-items: center;
+  padding: 14px;
+  min-height: 152px;
+}
+.radarScope {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  border: 2px solid rgba(124, 255, 155, .40);
+  background:
+    radial-gradient(circle, rgba(124,255,155,.12) 0 2px, transparent 3px),
+    radial-gradient(circle, transparent 0 35%, rgba(124,255,155,.12) 36%, transparent 37%, transparent 64%, rgba(124,255,155,.10) 65%, transparent 66%),
+    linear-gradient(90deg, transparent 49%, rgba(124,255,155,.16) 50%, transparent 51%),
+    linear-gradient(0deg, transparent 49%, rgba(124,255,155,.16) 50%, transparent 51%);
+  overflow: hidden;
+  box-shadow: 0 0 28px rgba(124, 255, 155, .12), inset 0 0 18px rgba(124, 255, 155, .08);
+}
+.radarSweep {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 56px;
+  height: 56px;
+  transform-origin: 0 0;
+  background: linear-gradient(45deg, rgba(124,255,155,.40), transparent 72%);
+  animation: radarSweep 3.2s linear infinite;
+}
+.radarDot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: #caffd2;
+  box-shadow: 0 0 12px rgba(202, 255, 210, .72);
+}
+.radarDot.one { left: 30px; top: 36px; }
+.radarDot.two { right: 24px; top: 58px; animation: spyBlink 1.3s steps(1, end) infinite; }
+.radarDot.three { left: 54px; bottom: 28px; animation: spyBlink 1.8s steps(1, end) infinite; }
+.radarPanel small {
+  color: rgba(202,255,210,.64);
+  font-weight: 1000;
+  letter-spacing: .18em;
+  margin-top: 10px;
+}
+.missionStrip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 20px;
+}
+.missionStrip span {
+  padding: 10px 8px;
+  border: 1px solid rgba(124,255,155,.22);
+  border-radius: 4px;
+  color: rgba(202,255,210,.72);
+  background: rgba(124,255,155,.045);
+  font-size: 11px;
+  font-weight: 1000;
+  text-align: center;
+  letter-spacing: .08em;
+}
+.terminalLoginForm {
+  gap: 12px;
+}
+.terminalLoginForm label {
+  color: #caffd2;
+  font-size: 12px;
+  letter-spacing: .16em;
+}
+.terminalInputWrap.pixelInput {
+  border-radius: 4px;
+  border-color: rgba(124,255,155,.38);
+  background: #020b05;
+  box-shadow: inset 0 0 18px rgba(124,255,155,.06);
+}
+.terminalInputWrap.pixelInput span {
+  background: #7cff9b;
+  color: #031107;
+}
+.terminalInputWrap input {
+  color: #caffd2;
+  caret-color: #7cff9b;
+}
+.terminalButton.pixelButton {
+  border-radius: 4px;
+  background: #7cff9b;
+  color: #031107;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  border: 2px solid rgba(202,255,210,.65);
+  box-shadow: 6px 6px 0 rgba(0,0,0,.42), 0 0 24px rgba(124, 255, 155, .18);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.terminalButton.pixelButton:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 rgba(0,0,0,.48), 0 0 28px rgba(124, 255, 155, .26);
+}
+.terminalError {
+  border-radius: 4px;
+  font-family: "Courier New", ui-monospace, monospace;
+}
+.terminalFootnote {
+  color: rgba(202,255,210,.54);
+}
+@keyframes radarSweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes spyBlink {
+  0%, 48% { opacity: 1; }
+  49%, 100% { opacity: 0; }
+}
+@media (max-width: 620px) {
+  .spyConsoleGrid { grid-template-columns: 1fr; }
+  .radarPanel { min-height: auto; }
+  .missionStrip { grid-template-columns: 1fr; }
+}
