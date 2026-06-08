@@ -2543,7 +2543,7 @@ function UltraPlanStoreCard({ plan, lang }: { plan: UltraPlan; lang: LanguageKey
   const selectedLabel = selectedTab?.label || selected?.label || 'Not selected';
   const selectedMonthly = selected?.monthly ? localizeMonthly(selected.monthly, lang) : `${plan.basePrice}/mo`;
   const selectedBilled = selected?.billed ? localizeBilled(selected.billed, lang) : copy.planCard.askPricing;
-  const purchasePath = `${routes.sim}?plan=${encodeURIComponent(planText.name)}&duration=${encodeURIComponent(selectedLabel)}&price=${encodeURIComponent(selectedMonthly)}`;
+  const purchasePath = `${routes.sim}?plan=${encodeURIComponent(plan.name)}&duration=${encodeURIComponent(selectedLabel)}&durationKey=${encodeURIComponent(duration)}&price=${encodeURIComponent(selectedMonthly)}&billed=${encodeURIComponent(selectedBilled)}`;
 
   return (
     <article className={`ultraStorePlan ${plan.badge === 'Most Popular' ? 'bestPlan' : ''}`}>
@@ -2664,7 +2664,7 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
               <ul className="promoChecklist">
                 {copy.family.checklist.map((item) => <li key={item}>{item}</li>)}
               </ul>
-              <a className="primaryBtn compact" href={`${routes.sim}?plan=${encodeURIComponent(copy.family.title)}&request=family`}>{copy.family.cta}</a>
+              <a className="primaryBtn compact" href={`${routes.sim}?request=family&plan=${encodeURIComponent('4 for $100 Family Promo')}&duration=${encodeURIComponent('Monthly family offer')}&price=${encodeURIComponent('$100/mo')}`}>{copy.family.cta}</a>
             </div>
           </div>
 
@@ -2812,23 +2812,38 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
   const [form, setForm] = useState({ requestType: 'shipping', planInterest: '', needsActivationHelp: true, name: '', phone: '', email: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '', notes: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
-  const [selectedOffer, setSelectedOffer] = useState({ plan: '', duration: '', price: '', request: '' });
+  const [selectedOffer, setSelectedOffer] = useState({ plan: '', duration: '', durationKey: '', price: '', billed: '', request: '' });
+
+  const ultraPlanOptions = ultraPlans.map((plan) => {
+    const monthly = plan.durations['1']?.monthly || `${plan.basePrice}/mo`;
+    return {
+      value: plan.name,
+      label: `${plan.name.replace(' Plan', '')} - ${monthly}`,
+      plan
+    };
+  });
+  const familyOptionValue = '4 for $100 Family Promo';
+  const selectedPlanDetails = ultraPlans.find((plan) => plan.name === form.planInterest);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const plan = params.get('plan') || '';
     const duration = params.get('duration') || '';
+    const durationKey = params.get('durationKey') || '';
     const price = params.get('price') || '';
+    const billed = params.get('billed') || '';
     const request = params.get('request') || '';
+    const selectedPlan = ultraPlans.find((item) => item.name === plan);
+    const planInterest = request === 'family' ? familyOptionValue : (selectedPlan?.name || plan);
 
-    setSelectedOffer({ plan, duration, price, request });
+    setSelectedOffer({ plan: planInterest, duration, durationKey, price, billed, request });
 
-    if (plan || request === 'family' || request === 'esim') {
+    if (planInterest || request === 'family' || request === 'esim') {
       setForm((current) => ({
         ...current,
         requestType: request === 'esim' ? 'esim' : current.requestType,
-        planInterest: plan || current.planInterest,
-        notes: request === 'family' && !current.notes ? 'Interested in the Ultra Mobile family plan promotion.' : current.notes
+        planInterest: planInterest || current.planInterest,
+        notes: request === 'family' && !current.notes ? 'Interested in the Ultra Mobile 4 for $100 family plan promotion.' : current.notes
       }));
     }
   }, []);
@@ -2871,6 +2886,18 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
                 <small>{selectedOffer.duration || copy.choosePlan}</small>
                 <b>{selectedOffer.price || copy.confirmPricing}</b>
               </div>
+              {selectedOffer.billed && <small className="simOfferBilled">{selectedOffer.billed}</small>}
+              {selectedOffer.request === 'family' ? (
+                <ul className="simOfferIncludes">
+                  <li>4 Ultra Unlimited lines for $100/mo</li>
+                  <li>International calling features included</li>
+                  <li>CellzTech will confirm eligibility before activation</li>
+                </ul>
+              ) : selectedPlanDetails ? (
+                <ul className="simOfferIncludes">
+                  {selectedPlanDetails.includes.slice(0, 4).map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              ) : null}
               <p>{copy.offerNote}</p>
             </div>
 
@@ -2894,12 +2921,10 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
             <label>{copy.plan}
               <select value={form.planInterest} onChange={(event) => update('planInterest', event.target.value)}>
                 <option value="">{copy.choosePlan}</option>
-                <option value="4GB $19/mo">4GB - $19/mo</option>
-                <option value="8GB $24/mo">8GB - $24/mo</option>
-                <option value="12GB $29/mo">12GB - $29/mo</option>
-                <option value="24GB $39/mo">24GB - $39/mo</option>
-                <option value="Ultra Unlimited $49/mo">Ultra Unlimited - $49/mo</option>
-                <option value="Ultra Unlimited+ $59/mo">Ultra Unlimited+ - $59/mo</option>
+                {ultraPlanOptions.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+                <option value={familyOptionValue}>4 for $100 Family Promo</option>
                 <option value="Not sure">Not sure yet</option>
               </select>
             </label>

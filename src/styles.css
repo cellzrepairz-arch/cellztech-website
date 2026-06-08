@@ -8235,3 +8235,22 @@ canvas {
 @media (max-width: 620px) {
   .simOfferMeta { align-items: flex-start; flex-direction: column; }
 }
+
+.simOfferBilled {
+  display: block;
+  margin-top: 0.35rem;
+  color: #ffe66b;
+  font-weight: 900;
+}
+
+.simOfferIncludes {
+  margin: 1rem 0 0;
+  padding: 0 0 0 1.15rem;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.5;
+  font-weight: 750;
+}
+
+.simOfferIncludes li + li {
+  margin-top: 0.25rem;
+}
