@@ -1,3 +1,5 @@
+import { repairDeskFetch } from './repairdesk-oauth-utils.js';
+
 const REQUIRED_FIELDS = ['device', 'model', 'issue', 'name', 'phone', 'email', 'requestedDate', 'requestedTime'];
 
 function isEmail(value) {
@@ -31,18 +33,6 @@ function compactObject(value) {
   );
 }
 
-function getRepairDeskBaseUrl() {
-  return (process.env.REPAIRDESK_BASE_URL || 'https://api.repairdesk.co/api/web/v1').replace(/\/+$/, '');
-}
-
-function repairDeskUrl(path) {
-  const apiKey = process.env.REPAIRDESK_API_KEY;
-  if (!apiKey) throw new Error('Missing REPAIRDESK_API_KEY');
-
-  const url = new URL(`${getRepairDeskBaseUrl()}${path.startsWith('/') ? path : `/${path}`}`);
-  url.searchParams.set('api_key', apiKey);
-  return url.toString();
-}
 
 async function parseJsonResponse(response) {
   const text = await response.text();
@@ -181,10 +171,6 @@ async function sendCalendarWebhook(body) {
 }
 
 async function createRepairDeskCustomer(body) {
-  if (!process.env.REPAIRDESK_API_KEY) {
-    return { skipped: true, reason: 'Missing REPAIRDESK_API_KEY' };
-  }
-
   const { firstName, lastName } = splitName(body.name);
   const phoneDigits = onlyDigits(body.phone);
   const payload = compactObject({
@@ -203,9 +189,8 @@ async function createRepairDeskCustomer(body) {
     notes: `Created from CellzTech website repair request. Phone digits: ${phoneDigits}`
   });
 
-  const response = await fetch(repairDeskUrl('/customer'), {
+  const response = await repairDeskFetch('/customer', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
   const data = await parseJsonResponse(response);
@@ -262,14 +247,9 @@ function buildRepairDeskTicketPayload(body, customerId) {
 }
 
 async function createRepairDeskTicket(body, customerId) {
-  if (!process.env.REPAIRDESK_API_KEY) {
-    return { skipped: true, reason: 'Missing REPAIRDESK_API_KEY' };
-  }
-
   const payload = buildRepairDeskTicketPayload(body, customerId);
-  const response = await fetch(repairDeskUrl('/tickets'), {
+  const response = await repairDeskFetch('/tickets', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
   const data = await parseJsonResponse(response);
@@ -424,7 +404,7 @@ export default async function handler(req, res) {
     if (!anyIntegrationWorked) {
       return res.status(503).json({
         ok: false,
-        message: 'The online backend is installed, but the live API keys are not connected in Vercel yet. Please text or call the store for now.',
+        message: 'The online backend is installed, but RepairDesk/Supabase is not fully connected yet. Please text or call the store for now.',
         integrations: {
           repairDeskCustomer: repairDeskCustomerResult,
           repairDeskTicket: repairDeskTicketResult,

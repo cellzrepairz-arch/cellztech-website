@@ -33,5 +33,18 @@ create index if not exists website_repair_requests_repairdesk_ticket_id_idx
 
 alter table public.website_repair_requests enable row level security;
 
--- This table is written from the Vercel API route with the Supabase service role key.
+create table if not exists public.repairdesk_oauth_tokens (
+  id text primary key default 'primary',
+  access_token text not null,
+  refresh_token text,
+  token_type text default 'Bearer',
+  expires_at timestamptz,
+  raw_response jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.repairdesk_oauth_tokens enable row level security;
+
+-- These tables are written from Vercel API routes with the Supabase service role key.
 -- Do not expose SUPABASE_SERVICE_ROLE_KEY in browser/front-end code.
