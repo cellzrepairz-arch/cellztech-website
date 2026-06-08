@@ -8168,3 +8168,70 @@ canvas {
   .simRequestGrid { grid-template-columns: 1fr; }
   .simOptionGrid, .simPromiseGrid, .simFieldGrid { grid-template-columns: 1fr; }
 }
+
+/* Ultra SIM sales/request page polish */
+.simOfferCard {
+  margin-top: 26px;
+  border: 1px solid rgba(255,255,255,.22);
+  background:
+    radial-gradient(circle at 90% 0%, rgba(255, 224, 71, .2), transparent 35%),
+    linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+  border-radius: 28px;
+  padding: 22px;
+  box-shadow: 0 24px 70px rgba(2, 6, 23, .28), inset 0 1px 0 rgba(255,255,255,.16);
+  max-width: 640px;
+}
+.simOfferCard > span {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 224, 71, .18);
+  color: #ffe047;
+  font-size: .78rem;
+  font-weight: 950;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.simOfferCard > strong {
+  display: block;
+  color: #fff;
+  font-size: clamp(1.7rem, 3.2vw, 2.55rem);
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+.simOfferMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 16px 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 18px;
+  background: rgba(2, 6, 23, .24);
+}
+.simOfferMeta small {
+  color: rgba(255,255,255,.72);
+  font-weight: 900;
+}
+.simOfferMeta b {
+  color: #ffe047;
+  font-size: 1.35rem;
+  letter-spacing: -.03em;
+}
+.simOfferCard p {
+  margin: 0;
+  color: rgba(255,255,255,.82);
+  font-size: .95rem;
+  line-height: 1.55;
+}
+.planCtas button.primaryBtn {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+@media (max-width: 620px) {
+  .simOfferMeta { align-items: flex-start; flex-direction: column; }
+}
