@@ -8254,3 +8254,191 @@ canvas {
 .simOfferIncludes li + li {
   margin-top: 0.25rem;
 }
+
+/* Ultra SIM selected-plan checkout/request redesign */
+.salesRequestHero {
+  padding-top: 6.5rem;
+}
+.simCheckoutGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(560px, .95fr);
+  gap: 2rem;
+  align-items: start;
+}
+.simCheckoutMain h1 {
+  max-width: 760px;
+  font-size: clamp(3rem, 7vw, 5.25rem);
+  line-height: .92;
+  letter-spacing: -.07em;
+  margin: 1.4rem 0 1.2rem;
+}
+.simCheckoutMain > p {
+  max-width: 720px;
+  color: rgba(255,255,255,.84);
+  font-size: 1.12rem;
+  line-height: 1.65;
+}
+.simSelectedPlanCard {
+  margin-top: 1.8rem;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.96);
+  color: #0f172a;
+  border-radius: 2rem;
+  padding: 1.35rem;
+  box-shadow: 0 2rem 5rem rgba(2, 6, 23, .28);
+}
+.simSelectedPlanTop {
+  border-bottom: 1px solid #e9d5ff;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+.simSelectedPlanTop h2 {
+  margin: .55rem 0 .4rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: .96;
+  letter-spacing: -.055em;
+}
+.simSelectedPlanTop p {
+  max-width: 720px;
+  color: #5b4570;
+  font-weight: 800;
+  line-height: 1.45;
+}
+.simDurationCheckoutTabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .85rem;
+  margin: 1rem 0;
+}
+.simDurationCheckoutTabs button {
+  min-height: 6.4rem;
+  border: 1px solid #e9d5ff;
+  border-radius: 1.25rem;
+  background: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  gap: .25rem;
+  padding: .85rem;
+  color: #13041f;
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.simDurationCheckoutTabs button span {
+  font-weight: 950;
+  font-size: 1rem;
+}
+.simDurationCheckoutTabs button small {
+  color: #6f31ae;
+  font-weight: 900;
+}
+.simDurationCheckoutTabs button b {
+  color: #4c1d95;
+  font-size: .8rem;
+}
+.simDurationCheckoutTabs button.active {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.12), 0 1rem 2rem rgba(37,99,235,.14);
+  transform: translateY(-1px);
+}
+.simDurationCheckoutTabs button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+.simSelectedIncludes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .7rem;
+  margin-top: 1rem;
+}
+.simSelectedIncludes div {
+  display: flex;
+  gap: .55rem;
+  align-items: flex-start;
+  border: 1px solid #e9d5ff;
+  background: #faf7ff;
+  border-radius: 1rem;
+  padding: .85rem;
+  color: #2a1541;
+  font-weight: 850;
+  line-height: 1.35;
+}
+.simSelectedIncludes svg {
+  flex: 0 0 auto;
+  color: #2563eb;
+  margin-top: .1rem;
+}
+.familyCheckoutBanner {
+  border: 1px solid #facc15;
+  background: linear-gradient(135deg, #fff7ed, #fef3c7);
+  border-radius: 1.25rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  display: grid;
+  gap: .35rem;
+}
+.familyCheckoutBanner strong {
+  color: #581c87;
+  font-size: 1.1rem;
+}
+.familyCheckoutBanner span {
+  color: #713f12;
+  font-weight: 800;
+}
+.simCheckoutForm {
+  position: sticky;
+  top: 1.2rem;
+}
+.simCartSummary {
+  border: 1px solid #dbeafe;
+  background: linear-gradient(135deg, #eff6ff, #faf5ff);
+  border-radius: 1.35rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .85rem;
+  align-items: end;
+}
+.simCartSummary > div span {
+  display: block;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .72rem;
+  font-weight: 950;
+  margin-bottom: .25rem;
+}
+.simCartSummary > div strong {
+  display: block;
+  color: #0f172a;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+.simCartSummary > div small {
+  display: block;
+  color: #64748b;
+  font-weight: 850;
+  margin-top: .25rem;
+}
+.simCartSummary > b {
+  grid-column: 1 / -1;
+  color: #581c87;
+  font-size: 1rem;
+}
+.simQuantityControl {
+  min-width: 100px;
+}
+.simQuantityControl select {
+  padding: .75rem .9rem;
+  border-radius: .9rem;
+}
+@media (max-width: 1120px) {
+  .simCheckoutGrid { grid-template-columns: 1fr; }
+  .simCheckoutForm { position: static; }
+}
+@media (max-width: 720px) {
+  .salesRequestHero { padding-top: 3.5rem; }
+  .simDurationCheckoutTabs { grid-template-columns: repeat(2, 1fr); }
+  .simSelectedIncludes { grid-template-columns: 1fr; }
+  .simCartSummary { grid-template-columns: 1fr; }
+}

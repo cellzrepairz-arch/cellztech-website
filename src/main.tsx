@@ -2809,56 +2809,98 @@ const simRequestCopy = {
 
 function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
   const copy = simRequestCopy[lang] || simRequestCopy.en;
-  const [form, setForm] = useState({ requestType: 'shipping', planInterest: '', needsActivationHelp: true, name: '', phone: '', email: '', shippingAddress: '', shippingCity: '', shippingState: '', shippingZip: '', notes: '' });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
-  const [selectedOffer, setSelectedOffer] = useState({ plan: '', duration: '', durationKey: '', price: '', billed: '', request: '' });
-
-  const ultraPlanOptions = ultraPlans.map((plan) => {
-    const monthly = plan.durations['1']?.monthly || `${plan.basePrice}/mo`;
-    return {
-      value: plan.name,
-      label: `${plan.name.replace(' Plan', '')} - ${monthly}`,
-      plan
-    };
+  const [selectedOffer, setSelectedOffer] = useState({ plan: '', duration: '', durationKey: '1' as DurationKey, price: '', billed: '', request: '' });
+  const [form, setForm] = useState({
+    requestType: 'shipping',
+    planInterest: '',
+    selectedDuration: '1 Month',
+    selectedDurationKey: '1',
+    selectedPrice: '',
+    selectedBilled: '',
+    simQuantity: '1',
+    needsActivationHelp: true,
+    name: '',
+    phone: '',
+    email: '',
+    shippingAddress: '',
+    shippingCity: '',
+    shippingState: '',
+    shippingZip: '',
+    notes: ''
   });
+
   const familyOptionValue = '4 for $100 Family Promo';
   const selectedPlanDetails = ultraPlans.find((plan) => plan.name === form.planInterest);
+  const selectedDurationKey = (form.selectedDurationKey || '1') as DurationKey;
+  const selectedDurationOption = selectedPlanDetails?.durations[selectedDurationKey];
+  const quantity = Math.max(1, Math.min(Number(form.simQuantity || '1') || 1, 10));
+
+  const update = (key: string, value: string | boolean) => setForm((current) => ({ ...current, [key]: value }));
+
+  const chooseDuration = (key: DurationKey) => {
+    if (!selectedPlanDetails?.durations[key]) return;
+    const option = selectedPlanDetails.durations[key]!;
+    setSelectedOffer((current) => ({ ...current, duration: option.label, durationKey: key, price: option.monthly, billed: option.billed }));
+    setForm((current) => ({
+      ...current,
+      selectedDuration: option.label,
+      selectedDurationKey: key,
+      selectedPrice: option.monthly,
+      selectedBilled: option.billed
+    }));
+  };
+
+  const parseMoney = (value: string) => {
+    const match = String(value || '').match(/\$([0-9]+(?:\.[0-9]+)?)/);
+    return match ? Number(match[1]) : 0;
+  };
+
+  const requestedSubtotal = (() => {
+    const total = parseMoney(form.selectedBilled) * quantity;
+    return total ? `$${total.toFixed(total % 1 ? 2 : 0)} estimated request subtotal` : 'Pricing confirmed before payment';
+  })();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const plan = params.get('plan') || '';
-    const duration = params.get('duration') || '';
-    const durationKey = params.get('durationKey') || '';
-    const price = params.get('price') || '';
-    const billed = params.get('billed') || '';
+    const durationKeyParam = (params.get('durationKey') || '1') as DurationKey;
     const request = params.get('request') || '';
     const selectedPlan = ultraPlans.find((item) => item.name === plan);
+    const safeDurationKey = selectedPlan?.durations[durationKeyParam] ? durationKeyParam : '1';
+    const durationOption = selectedPlan?.durations[safeDurationKey];
     const planInterest = request === 'family' ? familyOptionValue : (selectedPlan?.name || plan);
+    const duration = request === 'family' ? 'Family promo' : (durationOption?.label || params.get('duration') || '1 Month');
+    const price = request === 'family' ? '$100/mo' : (durationOption?.monthly || params.get('price') || '');
+    const billed = request === 'family' ? '$100 monthly family offer' : (durationOption?.billed || params.get('billed') || '');
 
-    setSelectedOffer({ plan: planInterest, duration, durationKey, price, billed, request });
-
-    if (planInterest || request === 'family' || request === 'esim') {
-      setForm((current) => ({
-        ...current,
-        requestType: request === 'esim' ? 'esim' : current.requestType,
-        planInterest: planInterest || current.planInterest,
-        notes: request === 'family' && !current.notes ? 'Interested in the Ultra Mobile 4 for $100 family plan promotion.' : current.notes
-      }));
-    }
+    setSelectedOffer({ plan: planInterest, duration, durationKey: safeDurationKey, price, billed, request });
+    setForm((current) => ({
+      ...current,
+      requestType: request === 'esim' ? 'esim' : current.requestType,
+      planInterest: planInterest || current.planInterest,
+      selectedDuration: duration,
+      selectedDurationKey: safeDurationKey,
+      selectedPrice: price,
+      selectedBilled: billed,
+      simQuantity: request === 'family' ? '4' : current.simQuantity,
+      notes: request === 'family' && !current.notes ? 'Interested in the Ultra Mobile 4 for $100 family plan promotion.' : current.notes
+    }));
   }, []);
-
-  const update = (key: string, value: string | boolean) => setForm((current) => ({ ...current, [key]: value }));
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     setStatus('sending');
     setMessage('');
+    const planLine = form.planInterest
+      ? `${form.planInterest} | ${form.selectedDuration || 'Duration not selected'} | ${form.selectedPrice || 'Price to confirm'} | ${form.selectedBilled || 'Total to confirm'} | Qty ${quantity}`
+      : `Ultra SIM request | Qty ${quantity}`;
     try {
       const response = await fetch('/api/sim-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
+        body: JSON.stringify({ ...form, planInterest: planLine, simQuantity: String(quantity) })
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.ok) throw new Error(data.message || copy.error);
@@ -2872,43 +2914,67 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
 
   return (
     <main className="pageMain">
-      <section className="section ultraSimRequestHero">
-        <div className="wrap simRequestGrid">
-          <div className="simRequestIntro">
+      <section className="section ultraSimRequestHero salesRequestHero">
+        <div className="wrap simCheckoutGrid">
+          <div className="simCheckoutMain">
             <span className="summerLabel">{copy.badge}</span>
             <h1>{copy.title}</h1>
             <p>{copy.text}</p>
 
-            <div className="simOfferCard">
-              <span>{selectedOffer.request === 'family' ? copy.familyLabel : copy.selectedLabel}</span>
-              <strong>{selectedOffer.request === 'family' ? '4 for $100 Family Promo' : (selectedOffer.plan || copy.noPlanSelected)}</strong>
-              <div className="simOfferMeta">
-                <small>{selectedOffer.duration || copy.choosePlan}</small>
-                <b>{selectedOffer.price || copy.confirmPricing}</b>
+            <div className="simSelectedPlanCard">
+              <div className="ultraPlanTop simSelectedPlanTop">
+                <div>
+                  <span className="planDataPill">{selectedPlanDetails?.data || 'Ultra'}</span>
+                  <h2>{selectedOffer.request === 'family' ? '4 for $100 Family Promo' : (selectedPlanDetails ? (ultraCopy[lang]?.plans[selectedPlanDetails.name]?.name || selectedPlanDetails.name) : (selectedOffer.plan || copy.noPlanSelected))}</h2>
+                  <p>{selectedOffer.request === 'family' ? 'A dedicated request for the Ultra Mobile family promotion. CellzTech will confirm line eligibility before activation.' : (selectedPlanDetails ? (ultraCopy[lang]?.plans[selectedPlanDetails.name]?.highlight || selectedPlanDetails.highlight) : copy.offerNote)}</p>
+                </div>
+                {selectedOffer.request === 'family' && <strong className="dealPill">4 lines</strong>}
               </div>
-              {selectedOffer.billed && <small className="simOfferBilled">{selectedOffer.billed}</small>}
-              {selectedOffer.request === 'family' ? (
-                <ul className="simOfferIncludes">
-                  <li>4 Ultra Unlimited lines for $100/mo</li>
-                  <li>International calling features included</li>
-                  <li>CellzTech will confirm eligibility before activation</li>
-                </ul>
-              ) : selectedPlanDetails ? (
-                <ul className="simOfferIncludes">
-                  {selectedPlanDetails.includes.slice(0, 4).map((item) => <li key={item}>{item}</li>)}
-                </ul>
-              ) : null}
-              <p>{copy.offerNote}</p>
-            </div>
 
-            <div className="simPromiseGrid">
-              <div><ShoppingBag size={22} /><strong>{copy.promiseSimTitle}</strong><span>{copy.promiseSim}</span></div>
-              <div><MapPin size={22} /><strong>{copy.promisePickupTitle}</strong><span>{copy.promisePickup}</span></div>
-              <div><Phone size={22} /><strong>{copy.promiseConfirmTitle}</strong><span>{copy.promiseConfirm}</span></div>
+              {selectedOffer.request !== 'family' && selectedPlanDetails ? (
+                <div className="simDurationCheckoutTabs" role="tablist" aria-label="Selected plan duration options">
+                  {durationTabs.map((tab) => {
+                    const option = selectedPlanDetails.durations[tab.key];
+                    return (
+                      <button key={tab.key} type="button" className={form.selectedDurationKey === tab.key ? 'active' : ''} onClick={() => chooseDuration(tab.key)} disabled={!option}>
+                        <span>{tab.label}</span>
+                        <small>{option ? option.monthly : 'Ask in store'}</small>
+                        {option?.billed && <b>{option.billed}</b>}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="familyCheckoutBanner">
+                  <strong>4 Ultra Unlimited lines for $100/mo</strong>
+                  <span>We will confirm promo eligibility, taxes, fees, and activation details before payment.</span>
+                </div>
+              )}
+
+              <div className="simSelectedIncludes">
+                {(selectedOffer.request === 'family'
+                  ? ['4 Ultra Unlimited lines for $100/mo', 'International calling features included', 'CellzTech confirms eligibility before activation']
+                  : (selectedPlanDetails?.includes || ['Choose a plan on the Ultra Mobile page first.'])
+                ).slice(0, 5).map((item) => <div key={item}><CheckCircle2 size={17} /><span>{item}</span></div>)}
+              </div>
             </div>
           </div>
 
-          <form className="simRequestForm" onSubmit={submit}>
+          <form className="simRequestForm simCheckoutForm" onSubmit={submit}>
+            <div className="simCartSummary">
+              <div>
+                <span>Request cart</span>
+                <strong>{selectedOffer.request === 'family' ? 'Family promo request' : (form.planInterest || copy.noPlanSelected)}</strong>
+                <small>{form.selectedDuration} • {form.selectedPrice || copy.confirmPricing}</small>
+              </div>
+              <label className="simQuantityControl">SIM cards
+                <select value={form.simQuantity} onChange={(event) => update('simQuantity', event.target.value)} disabled={selectedOffer.request === 'family'}>
+                  {[1, 2, 3, 4, 5].map((item) => <option key={item} value={String(item)}>{item}</option>)}
+                </select>
+              </label>
+              <b>{selectedOffer.request === 'family' ? '$100/mo promo request' : requestedSubtotal}</b>
+            </div>
+
             <div className="simOptionGrid" role="radiogroup" aria-label="SIM request type">
               {copy.options.map((option) => (
                 <button key={option.key} type="button" className={form.requestType === option.key ? 'selected' : ''} onClick={() => update('requestType', option.key)}>
@@ -2917,17 +2983,6 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
                 </button>
               ))}
             </div>
-
-            <label>{copy.plan}
-              <select value={form.planInterest} onChange={(event) => update('planInterest', event.target.value)}>
-                <option value="">{copy.choosePlan}</option>
-                {ultraPlanOptions.map((option) => (
-                  <option key={option.value} value={option.value}>{option.label}</option>
-                ))}
-                <option value={familyOptionValue}>4 for $100 Family Promo</option>
-                <option value="Not sure">Not sure yet</option>
-              </select>
-            </label>
 
             <label className="checkboxLine">
               <input type="checkbox" checked={form.needsActivationHelp} onChange={(event) => update('needsActivationHelp', event.target.checked)} />
@@ -2963,7 +3018,6 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
     </main>
   );
 }
-
 
 function ContactDetails() {
   return (
