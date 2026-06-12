@@ -1,3 +1,5 @@
+const https = require("https");
+
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -8,23 +10,75 @@ function json(res, statusCode, data) {
   res.end(JSON.stringify(data));
 }
 
-module.exports = async function handler(req, res) {
-  if (req.method !== "POST") {
-    return json(res, 405, {
-      ok: false,
-      error: "Method not allowed",
-    });
-  }
+function postToSupabase(payload) {
+  return new Promise((resolve, reject) => {
+    const baseUrl = String(SUPABASE_URL || "").replace(/\/$/, "");
+    const url = new URL(`${baseUrl}/rest/v1/site_visit_events`);
 
+    const body = JSON.stringify(payload);
+
+    const req = https.request(
+      url,
+      {
+        method: "POST",
+        headers: {
+          apikey: SUPABASE_SERVICE_ROLE_KEY,
+          Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+          "Content-Type": "application/json",
+          Prefer: "return=minimal",
+          "Content-Length": Buffer.byteLength(body),
+        },
+      },
+      (response) => {
+        let data = "";
+
+        response.on("data", (chunk) => {
+          data += chunk;
+        });
+
+        response.on("end", () => {
+          resolve({
+            ok: response.statusCode >= 200 && response.statusCode < 300,
+            statusCode: response.statusCode,
+            body: data,
+          });
+        });
+      }
+    );
+
+    req.on("error", reject);
+    req.write(body);
+    req.end();
+  });
+}
+
+module.exports = async function handler(req, res) {
   try {
+    if (req.method !== "POST") {
+      return json(res, 405, {
+        ok: false,
+        error: "Method not allowed",
+      });
+    }
+
     if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
       return json(res, 500, {
         ok: false,
         error: "Missing Supabase environment variables",
+        hasUrl: Boolean(SUPABASE_URL),
+        hasServiceKey: Boolean(SUPABASE_SERVICE_ROLE_KEY),
       });
     }
 
-    const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : req.body || {};
+    let body = req.body || {};
+
+    if (typeof body === "string") {
+      try {
+        body = JSON.parse(body || "{}");
+      } catch {
+        body = {};
+      }
+    }
 
     const payload = {
       path: String(body.path || "/").slice(0, 500),
@@ -34,23 +88,14 @@ module.exports = async function handler(req, res) {
       user_agent: String(req.headers["user-agent"] || "").slice(0, 1000),
     };
 
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/site_visit_events`, {
-      method: "POST",
-      headers: {
-        apikey: SUPABASE_SERVICE_ROLE_KEY,
-        Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-        "Content-Type": "application/json",
-        Prefer: "return=minimal",
-      },
-      body: JSON.stringify(payload),
-    });
+    const result = await postToSupabase(payload);
 
-    if (!response.ok) {
-      const text = await response.text();
+    if (!result.ok) {
       return json(res, 500, {
         ok: false,
         error: "Supabase insert failed",
-        details: text,
+        statusCode: result.statusCode,
+        details: result.body,
       });
     }
 
@@ -61,7 +106,7 @@ module.exports = async function handler(req, res) {
   } catch (error) {
     return json(res, 500, {
       ok: false,
-      error: error.message || "Unknown visitor tracking error",
+      error: error && error.message ? error.message : "Unknown visitor tracking error",
     });
   }
 };
