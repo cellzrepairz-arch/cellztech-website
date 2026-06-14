@@ -8442,3 +8442,240 @@ canvas {
   .simSelectedIncludes { grid-template-columns: 1fr; }
   .simCartSummary { grid-template-columns: 1fr; }
 }
+
+
+.adminVisitorPanel {
+  margin-bottom: 18px;
+  padding: 16px;
+  border: 1px solid #dbeafe;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f8fbff, #eef6ff);
+}
+.adminVisitorPanel strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #0f172a;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.adminVisitorPanel p {
+  margin: 0;
+  color: #64748b;
+  font-weight: 750;
+}
+.adminTopPages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.adminTopPages span {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 9px 11px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  color: #1e3a8a;
+  font-weight: 800;
+}
+.adminTopPages b {
+  color: #0f172a;
+}
+
+/* Xfinity Prepaid / NOW Internet page */
+.xfinityPage { background: #f5f6fa; overflow: hidden; }
+.xfinityNowHero { padding: 42px 0 34px; background: #f5f6fa; }
+.xfinityNowHeroPanel {
+  position: relative;
+  min-height: 470px;
+  border-radius: 18px;
+  padding: clamp(34px, 6vw, 72px) clamp(22px, 5vw, 64px);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(190,247,248,.95), transparent 34%),
+    radial-gradient(circle at 94% 12%, rgba(232,225,255,.95), transparent 30%),
+    linear-gradient(100deg, #c9f7f6 0%, #f8fbff 43%, #ffffff 66%, #f1ecff 100%);
+  box-shadow: 0 18px 50px rgba(17,24,39,.06);
+  border: 1px solid #e5eaf1;
+}
+.nowBrandMark { position: absolute; top: 28px; left: 34px; text-align: left; }
+.nowBrandMark span {
+  display: block;
+  font-size: 35px;
+  line-height: .82;
+  font-weight: 950;
+  letter-spacing: -.08em;
+  background: linear-gradient(105deg, #008a91, #006fac 48%, #5728bf 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.nowBrandMark small { display: block; margin-left: 32px; margin-top: 2px; color: #111827; font-size: 10px; font-weight: 850; }
+.nowEyebrow { margin: 24px 0 22px; color: #111827; font-size: 13px; text-transform: uppercase; letter-spacing: .03em; font-weight: 780; }
+.xfinityNowHero h1 {
+  margin: 0;
+  font-size: clamp(45px, 7vw, 82px);
+  line-height: .96;
+  letter-spacing: -.075em;
+  color: #15171d;
+  font-weight: 520;
+}
+.xfinityNowHero h1 span {
+  font-weight: 500;
+  background: linear-gradient(105deg, #008a91 0%, #006fac 52%, #5828c8 100%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.nowHeroText { max-width: 850px; margin: 28px auto 0; color: #111827; font-size: 17px; line-height: 1.7; font-weight: 650; }
+.nowHeroActions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+.xfinityLabel {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border: 1px solid #c9e7ef;
+  background: rgba(255,255,255,.74);
+  color: #087f91;
+  border-radius: 999px;
+  padding: 8px 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: 12px;
+}
+.xfinitySectionHeader { max-width: 760px; margin: 0 auto 20px; }
+.xfinitySectionHeader.centered { text-align: center; }
+.xfinitySectionHeader .xfinityLabel { margin: 0 auto; }
+.xfinitySectionHeader h2 { margin: 14px 0 8px; color: #111827; font-size: clamp(26px, 4vw, 40px); letter-spacing: -.045em; }
+.xfinitySectionHeader p { color: #536179; font-weight: 700; line-height: 1.6; margin: 0; }
+.xfinitySpeedSection { background: #f5f6fa; padding-top: 24px; }
+.xfinityPlanShowcase { display: grid; grid-template-columns: repeat(2, minmax(280px, 430px)); justify-content: center; gap: 18px; margin-top: 18px; }
+.xfinityOfficialCard {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e5eaf1;
+  border-radius: 10px;
+  padding: 34px;
+  box-shadow: 0 12px 32px rgba(15,23,42,.04);
+  min-height: 260px;
+}
+.featuredPlan { border-color: #d9e6ff; box-shadow: 0 18px 42px rgba(0,111,172,.10); }
+.mutedPlan { opacity: .48; }
+.featuredBadge { position: absolute; top: 14px; right: 16px; padding: 6px 10px; border-radius: 999px; background: #f1eaff; color: #5728bf; font-weight: 900; font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+.planTopLine { display: flex; align-items: baseline; justify-content: space-between; gap: 22px; margin-bottom: 26px; }
+.planTopLine h3 { margin: 0; font-size: 32px; letter-spacing: -.04em; background: linear-gradient(105deg, #008a91, #006fac 48%, #5728bf); -webkit-background-clip: text; color: transparent; }
+.planTopLine h3 span { font-size: .86em; }
+.planTopLine strong { font-size: 34px; color: #000; letter-spacing: -.04em; }
+.xfinityPrimary, .xfinityAddCart, .xfinityGhostButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 5px;
+  color: white;
+  font-weight: 900;
+  text-decoration: none;
+  background: linear-gradient(105deg, #078b92, #006fac 48%, #5b28c6 100%);
+  box-shadow: 0 12px 26px rgba(0,111,172,.18);
+  cursor: pointer;
+}
+.xfinityAddCart { width: 100%; }
+.xfinityGhostButton { width: 100%; opacity: .65; cursor: not-allowed; }
+.pricingLink { display: block; width: 100%; margin: 16px 0 0; border: 0; background: transparent; color: #007d88; font-weight: 950; cursor: pointer; }
+.xfinityPlanBullets { margin: 20px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.xfinityPlanBullets li { color: #243042; font-weight: 780; line-height: 1.45; }
+.xfinityPlanBullets li:before { content: '✓'; color: #078b92; font-weight: 950; margin-right: 8px; }
+.xfinityOfficialCard p { margin: 16px 0 0; color: #64748b; font-size: 13px; line-height: 1.55; }
+.xfinitySecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 24px;
+  border: 1px solid #cad7e6;
+  border-radius: 5px;
+  color: #111827;
+  background: rgba(255,255,255,.86);
+  font-weight: 900;
+}
+.xfinityStoreSection, .xfinityFactsSection { background: #f5f6fa; }
+.xfinityStoreSection.refined { padding-top: 28px; }
+.xfinityStoreGrid, .xfinityFactsGrid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 26px; align-items: stretch; }
+.xfinityStoreCopy, .xfinityFactsCard, .xfinityFinePrintCard, .xfinityStepCards article {
+  background: #fff;
+  border: 1px solid #e1e8f0;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 12px 30px rgba(15,23,42,.045);
+}
+.xfinityStoreCopy h2, .xfinityFactsCard h2, .xfinityFinePrintCard h3, .xfinityCtaPanel h2 { margin: 14px 0 12px; color: #111827; font-size: clamp(28px, 4vw, 46px); letter-spacing: -.055em; line-height: 1.05; }
+.xfinityStoreCopy p, .xfinityFinePrintCard li, .xfinityCtaPanel p { color: #536179; line-height: 1.7; font-weight: 700; }
+.xfinityDeviceCloud { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.xfinityDeviceCloud span { padding: 10px 13px; border-radius: 999px; background: linear-gradient(135deg, #e6fbff, #f2edff); color: #0f4060; font-weight: 850; border: 1px solid #d9e7f3; }
+.xfinityStepCards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.xfinityStepCards.refinedSteps { grid-template-columns: 1fr; }
+.xfinityStepCards article { padding: 22px; }
+.xfinityStepCards svg { color: #006fac; }
+.xfinityStepCards h3 { margin: 16px 0 8px; font-size: 21px; color: #111827; }
+.xfinityStepCards p { color: #536179; line-height: 1.6; font-weight: 700; }
+.factsHeader { border-bottom: 1px solid #dce6f2; padding-bottom: 18px; margin-bottom: 6px; }
+.factsHeader span { display: block; color: #078b92; font-weight: 950; text-transform: uppercase; letter-spacing: .08em; font-size: 12px; }
+.factsHeader h2 { font-size: 32px; margin-bottom: 4px; }
+.factsHeader p { margin: 0; color: #64748b; font-weight: 750; }
+.factsRows { display: grid; margin-top: 10px; }
+.factsRows div { display: flex; justify-content: space-between; gap: 16px; border-bottom: 1px solid #edf2f7; padding: 14px 0; }
+.factsRows span { color: #536179; font-weight: 780; }
+.factsRows strong { color: #111827; text-align: right; }
+.factsFinePrint { margin: 18px 0 0; color: #64748b; font-size: 13px; line-height: 1.6; }
+.xfinityFinePrintCard ul { margin: 18px 0 0; padding-left: 18px; display: grid; gap: 10px; }
+.xfinityCtaSection { background: #f5f6fa; padding-top: 20px; }
+.xfinityCtaPanel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  background: linear-gradient(135deg, #07111f, #072f45 48%, #13206d);
+  color: white;
+  border-radius: 34px;
+  padding: 36px;
+  box-shadow: 0 20px 45px rgba(7,17,31,.18);
+}
+.nowCtaPanel { background: linear-gradient(105deg, #078b92, #006fac 48%, #5b28c6); }
+.xfinityCtaPanel .xfinityLabel { background: rgba(255,255,255,.08); color: #d9fbff; border-color: rgba(255,255,255,.24); }
+.xfinityCtaPanel h2 { color: #fff; margin-bottom: 8px; }
+.xfinityCtaPanel p { color: #e8f4ff; margin: 0; max-width: 760px; }
+.xfinityCtaButtons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; }
+.xfinityCtaPanel .xfinityPrimary { background: #fff; color: #07111f; box-shadow: none; }
+.xfinityCtaPanel .xfinitySecondary { background: rgba(255,255,255,.10); color: #fff; border-color: rgba(255,255,255,.24); }
+@media (max-width: 980px) {
+  .xfinityStoreGrid, .xfinityFactsGrid, .xfinityCtaPanel { grid-template-columns: 1fr; }
+  .xfinityCtaPanel { display: grid; }
+  .xfinityPlanShowcase { grid-template-columns: 1fr; max-width: 520px; margin-left: auto; margin-right: auto; }
+}
+@media (max-width: 640px) {
+  .xfinityNowHero { padding-top: 18px; }
+  .xfinityNowHeroPanel { min-height: auto; padding-top: 92px; border-radius: 18px; }
+  .nowBrandMark { top: 22px; left: 24px; }
+  .xfinityNowHero h1 { font-size: clamp(42px, 13vw, 58px); }
+  .nowHeroActions, .xfinityCtaButtons { display: grid; width: 100%; }
+  .planTopLine { display: grid; gap: 6px; }
+  .factsRows div { display: grid; }
+  .xfinityCtaPanel { padding: 26px; border-radius: 24px; }
+}
+@media (max-width: 980px) {
+  .xfinityHeroShell, .xfinityStoreGrid, .xfinityFactsGrid, .xfinityCtaPanel { grid-template-columns: 1fr; }
+  .xfinityCtaPanel { display: grid; }
+  .xfinityStepCards { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .xfinityHero { padding-top: 20px; }
+  .xfinityHeroShell { border-radius: 24px; padding: 24px; }
+  .speedPriceRow { grid-template-columns: 1fr; }
+  .factsRows div { display: grid; }
+  .xfinityCtaPanel { padding: 26px; border-radius: 24px; }
+}

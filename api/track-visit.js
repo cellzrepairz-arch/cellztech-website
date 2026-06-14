@@ -1,112 +1,86 @@
-const https = require("https");
-
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
 function json(res, statusCode, data) {
-  res.statusCode = statusCode;
-  res.setHeader("Content-Type", "application/json");
-  res.setHeader("Cache-Control", "no-store");
-  res.end(JSON.stringify(data));
+  res.status(statusCode).setHeader('Cache-Control', 'no-store');
+  return res.json(data);
 }
 
-function postToSupabase(payload) {
-  return new Promise((resolve, reject) => {
-    const baseUrl = String(SUPABASE_URL || "").replace(/\/$/, "");
-    const url = new URL(`${baseUrl}/rest/v1/site_visit_events`);
-
-    const body = JSON.stringify(payload);
-
-    const req = https.request(
-      url,
-      {
-        method: "POST",
-        headers: {
-          apikey: SUPABASE_SERVICE_ROLE_KEY,
-          Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-          "Content-Type": "application/json",
-          Prefer: "return=minimal",
-          "Content-Length": Buffer.byteLength(body),
-        },
-      },
-      (response) => {
-        let data = "";
-
-        response.on("data", (chunk) => {
-          data += chunk;
-        });
-
-        response.on("end", () => {
-          resolve({
-            ok: response.statusCode >= 200 && response.statusCode < 300,
-            statusCode: response.statusCode,
-            body: data,
-          });
-        });
-      }
-    );
-
-    req.on("error", reject);
-    req.write(body);
-    req.end();
-  });
+function safeText(value, fallback = '', max = 500) {
+  return String(value || fallback).slice(0, max);
 }
 
-module.exports = async function handler(req, res) {
+async function parseJsonResponse(response) {
+  const text = await response.text();
+  if (!text) return {};
   try {
-    if (req.method !== "POST") {
-      return json(res, 405, {
-        ok: false,
-        error: "Method not allowed",
-      });
+    return JSON.parse(text);
+  } catch {
+    return { raw: text };
+  }
+}
+
+export default async function handler(req, res) {
+  try {
+    if (req.method !== 'POST') {
+      res.setHeader('Allow', 'POST');
+      return json(res, 405, { ok: false, error: 'Method not allowed' });
     }
 
-    if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseUrl || !serviceKey) {
       return json(res, 500, {
         ok: false,
-        error: "Missing Supabase environment variables",
-        hasUrl: Boolean(SUPABASE_URL),
-        hasServiceKey: Boolean(SUPABASE_SERVICE_ROLE_KEY),
+        error: 'Missing Supabase environment variables',
+        hasUrl: Boolean(supabaseUrl),
+        hasServiceKey: Boolean(serviceKey)
       });
     }
 
     let body = req.body || {};
-
-    if (typeof body === "string") {
+    if (typeof body === 'string') {
       try {
-        body = JSON.parse(body || "{}");
+        body = JSON.parse(body || '{}');
       } catch {
         body = {};
       }
     }
 
     const payload = {
-      path: String(body.path || "/").slice(0, 500),
-      page: String(body.page || "").slice(0, 500),
-      language: String(body.language || "en").slice(0, 20),
-      referrer: String(body.referrer || "").slice(0, 1000),
-      user_agent: String(req.headers["user-agent"] || "").slice(0, 1000),
+      path: safeText(body.path, '/', 500),
+      page: safeText(body.page, '', 500),
+      language: safeText(body.language, 'en', 20),
+      referrer: safeText(body.referrer, '', 1000),
+      user_agent: safeText(req.headers['user-agent'], '', 1000)
     };
 
-    const result = await postToSupabase(payload);
+    const endpoint = `${supabaseUrl.replace(/\/+$/, '')}/rest/v1/site_visit_events`;
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        apikey: serviceKey,
+        Authorization: `Bearer ${serviceKey}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal'
+      },
+      body: JSON.stringify(payload)
+    });
 
-    if (!result.ok) {
+    const data = await parseJsonResponse(response);
+
+    if (!response.ok) {
       return json(res, 500, {
         ok: false,
-        error: "Supabase insert failed",
-        statusCode: result.statusCode,
-        details: result.body,
+        error: 'Supabase insert failed',
+        statusCode: response.status,
+        details: data
       });
     }
 
-    return json(res, 200, {
-      ok: true,
-      tracked: true,
-    });
+    return json(res, 200, { ok: true, tracked: true });
   } catch (error) {
     return json(res, 500, {
       ok: false,
-      error: error && error.message ? error.message : "Unknown visitor tracking error",
+      error: error instanceof Error ? error.message : 'Unknown visitor tracking error'
     });
   }
-};
+}

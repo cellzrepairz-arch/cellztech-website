@@ -1,1 +1,3 @@
-module.exports = require("./track-visit");
+import handler from '../track-visit.js';
+
+export default handler;

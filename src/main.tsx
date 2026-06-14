@@ -29,13 +29,14 @@ import {
 import './styles.css';
 import { deviceCatalog, getBrandTotalModels } from './deviceCatalog';
 
-type PageKey = 'home' | 'repairs' | 'ultra' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'sim' | 'admin';
+type PageKey = 'home' | 'repairs' | 'ultra' | 'xfinity' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'sim' | 'admin';
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk';
 
 const routes: Record<PageKey, string> = {
   home: '/',
   repairs: '/repairs',
   ultra: '/ultra-mobile',
+  xfinity: '/xfinity-prepaid',
   buyback: '/buyback',
   phones: '/phones',
   accessories: '/accessories',
@@ -59,10 +60,10 @@ const languages: { key: LanguageKey; label: string; name: string }[] = [
 ];
 
 const navLabels: Record<LanguageKey, Record<PageKey, string>> = {
-  en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact', book: 'Book Repair', sim: 'SIM Request', admin: 'Admin' },
-  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Zgłoś naprawę', sim: 'Zamów SIM', admin: 'Admin' },
-  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Solicitar reparación', sim: 'Pedir SIM', admin: 'Admin' },
-  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Заявка на ремонт', sim: 'Запит SIM', admin: 'Admin' }
+  en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact', book: 'Book Repair', sim: 'SIM Request', admin: 'Admin' },
+  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Zgłoś naprawę', sim: 'Zamów SIM', admin: 'Admin' },
+  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Solicitar reparación', sim: 'Pedir SIM', admin: 'Admin' },
+  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Заявка на ремонт', sim: 'Запит SIM', admin: 'Admin' }
 };
 
 const serviceCards = [
@@ -79,6 +80,13 @@ const serviceCards = [
     title: 'Ultra Mobile',
     text: 'Stop overpaying for wireless. Get local help switching, keeping your number, checking compatibility, and choosing a plan.',
     cta: 'Switch and save'
+  },
+  {
+    key: 'xfinity' as PageKey,
+    icon: Wifi,
+    title: 'Xfinity Prepaid Internet',
+    text: 'NOW Internet by Xfinity with 200 Mbps service, unlimited data, and a free gateway available in-store at CellzTech.',
+    cta: 'View internet plan'
   },
   {
     key: 'buyback' as PageKey,
@@ -106,7 +114,7 @@ const serviceCards = [
 const trustItems = [
   { icon: ShieldCheck, title: 'Quality-focused repairs', text: 'We use high-quality parts and offer one of the best warranties on repairs, without overpromising what a repair can do.' },
   { icon: MessageCircle, title: 'Clear local advice', text: 'Straight answers, simple explanations, and practical help from a local shop that works with phones every day.' },
-  { icon: Store, title: 'More than repairs', text: 'Repairs, Ultra Mobile, phone sales, accessories, and buyback in one place.' }
+  { icon: Store, title: 'More than repairs', text: 'Repairs, Ultra Mobile, Xfinity Prepaid Internet, phone sales, accessories, and buyback in one place.' }
 ];
 
 
@@ -132,8 +140,8 @@ const pageData: Record<PageKey, { eyebrow: string; title: string; text: string; 
   home: {
     eyebrow: 'Chicago local tech shop',
     title: 'Phone repair, wireless plans, phones, accessories, and buyback in Chicago.',
-    text: 'CellzTech brings repair help, Ultra Mobile activations, used phones, accessories, and Apex Tech Exchange buyback into one simple local experience.',
-    bullets: ['iPhone, Samsung, iPad, Motorola, and Google Pixel repair', 'Ultra Mobile activations and number transfer help', 'Used phones, accessories, and instant iPhone buyback quotes']
+    text: 'CellzTech brings repair help, Ultra Mobile activations, Xfinity Prepaid Internet, used phones, accessories, and Apex Tech Exchange buyback into one simple local experience.',
+    bullets: ['iPhone, Samsung, iPad, Motorola, and Google Pixel repair', 'Ultra Mobile activations, Xfinity Prepaid Internet, and number transfer help', 'Used phones, accessories, and instant iPhone buyback quotes']
   },
   repairs: {
     eyebrow: 'Phone repair in Chicago',
@@ -148,6 +156,13 @@ const pageData: Record<PageKey, { eyebrow: string; title: string; text: string; 
     text: 'We help customers understand Ultra Mobile plans, check phone compatibility, transfer numbers, and activate service in-store.',
     bullets: ['Plans from $29/month', '3 lines Unlimited for $85/month or $80/month with AutoPay', 'International calling to Poland and 90+ countries', 'Works on the T-Mobile network', '$0 activation fee and free SIM card', 'Bring your account number, transfer PIN, and an unlocked compatible phone'],
     cta: 'Ask about Ultra Mobile'
+  },
+  xfinity: {
+    eyebrow: 'Xfinity Prepaid Internet at CellzTech',
+    title: 'Fast prepaid home internet with a free gateway available in-store.',
+    text: 'Get the NOW Internet by Xfinity 200 Mbps plan at CellzTech. We help with the starter kit, activation basics, and local setup questions.',
+    bullets: ['$45/month 200 Mbps prepaid internet', 'Unlimited data included', 'Free gateway with first 30-day purchase, limit one per household', 'No annual contract and no credit check', 'Available in-store now; online modem ordering can be added later'],
+    cta: 'Ask about Xfinity Prepaid'
   },
   buyback: {
     eyebrow: 'Apex Tech Exchange',
@@ -215,6 +230,7 @@ const localizedPageData: Record<LanguageKey, typeof pageData> = {
     home: { eyebrow: 'Lokalny serwis technologiczny w Chicago', title: 'Naprawa telefonów, plany komórkowe, telefony, akcesoria i skup w Chicago.', text: 'CellzTech łączy naprawy telefonów, aktywacje Ultra Mobile, sprzedaż używanych telefonów, akcesoria oraz wyceny skupu iPhone’ów przez Apex Tech Exchange w jednym, prostym miejscu.', bullets: ['Naprawa iPhone, Samsung, iPad, Motorola i Google Pixel', 'Aktywacje Ultra Mobile oraz pomoc przy przenoszeniu numeru', 'Telefony używane, akcesoria i szybkie wyceny skupu iPhone’ów'] },
     repairs: { eyebrow: 'Naprawa telefonów w Chicago', title: 'Naprawa telefonów w Chicago — zrobiona rzetelnie.', text: 'Pomagamy przy pękniętych ekranach, słabych bateriach, problemach z ładowaniem, tylnej szybce, aparatach, tabletach i wielu innych usterkach. W CellzTech jasno wyjaśniamy dostępne opcje przed rozpoczęciem naprawy.', bullets: ['iPhone, Samsung, iPad, Motorola, Google Pixel i tablety', 'Ekrany, baterie, porty ładowania, tylne szybki, aparaty i diagnostyka', 'Jasna informacja przed rozpoczęciem pracy', 'Dobrej jakości części i podejście nastawione na gwarancję'], cta: 'Zadzwoń w sprawie naprawy' },
     ultra: { eyebrow: 'Ultra Mobile w CellzTech', title: 'Przestań przepłacać za telefon i skorzystaj z lokalnej pomocy przy zmianie operatora.', text: 'Pomagamy porównać plany Ultra Mobile, sprawdzić kompatybilność telefonu, przenieść numer i aktywować usługę w sklepie.', bullets: ['Plany od 15 USD miesięcznie', '4 linie Ultra Unlimited za 100 USD miesięcznie', 'Połączenia międzynarodowe do Polski i ponad 90 krajów', 'Działa w sieci T-Mobile 5G', 'Darmowa karta SIM w CellzTech', 'Przynieś numer konta, transfer PIN i odblokowany kompatybilny telefon'], cta: 'Zapytaj o Ultra Mobile' },
+    xfinity: { eyebrow: 'Xfinity Prepaid w CellzTech', title: 'Szybki internet domowy prepaid z darmowym modemem w sklepie.', text: 'Pomagamy klientom z planem NOW Internet by Xfinity 200 Mbps, zestawem startowym i podstawową aktywacją w sklepie.', bullets: ['$45 miesięcznie za 200 Mbps', 'Nielimitowany internet', 'Darmowy gateway/modem przy pierwszym zakupie 30 dni, limit jeden na gospodarstwo domowe', 'Bez rocznej umowy i bez sprawdzania kredytu', 'Dostępne w sklepie CellzTech'], cta: 'Zapytaj o Xfinity Prepaid' },
     buyback: { eyebrow: 'Apex Tech Exchange', title: 'Sprzedaj iPhone’a i otrzymaj szybką wycenę skupu.', text: 'Apex Tech Exchange to nasz system wyceny skupu iPhone’ów. Zacznij online, a następnie skontaktuj się z nami lub odwiedź sklep, aby dokończyć proces.', bullets: ['Natychmiastowa wycena iPhone’a', 'Prosty lokalny proces', 'Obsługiwane przez Apex Tech Exchange'], cta: 'Sprawdź wycenę', external: 'https://www.apextechexchange.com' },
     phones: { eyebrow: 'Telefony na sprzedaż', title: 'Telefony używane i odblokowane dostępne w sklepie.', text: 'Kup lokalnie telefon używany z pomocą przy konfiguracji, przenoszeniu danych i wyborze odpowiedniego planu komórkowego.', bullets: ['Używane iPhone’y i inne telefony zależnie od dostępności', 'Odblokowane modele', 'Lokalna pomoc przy konfiguracji i jasne informacje o gwarancji'], cta: 'Zadzwoń w sprawie telefonów' },
     accessories: { eyebrow: 'Akcesoria', title: 'Codzienne akcesoria do telefonu bez zgadywania.', text: 'W sklepie znajdziesz ładowarki, kable, etui, szkła ochronne i inne praktyczne akcesoria.', bullets: ['Ładowarki i kable', 'Etui i szkła ochronne', 'Lokalna pomoc w dobraniu odpowiedniego produktu'], cta: 'Zadzwoń w sprawie akcesoriów' },
@@ -228,6 +244,7 @@ const localizedPageData: Record<LanguageKey, typeof pageData> = {
     home: { eyebrow: 'Tienda local de tecnología en Chicago', title: 'Reparación de teléfonos, planes móviles, teléfonos, accesorios y recompra en Chicago.', text: 'CellzTech reúne reparación de dispositivos, activaciones de Ultra Mobile, teléfonos usados, accesorios y cotizaciones instantáneas de iPhone mediante Apex Tech Exchange en una experiencia local y sencilla.', bullets: ['Reparación de iPhone, Samsung, iPad, Motorola y Google Pixel', 'Activaciones de Ultra Mobile y ayuda para transferir tu número', 'Teléfonos usados, accesorios y cotizaciones instantáneas para iPhone'] },
     repairs: { eyebrow: 'Reparación de teléfonos en Chicago', title: 'Reparación de teléfonos en Chicago, hecha correctamente.', text: 'Te ayudamos con pantallas rotas, baterías débiles, problemas de carga, cristal trasero, cámaras, tabletas y más. En CellzTech explicamos tus opciones con claridad antes de empezar.', bullets: ['iPhone, Samsung, iPad, Motorola, Google Pixel y tabletas', 'Pantallas, baterías, puertos de carga, cristal trasero, cámaras y diagnóstico', 'Consejo claro antes de comenzar la reparación', 'Piezas de calidad y servicio enfocado en garantía'], cta: 'Llamar por reparación' },
     ultra: { eyebrow: 'Ultra Mobile en CellzTech', title: 'Deja de pagar de más por tu servicio móvil y recibe ayuda local para cambiarte.', text: 'Ayudamos a comparar planes de Ultra Mobile, revisar compatibilidad, transferir tu número y activar el servicio en la tienda.', bullets: ['Planes desde $15 al mes', '4 líneas Ultra Unlimited por $100 al mes', 'Llamadas internacionales a más de 90 destinos', 'Funciona en la red 5G de T-Mobile', 'Tarjeta SIM gratis en CellzTech', 'Trae tu número de cuenta, PIN de transferencia y un teléfono desbloqueado compatible'], cta: 'Preguntar por Ultra Mobile' },
+    xfinity: { eyebrow: 'Xfinity Prepaid en CellzTech', title: 'Internet residencial prepago rápido con módem gratis en tienda.', text: 'Ayudamos con el plan NOW Internet by Xfinity de 200 Mbps, el kit inicial y preguntas básicas de activación en tienda.', bullets: ['$45 al mes por 200 Mbps', 'Internet ilimitado incluido', 'Gateway/módem gratis con la primera compra de 30 días, límite uno por hogar', 'Sin contrato anual y sin revisión de crédito', 'Disponible en CellzTech'], cta: 'Preguntar por Xfinity Prepaid' },
     buyback: { eyebrow: 'Apex Tech Exchange', title: 'Vende tu iPhone con una cotización instantánea.', text: 'Apex Tech Exchange es nuestro sistema de recompra para estimaciones rápidas de iPhone. Empieza en línea y luego contáctanos o visita la tienda para completar el proceso.', bullets: ['Cotización instantánea para iPhone', 'Proceso local sencillo', 'Impulsado por Apex Tech Exchange'], cta: 'Obtener cotización', external: 'https://www.apextechexchange.com' },
     phones: { eyebrow: 'Teléfonos en venta', title: 'Teléfonos usados y desbloqueados disponibles en tienda.', text: 'Compra localmente con ayuda para configurar tu dispositivo, transferir información y elegir el plan móvil adecuado.', bullets: ['iPhones usados y otros dispositivos según disponibilidad', 'Opciones de teléfonos desbloqueados', 'Ayuda local de configuración e información clara de garantía'], cta: 'Llamar por teléfonos' },
     accessories: { eyebrow: 'Accesorios', title: 'Accesorios diarios para tu teléfono sin complicaciones.', text: 'Encuentra cargadores, cables, fundas, protectores de pantalla y otros accesorios prácticos en tienda.', bullets: ['Cargadores y cables', 'Fundas y protectores de pantalla', 'Ayuda local para elegir el producto correcto'], cta: 'Llamar por accesorios' },
@@ -241,6 +258,7 @@ const localizedPageData: Record<LanguageKey, typeof pageData> = {
     home: { eyebrow: 'Місцева технічна майстерня в Чикаго', title: 'Ремонт телефонів, мобільні плани, телефони, аксесуари та викуп у Чикаго.', text: 'CellzTech поєднує ремонт пристроїв, активації Ultra Mobile, вживані телефони, аксесуари та миттєві оцінки iPhone через Apex Tech Exchange в одному зручному місцевому сервісі.', bullets: ['Ремонт iPhone, Samsung, iPad, Motorola та Google Pixel', 'Активації Ultra Mobile і допомога з перенесенням номера', 'Вживані телефони, аксесуари та швидка оцінка iPhone для викупу'] },
     repairs: { eyebrow: 'Ремонт телефонів у Чикаго', title: 'Ремонт телефонів у Чикаго — якісно та чесно.', text: 'Ми допомагаємо з розбитими екранами, слабкими батареями, проблемами заряджання, заднім склом, камерами, планшетами та іншими несправностями. У CellzTech ми зрозуміло пояснюємо варіанти до початку ремонту.', bullets: ['iPhone, Samsung, iPad, Motorola, Google Pixel і планшети', 'Екрани, батареї, порти заряджання, заднє скло, камери та діагностика', 'Чітка консультація перед початком роботи', 'Якісні деталі та сервіс із увагою до гарантії'], cta: 'Зателефонувати щодо ремонту' },
     ultra: { eyebrow: 'Ultra Mobile у CellzTech', title: 'Не переплачуйте за мобільний зв’язок — отримайте місцеву допомогу з переходом.', text: 'Ми допомагаємо порівняти плани Ultra Mobile, перевірити сумісність телефону, перенести номер і активувати послугу в магазині.', bullets: ['Плани від $15 на місяць', '4 лінії Ultra Unlimited за $100 на місяць', 'Міжнародні дзвінки до понад 90 напрямків', 'Працює в мережі T-Mobile 5G', 'Безкоштовна SIM-картка в CellzTech', 'Принесіть номер облікового запису, transfer PIN і розблокований сумісний телефон'], cta: 'Запитати про Ultra Mobile' },
+    xfinity: { eyebrow: 'Xfinity Prepaid у CellzTech', title: 'Швидкий домашній prepaid-інтернет із безкоштовним модемом у магазині.', text: 'Допомагаємо з планом NOW Internet by Xfinity 200 Mbps, стартовим комплектом і базовими питаннями активації в магазині.', bullets: ['$45 на місяць за 200 Mbps', 'Безлімітний інтернет', 'Безкоштовний gateway/модем із першою 30-денною покупкою, один на домогосподарство', 'Без річного контракту і без кредитної перевірки', 'Доступно в CellzTech'], cta: 'Запитати про Xfinity Prepaid' },
     buyback: { eyebrow: 'Apex Tech Exchange', title: 'Продайте свій iPhone з миттєвою оцінкою.', text: 'Apex Tech Exchange — це наша система швидкої оцінки iPhone для викупу. Почніть онлайн, а потім зв’яжіться з нами або завітайте до магазину.', bullets: ['Миттєва оцінка iPhone', 'Простий місцевий процес', 'Працює через Apex Tech Exchange'], cta: 'Отримати оцінку', external: 'https://www.apextechexchange.com' },
     phones: { eyebrow: 'Телефони у продажу', title: 'Вживані та розблоковані телефони доступні в магазині.', text: 'Купуйте локально з допомогою в налаштуванні, перенесенні даних і виборі правильного мобільного плану.', bullets: ['Вживані iPhone та інші пристрої за наявності', 'Розблоковані моделі', 'Місцева допомога з налаштуванням і зрозуміла інформація про гарантію'], cta: 'Зателефонувати щодо телефонів' },
     accessories: { eyebrow: 'Аксесуари', title: 'Щоденні аксесуари для телефону без зайвих сумнівів.', text: 'У магазині є зарядні пристрої, кабелі, чохли, захисне скло та інші практичні аксесуари.', bullets: ['Зарядні пристрої та кабелі', 'Чохли та захисне скло', 'Місцева допомога з вибором потрібного товару'], cta: 'Зателефонувати щодо аксесуарів' },
@@ -265,6 +283,7 @@ const localizedServiceCards: Record<LanguageKey, typeof serviceCards> = {
   pl: [
     { key: 'repairs', icon: Wrench, title: 'Naprawy', text: 'iPhone, Samsung, iPad, Motorola, Google Pixel, ekrany, baterie, porty ładowania, aparaty, tylne szybki i odzyskiwanie danych.', cta: 'Napraw moje urządzenie' },
     { key: 'ultra', icon: Wifi, title: 'Ultra Mobile', text: 'Przestań przepłacać za telefon. Pomagamy zmienić operatora, zachować numer, sprawdzić kompatybilność i wybrać plan.', cta: 'Zmień i oszczędzaj' },
+    { key: 'xfinity', icon: Wifi, title: 'Xfinity Prepaid', text: 'Internet domowy prepaid 200 Mbps za $45/mies. z darmowym modemem dostępnym w sklepie.', cta: 'Zobacz internet' },
     { key: 'buyback', icon: DollarSign, title: 'Skup', text: 'Masz iPhone’a, który leży w szufladzie? Sprawdź natychmiastową wycenę przez Apex Tech Exchange.', cta: 'Sprawdź wycenę' },
     { key: 'phones', icon: Smartphone, title: 'Telefony', text: 'Używane i odblokowane telefony dostępne w sklepie z pomocą przy konfiguracji i praktyczną informacją o gwarancji.', cta: 'Zobacz telefony' },
     { key: 'accessories', icon: ShoppingBag, title: 'Akcesoria', text: 'Ładowarki, kable, etui, szkła ochronne i codzienne akcesoria do telefonu dostępne lokalnie.', cta: 'Zobacz akcesoria' }
@@ -272,6 +291,7 @@ const localizedServiceCards: Record<LanguageKey, typeof serviceCards> = {
   es: [
     { key: 'repairs', icon: Wrench, title: 'Reparaciones', text: 'iPhone, Samsung, iPad, Motorola, Google Pixel, pantallas, baterías, puertos de carga, cámaras, cristal trasero y recuperación de datos.', cta: 'Reparar mi dispositivo' },
     { key: 'ultra', icon: Wifi, title: 'Ultra Mobile', text: 'Deja de pagar de más. Te ayudamos a cambiarte, conservar tu número, revisar compatibilidad y elegir un plan.', cta: 'Cambiar y ahorrar' },
+    { key: 'xfinity', icon: Wifi, title: 'Xfinity Prepaid', text: 'Internet prepago residencial de 200 Mbps por $45/mes con módem gratis en tienda.', cta: 'Ver internet' },
     { key: 'buyback', icon: DollarSign, title: 'Recompra', text: '¿Tienes un iPhone guardado en un cajón? Obtén una cotización instantánea con Apex Tech Exchange.', cta: 'Obtener cotización' },
     { key: 'phones', icon: Smartphone, title: 'Teléfonos', text: 'Teléfonos usados y desbloqueados disponibles en tienda con ayuda local de configuración y garantía práctica.', cta: 'Ver teléfonos' },
     { key: 'accessories', icon: ShoppingBag, title: 'Accesorios', text: 'Cargadores, cables, fundas, protectores de pantalla y accesorios diarios disponibles localmente.', cta: 'Ver accesorios' }
@@ -279,6 +299,7 @@ const localizedServiceCards: Record<LanguageKey, typeof serviceCards> = {
   uk: [
     { key: 'repairs', icon: Wrench, title: 'Ремонт', text: 'iPhone, Samsung, iPad, Motorola, Google Pixel, екрани, батареї, порти заряджання, камери, заднє скло та відновлення даних.', cta: 'Відремонтувати пристрій' },
     { key: 'ultra', icon: Wifi, title: 'Ultra Mobile', text: 'Не переплачуйте за зв’язок. Ми допоможемо перейти, зберегти номер, перевірити сумісність і вибрати план.', cta: 'Перейти й заощадити' },
+    { key: 'xfinity', icon: Wifi, title: 'Xfinity Prepaid', text: 'Домашній prepaid-інтернет 200 Mbps за $45/міс. із безкоштовним модемом у магазині.', cta: 'Переглянути інтернет' },
     { key: 'buyback', icon: DollarSign, title: 'Викуп', text: 'Маєте iPhone, який лежить без діла? Отримайте миттєву оцінку через Apex Tech Exchange.', cta: 'Отримати оцінку' },
     { key: 'phones', icon: Smartphone, title: 'Телефони', text: 'Вживані й розблоковані телефони в магазині з місцевою допомогою в налаштуванні та гарантії.', cta: 'Переглянути телефони' },
     { key: 'accessories', icon: ShoppingBag, title: 'Аксесуари', text: 'Зарядні пристрої, кабелі, чохли, захисне скло та щоденні аксесуари доступні локально.', cta: 'Переглянути аксесуари' }
@@ -329,7 +350,7 @@ function Logo() {
 function Header({ page, setPage, lang, setLang }: { page: PageKey; setPage: (p: PageKey) => void; lang: LanguageKey; setLang: (l: LanguageKey) => void }) {
   const [open, setOpen] = useState(false);
   const labels = navLabels[lang];
-  const nav: PageKey[] = ['home', 'repairs', 'ultra', 'buyback', 'phones', 'accessories', 'about', 'contact'];
+  const nav: PageKey[] = ['home', 'repairs', 'ultra', 'xfinity', 'buyback', 'phones', 'accessories', 'about', 'contact'];
 
   const navigate = (p: PageKey) => {
     setPage(p);
@@ -509,6 +530,13 @@ type AdminRepairRequest = {
   integration_errors?: unknown;
 };
 
+type AdminVisitStats = {
+  today: number;
+  last7Days: number;
+  last30Days: number;
+  topPages: { path: string; count: number }[];
+};
+
 type AdminSimRequest = {
   id: string;
   submitted_at?: string;
@@ -544,6 +572,7 @@ function AdminDashboard() {
   const [inputKey, setInputKey] = useState('');
   const [requests, setRequests] = useState<AdminRepairRequest[]>([]);
   const [simRequests, setSimRequests] = useState<AdminSimRequest[]>([]);
+  const [visitorStats, setVisitorStats] = useState<AdminVisitStats>({ today: 0, last7Days: 0, last30Days: 0, topPages: [] });
   const [adminView, setAdminView] = useState<'repairs' | 'sim'>('repairs');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -570,10 +599,12 @@ function AdminDashboard() {
       setInputKey('');
       setRequests(data.requests || []);
       setSimRequests(data.simRequests || []);
+      setVisitorStats(data.visitorStats || { today: 0, last7Days: 0, last30Days: 0, topPages: [] });
     } catch (err) {
       setAdminKey('');
       setRequests([]);
       setSimRequests([]);
+      setVisitorStats({ today: 0, last7Days: 0, last30Days: 0, topPages: [] });
       setError(err instanceof Error ? err.message : 'Access denied. Check the admin key and try again.');
     } finally {
       setLoading(false);
@@ -711,6 +742,9 @@ function AdminDashboard() {
             <div><span>Total requests</span><strong>{requests.length}</strong></div>
             <div><span>RepairDesk leads</span><strong>{leadCount}</strong></div>
             <div><span>Needs review</span><strong>{failedCount}</strong></div>
+            <div><span>Visitors today</span><strong>{visitorStats.today}</strong></div>
+            <div><span>Last 7 days</span><strong>{visitorStats.last7Days}</strong></div>
+            <div><span>Last 30 days</span><strong>{visitorStats.last30Days}</strong></div>
           </div>
         </div>
       </section>
@@ -718,6 +752,17 @@ function AdminDashboard() {
       <section className="section adminSection">
         <div className="wrap adminPanel">
           {error && <div className="adminNotice error">{error}</div>}
+
+          <div className="adminVisitorPanel">
+            <strong>Top pages</strong>
+            {visitorStats.topPages.length ? (
+              <div className="adminTopPages">
+                {visitorStats.topPages.map((item) => (
+                  <span key={item.path}><b>{item.path}</b> {item.count}</span>
+                ))}
+              </div>
+            ) : <p>No visitor page data yet.</p>}
+          </div>
 
           <div className="adminToolbar">
             <div className="adminTabs" aria-label="Admin request type">
@@ -844,6 +889,7 @@ function PageDetail({ page, lang }: { page: PageKey; lang: LanguageKey }) {
   if (page === 'book') return <BookRepairPage lang={lang} />;
   if (page === 'admin') return <AdminDashboard />;
   if (page === 'sim') return <UltraSimRequestPage lang={lang} />;
+  if (page === 'xfinity') return <XfinityPrepaidPage />;
   if (page === 'ultra') {
     return (
       <main className="pageMain">
@@ -1153,10 +1199,10 @@ const issueTranslations: Record<string, Record<LanguageKey, string>> = {
 };
 
 const bookText: Record<LanguageKey, any> = {
-  en: { eyebrow: 'Book repair', title: 'Book your repair.', intro: 'Choose your brand, model, issue, and preferred drop-off window. We will confirm the final schedule, pricing, and parts availability before you come in.', current: 'Current request', repairRequest: 'repair request', steps: ['Brand', 'Model', 'Issue', 'Contact', 'Send'], step: 'Step', brandTitle: 'What brand needs repair?', brandHint: 'Start with the device family. We support the major phone brands customers ask for most, plus an “Other” path when the model is not listed.', modelTitle: 'Find your model.', modelHint: 'Search, tap a popular model, or choose a series. We can identify the exact model in-store if you are not sure.', searchPlaceholder: 'Search model or model number', clear: 'Clear', searchResults: 'Search results', matching: 'matching models', selected: 'Selected', notListed: 'Device not listed', helpIdentify: 'We will help identify it', popular: 'Popular models', common: 'Most common', browse: 'Browse by series', chooseSeries: 'Choose a series', notSure: '{b.notSure}', issueTitle: 'What needs to be fixed?', issueHint: 'Choose the main issue. The visual panel will react to the selected problem.', contactTitle: 'Your contact details.', contactHint: 'Choose a preferred drop-off window during posted store hours. This is a request only — we will contact you to confirm the repair schedule.', name: 'Name', phone: 'Phone', email: 'Email', required: 'Required', date: 'Requested date', window: 'Preferred drop-off window', chooseWindow: 'Select an available store-hour window', chooseDate: 'Choose a date first', notes: 'Notes', notesPlaceholder: 'Example: Screen is cracked but touch still works.', consent: 'By sending this request, you agree that CellzTech / Cellz Repairz LLC may contact you about your repair request. This does not guarantee a confirmed appointment, repair price, part availability, or completion time.', finalTitle: 'Ready to send your repair request.', finalHint: 'This will send the request to CellzTech. We will contact you to confirm the drop-off window, price, and parts availability.', brand: 'Brand', series: 'Series', model: 'Model', issue: 'Issue', notSelected: 'Not selected', notProvided: 'Not provided', submit: 'Submit repair request', sending: 'Sending request...', textInstead: 'Text instead', callInstead: 'Call instead', backendNote: 'Your request is sent to CellzTech so we can review the device, issue, parts, and timing before confirming the repair details.', back: 'Back', next: 'Next step', startOver: 'Start over' },
-  pl: { eyebrow: 'Zgłoszenie naprawy', title: 'Zgłoś naprawę.', intro: 'Wybierz markę, model, usterkę i preferowane okno oddania urządzenia. Przed wizytą potwierdzimy termin, cenę i dostępność części.', current: 'Aktualne zgłoszenie', repairRequest: 'zgłoszenie naprawy', steps: ['Marka', 'Model', 'Usterka', 'Kontakt', 'Wyślij'], step: 'Krok', brandTitle: 'Jaka marka wymaga naprawy?', brandHint: 'Zacznij od rodzaju urządzenia. Obsługujemy najpopularniejsze marki telefonów, a jeśli modelu nie ma na liście, wybierz ścieżkę „Inne”.', modelTitle: 'Znajdź swój model.', modelHint: 'Wyszukaj, wybierz popularny model albo serię. Jeśli nie masz pewności, pomożemy ustalić dokładny model w sklepie.', searchPlaceholder: 'Szukaj modelu lub numeru modelu', clear: 'Wyczyść', searchResults: 'Wyniki wyszukiwania', matching: 'pasujących modeli', selected: 'Wybrano', notListed: 'Urządzenia nie ma na liście', helpIdentify: 'Pomożemy je rozpoznać', popular: 'Popularne modele', common: 'Najczęstsze', browse: 'Przeglądaj według serii', chooseSeries: 'Wybierz serię', notSure: 'Nie widzę modelu / nie mam pewności', issueTitle: 'Co trzeba naprawić?', issueHint: 'Wybierz główną usterkę. Panel wizualny dopasuje się do wybranego problemu.', contactTitle: 'Dane kontaktowe.', contactHint: 'Wybierz preferowane okno oddania urządzenia w godzinach pracy. To jest zgłoszenie — skontaktujemy się z Tobą, aby potwierdzić termin.', name: 'Imię i nazwisko', phone: 'Telefon', email: 'E-mail', required: 'Wymagane', date: 'Preferowana data', window: 'Preferowane okno oddania', chooseWindow: 'Wybierz dostępne okno w godzinach pracy', chooseDate: 'Najpierw wybierz datę', notes: 'Uwagi', notesPlaceholder: 'Przykład: Ekran jest pęknięty, ale dotyk działa.', consent: 'Wysyłając zgłoszenie, zgadzasz się, że CellzTech / Cellz Repairz LLC może skontaktować się z Tobą w sprawie naprawy. To nie gwarantuje potwierdzonej wizyty, ceny, dostępności części ani czasu ukończenia.', finalTitle: 'Gotowe do wysłania zgłoszenia.', finalHint: 'Zgłoszenie trafi do CellzTech. Skontaktujemy się, aby potwierdzić okno oddania, cenę i dostępność części.', brand: 'Marka', series: 'Seria', model: 'Model', issue: 'Usterka', notSelected: 'Nie wybrano', notProvided: 'Nie podano', submit: 'Wyślij zgłoszenie', sending: 'Wysyłanie zgłoszenia...', textInstead: 'Wyślij SMS', callInstead: 'Zadzwoń', backendNote: 'Zgłoszenie trafia do CellzTech, abyśmy mogli sprawdzić urządzenie, usterkę, części i termin przed potwierdzeniem szczegółów naprawy.', back: 'Wstecz', next: 'Dalej', startOver: 'Zacznij od nowa' },
-  es: { eyebrow: 'Solicitud de reparación', title: 'Solicita tu reparación.', intro: 'Elige la marca, el modelo, el problema y una ventana preferida para dejar el equipo. Confirmaremos el horario, el precio y la disponibilidad de piezas antes de que vengas.', current: 'Solicitud actual', repairRequest: 'solicitud de reparación', steps: ['Marca', 'Modelo', 'Problema', 'Contacto', 'Enviar'], step: 'Paso', brandTitle: '¿Qué marca necesita reparación?', brandHint: 'Empieza con la familia del dispositivo. Atendemos las marcas más solicitadas y también tenemos una opción “Otro” si el modelo no aparece.', modelTitle: 'Encuentra tu modelo.', modelHint: 'Busca, toca un modelo popular o elige una serie. Si no estás seguro, podemos identificar el modelo exacto en la tienda.', searchPlaceholder: 'Buscar modelo o número de modelo', clear: 'Borrar', searchResults: 'Resultados de búsqueda', matching: 'modelos encontrados', selected: 'Seleccionado', notListed: 'Dispositivo no listado', helpIdentify: 'Te ayudaremos a identificarlo', popular: 'Modelos populares', common: 'Más comunes', browse: 'Buscar por serie', chooseSeries: 'Elige una serie', notSure: 'No veo mi modelo / no estoy seguro', issueTitle: '¿Qué se necesita reparar?', issueHint: 'Elige el problema principal. El panel visual reaccionará al problema seleccionado.', contactTitle: 'Tus datos de contacto.', contactHint: 'Elige una ventana preferida para dejar el equipo durante el horario publicado. Es una solicitud; te contactaremos para confirmar.', name: 'Nombre', phone: 'Teléfono', email: 'Correo electrónico', required: 'Requerido', date: 'Fecha solicitada', window: 'Ventana preferida para dejar el equipo', chooseWindow: 'Selecciona una ventana disponible', chooseDate: 'Primero elige una fecha', notes: 'Notas', notesPlaceholder: 'Ejemplo: La pantalla está rota, pero el táctil funciona.', consent: 'Al enviar esta solicitud, aceptas que CellzTech / Cellz Repairz LLC pueda contactarte sobre tu reparación. Esto no garantiza una cita confirmada, precio, disponibilidad de piezas ni tiempo de finalización.', finalTitle: 'Listo para enviar tu solicitud.', finalHint: 'Esto enviará la solicitud a CellzTech. Te contactaremos para confirmar la ventana, el precio y la disponibilidad de piezas.', brand: 'Marca', series: 'Serie', model: 'Modelo', issue: 'Problema', notSelected: 'No seleccionado', notProvided: 'No proporcionado', submit: 'Enviar solicitud', sending: 'Enviando solicitud...', textInstead: 'Enviar texto', callInstead: 'Llamar', backendNote: 'Tu solicitud se envía a CellzTech para revisar el dispositivo, el problema, las piezas y el horario antes de confirmar los detalles.', back: 'Atrás', next: 'Siguiente', startOver: 'Empezar de nuevo' },
-  uk: { eyebrow: 'Заявка на ремонт', title: 'Надішліть заявку на ремонт.', intro: 'Виберіть бренд, модель, проблему та зручне вікно для здачі пристрою. Перед вашим візитом ми підтвердимо час, ціну та наявність деталей.', current: 'Поточна заявка', repairRequest: 'заявка на ремонт', steps: ['Бренд', 'Модель', 'Проблема', 'Контакт', 'Надіслати'], step: 'Крок', brandTitle: 'Який бренд потребує ремонту?', brandHint: 'Почніть із типу пристрою. Ми підтримуємо найпопулярніші бренди, а якщо моделі немає в списку, виберіть “Інше”.', modelTitle: 'Знайдіть свою модель.', modelHint: 'Скористайтеся пошуком, виберіть популярну модель або серію. Якщо не впевнені, ми визначимо точну модель у магазині.', searchPlaceholder: 'Пошук моделі або номера моделі', clear: 'Очистити', searchResults: 'Результати пошуку', matching: 'збігів моделей', selected: 'Вибрано', notListed: 'Пристрою немає в списку', helpIdentify: 'Ми допоможемо визначити модель', popular: 'Популярні моделі', common: 'Найчастіші', browse: 'Перегляд за серією', chooseSeries: 'Виберіть серію', notSure: 'Не бачу моделі / не впевнений', issueTitle: 'Що потрібно відремонтувати?', issueHint: 'Виберіть основну проблему. Візуальна панель зміниться відповідно до вибраної несправності.', contactTitle: 'Ваші контактні дані.', contactHint: 'Виберіть зручне вікно для здачі пристрою в робочі години. Це заявка — ми зв’яжемося з вами для підтвердження.', name: 'Ім’я', phone: 'Телефон', email: 'Електронна пошта', required: 'Обов’язково', date: 'Бажана дата', window: 'Зручне вікно для здачі', chooseWindow: 'Виберіть доступне вікно', chooseDate: 'Спочатку виберіть дату', notes: 'Примітки', notesPlaceholder: 'Приклад: Екран розбитий, але сенсор працює.', consent: 'Надсилаючи заявку, ви погоджуєтеся, що CellzTech / Cellz Repairz LLC може зв’язатися з вами щодо ремонту. Це не гарантує підтвердженого запису, ціни, наявності деталей або часу виконання.', finalTitle: 'Готово до надсилання заявки.', finalHint: 'Заявка буде надіслана до CellzTech. Ми зв’яжемося з вами, щоб підтвердити час, ціну та наявність деталей.', brand: 'Бренд', series: 'Серія', model: 'Модель', issue: 'Проблема', notSelected: 'Не вибрано', notProvided: 'Не вказано', submit: 'Надіслати заявку', sending: 'Надсилання заявки...', textInstead: 'Надіслати SMS', callInstead: 'Зателефонувати', backendNote: 'Ваша заявка надсилається до CellzTech, щоб ми перевірили пристрій, проблему, деталі та час перед підтвердженням ремонту.', back: 'Назад', next: 'Далі', startOver: 'Почати спочатку' }
+  en: { eyebrow: 'Book repair', title: 'Book your repair.', intro: 'Choose your brand, model, issue, and preferred drop-off window. We will confirm the final schedule, pricing, and parts availability before you come in.', current: 'Current request', repairRequest: 'repair request', steps: ['Brand', 'Model', 'Issue', 'Contact', 'Send'], step: 'Step', brandTitle: 'What brand needs repair?', brandHint: 'Start with the device family. We support the major phone brands customers ask for most, plus an “Other” path when the model is not listed.', modelTitle: 'Find your model.', modelHint: 'Search, tap a popular model, or choose a series. We can identify the exact model in-store if you are not sure.', searchPlaceholder: 'Search model or model number', clear: 'Clear', searchResults: 'Search results', matching: 'matching models', selected: 'Selected', notListed: 'Device not listed', helpIdentify: 'We will help identify it', popular: 'Popular models', common: 'Most common', browse: 'Browse by series', chooseSeries: 'Choose a series', notSure: 'Not sure', issueTitle: 'What needs to be fixed?', issueHint: 'Choose the main issue. The visual panel will react to the selected problem.', contactTitle: 'Your contact details.', contactHint: 'Choose a preferred drop-off window during posted store hours. This is a request only — we will contact you to confirm the repair schedule.', name: 'Name', phone: 'Phone', email: 'Email', required: 'Required', date: 'Requested date', window: 'Preferred drop-off window', chooseWindow: 'Select an available store-hour window', chooseDate: 'Choose a date first', notes: 'Notes', notesPlaceholder: 'Example: Screen is cracked but touch still works.', consent: 'By sending this request, you agree that CellzTech / Cellz Repairz LLC may contact you about your repair request. This does not guarantee a confirmed appointment, repair price, part availability, or completion time.', finalTitle: 'Ready to send your repair request.', finalHint: 'This will send the request to CellzTech. We will contact you to confirm the drop-off window, price, and parts availability.', brand: 'Brand', series: 'Series', model: 'Model', issue: 'Issue', notSelected: 'Not selected', notProvided: 'Not provided', submit: 'Submit repair request', sending: 'Sending request...', textInstead: 'Text instead', callInstead: 'Call instead', backendNote: 'Your request is sent to CellzTech so we can review the device, issue, parts, and timing before confirming the repair details.', back: 'Back', next: 'Next step', startOver: 'Start over' },
+  pl: { eyebrow: 'Zgłoszenie naprawy', title: 'Zgłoś naprawę.', intro: 'Wybierz markę, model, usterkę i preferowane okno oddania urządzenia. Przed wizytą potwierdzimy termin, cenę i dostępność części.', current: 'Aktualne zgłoszenie', repairRequest: 'zgłoszenie naprawy', steps: ['Marka', 'Model', 'Usterka', 'Kontakt', 'Wyślij'], step: 'Krok', brandTitle: 'Jaka marka wymaga naprawy?', brandHint: 'Zacznij od rodzaju urządzenia. Obsługujemy najpopularniejsze marki telefonów, a jeśli modelu nie ma na liście, wybierz ścieżkę „Inne”.', modelTitle: 'Znajdź swój model.', modelHint: 'Wyszukaj, wybierz popularny model albo serię. Jeśli nie masz pewności, pomożemy ustalić dokładny model w sklepie.', searchPlaceholder: 'Szukaj modelu lub numeru modelu', clear: 'Wyczyść', searchResults: 'Wyniki wyszukiwania', matching: 'pasujących modeli', selected: 'Wybrano', notListed: 'Urządzenia nie ma na liście', helpIdentify: 'Pomożemy je rozpoznać', popular: 'Popularne modele', common: 'Najczęstsze', browse: 'Przeglądaj według serii', chooseSeries: 'Wybierz serię', notSure: 'Nie wiem / nie mam pewności', issueTitle: 'Co trzeba naprawić?', issueHint: 'Wybierz główną usterkę. Panel wizualny dopasuje się do wybranego problemu.', contactTitle: 'Dane kontaktowe.', contactHint: 'Wybierz preferowane okno oddania urządzenia w godzinach pracy. To jest zgłoszenie — skontaktujemy się z Tobą, aby potwierdzić termin.', name: 'Imię i nazwisko', phone: 'Telefon', email: 'E-mail', required: 'Wymagane', date: 'Preferowana data', window: 'Preferowane okno oddania', chooseWindow: 'Wybierz dostępne okno w godzinach pracy', chooseDate: 'Najpierw wybierz datę', notes: 'Uwagi', notesPlaceholder: 'Przykład: Ekran jest pęknięty, ale dotyk działa.', consent: 'Wysyłając zgłoszenie, zgadzasz się, że CellzTech / Cellz Repairz LLC może skontaktować się z Tobą w sprawie naprawy. To nie gwarantuje potwierdzonej wizyty, ceny, dostępności części ani czasu ukończenia.', finalTitle: 'Gotowe do wysłania zgłoszenia.', finalHint: 'Zgłoszenie trafi do CellzTech. Skontaktujemy się, aby potwierdzić okno oddania, cenę i dostępność części.', brand: 'Marka', series: 'Seria', model: 'Model', issue: 'Usterka', notSelected: 'Nie wybrano', notProvided: 'Nie podano', submit: 'Wyślij zgłoszenie', sending: 'Wysyłanie zgłoszenia...', textInstead: 'Wyślij SMS', callInstead: 'Zadzwoń', backendNote: 'Zgłoszenie trafia do CellzTech, abyśmy mogli sprawdzić urządzenie, usterkę, części i termin przed potwierdzeniem szczegółów naprawy.', back: 'Wstecz', next: 'Dalej', startOver: 'Zacznij od nowa' },
+  es: { eyebrow: 'Solicitud de reparación', title: 'Solicita tu reparación.', intro: 'Elige la marca, el modelo, el problema y una ventana preferida para dejar el equipo. Confirmaremos el horario, el precio y la disponibilidad de piezas antes de que vengas.', current: 'Solicitud actual', repairRequest: 'solicitud de reparación', steps: ['Marca', 'Modelo', 'Problema', 'Contacto', 'Enviar'], step: 'Paso', brandTitle: '¿Qué marca necesita reparación?', brandHint: 'Empieza con la familia del dispositivo. Atendemos las marcas más solicitadas y también tenemos una opción “Otro” si el modelo no aparece.', modelTitle: 'Encuentra tu modelo.', modelHint: 'Busca, toca un modelo popular o elige una serie. Si no estás seguro, podemos identificar el modelo exacto en la tienda.', searchPlaceholder: 'Buscar modelo o número de modelo', clear: 'Borrar', searchResults: 'Resultados de búsqueda', matching: 'modelos encontrados', selected: 'Seleccionado', notListed: 'Dispositivo no listado', helpIdentify: 'Te ayudaremos a identificarlo', popular: 'Modelos populares', common: 'Más comunes', browse: 'Buscar por serie', chooseSeries: 'Elige una serie', notSure: 'No estoy seguro', issueTitle: '¿Qué se necesita reparar?', issueHint: 'Elige el problema principal. El panel visual reaccionará al problema seleccionado.', contactTitle: 'Tus datos de contacto.', contactHint: 'Elige una ventana preferida para dejar el equipo durante el horario publicado. Es una solicitud; te contactaremos para confirmar.', name: 'Nombre', phone: 'Teléfono', email: 'Correo electrónico', required: 'Requerido', date: 'Fecha solicitada', window: 'Ventana preferida para dejar el equipo', chooseWindow: 'Selecciona una ventana disponible', chooseDate: 'Primero elige una fecha', notes: 'Notas', notesPlaceholder: 'Ejemplo: La pantalla está rota, pero el táctil funciona.', consent: 'Al enviar esta solicitud, aceptas que CellzTech / Cellz Repairz LLC pueda contactarte sobre tu reparación. Esto no garantiza una cita confirmada, precio, disponibilidad de piezas ni tiempo de finalización.', finalTitle: 'Listo para enviar tu solicitud.', finalHint: 'Esto enviará la solicitud a CellzTech. Te contactaremos para confirmar la ventana, el precio y la disponibilidad de piezas.', brand: 'Marca', series: 'Serie', model: 'Modelo', issue: 'Problema', notSelected: 'No seleccionado', notProvided: 'No proporcionado', submit: 'Enviar solicitud', sending: 'Enviando solicitud...', textInstead: 'Enviar texto', callInstead: 'Llamar', backendNote: 'Tu solicitud se envía a CellzTech para revisar el dispositivo, el problema, las piezas y el horario antes de confirmar los detalles.', back: 'Atrás', next: 'Siguiente', startOver: 'Empezar de nuevo' },
+  uk: { eyebrow: 'Заявка на ремонт', title: 'Надішліть заявку на ремонт.', intro: 'Виберіть бренд, модель, проблему та зручне вікно для здачі пристрою. Перед вашим візитом ми підтвердимо час, ціну та наявність деталей.', current: 'Поточна заявка', repairRequest: 'заявка на ремонт', steps: ['Бренд', 'Модель', 'Проблема', 'Контакт', 'Надіслати'], step: 'Крок', brandTitle: 'Який бренд потребує ремонту?', brandHint: 'Почніть із типу пристрою. Ми підтримуємо найпопулярніші бренди, а якщо моделі немає в списку, виберіть “Інше”.', modelTitle: 'Знайдіть свою модель.', modelHint: 'Скористайтеся пошуком, виберіть популярну модель або серію. Якщо не впевнені, ми визначимо точну модель у магазині.', searchPlaceholder: 'Пошук моделі або номера моделі', clear: 'Очистити', searchResults: 'Результати пошуку', matching: 'збігів моделей', selected: 'Вибрано', notListed: 'Пристрою немає в списку', helpIdentify: 'Ми допоможемо визначити модель', popular: 'Популярні моделі', common: 'Найчастіші', browse: 'Перегляд за серією', chooseSeries: 'Виберіть серію', notSure: 'Не впевнений', issueTitle: 'Що потрібно відремонтувати?', issueHint: 'Виберіть основну проблему. Візуальна панель зміниться відповідно до вибраної несправності.', contactTitle: 'Ваші контактні дані.', contactHint: 'Виберіть зручне вікно для здачі пристрою в робочі години. Це заявка — ми зв’яжемося з вами для підтвердження.', name: 'Ім’я', phone: 'Телефон', email: 'Електронна пошта', required: 'Обов’язково', date: 'Бажана дата', window: 'Зручне вікно для здачі', chooseWindow: 'Виберіть доступне вікно', chooseDate: 'Спочатку виберіть дату', notes: 'Примітки', notesPlaceholder: 'Приклад: Екран розбитий, але сенсор працює.', consent: 'Надсилаючи заявку, ви погоджуєтеся, що CellzTech / Cellz Repairz LLC може зв’язатися з вами щодо ремонту. Це не гарантує підтвердженого запису, ціни, наявності деталей або часу виконання.', finalTitle: 'Готово до надсилання заявки.', finalHint: 'Заявка буде надіслана до CellzTech. Ми зв’яжемося з вами, щоб підтвердити час, ціну та наявність деталей.', brand: 'Бренд', series: 'Серія', model: 'Модель', issue: 'Проблема', notSelected: 'Не вибрано', notProvided: 'Не вказано', submit: 'Надіслати заявку', sending: 'Надсилання заявки...', textInstead: 'Надіслати SMS', callInstead: 'Зателефонувати', backendNote: 'Ваша заявка надсилається до CellzTech, щоб ми перевірили пристрій, проблему, деталі та час перед підтвердженням ремонту.', back: 'Назад', next: 'Далі', startOver: 'Почати спочатку' }
 };
 
 const storeHoursByDay = [
@@ -2115,7 +2161,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
                   )}
 
                   <button type="button" className="modelFitNotSure" onClick={() => selectModel('Device not listed', selectedBrand.series[0]?.name)}>
-                    {b.notSure}
+                    {b.notSure || (lang === 'pl' ? 'Nie wiem / nie mam pewności' : lang === 'es' ? 'No estoy seguro' : lang === 'uk' ? 'Не впевнений' : 'Not sure')}
                   </button>
                 </section>
 
@@ -2527,6 +2573,141 @@ function localizeBilled(value: string, lang: LanguageKey) {
   if (lang === 'uk') return value.replace('total', 'разом');
   return value;
 }
+
+
+const xfinityFacts = [
+  ['Monthly price', '$45/mo'],
+  ['Plan speed', '200 Mbps'],
+  ['Typical download', '234 Mbps'],
+  ['Typical upload', '24 Mbps'],
+  ['Typical latency', '21 ms'],
+  ['Data included', 'Unlimited'],
+  ['Gateway', 'Included with first 30-day purchase'],
+  ['Contract', 'No annual term contract']
+];
+
+function XfinityPrepaidPage() {
+  return (
+    <main className="xfinityPage">
+      <section className="xfinityNowHero">
+        <div className="wrap">
+          <div className="xfinityNowHeroPanel">
+            <div className="nowBrandMark" aria-label="NOW by Xfinity"><span>NOW</span><small>by Xfinity</small></div>
+            <p className="nowEyebrow">Prepaid home internet at CellzTech</p>
+            <h1>Live online for less.<br /><span>200 Mbps for $45/mo.</span></h1>
+            <p className="nowHeroText">Fast prepaid home internet with unlimited data, no annual contract, no credit check, and a free gateway/modem available in-store with your first 30-day purchase.</p>
+            <div className="nowHeroActions">
+              <a className="xfinityPrimary" href="tel:7734137489">Call 773-413-7489</a>
+              <button className="xfinitySecondary" type="button" onClick={() => goTo('contact')}>Visit CellzTech</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section xfinitySpeedSection">
+        <div className="wrap">
+          <div className="xfinitySectionHeader centered">
+            <span className="xfinityLabel">Choose your speed</span>
+            <h2>Available in store now</h2>
+            <p>CellzTech currently carries the 200 Mbps NOW Internet by Xfinity prepaid option.</p>
+          </div>
+
+          <div className="xfinityPlanShowcase">
+            <article className="xfinityOfficialCard mutedPlan" aria-label="100 Mbps plan not carried at CellzTech">
+              <div className="planTopLine">
+                <h3>100 <span>Mbps</span></h3>
+                <strong>$30/mo</strong>
+              </div>
+              <button className="xfinityGhostButton" type="button" disabled>Not currently sold here</button>
+              <p>Shown only as a style reference. CellzTech is focused on the 200 Mbps option.</p>
+            </article>
+
+            <article className="xfinityOfficialCard featuredPlan" aria-label="200 Mbps Xfinity prepaid internet plan">
+              <span className="featuredBadge">Available at CellzTech</span>
+              <div className="planTopLine">
+                <h3>200 <span>Mbps</span></h3>
+                <strong>$45/mo</strong>
+              </div>
+              <a className="xfinityAddCart" href="tel:7734137489">Ask in store / call now</a>
+              <button className="pricingLink" type="button" onClick={() => document.getElementById('xfinity-facts')?.scrollIntoView({ behavior: 'smooth' })}>Pricing &amp; other info</button>
+              <ul className="xfinityPlanBullets">
+                <li>Unlimited internet included</li>
+                <li>Free gateway/modem with first 30-day purchase</li>
+                <li>Works with smart TVs, phones, tablets, laptops, and more</li>
+                <li>No annual contract and no credit check</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="section xfinityStoreSection refined">
+        <div className="wrap xfinityStoreGrid">
+          <div className="xfinityStoreCopy">
+            <span className="xfinityLabel">Local prepaid internet help</span>
+            <h2>Walk in, pick up the modem, and get simple help before you buy.</h2>
+            <p>The $45 plan is a strong option for apartments, families, students, streaming, school work, smart TVs, phones, tablets, and everyday home use. Many customers like it because it is prepaid, simple, and fast enough for multiple devices at home.</p>
+            <div className="xfinityDeviceCloud">
+              {['Smart TVs', 'iPhones', 'Samsung phones', 'Tablets', 'Laptops', 'Streaming', 'School work', 'Apartments'].map((item) => <span key={item}>{item}</span>)}
+            </div>
+          </div>
+          <div className="xfinityStepCards refinedSteps">
+            <article><Store size={25} /><h3>Pick up in store</h3><p>Ask CellzTech about the available 200 Mbps prepaid internet kit and modem availability.</p></article>
+            <article><Wifi size={25} /><h3>Set up at home</h3><p>Self-install the gateway and connect your devices to your Wi-Fi network.</p></article>
+            <article><MessageCircle size={25} /><h3>Future shipping</h3><p>Later, customers will be able to request modem ordering and shipping directly from the site.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section className="section xfinityFactsSection" id="xfinity-facts">
+        <div className="wrap xfinityFactsGrid">
+          <div className="xfinityFactsCard nowFactsCard">
+            <div className="factsHeader">
+              <span>Broadband Facts</span>
+              <h2>NOW Internet 200 Mbps</h2>
+              <p>Fixed broadband consumer disclosure summary</p>
+            </div>
+            <div className="factsRows">
+              {xfinityFacts.map(([label, value]) => (
+                <div key={label}>
+                  <span>{label}</span>
+                  <strong>{value}</strong>
+                </div>
+              ))}
+            </div>
+            <p className="factsFinePrint">This summary is based on the plan details provided for the NOW by Xfinity 200 Mbps prepaid internet option. Price, availability, equipment, and terms are subject to change and should be confirmed before purchase.</p>
+          </div>
+          <aside className="xfinityFinePrintCard">
+            <span className="xfinityLabel">Pricing &amp; other info</span>
+            <h3>Important details before buying</h3>
+            <ul>
+              <li>Restrictions apply and service is not available in all areas.</li>
+              <li>Limited to NOW Internet service with speeds up to 200 Mbps download / 20 Mbps upload. Actual speeds vary and are not guaranteed.</li>
+              <li>Requires self-installation and activation of a refurbished gateway.</li>
+              <li>Payments are made online with credit, debit, or prepaid card. Autopay and paperless billing required.</li>
+              <li>Government taxes are included, data is unlimited, and additional data usage charge is listed as $0 for the plan details provided.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section className="section xfinityCtaSection">
+        <div className="wrap xfinityCtaPanel nowCtaPanel">
+          <div>
+            <span className="xfinityLabel">Available at CellzTech</span>
+            <h2>Need prepaid home internet?</h2>
+            <p>Call or stop by the store to ask about the $45 NOW Internet 200 Mbps prepaid plan and free gateway/modem availability.</p>
+          </div>
+          <div className="xfinityCtaButtons">
+            <a className="xfinityPrimary" href="tel:7734137489">Call 773-413-7489</a>
+            <button className="xfinitySecondary" type="button" onClick={() => goTo('contact')}>Store info</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
 
 function UltraIcon({ icon }: { icon: 'globe' | 'check' | 'wifi' }) {
   if (icon === 'globe') return <Globe2 size={26} />;
@@ -3074,7 +3255,7 @@ function Footer({ lang }: { lang: LanguageKey }) {
         </div>
         <div>
           <h3>{footerText.services}</h3>
-          {(['repairs', 'ultra', 'buyback', 'phones', 'accessories'] as PageKey[]).map((item) => <button key={item} onClick={() => goTo(item)}>{localizedPageData[lang][item].eyebrow}</button>)}
+          {(['repairs', 'ultra', 'xfinity', 'buyback', 'phones', 'accessories'] as PageKey[]).map((item) => <button key={item} onClick={() => goTo(item)}>{localizedPageData[lang][item].eyebrow}</button>)}
         </div>
         <div>
           <h3>{footerText.visit}</h3>
@@ -3102,6 +3283,29 @@ function App() {
     window.addEventListener('popstate', handler);
     return () => window.removeEventListener('popstate', handler);
   }, []);
+
+  React.useEffect(() => {
+    const controller = new AbortController();
+    const trackVisit = async () => {
+      try {
+        await fetch('/api/track-visit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
+          body: JSON.stringify({
+            path: window.location.pathname,
+            page: document.title,
+            language: document.documentElement.lang || lang,
+            referrer: document.referrer || ''
+          })
+        });
+      } catch {
+        // Visitor analytics should never affect the website experience.
+      }
+    };
+    trackVisit();
+    return () => controller.abort();
+  }, [page, lang]);
 
   useMemo(() => {
     document.title = page === 'home' ? 'CellzTech | Phone Repair, Ultra Mobile, Buyback & Phones in Chicago' : `${pageData[page].eyebrow} | CellzTech Chicago`;

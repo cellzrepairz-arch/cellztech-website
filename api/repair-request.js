@@ -33,6 +33,10 @@ function compactObject(value) {
   );
 }
 
+function shouldSendCustomerEmailToRepairDesk() {
+  return String(process.env.REPAIRDESK_SEND_CUSTOMER_EMAIL || '').toLowerCase() === 'true';
+}
+
 
 async function parseJsonResponse(response) {
   const text = await response.text();
@@ -132,7 +136,24 @@ function preferredTimeText(body) {
   return body.requestedTimeLabel || (body.requestedTime ? formatTimeWindow(body.requestedTime) : 'Not selected');
 }
 
-function formatRequest(body) {
+function formatDisplayDate(value) {
+  const parsed = new Date(`${value}T12:00:00`);
+  if (Number.isNaN(parsed.getTime())) return value || 'Not selected';
+  return parsed.toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  });
+}
+
+function customerRequestReference(body) {
+  const raw = String(body.submittedAt || '').replace(/\D/g, '');
+  if (!raw) return 'CT-REQUEST';
+  return `CT-${raw.slice(2, 8)}-${raw.slice(8, 12)}`;
+}
+
+function formatShopRequestText(body) {
   return [
     `Device: ${body.device}`,
     `Series: ${body.series || 'Not provided'}`,
@@ -154,7 +175,27 @@ function formatRequest(body) {
   ].join('\n');
 }
 
-function formatHtml(body) {
+function formatRepairDeskRequestText(body) {
+  return [
+    `Customer: ${body.name}`,
+    `Phone: ${body.phone}`,
+    `Email: ${body.email}`,
+    '',
+    `Device: ${body.device}`,
+    `Series: ${body.series || 'Not provided'}`,
+    `Model: ${body.model}`,
+    `Issue: ${body.issue}`,
+    `Requested date: ${body.requestedDate}`,
+    `Preferred drop-off window: ${preferredTimeText(body)}`,
+    body.notes ? `Notes: ${body.notes}` : ''
+  ].filter(Boolean).join('\n');
+}
+
+function formatRequest(body) {
+  return formatRepairDeskRequestText(body);
+}
+
+function shopEmailHtml(body) {
   const rows = [
     ['Device', body.device],
     ['Series', body.series || 'Not provided'],
@@ -172,54 +213,207 @@ function formatHtml(body) {
   ];
 
   return `
-    <div style="font-family:Arial,sans-serif;line-height:1.5;color:#0f172a">
-      <h2 style="margin:0 0 10px">New CellzTech repair request</h2>
-      <p style="margin:0 0 16px;color:#475569">This is a repair request, not a confirmed appointment. Contact the customer to confirm time, price, parts, and availability.</p>
-      <table cellpadding="8" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:680px">
-        ${rows.map(([label, value]) => `
-          <tr>
-            <td style="border:1px solid #dbeafe;background:#f8fafc;font-weight:700;width:180px">${escapeHtml(label)}</td>
-            <td style="border:1px solid #dbeafe">${escapeHtml(value)}</td>
-          </tr>
-        `).join('')}
-      </table>
+    <div style="font-family:Arial,sans-serif;line-height:1.5;color:#0f172a;background:#f8fafc;padding:24px">
+      <div style="max-width:760px;margin:0 auto;background:#ffffff;border:1px solid #dbeafe;border-radius:18px;overflow:hidden">
+        <div style="background:#0f172a;color:#ffffff;padding:22px 26px">
+          <h2 style="margin:0;font-size:22px">New CellzTech repair request</h2>
+          <p style="margin:8px 0 0;color:#bfdbfe">Internal shop copy with RepairDesk details.</p>
+        </div>
+        <div style="padding:24px 26px">
+          <p style="margin:0 0 16px;color:#475569">This is a repair request, not a confirmed appointment. Contact the customer to confirm time, price, parts, and availability.</p>
+          <table cellpadding="9" cellspacing="0" style="border-collapse:collapse;width:100%">
+            ${rows.map(([label, value]) => `
+              <tr>
+                <td style="border:1px solid #dbeafe;background:#f8fafc;font-weight:700;width:190px">${escapeHtml(label)}</td>
+                <td style="border:1px solid #dbeafe">${escapeHtml(value)}</td>
+              </tr>
+            `).join('')}
+          </table>
+        </div>
+      </div>
     </div>
   `;
 }
 
+function formatHtml(body) {
+  return shopEmailHtml(body);
+}
+
+function customerEmailText(body) {
+  const reference = customerRequestReference(body);
+  return [
+    'CellzTech repair request received',
+    '',
+    `Reference: ${reference}`,
+    `Requested visit: ${formatDisplayDate(body.requestedDate)} ${preferredTimeText(body)}`,
+    '',
+    `Hi ${body.name},`,
+    'We received your repair request and a team member will review it shortly.',
+    'This is not a confirmed appointment yet. We will contact you to confirm the repair time, price, parts availability, and details before starting any work.',
+    '',
+    'Request summary',
+    `Device: ${body.device}`,
+    `Model: ${[body.series, body.model].filter(Boolean).join(' - ') || body.model}`,
+    `Issue: ${body.issue}`,
+    body.notes ? `Notes: ${body.notes}` : '',
+    '',
+    'Next steps',
+    '1. We review the request.',
+    '2. We contact you to confirm the details.',
+    '3. We complete the repair after confirmation.',
+    '',
+    'CellzTech / Cellz Repairz LLC',
+    '3412 N Harlem Ave STE A, Chicago, IL 60634',
+    '773-413-7489',
+    'https://cellztech.com'
+  ].filter(Boolean).join('\n');
+}
+
+
+function customerEmailHtml(body) {
+  const reference = customerRequestReference(body);
+  const rows = [
+    ['Device', body.device],
+    ['Model', [body.series, body.model].filter(Boolean).join(' - ') || body.model],
+    ['Issue', body.issue],
+    ['Requested date', formatDisplayDate(body.requestedDate)],
+    ['Drop-off window', preferredTimeText(body)]
+  ];
+  if (body.notes) rows.push(['Notes', body.notes]);
+
+  return `
+  <div style="margin:0;padding:0;background:#f3f8ff;font-family:Inter,Arial,Helvetica,sans-serif;color:#0f172a;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width:100%;background:#f3f8ff;margin:0;padding:24px 10px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:720px;width:100%;background:#ffffff;border:1px solid #dce6f2;border-radius:24px;overflow:hidden;box-shadow:0 18px 40px rgba(14,30,64,.08);">
+            <tr>
+              <td style="padding:0;"><div style="height:6px;background:linear-gradient(90deg,#2563eb 0%,#0ea5e9 100%);"></div></td>
+            </tr>
+            <tr>
+              <td style="padding:28px 32px 18px;text-align:left;">
+                <div style="font-family:Sora,Inter,Arial,sans-serif;font-size:30px;font-weight:800;letter-spacing:-0.05em;line-height:1;"><span style="color:#07111f;">Cellz</span><span style="color:#2563eb;">Tech</span></div>
+                <div style="margin-top:6px;font-size:12px;font-weight:700;letter-spacing:.02em;color:#66758c;">Professional phone, tablet, and device repair</div>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 32px 8px;text-align:left;">
+                <div style="display:inline-block;background:#eef5ff;border:1px solid #d6e8ff;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#1d4ed8;">Repair request received</div>
+                <h1 style="margin:16px 0 10px;font-size:31px;line-height:1.15;letter-spacing:-0.03em;color:#07111f;">Thanks, ${escapeHtml(body.name)} — your repair request is in.</h1>
+                <p style="margin:0;font-size:16px;line-height:1.7;color:#475569;max-width:610px;">We received your request and a team member will review it shortly. This email is your customer copy and quick summary.</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 32px 0;text-align:left;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:separate;border-spacing:0;background:#f8fbff;border:1px solid #dce6f2;border-radius:18px;overflow:hidden;">
+                  <tr>
+                    <td style="padding:18px 20px;border-bottom:1px solid #e5edf6;vertical-align:top;text-align:left;">
+                      <div style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#64748b;">Request reference</div>
+                      <div style="margin-top:6px;font-size:24px;font-weight:800;letter-spacing:-0.03em;color:#07111f;">${escapeHtml(reference)}</div>
+                    </td>
+                    <td style="padding:18px 20px;border-bottom:1px solid #e5edf6;vertical-align:top;text-align:left;">
+                      <div style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#64748b;">Requested visit</div>
+                      <div style="margin-top:6px;font-size:16px;font-weight:800;color:#07111f;">${escapeHtml(formatDisplayDate(body.requestedDate))}</div>
+                      <div style="margin-top:3px;font-size:14px;color:#475569;">${escapeHtml(preferredTimeText(body))}</div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:22px 32px 0;text-align:left;">
+                <h2 style="margin:0 0 14px;font-size:18px;line-height:1.3;color:#07111f;">Request summary</h2>
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="width:100%;border-collapse:collapse;border:1px solid #dce6f2;border-radius:18px;overflow:hidden;">
+                  ${rows.map(([label, value], index) => `
+                    <tr>
+                      <td style="width:180px;padding:14px 16px;background:${index % 2 === 0 ? '#f8fbff' : '#f3f8ff'};border-bottom:1px solid #e5edf6;font-size:13px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#64748b;text-align:left;vertical-align:top;">${escapeHtml(label)}</td>
+                      <td style="padding:14px 16px;background:#ffffff;border-bottom:1px solid #e5edf6;font-size:15px;line-height:1.6;color:#0f172a;text-align:left;vertical-align:top;">${escapeHtml(value)}</td>
+                    </tr>
+                  `).join('')}
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:22px 32px 0;text-align:left;">
+                <div style="background:linear-gradient(135deg,#07111f 0%,#0b1728 60%,#12324a 100%);border-radius:20px;padding:22px 22px 20px;color:#ffffff;text-align:left;">
+                  <h2 style="margin:0 0 12px;font-size:18px;color:#ffffff;">What happens next</h2>
+                  <div style="font-size:15px;line-height:1.75;color:#d9e8ff;">
+                    <div style="margin:0 0 8px;"><strong style="color:#ffffff;">1.</strong> We review your repair request.</div>
+                    <div style="margin:0 0 8px;"><strong style="color:#ffffff;">2.</strong> We contact you to confirm price, parts, and timing.</div>
+                    <div style="margin:0;"><strong style="color:#ffffff;">3.</strong> After confirmation, we complete the repair.</div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:22px 32px 32px;text-align:left;">
+                <div style="border:1px solid #dce6f2;border-radius:18px;padding:20px;background:#ffffff;text-align:left;">
+                  <div style="font-size:16px;font-weight:800;color:#07111f;">CellzTech / Cellz Repairz LLC</div>
+                  <div style="margin-top:10px;font-size:14px;line-height:1.75;color:#475569;">3412 N Harlem Ave STE A<br>Chicago, IL 60634<br><strong style="color:#07111f;">Phone:</strong> 773-413-7489<br><strong style="color:#07111f;">Website:</strong> <a href="https://cellztech.com" style="color:#2563eb;text-decoration:none;">cellztech.com</a></div>
+                  <p style="margin:14px 0 0;font-size:13px;line-height:1.7;color:#64748b;">This is not a confirmed appointment yet. If you need immediate help, please call the store.</p>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>`;
+}
+
+
 async function sendEmail(body) {
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CELLZTECH_NOTIFY_EMAIL || process.env.REPAIR_TO_EMAIL;
+  const shopTo = process.env.CELLZTECH_NOTIFY_EMAIL || process.env.REPAIR_TO_EMAIL;
   const from = process.env.CELLZTECH_FROM_EMAIL || process.env.RESEND_FROM_EMAIL || 'CellzTech Repair Requests <onboarding@resend.dev>';
 
-  if (!apiKey || !to) {
+  if (!apiKey || !shopTo) {
     return { skipped: true, reason: 'Missing RESEND_API_KEY or CELLZTECH_NOTIFY_EMAIL' };
   }
 
   const subjectPrefix = body.repairDeskLeadOrderId ? `RepairDesk Lead ${body.repairDeskLeadOrderId}` : (body.repairDeskLeadId ? `RepairDesk Lead #${body.repairDeskLeadId}` : (body.repairDeskTicketId ? `RepairDesk #${body.repairDeskTicketId}` : 'New repair request'));
-  const subject = `${subjectPrefix}: ${body.model} - ${body.issue}`;
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
+  const shopSubject = `${subjectPrefix}: ${body.model} - ${body.issue}`;
+  const messages = [
+    {
       from,
-      to: [to],
+      to: [shopTo],
       reply_to: body.email,
-      subject,
-      text: formatRequest(body),
-      html: formatHtml(body)
-    })
-  });
+      subject: shopSubject,
+      text: formatShopRequestText(body),
+      html: shopEmailHtml(body)
+    }
+  ];
 
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`Email service error: ${text}`);
+  if (body.email) {
+    messages.push({
+      from,
+      to: [body.email],
+      reply_to: shopTo,
+      subject: 'CellzTech repair request received',
+      text: customerEmailText(body),
+      html: customerEmailHtml(body)
+    });
   }
 
-  return { skipped: false };
+  const results = [];
+  for (const message of messages) {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(message)
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`Email service error: ${text}`);
+    }
+    results.push({ to: message.to, subject: message.subject });
+  }
+
+  return { skipped: false, sent: results };
 }
 
 async function sendCalendarWebhook(body) {
@@ -251,7 +445,7 @@ async function createRepairDeskCustomer(body) {
     last_name: lastName,
     name: body.name,
     full_name: body.name,
-    email: body.email,
+    ...(shouldSendCustomerEmailToRepairDesk() ? { email: body.email } : {}),
     phone: body.phone,
     mobile: body.phone,
     telephone: body.phone,
@@ -522,7 +716,7 @@ async function buildRepairDeskTicketPayload(body, customerId, customerResponse) 
     name: body.name,
     first_name: splitName(body.name).firstName,
     last_name: splitName(body.name).lastName,
-    email: body.email,
+    ...(shouldSendCustomerEmailToRepairDesk() ? { email: body.email } : {}),
     phone: body.phone,
     mobile: body.phone,
     ...(customerResponse?.data && typeof customerResponse.data === 'object' ? customerResponse.data : {})
@@ -560,10 +754,10 @@ async function buildRepairDeskTicketPayload(body, customerId, customerResponse) 
     cid: customerId,
     customer: customerObject,
     customer_name: body.name,
-    customer_email: body.email,
+    ...(shouldSendCustomerEmailToRepairDesk() ? { customer_email: body.email } : {}),
     customer_phone: body.phone,
     name: body.name,
-    email: body.email,
+    ...(shouldSendCustomerEmailToRepairDesk() ? { email: body.email } : {}),
     phone: body.phone,
     device: deviceObject,
     device_id: deviceId,
@@ -637,7 +831,7 @@ function buildTicketPayloadAttempts(basePayload, body, customerId, customerRespo
     first_name: splitName(body.name).firstName,
     last_name: splitName(body.name).lastName,
     name: body.name,
-    email: body.email,
+    ...(shouldSendCustomerEmailToRepairDesk() ? { email: body.email } : {}),
     phone: body.phone,
     mobile: body.phone,
     ...customerData
@@ -648,7 +842,7 @@ function buildTicketPayloadAttempts(basePayload, body, customerId, customerRespo
     customer: customerBlock,
     cid: customerId,
     name: body.name,
-    email: body.email,
+    ...(shouldSendCustomerEmailToRepairDesk() ? { email: body.email } : {}),
     phone: body.phone,
     subject: `${body.model} - ${body.issue}`,
     description: requestSummary,
@@ -838,7 +1032,7 @@ async function buildLeadPayloadAttempts(body, customerId, customerResponse, tick
   const summary = compactObject({
     firstName: firstName || body.name,
     lastName,
-    email: body.email,
+    ...(shouldSendCustomerEmailToRepairDesk() ? { email: body.email } : {}),
     mobile: body.phone,
     zipCode: '',
     address: '',
@@ -852,7 +1046,7 @@ async function buildLeadPayloadAttempts(body, customerId, customerResponse, tick
     first_name: firstName,
     last_name: lastName,
     name: body.name,
-    email: body.email,
+    ...(shouldSendCustomerEmailToRepairDesk() ? { email: body.email } : {}),
     phone: body.phone,
     mobile: body.phone,
     ...customerData
@@ -1002,7 +1196,7 @@ function buildSupabaseRecord(body, status, repairDeskCustomerResult, repairDeskL
     issue: body.issue,
     customer_name: body.name,
     customer_phone: body.phone,
-    customer_email: body.email,
+    ...(shouldSendCustomerEmailToRepairDesk() ? { customer_email: body.email } : {}),
     requested_date: body.requestedDate,
     requested_time: preferredTimeText(body),
     notes: body.notes,
