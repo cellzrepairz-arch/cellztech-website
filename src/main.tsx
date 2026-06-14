@@ -889,7 +889,7 @@ function PageDetail({ page, lang }: { page: PageKey; lang: LanguageKey }) {
   if (page === 'book') return <BookRepairPage lang={lang} />;
   if (page === 'admin') return <AdminDashboard />;
   if (page === 'sim') return <UltraSimRequestPage lang={lang} />;
-  if (page === 'xfinity') return <XfinityPrepaidPage />;
+  if (page === 'xfinity') return <XfinityPrepaidPage lang={lang} />;
   if (page === 'ultra') {
     return (
       <main className="pageMain">
@@ -2575,30 +2575,300 @@ function localizeBilled(value: string, lang: LanguageKey) {
 }
 
 
-const xfinityFacts = [
-  ['Monthly price', '$45/mo'],
-  ['Plan speed', '200 Mbps'],
-  ['Typical download', '234 Mbps'],
-  ['Typical upload', '24 Mbps'],
-  ['Typical latency', '21 ms'],
-  ['Data included', 'Unlimited'],
-  ['Gateway', 'Included with first 30-day purchase'],
-  ['Contract', 'No annual term contract']
-];
+const xfinityPageContent = {
+  en: {
+    heroEyebrow: 'Prepaid home internet at CellzTech',
+    heroTitleTop: 'Live online for less.',
+    heroTitleHighlight: '200 Mbps for $45/mo.',
+    heroText: 'Fast prepaid home internet with unlimited data, no annual contract, no credit check, and a free gateway/modem available in-store with your first 30-day purchase.',
+    call: 'Call 773-413-7489',
+    visit: 'Visit CellzTech',
+    heroImageAlt: 'Xfinity Prepaid Internet modem kit box',
+    heroImageCaption: 'Actual modem kit style',
+    chooseSpeed: 'Choose your speed',
+    availableNow: 'Available in store now',
+    availableIntro: 'CellzTech currently carries the 200 Mbps NOW Internet by Xfinity prepaid option.',
+    mutedAria: '100 Mbps plan not carried at CellzTech',
+    mutedButton: 'Not currently sold here',
+    mutedText: 'Shown only as a style reference. CellzTech is focused on the 200 Mbps option.',
+    featuredAria: '200 Mbps Xfinity prepaid internet plan',
+    featuredBadge: 'Available at CellzTech',
+    askNow: 'Ask in store / call now',
+    pricingLink: 'Pricing & other info',
+    planBullets: ['Unlimited internet included', 'Free gateway/modem with first 30-day purchase', 'Works with smart TVs, phones, tablets, laptops, and more', 'No annual contract and no credit check'],
+    localHelp: 'Local prepaid internet help',
+    storeTitle: 'Walk in, pick up the modem, and get simple help before you buy.',
+    storeText: 'The $45 plan is a strong option for apartments, families, students, streaming, school work, smart TVs, phones, tablets, and everyday home use. Many customers like it because it is prepaid, simple, and fast enough for multiple devices at home.',
+    deviceCloud: ['Smart TVs', 'iPhones', 'Samsung phones', 'Tablets', 'Laptops', 'Streaming', 'School work', 'Apartments'],
+    productCardTitle: 'In-store modem kit',
+    productCardText: 'This is the Xfinity Prepaid Internet modem kit style customers can expect in-store. The modem itself is black and the gateway is included with the first 30-day purchase.',
+    step1Title: 'Pick up in store',
+    step1Text: 'Ask CellzTech about the available 200 Mbps prepaid internet kit and modem availability.',
+    step2Title: 'Set up at home',
+    step2Text: 'Self-install the gateway and connect your devices to your Wi-Fi network.',
+    step3Title: 'Future shipping',
+    step3Text: 'Later, customers will be able to request modem ordering and shipping directly from the site.',
+    factsLabel: 'Broadband Facts',
+    factsTitle: 'NOW Internet 200 Mbps',
+    factsSubtitle: 'Fixed broadband consumer disclosure summary',
+    factsRows: [
+      ['Monthly price', '$45/mo'],
+      ['Plan speed', '200 Mbps'],
+      ['Typical download', '234 Mbps'],
+      ['Typical upload', '24 Mbps'],
+      ['Typical latency', '21 ms'],
+      ['Data included', 'Unlimited'],
+      ['Gateway', 'Included with first 30-day purchase'],
+      ['Contract', 'No annual term contract']
+    ],
+    factsFinePrint: 'This summary is based on the plan details provided for the NOW by Xfinity 200 Mbps prepaid internet option. Price, availability, equipment, and terms are subject to change and should be confirmed before purchase.',
+    finePrintLabel: 'Pricing & other info',
+    finePrintTitle: 'Important details before buying',
+    finePrintItems: [
+      'Restrictions apply and service is not available in all areas.',
+      'Limited to NOW Internet service with speeds up to 200 Mbps download / 20 Mbps upload. Actual speeds vary and are not guaranteed.',
+      'Requires self-installation and activation of a refurbished gateway.',
+      'Payments are made online with credit, debit, or prepaid card. Autopay and paperless billing required.',
+      'Government taxes are included, data is unlimited, and additional data usage charge is listed as $0 for the plan details provided.'
+    ],
+    ctaLabel: 'Available at CellzTech',
+    ctaTitle: 'Need prepaid home internet?',
+    ctaText: 'Call or stop by the store to ask about the $45 NOW Internet 200 Mbps prepaid plan and free gateway/modem availability.',
+    storeInfo: 'Store info'
+  },
+  pl: {
+    heroEyebrow: 'Internet domowy prepaid w CellzTech',
+    heroTitleTop: 'Bądź online taniej.',
+    heroTitleHighlight: '200 Mbps za $45/mies.',
+    heroText: 'Szybki internet domowy prepaid z nielimitowanymi danymi, bez rocznej umowy, bez sprawdzania kredytu i z darmowym gateway/modemem dostępnym w sklepie przy pierwszym zakupie 30 dni.',
+    call: 'Zadzwoń 773-413-7489',
+    visit: 'Odwiedź CellzTech',
+    heroImageAlt: 'Pudełko zestawu modemowego Xfinity Prepaid Internet',
+    heroImageCaption: 'Rzeczywisty wygląd zestawu',
+    chooseSpeed: 'Wybierz prędkość',
+    availableNow: 'Dostępne teraz w sklepie',
+    availableIntro: 'CellzTech oferuje obecnie prepaid NOW Internet by Xfinity 200 Mbps.',
+    mutedAria: 'Plan 100 Mbps niedostępny w CellzTech',
+    mutedButton: 'Obecnie niedostępny u nas',
+    mutedText: 'Pokazane tylko jako odniesienie stylu. CellzTech skupia się na opcji 200 Mbps.',
+    featuredAria: 'Plan prepaid Xfinity 200 Mbps',
+    featuredBadge: 'Dostępne w CellzTech',
+    askNow: 'Zapytaj w sklepie / zadzwoń teraz',
+    pricingLink: 'Cennik i inne informacje',
+    planBullets: ['Internet bez limitu w cenie', 'Darmowy gateway/modem przy pierwszym zakupie 30 dni', 'Działa ze Smart TV, telefonami, tabletami, laptopami i innymi urządzeniami', 'Bez rocznej umowy i bez sprawdzania kredytu'],
+    localHelp: 'Lokalna pomoc z internetem prepaid',
+    storeTitle: 'Wejdź do sklepu, odbierz modem i uzyskaj prostą pomoc przed zakupem.',
+    storeText: 'Plan za $45 to bardzo dobra opcja do mieszkań, rodzin, studentów, streamingu, nauki, Smart TV, telefonów, tabletów i codziennego użytku domowego. Klienci lubią go, bo jest prepaid, prosty i wystarczająco szybki dla wielu urządzeń w domu.',
+    deviceCloud: ['Smart TV', 'iPhone’y', 'Telefony Samsung', 'Tablety', 'Laptopy', 'Streaming', 'Nauka', 'Mieszkania'],
+    productCardTitle: 'Zestaw modemowy w sklepie',
+    productCardText: 'To jest styl zestawu Xfinity Prepaid Internet, którego klienci mogą oczekiwać w sklepie. Sam modem jest czarny, a gateway jest wliczony przy pierwszym zakupie 30 dni.',
+    step1Title: 'Odbierz w sklepie',
+    step1Text: 'Zapytaj w CellzTech o dostępny zestaw prepaid 200 Mbps i dostępność modemu.',
+    step2Title: 'Skonfiguruj w domu',
+    step2Text: 'Samodzielnie zainstaluj gateway i połącz swoje urządzenia z siecią Wi‑Fi.',
+    step3Title: 'Wysyłka w przyszłości',
+    step3Text: 'W przyszłości klienci będą mogli zamawiać modem i wysyłkę bezpośrednio ze strony.',
+    factsLabel: 'Fakty o usłudze',
+    factsTitle: 'NOW Internet 200 Mbps',
+    factsSubtitle: 'Podsumowanie ujawnienia dla konsumenta',
+    factsRows: [
+      ['Cena miesięczna', '$45/mies.'],
+      ['Prędkość planu', '200 Mbps'],
+      ['Typowe pobieranie', '234 Mbps'],
+      ['Typowe wysyłanie', '24 Mbps'],
+      ['Typowe opóźnienie', '21 ms'],
+      ['Dane w cenie', 'Bez limitu'],
+      ['Gateway', 'Wliczony przy pierwszym zakupie 30 dni'],
+      ['Umowa', 'Bez rocznej umowy']
+    ],
+    factsFinePrint: 'To podsumowanie opiera się na podanych szczegółach planu NOW by Xfinity 200 Mbps prepaid internet. Cena, dostępność, sprzęt i warunki mogą się zmienić i powinny zostać potwierdzone przed zakupem.',
+    finePrintLabel: 'Cennik i inne informacje',
+    finePrintTitle: 'Ważne szczegóły przed zakupem',
+    finePrintItems: ['Obowiązują ograniczenia, a usługa nie jest dostępna we wszystkich lokalizacjach.', 'Usługa ograniczona do NOW Internet z prędkościami do 200 Mbps pobierania / 20 Mbps wysyłania. Rzeczywiste prędkości są różne i nie są gwarantowane.', 'Wymaga samodzielnej instalacji i aktywacji odnowionego gatewaya.', 'Płatności są dokonywane online kartą kredytową, debetową lub prepaid. Wymagany autopay i paperless billing.', 'Podatki są wliczone, dane są bez limitu, a opłata za dodatkowe dane w podanych szczegółach planu wynosi $0.'],
+    ctaLabel: 'Dostępne w CellzTech',
+    ctaTitle: 'Potrzebujesz domowego internetu prepaid?',
+    ctaText: 'Zadzwoń lub odwiedź sklep, aby zapytać o plan NOW Internet 200 Mbps za $45 i dostępność darmowego gateway/modemu.',
+    storeInfo: 'Informacje o sklepie'
+  },
+  es: {
+    heroEyebrow: 'Internet residencial prepago en CellzTech',
+    heroTitleTop: 'Conéctate por menos.',
+    heroTitleHighlight: '200 Mbps por $45/mes.',
+    heroText: 'Internet residencial prepago rápido con datos ilimitados, sin contrato anual, sin revisión de crédito y con gateway/módem gratis disponible en tienda con tu primera compra de 30 días.',
+    call: 'Llama al 773-413-7489',
+    visit: 'Visita CellzTech',
+    heroImageAlt: 'Caja del kit de módem Xfinity Prepaid Internet',
+    heroImageCaption: 'Estilo real del kit de módem',
+    chooseSpeed: 'Elige tu velocidad',
+    availableNow: 'Disponible ahora en tienda',
+    availableIntro: 'CellzTech actualmente ofrece la opción prepaga NOW Internet by Xfinity de 200 Mbps.',
+    mutedAria: 'Plan de 100 Mbps no disponible en CellzTech',
+    mutedButton: 'No se vende aquí actualmente',
+    mutedText: 'Se muestra solo como referencia de estilo. CellzTech está enfocado en la opción de 200 Mbps.',
+    featuredAria: 'Plan de internet prepago Xfinity de 200 Mbps',
+    featuredBadge: 'Disponible en CellzTech',
+    askNow: 'Pregunta en tienda / llama ahora',
+    pricingLink: 'Precio y otra información',
+    planBullets: ['Internet ilimitado incluido', 'Gateway/módem gratis con la primera compra de 30 días', 'Funciona con Smart TVs, teléfonos, tabletas, laptops y más', 'Sin contrato anual y sin revisión de crédito'],
+    localHelp: 'Ayuda local con internet prepago',
+    storeTitle: 'Entra a la tienda, recoge el módem y recibe ayuda sencilla antes de comprar.',
+    storeText: 'El plan de $45 es una buena opción para apartamentos, familias, estudiantes, streaming, tareas escolares, Smart TVs, teléfonos, tabletas y uso diario en casa. A muchos clientes les gusta porque es prepago, simple y lo suficientemente rápido para varios dispositivos en casa.',
+    deviceCloud: ['Smart TVs', 'iPhones', 'Teléfonos Samsung', 'Tabletas', 'Laptops', 'Streaming', 'Tareas escolares', 'Apartamentos'],
+    productCardTitle: 'Kit de módem en tienda',
+    productCardText: 'Este es el estilo del kit Xfinity Prepaid Internet que los clientes pueden esperar en tienda. El módem es negro y el gateway está incluido con la primera compra de 30 días.',
+    step1Title: 'Recógelo en tienda',
+    step1Text: 'Pregunta en CellzTech por el kit de internet prepago de 200 Mbps y la disponibilidad del módem.',
+    step2Title: 'Instálalo en casa',
+    step2Text: 'Instala el gateway por tu cuenta y conecta tus dispositivos a tu red Wi‑Fi.',
+    step3Title: 'Envíos en el futuro',
+    step3Text: 'Más adelante, los clientes podrán pedir el módem y el envío directamente desde el sitio.',
+    factsLabel: 'Datos de banda ancha',
+    factsTitle: 'NOW Internet 200 Mbps',
+    factsSubtitle: 'Resumen de divulgación para el consumidor',
+    factsRows: [
+      ['Precio mensual', '$45/mes'],
+      ['Velocidad del plan', '200 Mbps'],
+      ['Descarga típica', '234 Mbps'],
+      ['Carga típica', '24 Mbps'],
+      ['Latencia típica', '21 ms'],
+      ['Datos incluidos', 'Ilimitados'],
+      ['Gateway', 'Incluido con la primera compra de 30 días'],
+      ['Contrato', 'Sin contrato anual']
+    ],
+    factsFinePrint: 'Este resumen se basa en los detalles proporcionados para la opción prepaga NOW by Xfinity Internet de 200 Mbps. El precio, la disponibilidad, el equipo y las condiciones pueden cambiar y deben confirmarse antes de comprar.',
+    finePrintLabel: 'Precio y otra información',
+    finePrintTitle: 'Detalles importantes antes de comprar',
+    finePrintItems: ['Aplican restricciones y el servicio no está disponible en todas las áreas.', 'Limitado al servicio NOW Internet con velocidades de hasta 200 Mbps de descarga / 20 Mbps de carga. Las velocidades reales varían y no están garantizadas.', 'Requiere auto instalación y activación de un gateway reacondicionado.', 'Los pagos se hacen en línea con tarjeta de crédito, débito o prepago. Se requiere autopay y facturación sin papel.', 'Los impuestos están incluidos, los datos son ilimitados y el cargo por uso adicional de datos aparece como $0 en los detalles del plan proporcionados.'],
+    ctaLabel: 'Disponible en CellzTech',
+    ctaTitle: '¿Necesitas internet residencial prepago?',
+    ctaText: 'Llama o visita la tienda para preguntar por el plan prepago NOW Internet 200 Mbps de $45 y la disponibilidad del gateway/módem gratis.',
+    storeInfo: 'Información de la tienda'
+  },
+  uk: {
+    heroEyebrow: 'Домашній prepaid-інтернет у CellzTech',
+    heroTitleTop: 'Будьте онлайн дешевше.',
+    heroTitleHighlight: '200 Mbps за $45/міс.',
+    heroText: 'Швидкий prepaid-інтернет для дому з безлімітними даними, без річного контракту, без перевірки кредиту та з безкоштовним gateway/модемом у магазині при першій 30-денній покупці.',
+    call: 'Подзвонити 773-413-7489',
+    visit: 'Відвідати CellzTech',
+    heroImageAlt: 'Коробка комплекту модема Xfinity Prepaid Internet',
+    heroImageCaption: 'Реальний вигляд комплекту',
+    chooseSpeed: 'Оберіть швидкість',
+    availableNow: 'Зараз доступно в магазині',
+    availableIntro: 'CellzTech зараз пропонує prepaid-опцію NOW Internet by Xfinity 200 Mbps.',
+    mutedAria: 'План 100 Mbps не продається в CellzTech',
+    mutedButton: 'Зараз у нас не продається',
+    mutedText: 'Показано лише як стильовий приклад. CellzTech зосереджується на варіанті 200 Mbps.',
+    featuredAria: 'План prepaid-інтернету Xfinity 200 Mbps',
+    featuredBadge: 'Доступно в CellzTech',
+    askNow: 'Запитайте в магазині / подзвоніть зараз',
+    pricingLink: 'Ціни та інша інформація',
+    planBullets: ['Безлімітний інтернет включено', 'Безкоштовний gateway/модем із першою 30-денною покупкою', 'Працює зі Smart TV, телефонами, планшетами, ноутбуками та іншими пристроями', 'Без річного контракту і без кредитної перевірки'],
+    localHelp: 'Локальна допомога з prepaid-інтернетом',
+    storeTitle: 'Зайдіть у магазин, заберіть модем і отримайте просту допомогу перед покупкою.',
+    storeText: 'План за $45 — це хороший варіант для квартир, сімей, студентів, стримінгу, навчання, Smart TV, телефонів, планшетів і щоденного домашнього використання. Багатьом клієнтам він подобається, бо це prepaid, просто і достатньо швидко для кількох пристроїв удома.',
+    deviceCloud: ['Smart TV', 'iPhone', 'Телефони Samsung', 'Планшети', 'Ноутбуки', 'Стримінг', 'Навчання', 'Квартири'],
+    productCardTitle: 'Комплект модема в магазині',
+    productCardText: 'Це стиль комплекту Xfinity Prepaid Internet, який клієнти можуть очікувати в магазині. Сам модем чорний, а gateway включений при першій 30-денній покупці.',
+    step1Title: 'Заберіть у магазині',
+    step1Text: 'Запитайте в CellzTech про доступний prepaid-комплект 200 Mbps і наявність модема.',
+    step2Title: 'Налаштуйте вдома',
+    step2Text: 'Самостійно встановіть gateway і підключіть свої пристрої до мережі Wi‑Fi.',
+    step3Title: 'Доставка в майбутньому',
+    step3Text: 'Пізніше клієнти зможуть замовляти модем і доставку безпосередньо з сайту.',
+    factsLabel: 'Факти про інтернет',
+    factsTitle: 'NOW Internet 200 Mbps',
+    factsSubtitle: 'Підсумок споживчого розкриття',
+    factsRows: [
+      ['Місячна ціна', '$45/міс.'],
+      ['Швидкість плану', '200 Mbps'],
+      ['Типове завантаження', '234 Mbps'],
+      ['Типове відвантаження', '24 Mbps'],
+      ['Типова затримка', '21 мс'],
+      ['Дані в плані', 'Безлімітні'],
+      ['Gateway', 'Включено з першою 30-денною покупкою'],
+      ['Контракт', 'Без річного контракту']
+    ],
+    factsFinePrint: 'Це резюме базується на наданих деталях prepaid-варіанту NOW by Xfinity Internet 200 Mbps. Ціна, доступність, обладнання та умови можуть змінюватися і мають бути підтверджені перед покупкою.',
+    finePrintLabel: 'Ціни та інша інформація',
+    finePrintTitle: 'Важливі деталі перед покупкою',
+    finePrintItems: ['Діють обмеження, і послуга доступна не в усіх районах.', 'Обмежено послугою NOW Internet зі швидкістю до 200 Mbps завантаження / 20 Mbps відвантаження. Фактичні швидкості відрізняються і не гарантуються.', 'Потрібна самостійна установка та активація відновленого gateway.', 'Оплати здійснюються онлайн кредитною, дебетовою або prepaid-карткою. Потрібні autopay і paperless billing.', 'Податки включені, дані безлімітні, а плата за додаткове використання даних у наданих деталях плану вказана як $0.'],
+    ctaLabel: 'Доступно в CellzTech',
+    ctaTitle: 'Потрібен домашній prepaid-інтернет?',
+    ctaText: 'Подзвоніть або завітайте до магазину, щоб дізнатися про prepaid-план NOW Internet 200 Mbps за $45 і наявність безкоштовного gateway/модема.',
+    storeInfo: 'Інформація про магазин'
+  }
+} satisfies Record<LanguageKey, {
+  heroEyebrow: string;
+  heroTitleTop: string;
+  heroTitleHighlight: string;
+  heroText: string;
+  call: string;
+  visit: string;
+  heroImageAlt: string;
+  heroImageCaption: string;
+  chooseSpeed: string;
+  availableNow: string;
+  availableIntro: string;
+  mutedAria: string;
+  mutedButton: string;
+  mutedText: string;
+  featuredAria: string;
+  featuredBadge: string;
+  askNow: string;
+  pricingLink: string;
+  planBullets: string[];
+  localHelp: string;
+  storeTitle: string;
+  storeText: string;
+  deviceCloud: string[];
+  productCardTitle: string;
+  productCardText: string;
+  step1Title: string;
+  step1Text: string;
+  step2Title: string;
+  step2Text: string;
+  step3Title: string;
+  step3Text: string;
+  factsLabel: string;
+  factsTitle: string;
+  factsSubtitle: string;
+  factsRows: [string, string][];
+  factsFinePrint: string;
+  finePrintLabel: string;
+  finePrintTitle: string;
+  finePrintItems: string[];
+  ctaLabel: string;
+  ctaTitle: string;
+  ctaText: string;
+  storeInfo: string;
+}>;
 
-function XfinityPrepaidPage() {
+function XfinityPrepaidPage({ lang }: { lang: LanguageKey }) {
+  const copy = xfinityPageContent[lang];
+
   return (
     <main className="xfinityPage">
       <section className="xfinityNowHero">
         <div className="wrap">
           <div className="xfinityNowHeroPanel">
             <div className="nowBrandMark" aria-label="NOW by Xfinity"><span>NOW</span><small>by Xfinity</small></div>
-            <p className="nowEyebrow">Prepaid home internet at CellzTech</p>
-            <h1>Live online for less.<br /><span>200 Mbps for $45/mo.</span></h1>
-            <p className="nowHeroText">Fast prepaid home internet with unlimited data, no annual contract, no credit check, and a free gateway/modem available in-store with your first 30-day purchase.</p>
-            <div className="nowHeroActions">
-              <a className="xfinityPrimary" href="tel:7734137489">Call 773-413-7489</a>
-              <button className="xfinitySecondary" type="button" onClick={() => goTo('contact')}>Visit CellzTech</button>
+            <div className="xfinityHeroLayout">
+              <div className="xfinityHeroContent">
+                <p className="nowEyebrow">{copy.heroEyebrow}</p>
+                <h1>{copy.heroTitleTop}<br /><span>{copy.heroTitleHighlight}</span></h1>
+                <p className="nowHeroText">{copy.heroText}</p>
+                <div className="nowHeroActions">
+                  <a className="xfinityPrimary" href="tel:7734137489">{copy.call}</a>
+                  <button className="xfinitySecondary" type="button" onClick={() => goTo('contact')}>{copy.visit}</button>
+                </div>
+              </div>
+              <div className="xfinityHeroVisual">
+                <div className="xfinityProductCard">
+                  <span className="xfinityProductTag">{copy.heroImageCaption}</span>
+                  <img src="/xfinity-prepaid-modem-kit.png" alt={copy.heroImageAlt} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2607,34 +2877,31 @@ function XfinityPrepaidPage() {
       <section className="section xfinitySpeedSection">
         <div className="wrap">
           <div className="xfinitySectionHeader centered">
-            <span className="xfinityLabel">Choose your speed</span>
-            <h2>Available in store now</h2>
-            <p>CellzTech currently carries the 200 Mbps NOW Internet by Xfinity prepaid option.</p>
+            <span className="xfinityLabel">{copy.chooseSpeed}</span>
+            <h2>{copy.availableNow}</h2>
+            <p>{copy.availableIntro}</p>
           </div>
 
           <div className="xfinityPlanShowcase">
-            <article className="xfinityOfficialCard mutedPlan" aria-label="100 Mbps plan not carried at CellzTech">
+            <article className="xfinityOfficialCard mutedPlan" aria-label={copy.mutedAria}>
               <div className="planTopLine">
                 <h3>100 <span>Mbps</span></h3>
                 <strong>$30/mo</strong>
               </div>
-              <button className="xfinityGhostButton" type="button" disabled>Not currently sold here</button>
-              <p>Shown only as a style reference. CellzTech is focused on the 200 Mbps option.</p>
+              <button className="xfinityGhostButton" type="button" disabled>{copy.mutedButton}</button>
+              <p>{copy.mutedText}</p>
             </article>
 
-            <article className="xfinityOfficialCard featuredPlan" aria-label="200 Mbps Xfinity prepaid internet plan">
-              <span className="featuredBadge">Available at CellzTech</span>
+            <article className="xfinityOfficialCard featuredPlan" aria-label={copy.featuredAria}>
+              <span className="featuredBadge">{copy.featuredBadge}</span>
               <div className="planTopLine">
                 <h3>200 <span>Mbps</span></h3>
                 <strong>$45/mo</strong>
               </div>
-              <a className="xfinityAddCart" href="tel:7734137489">Ask in store / call now</a>
-              <button className="pricingLink" type="button" onClick={() => document.getElementById('xfinity-facts')?.scrollIntoView({ behavior: 'smooth' })}>Pricing &amp; other info</button>
+              <a className="xfinityAddCart" href="tel:7734137489">{copy.askNow}</a>
+              <button className="pricingLink" type="button" onClick={() => document.getElementById('xfinity-facts')?.scrollIntoView({ behavior: 'smooth' })}>{copy.pricingLink}</button>
               <ul className="xfinityPlanBullets">
-                <li>Unlimited internet included</li>
-                <li>Free gateway/modem with first 30-day purchase</li>
-                <li>Works with smart TVs, phones, tablets, laptops, and more</li>
-                <li>No annual contract and no credit check</li>
+                {copy.planBullets.map((item: string) => <li key={item}>{item}</li>)}
               </ul>
             </article>
           </div>
@@ -2644,17 +2911,24 @@ function XfinityPrepaidPage() {
       <section className="section xfinityStoreSection refined">
         <div className="wrap xfinityStoreGrid">
           <div className="xfinityStoreCopy">
-            <span className="xfinityLabel">Local prepaid internet help</span>
-            <h2>Walk in, pick up the modem, and get simple help before you buy.</h2>
-            <p>The $45 plan is a strong option for apartments, families, students, streaming, school work, smart TVs, phones, tablets, and everyday home use. Many customers like it because it is prepaid, simple, and fast enough for multiple devices at home.</p>
+            <span className="xfinityLabel">{copy.localHelp}</span>
+            <h2>{copy.storeTitle}</h2>
+            <p>{copy.storeText}</p>
             <div className="xfinityDeviceCloud">
-              {['Smart TVs', 'iPhones', 'Samsung phones', 'Tablets', 'Laptops', 'Streaming', 'School work', 'Apartments'].map((item) => <span key={item}>{item}</span>)}
+              {copy.deviceCloud.map((item: string) => <span key={item}>{item}</span>)}
             </div>
           </div>
           <div className="xfinityStepCards refinedSteps">
-            <article><Store size={25} /><h3>Pick up in store</h3><p>Ask CellzTech about the available 200 Mbps prepaid internet kit and modem availability.</p></article>
-            <article><Wifi size={25} /><h3>Set up at home</h3><p>Self-install the gateway and connect your devices to your Wi-Fi network.</p></article>
-            <article><MessageCircle size={25} /><h3>Future shipping</h3><p>Later, customers will be able to request modem ordering and shipping directly from the site.</p></article>
+            <article className="xfinityModemFeatureCard">
+              <div className="xfinityModemImageWrap">
+                <img src="/xfinity-prepaid-modem-kit.png" alt={copy.heroImageAlt} />
+              </div>
+              <h3>{copy.productCardTitle}</h3>
+              <p>{copy.productCardText}</p>
+            </article>
+            <article><Store size={25} /><h3>{copy.step1Title}</h3><p>{copy.step1Text}</p></article>
+            <article><Wifi size={25} /><h3>{copy.step2Title}</h3><p>{copy.step2Text}</p></article>
+            <article><MessageCircle size={25} /><h3>{copy.step3Title}</h3><p>{copy.step3Text}</p></article>
           </div>
         </div>
       </section>
@@ -2663,29 +2937,25 @@ function XfinityPrepaidPage() {
         <div className="wrap xfinityFactsGrid">
           <div className="xfinityFactsCard nowFactsCard">
             <div className="factsHeader">
-              <span>Broadband Facts</span>
-              <h2>NOW Internet 200 Mbps</h2>
-              <p>Fixed broadband consumer disclosure summary</p>
+              <span>{copy.factsLabel}</span>
+              <h2>{copy.factsTitle}</h2>
+              <p>{copy.factsSubtitle}</p>
             </div>
             <div className="factsRows">
-              {xfinityFacts.map(([label, value]) => (
+              {copy.factsRows.map(([label, value]: [string, string]) => (
                 <div key={label}>
                   <span>{label}</span>
                   <strong>{value}</strong>
                 </div>
               ))}
             </div>
-            <p className="factsFinePrint">This summary is based on the plan details provided for the NOW by Xfinity 200 Mbps prepaid internet option. Price, availability, equipment, and terms are subject to change and should be confirmed before purchase.</p>
+            <p className="factsFinePrint">{copy.factsFinePrint}</p>
           </div>
           <aside className="xfinityFinePrintCard">
-            <span className="xfinityLabel">Pricing &amp; other info</span>
-            <h3>Important details before buying</h3>
+            <span className="xfinityLabel">{copy.finePrintLabel}</span>
+            <h3>{copy.finePrintTitle}</h3>
             <ul>
-              <li>Restrictions apply and service is not available in all areas.</li>
-              <li>Limited to NOW Internet service with speeds up to 200 Mbps download / 20 Mbps upload. Actual speeds vary and are not guaranteed.</li>
-              <li>Requires self-installation and activation of a refurbished gateway.</li>
-              <li>Payments are made online with credit, debit, or prepaid card. Autopay and paperless billing required.</li>
-              <li>Government taxes are included, data is unlimited, and additional data usage charge is listed as $0 for the plan details provided.</li>
+              {copy.finePrintItems.map((item: string) => <li key={item}>{item}</li>)}
             </ul>
           </aside>
         </div>
@@ -2694,13 +2964,13 @@ function XfinityPrepaidPage() {
       <section className="section xfinityCtaSection">
         <div className="wrap xfinityCtaPanel nowCtaPanel">
           <div>
-            <span className="xfinityLabel">Available at CellzTech</span>
-            <h2>Need prepaid home internet?</h2>
-            <p>Call or stop by the store to ask about the $45 NOW Internet 200 Mbps prepaid plan and free gateway/modem availability.</p>
+            <span className="xfinityLabel">{copy.ctaLabel}</span>
+            <h2>{copy.ctaTitle}</h2>
+            <p>{copy.ctaText}</p>
           </div>
           <div className="xfinityCtaButtons">
-            <a className="xfinityPrimary" href="tel:7734137489">Call 773-413-7489</a>
-            <button className="xfinitySecondary" type="button" onClick={() => goTo('contact')}>Store info</button>
+            <a className="xfinityPrimary" href="tel:7734137489">{copy.call}</a>
+            <button className="xfinitySecondary" type="button" onClick={() => goTo('contact')}>{copy.storeInfo}</button>
           </div>
         </div>
       </section>
