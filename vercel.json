@@ -1,4 +1,6 @@
 {
+  "installCommand": "npm ci --registry=https://registry.npmjs.org/ --no-audit --no-fund --prefer-online",
+  "buildCommand": "npm run build",
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/" }
   ]
