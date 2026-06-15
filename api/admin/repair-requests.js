@@ -92,7 +92,22 @@ export default async function handler(req, res) {
     const topPages = Array.from(topPageMap.entries())
       .map(([path, count]) => ({ path, count }))
       .sort((a, b) => b.count - a.count)
-      .slice(0, 6);
+      .slice(0, 8);
+
+    const dailyMap = new Map();
+    for (let index = 13; index >= 0; index -= 1) {
+      const day = new Date(now);
+      day.setHours(0, 0, 0, 0);
+      day.setDate(day.getDate() - index);
+      dailyMap.set(day.toISOString().slice(0, 10), 0);
+    }
+    for (const row of rows) {
+      const parsed = new Date(row.created_at || '');
+      if (Number.isNaN(parsed.getTime())) continue;
+      const key = parsed.toISOString().slice(0, 10);
+      if (dailyMap.has(key)) dailyMap.set(key, dailyMap.get(key) + 1);
+    }
+    const dailyVisits = Array.from(dailyMap.entries()).map(([date, count]) => ({ date, count }));
 
     return {
       ok: true,
@@ -101,6 +116,7 @@ export default async function handler(req, res) {
         last7Days: countSince(sevenDaysAgo),
         last30Days: rows.length,
         topPages,
+        dailyVisits,
         recent: rows.slice(0, 10)
       }
     };
@@ -119,7 +135,7 @@ export default async function handler(req, res) {
     ok: true,
     requests: repairResult.data,
     simRequests,
-    visitorStats: visitorResult.ok ? visitorResult.data : { today: 0, last7Days: 0, last30Days: 0, topPages: [], recent: [] },
+    visitorStats: visitorResult.ok ? visitorResult.data : { today: 0, last7Days: 0, last30Days: 0, topPages: [], dailyVisits: [], recent: [] },
     simWarning: simResult.ok ? null : simResult.data,
     visitorWarning: visitorResult.ok ? null : visitorResult.data
   });

@@ -535,6 +535,7 @@ type AdminVisitStats = {
   last7Days: number;
   last30Days: number;
   topPages: { path: string; count: number }[];
+  dailyVisits?: { date: string; count: number }[];
 };
 
 type AdminSimRequest = {
@@ -572,7 +573,7 @@ function AdminDashboard() {
   const [inputKey, setInputKey] = useState('');
   const [requests, setRequests] = useState<AdminRepairRequest[]>([]);
   const [simRequests, setSimRequests] = useState<AdminSimRequest[]>([]);
-  const [visitorStats, setVisitorStats] = useState<AdminVisitStats>({ today: 0, last7Days: 0, last30Days: 0, topPages: [] });
+  const [visitorStats, setVisitorStats] = useState<AdminVisitStats>({ today: 0, last7Days: 0, last30Days: 0, topPages: [], dailyVisits: [] });
   const [adminView, setAdminView] = useState<'repairs' | 'sim'>('repairs');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -599,12 +600,12 @@ function AdminDashboard() {
       setInputKey('');
       setRequests(data.requests || []);
       setSimRequests(data.simRequests || []);
-      setVisitorStats(data.visitorStats || { today: 0, last7Days: 0, last30Days: 0, topPages: [] });
+      setVisitorStats(data.visitorStats || { today: 0, last7Days: 0, last30Days: 0, topPages: [], dailyVisits: [] });
     } catch (err) {
       setAdminKey('');
       setRequests([]);
       setSimRequests([]);
-      setVisitorStats({ today: 0, last7Days: 0, last30Days: 0, topPages: [] });
+      setVisitorStats({ today: 0, last7Days: 0, last30Days: 0, topPages: [], dailyVisits: [] });
       setError(err instanceof Error ? err.message : 'Access denied. Check the admin key and try again.');
     } finally {
       setLoading(false);
@@ -642,6 +643,16 @@ function AdminDashboard() {
 
   const leadCount = requests.filter((request) => request.repairdesk_lead_id || request.repairdesk_lead_order_id).length;
   const failedCount = requests.filter((request) => request.integration_errors).length;
+  const activeRequests = requests.filter((request) => request.status !== 'completed' && request.status !== 'closed').length;
+  const dailyVisits = visitorStats.dailyVisits || [];
+  const maxDailyVisits = Math.max(1, ...dailyVisits.map((item) => item.count));
+  const topPages = visitorStats.topPages || [];
+  const maxTopPageViews = Math.max(1, ...topPages.map((item) => item.count));
+  const formatVisitDay = (value: string) => {
+    const parsed = new Date(`${value}T12:00:00`);
+    if (Number.isNaN(parsed.getTime())) return value.slice(5);
+    return parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  };
 
   const submitKey = (event: React.FormEvent) => {
     event.preventDefault();
@@ -730,40 +741,84 @@ function AdminDashboard() {
   }
 
   return (
-    <main className="adminShell">
-      <section className="adminHero">
-        <div className="wrap adminHeroGrid">
+    <main className="adminShell compactAdminShell">
+      <section className="adminDashboardTop">
+        <div className="wrap adminDashboardHeader">
           <div>
             <span className="adminEyebrow">CellzTech private admin</span>
-            <h1>Repair requests, RepairDesk leads, and backend status in one clean view.</h1>
-            <p>Review website submissions, confirm customer details, and match requests to RepairDesk leads before the customer arrives.</p>
+            <h1>Admin dashboard</h1>
+            <p>Repair requests, RepairDesk leads, SIM requests, and website traffic in one compact view.</p>
           </div>
-          <div className="adminStatsCard">
-            <div><span>Total requests</span><strong>{requests.length}</strong></div>
-            <div><span>RepairDesk leads</span><strong>{leadCount}</strong></div>
-            <div><span>Needs review</span><strong>{failedCount}</strong></div>
-            <div><span>Visitors today</span><strong>{visitorStats.today}</strong></div>
-            <div><span>Last 7 days</span><strong>{visitorStats.last7Days}</strong></div>
-            <div><span>Last 30 days</span><strong>{visitorStats.last30Days}</strong></div>
+          <div className="adminHeaderActions">
+            <button className="secondaryBtn compact" onClick={() => loadRequests(adminKey)} disabled={loading}>{loading ? 'Loading…' : 'Refresh data'}</button>
+            <button className="secondaryBtn compact dark" onClick={signOut}>Lock console</button>
           </div>
         </div>
       </section>
 
-      <section className="section adminSection">
-        <div className="wrap adminPanel">
+      <section className="adminDashboardSection">
+        <div className="wrap">
           {error && <div className="adminNotice error">{error}</div>}
 
-          <div className="adminVisitorPanel">
-            <strong>Top pages</strong>
-            {visitorStats.topPages.length ? (
-              <div className="adminTopPages">
-                {visitorStats.topPages.map((item) => (
-                  <span key={item.path}><b>{item.path}</b> {item.count}</span>
-                ))}
-              </div>
-            ) : <p>No visitor page data yet.</p>}
+          <div className="adminMetricGrid" aria-label="Admin summary metrics">
+            <article><span>Total requests</span><strong>{requests.length}</strong><small>{activeRequests} active / open</small></article>
+            <article><span>RepairDesk leads</span><strong>{leadCount}</strong><small>{requests.length ? Math.round((leadCount / requests.length) * 100) : 0}% connected</small></article>
+            <article><span>Needs review</span><strong>{failedCount}</strong><small>{failedCount ? 'Check integration errors' : 'No integration errors'}</small></article>
+            <article><span>Visitors today</span><strong>{visitorStats.today}</strong><small>{visitorStats.last7Days} visits in 7 days</small></article>
+            <article><span>Last 30 days</span><strong>{visitorStats.last30Days}</strong><small>Tracked page visits</small></article>
           </div>
 
+          <div className="adminAnalyticsGrid">
+            <section className="adminChartCard">
+              <div className="adminCardHeader">
+                <div>
+                  <span>Traffic analytics</span>
+                  <h2>Daily visits</h2>
+                </div>
+                <strong>Last 14 days</strong>
+              </div>
+              {dailyVisits.length ? (
+                <div className="adminDailyChart" aria-label="Daily visits bar chart">
+                  {dailyVisits.map((item) => (
+                    <div className="adminDailyBarItem" key={item.date}>
+                      <b>{item.count}</b>
+                      <span style={{ height: `${Math.max(8, Math.round((item.count / maxDailyVisits) * 120))}px` }} />
+                      <em>{formatVisitDay(item.date)}</em>
+                    </div>
+                  ))}
+                </div>
+              ) : <p className="adminMutedText">No daily traffic data yet.</p>}
+            </section>
+
+            <section className="adminChartCard">
+              <div className="adminCardHeader">
+                <div>
+                  <span>Top pages</span>
+                  <h2>Most viewed pages</h2>
+                </div>
+                <strong>{topPages.reduce((sum, item) => sum + item.count, 0)} views</strong>
+              </div>
+              {topPages.length ? (
+                <div className="adminPageBars" aria-label="Top pages viewed bar chart">
+                  {topPages.map((item) => (
+                    <div className="adminPageBarRow" key={item.path}>
+                      <div><b>{item.path}</b><span>{item.count}</span></div>
+                      <i><span style={{ width: `${Math.max(6, Math.round((item.count / maxTopPageViews) * 100))}%` }} /></i>
+                    </div>
+                  ))}
+                </div>
+              ) : <p className="adminMutedText">No page view data yet.</p>}
+            </section>
+          </div>
+
+          <section className="adminWorkPanel">
+            <div className="adminWorkHeader">
+              <div>
+                <span>Request management</span>
+                <h2>Customer submissions</h2>
+              </div>
+              <p>Use search, tabs, and status badges to review requests before the customer arrives.</p>
+            </div>
           <div className="adminToolbar">
             <div className="adminTabs" aria-label="Admin request type">
               <button className={adminView === 'repairs' ? 'active' : ''} onClick={() => setAdminView('repairs')}>Repair requests ({requests.length})</button>
@@ -773,8 +828,6 @@ function AdminDashboard() {
               <Search size={18} />
               <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by name, phone, email, model, issue, or lead ID" />
             </div>
-            <button className="secondaryBtn compact" onClick={() => loadRequests(adminKey)} disabled={loading}>{loading ? 'Loading…' : 'Refresh'}</button>
-            <button className="secondaryBtn compact" onClick={signOut}>Lock console</button>
           </div>
 
           {adminView === 'repairs' ? (
@@ -852,6 +905,7 @@ function AdminDashboard() {
               )}
             </div>
           )}
+          </section>
         </div>
       </section>
     </main>
