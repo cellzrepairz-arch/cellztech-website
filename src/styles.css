@@ -8987,3 +8987,67 @@ canvas {
   .compactAdminShell .adminToolbar { flex-direction: column; align-items: stretch; }
   .adminTabs { width: 100%; overflow-x: auto; }
 }
+
+/* Admin readability hotfix - force proper contrast inside light backend cards */
+.compactAdminShell {
+  color: #0f172a;
+}
+.compactAdminShell .adminWorkPanel,
+.compactAdminShell .adminRequestCard,
+.compactAdminShell .adminDeviceLine,
+.compactAdminShell .adminMetaGrid div,
+.compactAdminShell .adminSearch,
+.compactAdminShell .adminTabs,
+.compactAdminShell .adminChartCard,
+.compactAdminShell .adminMetricGrid article {
+  color: #0f172a;
+}
+.compactAdminShell .adminRequestCard h2,
+.compactAdminShell .adminRequestCard h3,
+.compactAdminShell .adminDeviceLine strong,
+.compactAdminShell .adminMetaGrid strong,
+.compactAdminShell .adminEmptyState h2,
+.compactAdminShell .adminEmptyState h3 {
+  color: #07172b !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #07172b;
+}
+.compactAdminShell .adminRequestCard p,
+.compactAdminShell .adminDeviceLine span,
+.compactAdminShell .adminNotes,
+.compactAdminShell .adminEmptyState p {
+  color: #475569 !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #475569;
+}
+.compactAdminShell .adminMetaGrid span {
+  color: #58708e !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #58708e;
+}
+.compactAdminShell .adminTimestamp {
+  color: #2563eb !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #2563eb;
+}
+.compactAdminShell .adminMetaGrid strong {
+  font-weight: 900;
+  line-height: 1.35;
+}
+.compactAdminShell .adminDeviceLine {
+  background: #f4f8ff;
+  border-color: #d6e6fb;
+}
+.compactAdminShell .adminMetaGrid div {
+  background: #f8fbff;
+  border-color: #dbeafe;
+}
+.compactAdminShell .adminSearch input {
+  color: #0f172a;
+  -webkit-text-fill-color: #0f172a;
+}
+.compactAdminShell .adminSearch input::placeholder {
+  color: #64748b;
+  opacity: 1;
+  -webkit-text-fill-color: #64748b;
+}
