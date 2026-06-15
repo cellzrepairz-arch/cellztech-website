@@ -3039,6 +3039,204 @@ function UltraIcon({ icon }: { icon: 'globe' | 'check' | 'wifi' }) {
   return <Wifi size={26} />;
 }
 
+
+type SavingsCalculatorCopy = {
+  open: string;
+  eyebrow: string;
+  title: string;
+  text: string;
+  currentBill: string;
+  currentPlaceholder: string;
+  choosePlan: string;
+  monthlySavings: string;
+  yearlySavings: string;
+  noSavings: string;
+  helper: string;
+  close: string;
+  call: string;
+  start: string;
+  note: string;
+};
+
+const savingsCalculatorCopy: Record<LanguageKey, SavingsCalculatorCopy> = {
+  en: {
+    open: 'Calculate savings',
+    eyebrow: 'Ultra Mobile savings calculator',
+    title: 'See how much you could save by switching.',
+    text: 'Enter what you pay now, choose an Ultra Mobile plan, and preview estimated monthly and yearly savings.',
+    currentBill: 'What do you pay now each month?',
+    currentPlaceholder: 'Example: 85',
+    choosePlan: 'Choose an Ultra Mobile option',
+    monthlySavings: 'Estimated monthly savings',
+    yearlySavings: 'Estimated yearly savings',
+    noSavings: 'This plan may not save money based on that number, but it may still offer features you want.',
+    helper: 'Savings are estimates only. Taxes, fees, promos, plan availability, and account details must be confirmed before activation.',
+    close: 'Close',
+    call: 'Call CellzTech',
+    start: 'Start SIM request',
+    note: 'Tip: many customers are surprised when they see the yearly number.'
+  },
+  pl: {
+    open: 'Oblicz oszczędności',
+    eyebrow: 'Kalkulator oszczędności Ultra Mobile',
+    title: 'Sprawdź, ile możesz zaoszczędzić po zmianie.',
+    text: 'Wpisz, ile płacisz teraz, wybierz plan Ultra Mobile i zobacz szacunkową oszczędność miesięczną oraz roczną.',
+    currentBill: 'Ile płacisz teraz miesięcznie?',
+    currentPlaceholder: 'Przykład: 85',
+    choosePlan: 'Wybierz opcję Ultra Mobile',
+    monthlySavings: 'Szacunkowa oszczędność miesięczna',
+    yearlySavings: 'Szacunkowa oszczędność roczna',
+    noSavings: 'Ten plan może nie dawać oszczędności przy tej kwocie, ale nadal może mieć funkcje, których potrzebujesz.',
+    helper: 'Oszczędności są szacunkowe. Podatki, opłaty, promocje, dostępność planu i szczegóły konta muszą zostać potwierdzone przed aktywacją.',
+    close: 'Zamknij',
+    call: 'Zadzwoń do CellzTech',
+    start: 'Zamów SIM',
+    note: 'Wskazówka: wielu klientów jest zaskoczonych, gdy widzi kwotę roczną.'
+  },
+  es: {
+    open: 'Calcular ahorros',
+    eyebrow: 'Calculadora de ahorros Ultra Mobile',
+    title: 'Mira cuánto podrías ahorrar al cambiarte.',
+    text: 'Ingresa lo que pagas ahora, elige un plan Ultra Mobile y mira un estimado de ahorro mensual y anual.',
+    currentBill: '¿Cuánto pagas ahora cada mes?',
+    currentPlaceholder: 'Ejemplo: 85',
+    choosePlan: 'Elige una opción de Ultra Mobile',
+    monthlySavings: 'Ahorro mensual estimado',
+    yearlySavings: 'Ahorro anual estimado',
+    noSavings: 'Este plan quizá no ahorre dinero con ese monto, pero aún puede tener funciones que quieres.',
+    helper: 'Los ahorros son estimados. Impuestos, cargos, promociones, disponibilidad del plan y detalles de la cuenta deben confirmarse antes de activar.',
+    close: 'Cerrar',
+    call: 'Llamar a CellzTech',
+    start: 'Solicitar SIM',
+    note: 'Consejo: muchos clientes se sorprenden cuando ven el número anual.'
+  },
+  uk: {
+    open: 'Порахувати економію',
+    eyebrow: 'Калькулятор економії Ultra Mobile',
+    title: 'Подивіться, скільки можна заощадити після переходу.',
+    text: 'Введіть, скільки ви платите зараз, виберіть план Ultra Mobile і перегляньте орієнтовну щомісячну та річну економію.',
+    currentBill: 'Скільки ви платите зараз щомісяця?',
+    currentPlaceholder: 'Наприклад: 85',
+    choosePlan: 'Виберіть опцію Ultra Mobile',
+    monthlySavings: 'Орієнтовна щомісячна економія',
+    yearlySavings: 'Орієнтовна річна економія',
+    noSavings: 'Цей план може не заощадити гроші при цій сумі, але може мати потрібні вам функції.',
+    helper: 'Економія є орієнтовною. Податки, збори, акції, доступність плану та деталі акаунта потрібно підтвердити перед активацією.',
+    close: 'Закрити',
+    call: 'Подзвонити CellzTech',
+    start: 'Запит SIM',
+    note: 'Порада: багатьох клієнтів дивує річна сума.'
+  }
+};
+
+function moneyFromPlan(value: string) {
+  const match = String(value || '').match(/\d+(?:\.\d+)?/);
+  return match ? Number(match[0]) : 0;
+}
+
+function UltraSavingsCalculator({ lang, open, onClose }: { lang: LanguageKey; open: boolean; onClose: () => void }) {
+  const copy = savingsCalculatorCopy[lang] || savingsCalculatorCopy.en;
+  const planOptions = [
+    ...ultraPlans.map((plan) => ({
+      label: `${plan.name} - ${plan.durations['1']?.monthly || `${plan.basePrice}/mo`}`,
+      price: moneyFromPlan(plan.durations['1']?.monthly || plan.basePrice)
+    })),
+    { label: '4 Ultra Unlimited lines - $100/mo', price: 100 }
+  ];
+  const [currentBill, setCurrentBill] = useState('85');
+  const [selectedIndex, setSelectedIndex] = useState(() => Math.max(0, planOptions.findIndex((plan) => plan.price === 39)));
+  const selectedPlan = planOptions[selectedIndex] || planOptions[0];
+  const current = Math.max(0, Number(currentBill) || 0);
+  const monthlySavings = Math.max(0, current - selectedPlan.price);
+  const yearlySavings = monthlySavings * 12;
+  const savingsPercent = current ? Math.min(100, Math.round((monthlySavings / current) * 100)) : 0;
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    document.body.classList.add('modalOpen');
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.classList.remove('modalOpen');
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div className="savingsModalBackdrop" role="presentation" onMouseDown={onClose}>
+      <section className="savingsModal" role="dialog" aria-modal="true" aria-labelledby="savingsCalculatorTitle" onMouseDown={(event) => event.stopPropagation()}>
+        <button className="savingsClose" type="button" onClick={onClose} aria-label={copy.close}><X size={22} /></button>
+        <div className="savingsModalHeader">
+          <span>{copy.eyebrow}</span>
+          <h2 id="savingsCalculatorTitle">{copy.title}</h2>
+          <p>{copy.text}</p>
+        </div>
+
+        <div className="savingsCalculatorGrid">
+          <div className="savingsInputsCard">
+            <label>
+              <span>{copy.currentBill}</span>
+              <div className="moneyInputWrap">
+                <b>$</b>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  value={currentBill}
+                  onChange={(event) => setCurrentBill(event.target.value)}
+                  placeholder={copy.currentPlaceholder}
+                />
+              </div>
+            </label>
+
+            <label>
+              <span>{copy.choosePlan}</span>
+              <select value={selectedIndex} onChange={(event) => setSelectedIndex(Number(event.target.value))}>
+                {planOptions.map((plan, index) => <option key={plan.label} value={index}>{plan.label}</option>)}
+              </select>
+            </label>
+
+            <div className="savingsCompareMini">
+              <div><small>Current</small><strong>${current || 0}/mo</strong></div>
+              <div><small>Ultra</small><strong>${selectedPlan.price}/mo</strong></div>
+            </div>
+          </div>
+
+          <div className="savingsResultsCard">
+            <div className="savingsGauge" style={{ '--savePercent': `${savingsPercent}%` } as React.CSSProperties}>
+              <strong>{savingsPercent}%</strong>
+              <span>possible reduction</span>
+            </div>
+            <div className="savingsResultNumbers">
+              <div>
+                <span>{copy.monthlySavings}</span>
+                <strong>${monthlySavings.toLocaleString()}/mo</strong>
+              </div>
+              <div className="yearlySavingsHighlight">
+                <span>{copy.yearlySavings}</span>
+                <strong>${yearlySavings.toLocaleString()}/yr</strong>
+              </div>
+            </div>
+            {monthlySavings <= 0 ? <p className="savingsNoSavings">{copy.noSavings}</p> : <p className="savingsNote">{copy.note}</p>}
+          </div>
+        </div>
+
+        <div className="savingsModalFooter">
+          <p>{copy.helper}</p>
+          <div>
+            <a className="secondaryBtn compact" href="tel:7734137489">{copy.call}</a>
+            <button className="primaryBtn compact" type="button" onClick={() => { onClose(); goTo('sim'); }}>{copy.start}</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 function UltraPlanStoreCard({ plan, lang }: { plan: UltraPlan; lang: LanguageKey }) {
   const [duration, setDuration] = useState<DurationKey>('1');
   const copy = ultraCopy[lang] || ultraCopy.en;
@@ -3137,6 +3335,8 @@ function UltraPlanStoreCard({ plan, lang }: { plan: UltraPlan; lang: LanguageKey
 
 function UltraDetails({ lang }: { lang: LanguageKey }) {
   const copy = ultraCopy[lang] || ultraCopy.en;
+  const [savingsOpen, setSavingsOpen] = useState(false);
+  const calcCopy = savingsCalculatorCopy[lang] || savingsCalculatorCopy.en;
 
   return (
     <>
@@ -3149,6 +3349,7 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
               <p>{copy.hero.text}</p>
               <div className="ultraHeroButtons">
                 <a className="primaryBtn" href="tel:7734137489">{copy.hero.call} <ArrowRight size={18} /></a>
+                <button className="secondaryBtn savingsTriggerBtn" type="button" onClick={() => setSavingsOpen(true)}>{calcCopy.open}</button>
                 <button className="secondaryBtn" onClick={() => goTo('contact')}>{copy.hero.visit}</button>
               </div>
             </div>
@@ -3234,6 +3435,19 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
         </div>
       </section>
 
+      <section className="section ultraSavingsBannerSection light">
+        <div className="wrap">
+          <div className="ultraSavingsBanner">
+            <div>
+              <span>{calcCopy.eyebrow}</span>
+              <h2>{calcCopy.title}</h2>
+              <p>{calcCopy.text}</p>
+            </div>
+            <button className="primaryBtn" type="button" onClick={() => setSavingsOpen(true)}>{calcCopy.open} <DollarSign size={18} /></button>
+          </div>
+        </div>
+      </section>
+
       <section className="section ultraStorePlansSection light">
         <div className="wrap">
           <div className="sectionIntro centeredIntro">
@@ -3267,6 +3481,8 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
           </div>
         </div>
       </section>
+
+      <UltraSavingsCalculator lang={lang} open={savingsOpen} onClose={() => setSavingsOpen(false)} />
     </>
   );
 }
