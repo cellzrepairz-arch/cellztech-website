@@ -237,8 +237,30 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
 @media (max-width: 720px) {
   .wrap { width: min(100% - 26px, 1180px); }
   .topbarInner { justify-content: center; flex-wrap: wrap; gap: 8px 16px; padding: 7px 0; }
-  .headerInner { min-height: 74px; }
-  .languageSelect, .callButton { display: none; }
+  .headerInner { min-height: 74px; gap: 10px; }
+  .headerActions { gap: 7px; }
+  .callButton { display: none; }
+  .languageSelect {
+    display: inline-flex;
+    min-height: 42px;
+    padding: 8px 10px;
+    border-color: #cfe0f5;
+    background: #ffffff;
+    box-shadow: 0 8px 22px rgba(15,23,42,0.06);
+  }
+  .languageSelect svg { display: none; }
+  .languageSelect select {
+    max-width: 58px;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .bookHeaderButton {
+    min-width: 0;
+    padding: 11px 13px;
+    font-size: 13px;
+    line-height: 1.05;
+  }
+  .menuButton { width: 42px; height: 42px; border-radius: 14px; flex: 0 0 auto; }
   .hero { min-height: auto; }
   .heroGrid { padding: 58px 0; gap: 42px; }
   .hero h1 { font-size: 43px; }
@@ -252,6 +274,15 @@ h1, h2, h3 { font-family: Sora, Inter, sans-serif; margin: 0; letter-spacing: -0
   .ctaPanel { flex-direction: column; align-items: flex-start; padding: 28px; }
   .pageHero { padding: 64px 0; }
   .footer { padding-top: 46px; }
+}
+
+@media (max-width: 430px) {
+  .logoWordmark small { display: none; }
+  .logoText { font-size: 24px; }
+  .headerActions { gap: 6px; }
+  .bookHeaderButton { display: none; }
+  .languageSelect { padding: 8px 9px; }
+  .languageSelect select { max-width: 54px; }
 }
 
 /* Repairs page upgrade */
