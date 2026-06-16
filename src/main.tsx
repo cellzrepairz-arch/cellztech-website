@@ -3532,6 +3532,7 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
   const copy = simRequestCopy[lang] || simRequestCopy.en;
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
+  const [simStep, setSimStep] = useState<'plans' | 'details' | 'contact'>('plans');
   const [selectedOffer, setSelectedOffer] = useState({ plan: '', duration: '', durationKey: '1' as DurationKey, price: '', billed: '', request: '' });
   const [form, setForm] = useState({
     requestType: 'shipping',
@@ -3572,6 +3573,7 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
       billed: option?.billed || '',
       request
     });
+    setSimStep('details');
     setForm((current) => ({
       ...current,
       planInterest: planName,
@@ -3585,6 +3587,7 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
   };
 
   const chooseFamilyPromo = () => {
+    setSimStep('details');
     setSelectedOffer({ plan: familyOptionValue, duration: 'Family promo', durationKey: '1', price: '$100/mo', billed: '$100 monthly family offer', request: 'family' });
     setForm((current) => ({
       ...current,
@@ -3671,23 +3674,57 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
     }
   };
 
+  const stepIndex = simStep === 'plans' ? 1 : simStep === 'details' ? 2 : 3;
+  const selectedPlanTitle = selectedOffer.request === 'family'
+    ? copy.familyPromoTitle
+    : (form.planInterest || copy.noPlanSelected);
+
   return (
     <main className="pageMain">
-      <section className="section ultraSimRequestHero salesRequestHero">
-        <div className="wrap simCheckoutGrid">
-          <div className="simCheckoutMain">
+      <section className="section ultraSimRequestHero salesRequestHero simWizardHero">
+        <form className="wrap simWizardShell" onSubmit={submit}>
+          <aside className="simWizardIntro">
             <span className="summerLabel">{copy.badge}</span>
             <h1>{copy.title}</h1>
             <p>{copy.text}</p>
 
-            <div className="simPlanPickerShell">
-              <section className="simPlanPickerPanel">
-                <div className="simPickerHeader">
+            <div className="simWizardSteps" aria-label="SIM request steps">
+              <button type="button" className={simStep === 'plans' ? 'active' : ''} onClick={() => setSimStep('plans')}>
+                <span>1</span>
+                <b>Choose plan</b>
+              </button>
+              <button type="button" className={simStep === 'details' ? 'active' : ''} onClick={() => setSimStep('details')} disabled={!form.planInterest}>
+                <span>2</span>
+                <b>SIM details</b>
+              </button>
+              <button type="button" className={simStep === 'contact' ? 'active' : ''} onClick={() => setSimStep('contact')} disabled={!form.planInterest}>
+                <span>3</span>
+                <b>Contact</b>
+              </button>
+            </div>
+
+            <div className="simWizardMiniSummary">
+              <small>Current request</small>
+              <strong>{selectedPlanTitle}</strong>
+              <span>{form.selectedDuration} • {form.selectedPrice || copy.confirmPricing}</span>
+              <b>{selectedOffer.request === 'family' ? '$100/mo promo request' : requestedSubtotal}</b>
+            </div>
+          </aside>
+
+          <section className="simWizardCard">
+            <div className="simWizardTopline">
+              <span>Step {stepIndex} of 3</span>
+              <strong>{simStep === 'plans' ? 'Pick a standard or promo plan' : simStep === 'details' ? 'Confirm SIM request details' : 'Send your request'}</strong>
+            </div>
+
+            {simStep === 'plans' && (
+              <div className="simWizardPane">
+                <div className="simPickerHeader compactWizardHeader">
                   <span>{copy.regularPrice}</span>
                   <h2>{copy.standardPlansTitle}</h2>
                   <p>{copy.standardPlansText}</p>
                 </div>
-                <div className="simPlanChoiceGrid">
+                <div className="simPlanChoiceGrid wizardPlanGrid">
                   {ultraPlans.map((plan) => {
                     const option = plan.durations['1'];
                     const isActive = form.planInterest === plan.name && selectedOffer.request !== 'family';
@@ -3700,15 +3737,13 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
                     );
                   })}
                 </div>
-              </section>
 
-              <section className="simPlanPickerPanel promoPanel">
-                <div className="simPickerHeader">
+                <div className="simPickerHeader compactWizardHeader promoWizardHeader">
                   <span>{copy.promoBadge}</span>
                   <h2>{copy.promoPlansTitle}</h2>
                   <p>{copy.promoPlansText}</p>
                 </div>
-                <div className="simPromoGrid">
+                <div className="simPromoGrid wizardPromoGrid">
                   <button type="button" className={selectedOffer.request === 'fourth-free' ? 'active simPromoWide' : 'simPromoWide'} onClick={() => choosePlan('8GB Plan', '1', 'fourth-free')}>
                     <span>8GB+</span>
                     <strong>{copy.fourthFreeTitle}</strong>
@@ -3720,102 +3755,113 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
                     <small>{copy.familyPromoText}</small>
                   </button>
                 </div>
-              </section>
-            </div>
 
-            <div className="simSelectedPlanCard compactSelectedPlan">
-              <div className="ultraPlanTop simSelectedPlanTop">
-                <div>
-                  <span className="planDataPill">{selectedPlanDetails?.data || (selectedOffer.request === 'family' ? 'Family' : 'Ultra')}</span>
-                  <h2>{selectedOffer.request === 'family' ? copy.familyPromoTitle : (selectedPlanDetails ? (ultraCopy[lang]?.plans[selectedPlanDetails.name]?.name || selectedPlanDetails.name) : (selectedOffer.plan || copy.noPlanSelected))}</h2>
-                  <p>{selectedOffer.request === 'family' ? copy.familyPromoText : (selectedPlanDetails ? (ultraCopy[lang]?.plans[selectedPlanDetails.name]?.highlight || selectedPlanDetails.highlight) : copy.selectedPlanText)}</p>
+                <div className="simWizardActions">
+                  <button className="primaryBtn" type="button" disabled={!form.planInterest} onClick={() => setSimStep('details')}>Continue to SIM details <ArrowRight size={18} /></button>
                 </div>
-                {selectedOffer.request === 'family' && <strong className="dealPill">4 lines</strong>}
               </div>
-
-              {selectedOffer.request !== 'family' && selectedPlanDetails ? (
-                <div className="simDurationCheckoutTabs" role="tablist" aria-label="Selected plan duration options">
-                  {durationTabs.map((tab) => {
-                    const option = selectedPlanDetails.durations[tab.key];
-                    return (
-                      <button key={tab.key} type="button" className={form.selectedDurationKey === tab.key ? 'active' : ''} onClick={() => chooseDuration(tab.key)} disabled={!option}>
-                        <span>{tab.label}</span>
-                        <small>{option ? option.monthly : 'Ask in store'}</small>
-                        {option?.billed && <b>{option.billed}</b>}
-                      </button>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="familyCheckoutBanner">
-                  <strong>{copy.familyPromoTitle}</strong>
-                  <span>{copy.familyPromoText}</span>
-                </div>
-              )}
-
-              <div className="simSelectedIncludes">
-                {(selectedOffer.request === 'family'
-                  ? ['4 Ultra Unlimited lines for $100/mo', 'International calling features included', 'CellzTech confirms eligibility before activation']
-                  : (selectedPlanDetails?.includes || ['Choose a standard or promo plan above.'])
-                ).slice(0, 4).map((item) => <div key={item}><CheckCircle2 size={17} /><span>{item}</span></div>)}
-              </div>
-            </div>
-          </div>
-
-          <form className="simRequestForm simCheckoutForm" onSubmit={submit}>
-            <div className="simCartSummary">
-              <div>
-                <span>Request cart</span>
-                <strong>{selectedOffer.request === 'family' ? 'Family promo request' : (form.planInterest || copy.noPlanSelected)}</strong>
-                <small>{form.selectedDuration} • {form.selectedPrice || copy.confirmPricing}</small>
-              </div>
-              <label className="simQuantityControl">SIM cards
-                <select value={form.simQuantity} onChange={(event) => update('simQuantity', event.target.value)} disabled={selectedOffer.request === 'family'}>
-                  {[1, 2, 3, 4, 5].map((item) => <option key={item} value={String(item)}>{item}</option>)}
-                </select>
-              </label>
-              <b>{selectedOffer.request === 'family' ? '$100/mo promo request' : requestedSubtotal}</b>
-            </div>
-
-            <div className="simOptionGrid" role="radiogroup" aria-label="SIM request type">
-              {copy.options.map((option) => (
-                <button key={option.key} type="button" className={form.requestType === option.key ? 'selected' : ''} onClick={() => update('requestType', option.key)}>
-                  <strong>{option.title}</strong>
-                  <span>{option.text}</span>
-                </button>
-              ))}
-            </div>
-
-            <label className="checkboxLine">
-              <input type="checkbox" checked={form.needsActivationHelp} onChange={(event) => update('needsActivationHelp', event.target.checked)} />
-              <span>{copy.activation}</span>
-            </label>
-
-            <h2>{copy.contact}</h2>
-            <div className="simFieldGrid">
-              <label>{copy.name}<input required value={form.name} onChange={(event) => update('name', event.target.value)} /></label>
-              <label>{copy.phone}<input required value={form.phone} onChange={(event) => update('phone', event.target.value)} /></label>
-              <label>{copy.email}<input required type="email" value={form.email} onChange={(event) => update('email', event.target.value)} /></label>
-            </div>
-
-            {form.requestType === 'shipping' && (
-              <>
-                <h2>{copy.shipping}</h2>
-                <div className="simFieldGrid">
-                  <label className="wide">{copy.address}<input required value={form.shippingAddress} onChange={(event) => update('shippingAddress', event.target.value)} /></label>
-                  <label>{copy.city}<input required value={form.shippingCity} onChange={(event) => update('shippingCity', event.target.value)} /></label>
-                  <label>{copy.state}<input required value={form.shippingState} onChange={(event) => update('shippingState', event.target.value)} /></label>
-                  <label>{copy.zip}<input required value={form.shippingZip} onChange={(event) => update('shippingZip', event.target.value)} /></label>
-                </div>
-              </>
             )}
 
-            <label>{copy.notes}<textarea value={form.notes} placeholder={copy.notesPlaceholder} onChange={(event) => update('notes', event.target.value)} /></label>
-            <p className="simFinePrint">{copy.disclaimer}</p>
-            {message && <div className={status === 'success' ? 'formSuccess' : 'formError'}>{message}</div>}
-            <button className="primaryBtn" type="submit" disabled={status === 'sending'}>{status === 'sending' ? copy.sending : copy.submit} <ArrowRight size={18} /></button>
-          </form>
-        </div>
+            {simStep === 'details' && (
+              <div className="simWizardPane simDetailsPane">
+                <div className="simCartSummary wizardCartSummary">
+                  <div>
+                    <span>Request cart</span>
+                    <strong>{selectedPlanTitle}</strong>
+                    <small>{form.selectedDuration} • {form.selectedPrice || copy.confirmPricing}</small>
+                  </div>
+                  <label className="simQuantityControl">SIM cards
+                    <select value={form.simQuantity} onChange={(event) => update('simQuantity', event.target.value)} disabled={selectedOffer.request === 'family'}>
+                      {[1, 2, 3, 4, 5].map((item) => <option key={item} value={String(item)}>{item}</option>)}
+                    </select>
+                  </label>
+                  <b>{selectedOffer.request === 'family' ? '$100/mo promo request' : requestedSubtotal}</b>
+                </div>
+
+                {selectedOffer.request !== 'family' && selectedPlanDetails ? (
+                  <div className="wizardDurationBlock">
+                    <h3>Choose plan length</h3>
+                    <div className="simDurationCheckoutTabs" role="tablist" aria-label="Selected plan duration options">
+                      {durationTabs.map((tab) => {
+                        const option = selectedPlanDetails.durations[tab.key];
+                        return (
+                          <button key={tab.key} type="button" className={form.selectedDurationKey === tab.key ? 'active' : ''} onClick={() => chooseDuration(tab.key)} disabled={!option}>
+                            <span>{tab.label}</span>
+                            <small>{option ? option.monthly : 'Ask in store'}</small>
+                            {option?.billed && <b>{option.billed}</b>}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="familyCheckoutBanner wizardFamilyBanner">
+                    <strong>{copy.familyPromoTitle}</strong>
+                    <span>{copy.familyPromoText}</span>
+                  </div>
+                )}
+
+                <div className="wizardIncludesGrid">
+                  {(selectedOffer.request === 'family'
+                    ? ['4 Ultra Unlimited lines for $100/mo', 'International calling features included', 'CellzTech confirms eligibility before activation']
+                    : (selectedPlanDetails?.includes || ['Choose a standard or promo plan above.'])
+                  ).slice(0, 4).map((item) => <div key={item}><CheckCircle2 size={16} /><span>{item}</span></div>)}
+                </div>
+
+                <div className="simOptionGrid wizardOptionGrid" role="radiogroup" aria-label="SIM request type">
+                  {copy.options.map((option) => (
+                    <button key={option.key} type="button" className={form.requestType === option.key ? 'selected' : ''} onClick={() => update('requestType', option.key)}>
+                      <strong>{option.title}</strong>
+                      <span>{option.text}</span>
+                    </button>
+                  ))}
+                </div>
+
+                <label className="checkboxLine wizardCheckLine">
+                  <input type="checkbox" checked={form.needsActivationHelp} onChange={(event) => update('needsActivationHelp', event.target.checked)} />
+                  <span>{copy.activation}</span>
+                </label>
+
+                <div className="simWizardActions splitActions">
+                  <button className="secondaryBtn" type="button" onClick={() => setSimStep('plans')}>Back</button>
+                  <button className="primaryBtn" type="button" onClick={() => setSimStep('contact')}>Continue to contact <ArrowRight size={18} /></button>
+                </div>
+              </div>
+            )}
+
+            {simStep === 'contact' && (
+              <div className="simWizardPane simContactPane">
+                <h2>{copy.contact}</h2>
+                <div className="simFieldGrid wizardFieldGrid">
+                  <label>{copy.name}<input required value={form.name} onChange={(event) => update('name', event.target.value)} /></label>
+                  <label>{copy.phone}<input required value={form.phone} onChange={(event) => update('phone', event.target.value)} /></label>
+                  <label>{copy.email}<input required type="email" value={form.email} onChange={(event) => update('email', event.target.value)} /></label>
+                </div>
+
+                {form.requestType === 'shipping' && (
+                  <>
+                    <h2>{copy.shipping}</h2>
+                    <div className="simFieldGrid wizardFieldGrid">
+                      <label className="wide">{copy.address}<input required value={form.shippingAddress} onChange={(event) => update('shippingAddress', event.target.value)} /></label>
+                      <label>{copy.city}<input required value={form.shippingCity} onChange={(event) => update('shippingCity', event.target.value)} /></label>
+                      <label>{copy.state}<input required value={form.shippingState} onChange={(event) => update('shippingState', event.target.value)} /></label>
+                      <label>{copy.zip}<input required value={form.shippingZip} onChange={(event) => update('shippingZip', event.target.value)} /></label>
+                    </div>
+                  </>
+                )}
+
+                <label className="wizardNotesLabel">{copy.notes}<textarea value={form.notes} placeholder={copy.notesPlaceholder} onChange={(event) => update('notes', event.target.value)} /></label>
+                <p className="simFinePrint wizardFinePrint">{copy.disclaimer}</p>
+                {message && <div className={status === 'success' ? 'formSuccess' : 'formError'}>{message}</div>}
+
+                <div className="simWizardActions splitActions">
+                  <button className="secondaryBtn" type="button" onClick={() => setSimStep('details')}>Back</button>
+                  <button className="primaryBtn" type="submit" disabled={status === 'sending'}>{status === 'sending' ? copy.sending : copy.submit} <ArrowRight size={18} /></button>
+                </div>
+              </div>
+            )}
+          </section>
+        </form>
       </section>
     </main>
   );

@@ -9926,3 +9926,331 @@ canvas {
     min-height: 42px;
   }
 }
+
+/* Ultra SIM request guided one-screen wizard */
+.simWizardHero {
+  min-height: calc(100vh - 112px);
+  padding: 34px 0;
+  display: flex;
+  align-items: center;
+}
+.simWizardShell {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.86fr) minmax(560px, 1.14fr);
+  gap: 28px;
+  align-items: stretch;
+}
+.simWizardIntro {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 640px;
+}
+.simWizardIntro h1 {
+  margin: 22px 0 16px;
+  font-size: clamp(3.2rem, 5vw, 5.5rem);
+  line-height: .92;
+  letter-spacing: -0.07em;
+  max-width: 720px;
+}
+.simWizardIntro p {
+  max-width: 650px;
+  color: rgba(255,255,255,.88);
+  font-size: 1.18rem;
+  line-height: 1.48;
+}
+.simWizardSteps {
+  margin-top: 26px;
+  display: grid;
+  gap: 10px;
+  max-width: 460px;
+}
+.simWizardSteps button {
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.78);
+  border-radius: 18px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+.simWizardSteps button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+.simWizardSteps button span {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,.16);
+  font-weight: 900;
+}
+.simWizardSteps button b {
+  font-size: 1rem;
+}
+.simWizardSteps button.active {
+  background: #fff;
+  color: #061426;
+  box-shadow: 0 18px 40px rgba(0,0,0,.22);
+}
+.simWizardSteps button.active span {
+  background: #0d6dff;
+  color: #fff;
+}
+.simWizardMiniSummary {
+  margin-top: 18px;
+  max-width: 460px;
+  border: 1px solid rgba(255,255,255,.2);
+  background: rgba(255,255,255,.08);
+  border-radius: 22px;
+  padding: 16px;
+  display: grid;
+  gap: 4px;
+}
+.simWizardMiniSummary small {
+  color: rgba(255,255,255,.65);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.simWizardMiniSummary strong,
+.simWizardMiniSummary b {
+  color: #fff;
+}
+.simWizardMiniSummary span {
+  color: rgba(255,255,255,.78);
+}
+.simWizardCard {
+  background: rgba(255,255,255,.96);
+  border: 1px solid rgba(199,222,255,.9);
+  border-radius: 30px;
+  padding: 18px;
+  min-height: 640px;
+  max-height: calc(100vh - 160px);
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(3, 15, 36, .28);
+  display: flex;
+  flex-direction: column;
+}
+.simWizardTopline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 4px 14px;
+  border-bottom: 1px solid #dbeafe;
+}
+.simWizardTopline span {
+  color: #2463ff;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .8rem;
+}
+.simWizardTopline strong {
+  color: #061426;
+  font-size: 1rem;
+}
+.simWizardPane {
+  padding: 16px 2px 2px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.compactWizardHeader {
+  margin-bottom: 10px;
+}
+.compactWizardHeader h2 {
+  color: #061426;
+  font-size: 1.55rem;
+  margin: 5px 0 3px;
+}
+.compactWizardHeader p {
+  margin: 0;
+  color: #485a78;
+  font-weight: 750;
+  font-size: .93rem;
+}
+.wizardPlanGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.wizardPlanGrid button {
+  min-height: 94px;
+  padding: 12px;
+}
+.wizardPlanGrid button strong {
+  font-size: .98rem;
+  line-height: 1.05;
+}
+.promoWizardHeader {
+  margin-top: 14px;
+}
+.wizardPromoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.wizardPromoGrid button {
+  min-height: 94px;
+  padding: 12px;
+}
+.wizardPromoGrid button strong {
+  font-size: .98rem;
+  color: #061426;
+}
+.simWizardActions {
+  margin-top: auto;
+  padding-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+.splitActions {
+  justify-content: space-between;
+}
+.wizardCartSummary {
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 20px;
+}
+.wizardCartSummary strong {
+  font-size: 1.1rem;
+}
+.wizardDurationBlock h3,
+.simContactPane h2 {
+  margin: 0 0 8px;
+  color: #061426;
+  font-size: 1.25rem;
+}
+.wizardDurationBlock .simDurationCheckoutTabs {
+  gap: 9px;
+}
+.wizardDurationBlock .simDurationCheckoutTabs button {
+  min-height: 82px;
+  padding: 10px;
+}
+.wizardIncludesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.wizardIncludesGrid div {
+  border: 1px solid #d7e5fb;
+  background: #f8fbff;
+  border-radius: 15px;
+  padding: 9px 10px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #12213a;
+  font-weight: 800;
+  font-size: .86rem;
+}
+.wizardIncludesGrid svg {
+  color: #1b73ff;
+  flex: 0 0 auto;
+}
+.wizardOptionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 9px;
+  margin: 0;
+}
+.wizardOptionGrid button {
+  min-height: 92px;
+  padding: 12px;
+}
+.wizardOptionGrid button strong {
+  font-size: .95rem;
+}
+.wizardOptionGrid button span {
+  font-size: .82rem;
+  line-height: 1.35;
+}
+.wizardCheckLine {
+  margin: 10px 0 0;
+}
+.wizardFieldGrid {
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.wizardFieldGrid label {
+  color: #12213a;
+  font-weight: 850;
+}
+.wizardFieldGrid input {
+  min-height: 42px;
+  padding: 9px 12px;
+}
+.wizardNotesLabel {
+  color: #12213a;
+  font-weight: 850;
+}
+.wizardNotesLabel textarea {
+  min-height: 78px;
+  padding: 11px 12px;
+}
+.wizardFinePrint {
+  margin: 8px 0 0;
+  font-size: .78rem;
+  line-height: 1.25;
+}
+.wizardFamilyBanner {
+  margin: 0 0 12px;
+}
+.simContactPane {
+  overflow: hidden;
+}
+
+@media (max-height: 760px) and (min-width: 901px) {
+  .simWizardHero { padding: 20px 0; }
+  .simWizardIntro, .simWizardCard { min-height: 560px; max-height: calc(100vh - 130px); }
+  .simWizardIntro h1 { font-size: clamp(2.8rem, 4.4vw, 4.8rem); margin: 14px 0 10px; }
+  .simWizardIntro p { font-size: 1.02rem; line-height: 1.35; }
+  .simWizardSteps { margin-top: 16px; gap: 8px; }
+  .simWizardSteps button { padding: 9px 12px; }
+  .simWizardMiniSummary { padding: 12px; }
+  .simWizardCard { padding: 14px; }
+  .wizardPlanGrid button, .wizardPromoGrid button { min-height: 78px; padding: 9px; }
+  .compactWizardHeader h2 { font-size: 1.28rem; }
+  .compactWizardHeader p { font-size: .82rem; }
+  .wizardDurationBlock .simDurationCheckoutTabs button { min-height: 68px; }
+  .wizardOptionGrid button { min-height: 75px; padding: 9px; }
+  .wizardIncludesGrid { margin: 8px 0; }
+  .wizardIncludesGrid div { padding: 7px 8px; font-size: .78rem; }
+  .wizardNotesLabel textarea { min-height: 56px; }
+}
+
+@media (max-width: 1020px) {
+  .simWizardHero { min-height: auto; align-items: flex-start; }
+  .simWizardShell { grid-template-columns: 1fr; }
+  .simWizardIntro, .simWizardCard { min-height: auto; max-height: none; }
+  .simWizardIntro h1 { font-size: clamp(2.7rem, 11vw, 4.3rem); }
+  .simWizardCard { overflow: visible; }
+  .simWizardPane { overflow: visible; }
+  .wizardPlanGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .simWizardHero { padding: 22px 0; }
+  .simWizardShell { gap: 18px; }
+  .simWizardIntro h1 { margin-top: 16px; }
+  .simWizardSteps { grid-template-columns: 1fr; }
+  .simWizardMiniSummary { max-width: none; }
+  .simWizardCard { border-radius: 22px; padding: 14px; }
+  .simWizardTopline { align-items: flex-start; flex-direction: column; }
+  .wizardPlanGrid, .wizardPromoGrid, .wizardOptionGrid, .wizardIncludesGrid { grid-template-columns: 1fr; }
+  .splitActions { flex-direction: column; }
+  .splitActions .primaryBtn, .splitActions .secondaryBtn, .simWizardActions .primaryBtn { width: 100%; justify-content: center; }
+}
