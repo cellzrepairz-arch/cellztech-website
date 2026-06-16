@@ -9643,3 +9643,286 @@ canvas {
   .simPlanChoiceGrid { grid-template-columns: 1fr; }
   .salesRequestHero { padding-top: 2.5rem; }
 }
+
+/* Ultra SIM request one-screen desktop checkout polish */
+@media (min-width: 1121px) {
+  .ultraSimRequestHero.salesRequestHero {
+    min-height: calc(100vh - 112px);
+    padding: 34px 0 26px;
+    overflow: hidden;
+  }
+
+  .ultraSimRequestHero .wrap {
+    max-width: 1420px;
+  }
+
+  .simCheckoutGrid {
+    grid-template-columns: minmax(560px, 0.98fr) minmax(470px, 0.82fr);
+    gap: 24px;
+    align-items: start;
+  }
+
+  .simCheckoutMain h1 {
+    font-size: clamp(2.65rem, 4.8vw, 4.35rem);
+    line-height: .9;
+    letter-spacing: -.065em;
+    margin: 16px 0 12px;
+    max-width: 640px;
+  }
+
+  .simCheckoutMain > p {
+    max-width: 680px;
+    font-size: .98rem;
+    line-height: 1.42;
+    margin-bottom: 18px;
+  }
+
+  .simPlanPickerShell {
+    display: grid;
+    gap: 12px;
+  }
+
+  .simPlanPickerPanel {
+    border-radius: 24px;
+    padding: 16px;
+  }
+
+  .simPickerHeader {
+    margin-bottom: 10px;
+  }
+
+  .simPickerHeader > span {
+    font-size: .64rem;
+    padding: 7px 10px;
+  }
+
+  .simPickerHeader h2 {
+    font-size: 1.45rem;
+    letter-spacing: -.035em;
+    margin: 8px 0 4px;
+  }
+
+  .simPickerHeader p {
+    font-size: .8rem;
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  .simPlanChoiceGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .simPlanChoiceGrid button {
+    min-height: 76px;
+    padding: 10px 11px;
+    border-radius: 15px;
+  }
+
+  .simPlanChoiceGrid button span {
+    font-size: .67rem;
+    padding: 5px 8px;
+    margin-bottom: 6px;
+  }
+
+  .simPlanChoiceGrid button strong {
+    font-size: .92rem;
+    line-height: 1.05;
+  }
+
+  .simPlanChoiceGrid button small {
+    font-size: .78rem;
+  }
+
+  .simPromoGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .simPromoGrid button,
+  .simPromoGrid .simPromoWide {
+    min-height: 92px;
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .simPromoGrid button strong {
+    font-size: .92rem;
+    line-height: 1.1;
+  }
+
+  .simPromoGrid button small {
+    font-size: .76rem;
+    line-height: 1.25;
+  }
+
+  .compactSelectedPlan {
+    display: none;
+  }
+
+  .simCheckoutForm {
+    position: sticky;
+    top: 18px;
+    padding: 18px;
+    border-radius: 24px;
+    max-height: calc(100vh - 154px);
+    overflow: hidden;
+  }
+
+  .simCartSummary {
+    padding: 12px;
+    border-radius: 18px;
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+
+  .simCartSummary > div span {
+    font-size: .64rem;
+    margin-bottom: 2px;
+  }
+
+  .simCartSummary > div strong {
+    font-size: .95rem;
+  }
+
+  .simCartSummary > div small {
+    font-size: .76rem;
+    margin-top: 2px;
+  }
+
+  .simCartSummary > b {
+    font-size: .88rem;
+  }
+
+  .simQuantityControl {
+    min-width: 86px;
+    font-size: .78rem !important;
+  }
+
+  .simQuantityControl select {
+    padding: 8px 10px;
+    border-radius: 12px;
+  }
+
+  .simOptionGrid {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .simOptionGrid button {
+    padding: 10px;
+    border-radius: 15px;
+    min-height: 74px;
+  }
+
+  .simOptionGrid button strong {
+    font-size: .84rem;
+    line-height: 1.08;
+    margin-bottom: 4px;
+  }
+
+  .simOptionGrid button span {
+    font-size: .69rem;
+    line-height: 1.22;
+  }
+
+  .checkboxLine {
+    margin: 7px 0 !important;
+    font-size: .8rem !important;
+  }
+
+  .checkboxLine input {
+    width: 16px;
+    height: 16px;
+  }
+
+  .simRequestForm h2 {
+    margin: 10px 0 7px;
+    font-size: 1rem;
+  }
+
+  .simFieldGrid {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .simRequestForm label {
+    gap: 5px;
+    font-size: .76rem;
+  }
+
+  .simRequestForm input,
+  .simRequestForm select,
+  .simRequestForm textarea {
+    padding: 9px 10px;
+    border-radius: 12px;
+    font-size: .86rem;
+  }
+
+  .simRequestForm textarea {
+    min-height: 56px;
+  }
+
+  .simFinePrint {
+    font-size: .68rem;
+    line-height: 1.22;
+    margin: 8px 0;
+  }
+
+  .simCheckoutForm .primaryBtn {
+    padding: 11px 16px;
+    border-radius: 999px;
+    font-size: .9rem;
+  }
+}
+
+@media (min-width: 1121px) and (max-height: 760px) {
+  .ultraSimRequestHero.salesRequestHero {
+    padding-top: 22px;
+    padding-bottom: 18px;
+  }
+
+  .simCheckoutMain h1 {
+    font-size: clamp(2.25rem, 4.3vw, 3.75rem);
+    margin: 10px 0 8px;
+  }
+
+  .simCheckoutMain > p {
+    font-size: .9rem;
+    line-height: 1.32;
+    margin-bottom: 12px;
+  }
+
+  .simPlanPickerPanel {
+    padding: 13px;
+    border-radius: 21px;
+  }
+
+  .simPlanChoiceGrid button {
+    min-height: 66px;
+    padding: 8px 9px;
+  }
+
+  .simPromoGrid button,
+  .simPromoGrid .simPromoWide {
+    min-height: 78px;
+    padding: 10px;
+  }
+
+  .simCheckoutForm {
+    padding: 14px;
+    max-height: calc(100vh - 132px);
+  }
+
+  .simOptionGrid button {
+    min-height: 64px;
+  }
+
+  .simOptionGrid button span {
+    display: none;
+  }
+
+  .simRequestForm textarea {
+    min-height: 42px;
+  }
+}
