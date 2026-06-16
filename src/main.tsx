@@ -3497,7 +3497,7 @@ const simRequestCopy = {
       { key: 'pickup', title: 'Pick up in Chicago', text: 'Reserve a SIM for pickup and activation help at CellzTech.' },
       { key: 'esim', title: 'Ask about eSIM', text: 'Check whether your compatible phone can use Ultra Mobile eSIM.' }
     ],
-    plan: 'Plan you are interested in', choosePlan: 'Choose a plan or select not sure', activation: 'I need help activating or transferring my number', contact: 'Contact details', name: 'Full name', phone: 'Phone number', email: 'Email address', shipping: 'Shipping address', address: 'Street address', city: 'City', state: 'State', zip: 'ZIP code', notes: 'Notes', notesPlaceholder: 'Example: I need a SIM for a family member in another state.', submit: 'Send SIM request', sending: 'Sending request...', success: 'SIM request sent. We will contact you to confirm availability, shipping, activation, and payment details.', error: 'Please check the form and try again.', disclaimer: 'SIM shipping and activation are not confirmed until CellzTech contacts you. Taxes, shipping, plan pricing, promo eligibility, and activation details may vary.', selectedLabel: 'Selected Ultra option', familyLabel: 'Featured family offer', noPlanSelected: 'Choose a plan below', confirmPricing: 'We will confirm pricing', offerNote: 'Submit the request below and CellzTech will confirm SIM availability, plan details, shipping or pickup, and payment options before anything is finalized.', promiseSimTitle: 'SIM', promiseSim: 'Physical SIM shipping, pickup, or eSIM help', promisePickupTitle: 'Pickup', promisePickup: 'Local setup help at CellzTech Chicago', promiseConfirmTitle: 'Confirm', promiseConfirm: 'We contact you before payment or activation'
+    plan: 'Plan you are interested in', choosePlan: 'Choose a plan or select not sure', activation: 'I need help activating or transferring my number', contact: 'Contact details', name: 'Full name', phone: 'Phone number', email: 'Email address', shipping: 'Shipping address', address: 'Street address', city: 'City', state: 'State', zip: 'ZIP code', notes: 'Notes', notesPlaceholder: 'Example: I need a SIM for a family member in another state.', submit: 'Send SIM request', sending: 'Sending request...', success: 'SIM request sent. We will contact you to confirm availability, shipping, activation, and payment details.', error: 'Please check the form and try again.', disclaimer: 'SIM shipping and activation are not confirmed until CellzTech contacts you. Taxes, shipping, plan pricing, promo eligibility, and activation details may vary.', selectedLabel: 'Selected Ultra option', familyLabel: 'Featured family offer', noPlanSelected: 'Choose a plan below', confirmPricing: 'We will confirm pricing', offerNote: 'Submit the request below and CellzTech will confirm SIM availability, plan details, shipping or pickup, and payment options before anything is finalized.', promiseSimTitle: 'SIM', promiseSim: 'Physical SIM shipping, pickup, or eSIM help', promisePickupTitle: 'Pickup', promisePickup: 'Local setup help at CellzTech Chicago', promiseConfirmTitle: 'Confirm', promiseConfirm: 'We contact you before payment or activation', standardPlansTitle: 'Standard Ultra plans', standardPlansText: 'Regular Ultra Mobile plan options. Pick one first, then choose 1, 3, 6, or 12 months.', promoPlansTitle: 'Current promo plans', promoPlansText: 'Monthly specials change often. CellzTech confirms promo eligibility before activation.', regularPrice: 'Regular pricing', promoBadge: 'Current promo', fourthFreeTitle: '4th month free eligible plans', fourthFreeText: 'Choose an eligible 1-month plan and we will confirm the current 4th-month-free promo details.', familyPromoTitle: '4 Ultra Unlimited lines for $100/mo', familyPromoText: 'Featured family promo. We confirm line eligibility before activation.', chooseThisPlan: 'Choose this plan', selectedPlanTitle: 'Selected request', selectedPlanText: 'Use the duration buttons below to preview the request amount. Nothing is charged online yet.'
   },
   pl: {
     badge: 'Prośba o kartę SIM Ultra Mobile', title: 'Zamów kartę SIM Ultra Mobile.', text: 'Wybierz wysyłkę, odbiór w sklepie albo pomoc z eSIM. To jeszcze nie jest płatność online — potwierdzimy dostępność SIM, aktywację, wysyłkę i płatność przed finalizacją.',
@@ -3506,7 +3506,7 @@ const simRequestCopy = {
       { key: 'pickup', title: 'Odbiór w Chicago', text: 'Zarezerwuj SIM do odbioru i pomocy przy aktywacji w CellzTech.' },
       { key: 'esim', title: 'Zapytaj o eSIM', text: 'Sprawdź, czy Twój zgodny telefon może użyć eSIM Ultra Mobile.' }
     ],
-    plan: 'Plan, który Cię interesuje', choosePlan: 'Wybierz plan albo zaznacz, że nie masz pewności', activation: 'Potrzebuję pomocy z aktywacją lub przeniesieniem numeru', contact: 'Dane kontaktowe', name: 'Imię i nazwisko', phone: 'Numer telefonu', email: 'Adres e-mail', shipping: 'Adres wysyłki', address: 'Ulica i numer', city: 'Miasto', state: 'Stan', zip: 'Kod ZIP', notes: 'Uwagi', notesPlaceholder: 'Przykład: Potrzebuję SIM dla członka rodziny w innym stanie.', submit: 'Wyślij prośbę o SIM', sending: 'Wysyłanie...', success: 'Prośba o SIM została wysłana. Skontaktujemy się, aby potwierdzić dostępność, wysyłkę, aktywację i płatność.', error: 'Sprawdź formularz i spróbuj ponownie.', disclaimer: 'Wysyłka SIM i aktywacja nie są potwierdzone, dopóki CellzTech się z Tobą nie skontaktuje. Podatki, wysyłka, ceny planów, uprawnienia do promocji i szczegóły aktywacji mogą się różnić.', selectedLabel: 'Wybrana opcja Ultra', familyLabel: 'Promocja rodzinna', noPlanSelected: 'Wybierz plan poniżej', confirmPricing: 'Potwierdzimy cenę', offerNote: 'Wyślij formularz, a CellzTech potwierdzi dostępność SIM, szczegóły planu, wysyłkę lub odbiór oraz opcje płatności przed finalizacją.', promiseSimTitle: 'SIM', promiseSim: 'Wysyłka fizycznej SIM, odbiór w sklepie albo pomoc z eSIM', promisePickupTitle: 'Odbiór', promisePickup: 'Pomoc przy konfiguracji w CellzTech w Chicago', promiseConfirmTitle: 'Potwierdzenie', promiseConfirm: 'Kontaktujemy się przed płatnością lub aktywacją'
+    plan: 'Plan, który Cię interesuje', choosePlan: 'Wybierz plan albo zaznacz, że nie masz pewności', activation: 'Potrzebuję pomocy z aktywacją lub przeniesieniem numeru', contact: 'Dane kontaktowe', name: 'Imię i nazwisko', phone: 'Numer telefonu', email: 'Adres e-mail', shipping: 'Adres wysyłki', address: 'Ulica i numer', city: 'Miasto', state: 'Stan', zip: 'Kod ZIP', notes: 'Uwagi', notesPlaceholder: 'Przykład: Potrzebuję SIM dla członka rodziny w innym stanie.', submit: 'Wyślij prośbę o SIM', sending: 'Wysyłanie...', success: 'Prośba o SIM została wysłana. Skontaktujemy się, aby potwierdzić dostępność, wysyłkę, aktywację i płatność.', error: 'Sprawdź formularz i spróbuj ponownie.', disclaimer: 'Wysyłka SIM i aktywacja nie są potwierdzone, dopóki CellzTech się z Tobą nie skontaktuje. Podatki, wysyłka, ceny planów, uprawnienia do promocji i szczegóły aktywacji mogą się różnić.', selectedLabel: 'Wybrana opcja Ultra', familyLabel: 'Promocja rodzinna', noPlanSelected: 'Wybierz plan poniżej', confirmPricing: 'Potwierdzimy cenę', offerNote: 'Wyślij formularz, a CellzTech potwierdzi dostępność SIM, szczegóły planu, wysyłkę lub odbiór oraz opcje płatności przed finalizacją.', promiseSimTitle: 'SIM', promiseSim: 'Wysyłka fizycznej SIM, odbiór w sklepie albo pomoc z eSIM', promisePickupTitle: 'Odbiór', promisePickup: 'Pomoc przy konfiguracji w CellzTech w Chicago', promiseConfirmTitle: 'Potwierdzenie', promiseConfirm: 'Kontaktujemy się przed płatnością lub aktywacją', standardPlansTitle: 'Standardowe plany Ultra', standardPlansText: 'Regularne opcje planów Ultra Mobile. Wybierz plan, a potem okres 1, 3, 6 lub 12 miesięcy.', promoPlansTitle: 'Aktualne promocje', promoPlansText: 'Promocje miesięczne często się zmieniają. CellzTech potwierdzi kwalifikację przed aktywacją.', regularPrice: 'Regularna cena', promoBadge: 'Aktualna promocja', fourthFreeTitle: 'Plany z możliwym 4. miesiącem gratis', fourthFreeText: 'Wybierz kwalifikujący się plan miesięczny, a my potwierdzimy szczegóły promocji.', familyPromoTitle: '4 linie Ultra Unlimited za $100/mies.', familyPromoText: 'Wyróżniona promocja rodzinna. Potwierdzimy kwalifikację linii przed aktywacją.', chooseThisPlan: 'Wybierz ten plan', selectedPlanTitle: 'Wybrana prośba', selectedPlanText: 'Użyj przycisków okresu poniżej, aby zobaczyć kwotę prośby. Online nic nie jest pobierane.'
   },
   es: {
     badge: 'Solicitud de SIM Ultra Mobile', title: 'Solicita una tarjeta SIM Ultra Mobile.', text: 'Elige envío, recogida en tienda o ayuda con eSIM. Todavía no es un pago en línea; confirmaremos disponibilidad, activación, envío y pago antes de finalizar.',
@@ -3515,7 +3515,7 @@ const simRequestCopy = {
       { key: 'pickup', title: 'Recoger en Chicago', text: 'Reserva una SIM para recogerla y recibir ayuda de activación en CellzTech.' },
       { key: 'esim', title: 'Preguntar por eSIM', text: 'Revisa si tu teléfono compatible puede usar eSIM de Ultra Mobile.' }
     ],
-    plan: 'Plan que te interesa', choosePlan: 'Elige un plan o selecciona no estoy seguro', activation: 'Necesito ayuda para activar o transferir mi número', contact: 'Datos de contacto', name: 'Nombre completo', phone: 'Teléfono', email: 'Correo electrónico', shipping: 'Dirección de envío', address: 'Dirección', city: 'Ciudad', state: 'Estado', zip: 'Código postal', notes: 'Notas', notesPlaceholder: 'Ejemplo: Necesito una SIM para un familiar en otro estado.', submit: 'Enviar solicitud de SIM', sending: 'Enviando...', success: 'Solicitud de SIM enviada. Te contactaremos para confirmar disponibilidad, envío, activación y pago.', error: 'Revisa el formulario e inténtalo de nuevo.', disclaimer: 'El envío de SIM y la activación no quedan confirmados hasta que CellzTech te contacte. Impuestos, envío, precio del plan, elegibilidad de promociones y detalles de activación pueden variar.', selectedLabel: 'Opción Ultra seleccionada', familyLabel: 'Oferta familiar destacada', noPlanSelected: 'Elige un plan abajo', confirmPricing: 'Confirmaremos el precio', offerNote: 'Envía la solicitud y CellzTech confirmará disponibilidad de SIM, detalles del plan, envío o recogida, y opciones de pago antes de finalizar.', promiseSimTitle: 'SIM', promiseSim: 'Envío de SIM física, recogida o ayuda con eSIM', promisePickupTitle: 'Recogida', promisePickup: 'Ayuda local de configuración en CellzTech Chicago', promiseConfirmTitle: 'Confirmar', promiseConfirm: 'Te contactamos antes del pago o la activación'
+    plan: 'Plan que te interesa', choosePlan: 'Elige un plan o selecciona no estoy seguro', activation: 'Necesito ayuda para activar o transferir mi número', contact: 'Datos de contacto', name: 'Nombre completo', phone: 'Teléfono', email: 'Correo electrónico', shipping: 'Dirección de envío', address: 'Dirección', city: 'Ciudad', state: 'Estado', zip: 'Código postal', notes: 'Notas', notesPlaceholder: 'Ejemplo: Necesito una SIM para un familiar en otro estado.', submit: 'Enviar solicitud de SIM', sending: 'Enviando...', success: 'Solicitud de SIM enviada. Te contactaremos para confirmar disponibilidad, envío, activación y pago.', error: 'Revisa el formulario e inténtalo de nuevo.', disclaimer: 'El envío de SIM y la activación no quedan confirmados hasta que CellzTech te contacte. Impuestos, envío, precio del plan, elegibilidad de promociones y detalles de activación pueden variar.', selectedLabel: 'Opción Ultra seleccionada', familyLabel: 'Oferta familiar destacada', noPlanSelected: 'Elige un plan abajo', confirmPricing: 'Confirmaremos el precio', offerNote: 'Envía la solicitud y CellzTech confirmará disponibilidad de SIM, detalles del plan, envío o recogida, y opciones de pago antes de finalizar.', promiseSimTitle: 'SIM', promiseSim: 'Envío de SIM física, recogida o ayuda con eSIM', promisePickupTitle: 'Recogida', promisePickup: 'Ayuda local de configuración en CellzTech Chicago', promiseConfirmTitle: 'Confirmar', promiseConfirm: 'Te contactamos antes del pago o la activación', standardPlansTitle: 'Planes Ultra estándar', standardPlansText: 'Opciones regulares de Ultra Mobile. Elige un plan y luego 1, 3, 6 o 12 meses.', promoPlansTitle: 'Promociones actuales', promoPlansText: 'Las promociones mensuales cambian seguido. CellzTech confirma elegibilidad antes de activar.', regularPrice: 'Precio regular', promoBadge: 'Promoción actual', fourthFreeTitle: 'Planes elegibles para 4.º mes gratis', fourthFreeText: 'Elige un plan mensual elegible y confirmaremos los detalles de la promoción.', familyPromoTitle: '4 líneas Ultra Unlimited por $100/mes', familyPromoText: 'Promoción familiar destacada. Confirmamos elegibilidad antes de activar.', chooseThisPlan: 'Elegir este plan', selectedPlanTitle: 'Solicitud seleccionada', selectedPlanText: 'Usa los botones de duración para ver el monto estimado. No se cobra en línea todavía.'
   },
   uk: {
     badge: 'Запит SIM Ultra Mobile', title: 'Надішліть запит на SIM-картку Ultra Mobile.', text: 'Виберіть доставку, самовивіз із магазину або допомогу з eSIM. Це ще не онлайн-оплата — ми підтвердимо наявність SIM, активацію, доставку й оплату до завершення.',
@@ -3524,7 +3524,7 @@ const simRequestCopy = {
       { key: 'pickup', title: 'Самовивіз у Чикаго', text: 'Зарезервуйте SIM для самовивозу та допомоги з активацією в CellzTech.' },
       { key: 'esim', title: 'Запитати про eSIM', text: 'Перевірте, чи сумісний телефон може використовувати eSIM Ultra Mobile.' }
     ],
-    plan: 'План, який вас цікавить', choosePlan: 'Виберіть план або позначте, що не впевнені', activation: 'Потрібна допомога з активацією або перенесенням номера', contact: 'Контактні дані', name: 'Повне ім’я', phone: 'Телефон', email: 'Електронна пошта', shipping: 'Адреса доставки', address: 'Вулиця та номер', city: 'Місто', state: 'Штат', zip: 'ZIP-код', notes: 'Примітки', notesPlaceholder: 'Приклад: Потрібна SIM для родича в іншому штаті.', submit: 'Надіслати запит SIM', sending: 'Надсилання...', success: 'Запит SIM надіслано. Ми зв’яжемося, щоб підтвердити наявність, доставку, активацію й оплату.', error: 'Перевірте форму та спробуйте ще раз.', disclaimer: 'Доставка SIM і активація не підтверджені, доки CellzTech не зв’яжеться з вами. Податки, доставка, ціна плану, умови акцій і деталі активації можуть відрізнятися.', selectedLabel: 'Вибрана опція Ultra', familyLabel: 'Сімейна пропозиція', noPlanSelected: 'Виберіть план нижче', confirmPricing: 'Ми підтвердимо ціну', offerNote: 'Надішліть запит, і CellzTech підтвердить наявність SIM, деталі плану, доставку або самовивіз та варіанти оплати до завершення.', promiseSimTitle: 'SIM', promiseSim: 'Доставка фізичної SIM, самовивіз або допомога з eSIM', promisePickupTitle: 'Самовивіз', promisePickup: 'Місцева допомога з налаштуванням у CellzTech Chicago', promiseConfirmTitle: 'Підтвердження', promiseConfirm: 'Ми зв’яжемося перед оплатою або активацією'
+    plan: 'План, який вас цікавить', choosePlan: 'Виберіть план або позначте, що не впевнені', activation: 'Потрібна допомога з активацією або перенесенням номера', contact: 'Контактні дані', name: 'Повне ім’я', phone: 'Телефон', email: 'Електронна пошта', shipping: 'Адреса доставки', address: 'Вулиця та номер', city: 'Місто', state: 'Штат', zip: 'ZIP-код', notes: 'Примітки', notesPlaceholder: 'Приклад: Потрібна SIM для родича в іншому штаті.', submit: 'Надіслати запит SIM', sending: 'Надсилання...', success: 'Запит SIM надіслано. Ми зв’яжемося, щоб підтвердити наявність, доставку, активацію й оплату.', error: 'Перевірте форму та спробуйте ще раз.', disclaimer: 'Доставка SIM і активація не підтверджені, доки CellzTech не зв’яжеться з вами. Податки, доставка, ціна плану, умови акцій і деталі активації можуть відрізнятися.', selectedLabel: 'Вибрана опція Ultra', familyLabel: 'Сімейна пропозиція', noPlanSelected: 'Виберіть план нижче', confirmPricing: 'Ми підтвердимо ціну', offerNote: 'Надішліть запит, і CellzTech підтвердить наявність SIM, деталі плану, доставку або самовивіз та варіанти оплати до завершення.', promiseSimTitle: 'SIM', promiseSim: 'Доставка фізичної SIM, самовивіз або допомога з eSIM', promisePickupTitle: 'Самовивіз', promisePickup: 'Місцева допомога з налаштуванням у CellzTech Chicago', promiseConfirmTitle: 'Підтвердження', promiseConfirm: 'Ми зв’яжемося перед оплатою або активацією', standardPlansTitle: 'Стандартні плани Ultra', standardPlansText: 'Регулярні варіанти Ultra Mobile. Виберіть план, а потім 1, 3, 6 або 12 місяців.', promoPlansTitle: 'Поточні акції', promoPlansText: 'Місячні акції часто змінюються. CellzTech підтвердить відповідність перед активацією.', regularPrice: 'Регулярна ціна', promoBadge: 'Поточна акція', fourthFreeTitle: 'Плани з можливим 4-м місяцем безкоштовно', fourthFreeText: 'Виберіть відповідний місячний план, і ми підтвердимо деталі акції.', familyPromoTitle: '4 лінії Ultra Unlimited за $100/міс.', familyPromoText: 'Сімейна акція. Ми підтвердимо відповідність ліній перед активацією.', chooseThisPlan: 'Вибрати план', selectedPlanTitle: 'Вибраний запит', selectedPlanText: 'Оберіть тривалість нижче, щоб побачити суму. Онлайн оплата ще не стягується.'
   }
 } as const;
 
@@ -3559,6 +3559,44 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
   const quantity = Math.max(1, Math.min(Number(form.simQuantity || '1') || 1, 10));
 
   const update = (key: string, value: string | boolean) => setForm((current) => ({ ...current, [key]: value }));
+
+  const choosePlan = (planName: string, durationKey: DurationKey = '1', request = '') => {
+    const plan = ultraPlans.find((item) => item.name === planName);
+    const safeDurationKey = plan?.durations[durationKey] ? durationKey : '1';
+    const option = plan?.durations[safeDurationKey];
+    setSelectedOffer({
+      plan: planName,
+      duration: option?.label || '1 Month',
+      durationKey: safeDurationKey,
+      price: option?.monthly || '',
+      billed: option?.billed || '',
+      request
+    });
+    setForm((current) => ({
+      ...current,
+      planInterest: planName,
+      selectedDuration: option?.label || '1 Month',
+      selectedDurationKey: safeDurationKey,
+      selectedPrice: option?.monthly || '',
+      selectedBilled: option?.billed || '',
+      simQuantity: request === 'family' ? '4' : current.simQuantity,
+      notes: request === 'family' && !current.notes ? 'Interested in the Ultra Mobile 4 for $100 family plan promotion.' : current.notes
+    }));
+  };
+
+  const chooseFamilyPromo = () => {
+    setSelectedOffer({ plan: familyOptionValue, duration: 'Family promo', durationKey: '1', price: '$100/mo', billed: '$100 monthly family offer', request: 'family' });
+    setForm((current) => ({
+      ...current,
+      planInterest: familyOptionValue,
+      selectedDuration: 'Family promo',
+      selectedDurationKey: '1',
+      selectedPrice: '$100/mo',
+      selectedBilled: '$100 monthly family offer',
+      simQuantity: '4',
+      notes: !current.notes ? 'Interested in the Ultra Mobile 4 for $100 family plan promotion.' : current.notes
+    }));
+  };
 
   const chooseDuration = (key: DurationKey) => {
     if (!selectedPlanDetails?.durations[key]) return;
@@ -3642,12 +3680,55 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
             <h1>{copy.title}</h1>
             <p>{copy.text}</p>
 
-            <div className="simSelectedPlanCard">
+            <div className="simPlanPickerShell">
+              <section className="simPlanPickerPanel">
+                <div className="simPickerHeader">
+                  <span>{copy.regularPrice}</span>
+                  <h2>{copy.standardPlansTitle}</h2>
+                  <p>{copy.standardPlansText}</p>
+                </div>
+                <div className="simPlanChoiceGrid">
+                  {ultraPlans.map((plan) => {
+                    const option = plan.durations['1'];
+                    const isActive = form.planInterest === plan.name && selectedOffer.request !== 'family';
+                    return (
+                      <button key={plan.name} type="button" className={isActive ? 'active' : ''} onClick={() => choosePlan(plan.name, '1')}>
+                        <span>{plan.data}</span>
+                        <strong>{ultraCopy[lang]?.plans[plan.name]?.name || plan.name}</strong>
+                        <small>{option?.monthly || copy.confirmPricing}</small>
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+
+              <section className="simPlanPickerPanel promoPanel">
+                <div className="simPickerHeader">
+                  <span>{copy.promoBadge}</span>
+                  <h2>{copy.promoPlansTitle}</h2>
+                  <p>{copy.promoPlansText}</p>
+                </div>
+                <div className="simPromoGrid">
+                  <button type="button" className={selectedOffer.request === 'fourth-free' ? 'active simPromoWide' : 'simPromoWide'} onClick={() => choosePlan('8GB Plan', '1', 'fourth-free')}>
+                    <span>8GB+</span>
+                    <strong>{copy.fourthFreeTitle}</strong>
+                    <small>{copy.fourthFreeText}</small>
+                  </button>
+                  <button type="button" className={selectedOffer.request === 'family' ? 'active simPromoWide' : 'simPromoWide'} onClick={chooseFamilyPromo}>
+                    <span>4 lines</span>
+                    <strong>{copy.familyPromoTitle}</strong>
+                    <small>{copy.familyPromoText}</small>
+                  </button>
+                </div>
+              </section>
+            </div>
+
+            <div className="simSelectedPlanCard compactSelectedPlan">
               <div className="ultraPlanTop simSelectedPlanTop">
                 <div>
-                  <span className="planDataPill">{selectedPlanDetails?.data || 'Ultra'}</span>
-                  <h2>{selectedOffer.request === 'family' ? '4 for $100 Family Promo' : (selectedPlanDetails ? (ultraCopy[lang]?.plans[selectedPlanDetails.name]?.name || selectedPlanDetails.name) : (selectedOffer.plan || copy.noPlanSelected))}</h2>
-                  <p>{selectedOffer.request === 'family' ? 'A dedicated request for the Ultra Mobile family promotion. CellzTech will confirm line eligibility before activation.' : (selectedPlanDetails ? (ultraCopy[lang]?.plans[selectedPlanDetails.name]?.highlight || selectedPlanDetails.highlight) : copy.offerNote)}</p>
+                  <span className="planDataPill">{selectedPlanDetails?.data || (selectedOffer.request === 'family' ? 'Family' : 'Ultra')}</span>
+                  <h2>{selectedOffer.request === 'family' ? copy.familyPromoTitle : (selectedPlanDetails ? (ultraCopy[lang]?.plans[selectedPlanDetails.name]?.name || selectedPlanDetails.name) : (selectedOffer.plan || copy.noPlanSelected))}</h2>
+                  <p>{selectedOffer.request === 'family' ? copy.familyPromoText : (selectedPlanDetails ? (ultraCopy[lang]?.plans[selectedPlanDetails.name]?.highlight || selectedPlanDetails.highlight) : copy.selectedPlanText)}</p>
                 </div>
                 {selectedOffer.request === 'family' && <strong className="dealPill">4 lines</strong>}
               </div>
@@ -3667,16 +3748,16 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
                 </div>
               ) : (
                 <div className="familyCheckoutBanner">
-                  <strong>4 Ultra Unlimited lines for $100/mo</strong>
-                  <span>We will confirm promo eligibility, taxes, fees, and activation details before payment.</span>
+                  <strong>{copy.familyPromoTitle}</strong>
+                  <span>{copy.familyPromoText}</span>
                 </div>
               )}
 
               <div className="simSelectedIncludes">
                 {(selectedOffer.request === 'family'
                   ? ['4 Ultra Unlimited lines for $100/mo', 'International calling features included', 'CellzTech confirms eligibility before activation']
-                  : (selectedPlanDetails?.includes || ['Choose a plan on the Ultra Mobile page first.'])
-                ).slice(0, 5).map((item) => <div key={item}><CheckCircle2 size={17} /><span>{item}</span></div>)}
+                  : (selectedPlanDetails?.includes || ['Choose a standard or promo plan above.'])
+                ).slice(0, 4).map((item) => <div key={item}><CheckCircle2 size={17} /><span>{item}</span></div>)}
               </div>
             </div>
           </div>
