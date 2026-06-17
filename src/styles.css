@@ -10531,3 +10531,165 @@ canvas {
   .wizardPlanGrid button,
   .wizardPromoGrid button { min-height: 66px; padding: 7px 8px; }
 }
+
+/* Ultra SIM wizard Step 3 form polish */
+.polishedContactPane {
+  gap: 10px;
+}
+.polishedContactPane .simWizardActions {
+  margin-top: auto;
+}
+.wizardContactSection {
+  border: 1px solid rgba(37, 99, 235, .13);
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,251,255,.88));
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, .04);
+}
+.wizardSectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 9px;
+}
+.wizardSectionTitle span {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  font-size: .72rem;
+  font-weight: 950;
+}
+.wizardSectionTitle h2 {
+  margin: 0 !important;
+  color: #061426;
+  font-size: 1.05rem !important;
+  letter-spacing: -.02em;
+}
+.polishedFieldGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 12px;
+  margin: 0;
+}
+.polishedFieldGrid label,
+.polishedNotesLabel {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  color: #334155;
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: -.01em;
+}
+.polishedFieldGrid input,
+.polishedNotesLabel textarea {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #dbeafe !important;
+  border-radius: 14px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  min-height: 42px;
+  padding: 10px 12px !important;
+  font: inherit;
+  font-size: .92rem;
+  font-weight: 800;
+  outline: 0;
+  box-shadow: inset 0 1px 0 rgba(15, 23, 42, .02);
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.polishedFieldGrid input:focus,
+.polishedNotesLabel textarea:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, .12), inset 0 1px 0 rgba(15, 23, 42, .02);
+}
+.shippingFieldGrid .wide {
+  grid-column: 1 / -1;
+}
+.polishedNotesLabel textarea {
+  min-height: 68px;
+  resize: none;
+  line-height: 1.35;
+}
+.notesContactSection {
+  padding: 11px 12px;
+}
+.notesContactSection .wizardFinePrint {
+  margin: 7px 0 0;
+  color: #64748b;
+  font-size: .72rem;
+  line-height: 1.25;
+}
+.wizardMessage {
+  margin: 0;
+  border-radius: 16px;
+  padding: 11px 13px;
+  font-size: .92rem;
+  line-height: 1.25;
+}
+.formSuccess.wizardMessage {
+  background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+  color: #047857;
+  border-color: #bbf7d0;
+}
+.formError.wizardMessage {
+  background: linear-gradient(135deg, #fff1f2, #fff7f7);
+  color: #be123c;
+  border-color: #fecdd3;
+}
+
+@media (min-width: 901px) {
+  .polishedContactPane {
+    padding-top: 10px;
+  }
+  .wizardContactSection {
+    padding: 10px 11px;
+    border-radius: 16px;
+  }
+  .wizardSectionTitle {
+    margin-bottom: 7px;
+  }
+  .wizardSectionTitle span {
+    width: 24px;
+    height: 24px;
+    font-size: .66rem;
+  }
+  .wizardSectionTitle h2 {
+    font-size: .98rem !important;
+  }
+  .polishedFieldGrid {
+    gap: 8px 10px;
+  }
+  .polishedFieldGrid label,
+  .polishedNotesLabel {
+    font-size: .74rem;
+    gap: 5px;
+  }
+  .polishedFieldGrid input,
+  .polishedNotesLabel textarea {
+    min-height: 38px;
+    padding: 8px 10px !important;
+    border-radius: 12px !important;
+    font-size: .86rem;
+  }
+  .polishedNotesLabel textarea {
+    min-height: 58px;
+  }
+  .notesContactSection .wizardFinePrint {
+    font-size: .68rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .polishedFieldGrid {
+    grid-template-columns: 1fr;
+  }
+  .wizardContactSection {
+    padding: 12px;
+  }
+}

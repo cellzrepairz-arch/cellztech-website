@@ -3830,29 +3830,40 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
             )}
 
             {simStep === 'contact' && (
-              <div className="simWizardPane simContactPane">
-                <h2>{copy.contact}</h2>
-                <div className="simFieldGrid wizardFieldGrid">
-                  <label>{copy.name}<input required value={form.name} onChange={(event) => update('name', event.target.value)} /></label>
-                  <label>{copy.phone}<input required value={form.phone} onChange={(event) => update('phone', event.target.value)} /></label>
-                  <label>{copy.email}<input required type="email" value={form.email} onChange={(event) => update('email', event.target.value)} /></label>
+              <div className="simWizardPane simContactPane polishedContactPane">
+                <div className="wizardContactSection">
+                  <div className="wizardSectionTitle">
+                    <span>01</span>
+                    <h2>{copy.contact}</h2>
+                  </div>
+                  <div className="simFieldGrid wizardFieldGrid polishedFieldGrid">
+                    <label>{copy.name}<input required value={form.name} onChange={(event) => update('name', event.target.value)} /></label>
+                    <label>{copy.phone}<input required value={form.phone} onChange={(event) => update('phone', event.target.value)} /></label>
+                    <label>{copy.email}<input required type="email" value={form.email} onChange={(event) => update('email', event.target.value)} /></label>
+                  </div>
                 </div>
 
                 {form.requestType === 'shipping' && (
-                  <>
-                    <h2>{copy.shipping}</h2>
-                    <div className="simFieldGrid wizardFieldGrid">
+                  <div className="wizardContactSection">
+                    <div className="wizardSectionTitle">
+                      <span>02</span>
+                      <h2>{copy.shipping}</h2>
+                    </div>
+                    <div className="simFieldGrid wizardFieldGrid polishedFieldGrid shippingFieldGrid">
                       <label className="wide">{copy.address}<input required value={form.shippingAddress} onChange={(event) => update('shippingAddress', event.target.value)} /></label>
                       <label>{copy.city}<input required value={form.shippingCity} onChange={(event) => update('shippingCity', event.target.value)} /></label>
                       <label>{copy.state}<input required value={form.shippingState} onChange={(event) => update('shippingState', event.target.value)} /></label>
                       <label>{copy.zip}<input required value={form.shippingZip} onChange={(event) => update('shippingZip', event.target.value)} /></label>
                     </div>
-                  </>
+                  </div>
                 )}
 
-                <label className="wizardNotesLabel">{copy.notes}<textarea value={form.notes} placeholder={copy.notesPlaceholder} onChange={(event) => update('notes', event.target.value)} /></label>
-                <p className="simFinePrint wizardFinePrint">{copy.disclaimer}</p>
-                {message && <div className={status === 'success' ? 'formSuccess' : 'formError'}>{message}</div>}
+                <div className="wizardContactSection notesContactSection">
+                  <label className="wizardNotesLabel polishedNotesLabel">{copy.notes}<textarea value={form.notes} placeholder={copy.notesPlaceholder} onChange={(event) => update('notes', event.target.value)} /></label>
+                  <p className="simFinePrint wizardFinePrint">{copy.disclaimer}</p>
+                </div>
+
+                {message && <div className={status === 'success' ? 'formSuccess wizardMessage' : 'formError wizardMessage'}>{message}</div>}
 
                 <div className="simWizardActions splitActions">
                   <button className="secondaryBtn" type="button" onClick={() => setSimStep('details')}>Back</button>
