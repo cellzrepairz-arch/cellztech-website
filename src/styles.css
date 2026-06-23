@@ -10693,3 +10693,130 @@ canvas {
     padding: 12px;
   }
 }
+
+/* Admin Label Creator */
+.labelCreatorPanel {
+  background: #ffffff;
+  border: 1px solid #dbe8f7;
+  border-radius: 28px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.08);
+  padding: 26px;
+}
+.labelCreatorHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 22px;
+  border-bottom: 1px solid #e4edf8;
+  padding-bottom: 20px;
+  margin-bottom: 22px;
+}
+.labelCreatorHeading h2 { margin: 4px 0 6px; font-size: 30px; letter-spacing: -0.05em; }
+.labelCreatorHeading p { margin: 0; color: #5b6a83; font-weight: 700; max-width: 650px; }
+.labelCreatorActions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+.labelCreatorGrid { display: grid; grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1.1fr); gap: 24px; align-items: start; }
+.labelCreatorForm {
+  display: grid;
+  gap: 12px;
+  background: #f7fbff;
+  border: 1px solid #dce9f7;
+  border-radius: 22px;
+  padding: 18px;
+}
+.labelCreatorForm label { display: grid; gap: 7px; font-size: 12px; font-weight: 900; color: #42536c; text-transform: uppercase; letter-spacing: 0.04em; }
+.labelCreatorForm input, .labelCreatorForm textarea {
+  width: 100%;
+  border: 1px solid #cdddf0;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px 13px;
+  color: #07111f;
+  font-size: 15px;
+  font-weight: 800;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(15,23,42,0.02);
+}
+.labelCreatorForm textarea { min-height: 76px; resize: vertical; font-family: inherit; text-transform: none; }
+.labelCreatorForm input:focus, .labelCreatorForm textarea:focus { border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37,99,235,0.12); }
+.labelFormTwoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.labelFormSectionTitle { margin-top: 4px; color: #0f172a; font-weight: 950; letter-spacing: -0.03em; font-size: 17px; }
+.labelPreviewColumn { display: grid; justify-items: center; gap: 14px; }
+.labelPreviewToolbar {
+  width: min(100%, 440px);
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  background: #eef6ff;
+  border: 1px solid #d7e8fb;
+  border-radius: 18px;
+  padding: 12px 14px;
+  color: #0f172a;
+}
+.labelPreviewToolbar strong { font-size: 14px; }
+.labelPreviewToolbar span { color: #607089; font-size: 12px; font-weight: 800; text-align: right; }
+.phoneLabelPrintZone { display: flex; justify-content: center; width: 100%; }
+.phoneBoxLabel4x6 {
+  width: 4in;
+  height: 6in;
+  background: #ffffff;
+  color: #050505;
+  border: 1px solid #111;
+  box-shadow: 0 18px 45px rgba(15,23,42,0.22);
+  padding: 0.16in;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 0.065in;
+  overflow: hidden;
+}
+.phoneLabelHeader { display: grid; grid-template-columns: 1fr 1.1in; gap: 0.08in; align-items: start; border-bottom: 2px solid #000; padding-bottom: 0.07in; }
+.phoneLabelKicker { display: block; font-size: 7.5pt; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; }
+.phoneLabelHeader h2 { margin: 0.035in 0 0; font-size: 20pt; line-height: 0.93; letter-spacing: -0.04em; color: #000; }
+.phoneLabelHeader aside { border: 1.5px solid #000; padding: 0.055in; text-align: center; display: grid; gap: 0.025in; }
+.phoneLabelHeader aside strong { font-size: 15pt; line-height: 1; }
+.phoneLabelHeader aside span { font-size: 8.5pt; font-weight: 800; line-height: 1; }
+.phoneLabelSubhead { border: 1px solid #000; padding: 0.055in; display: grid; gap: 0.025in; }
+.phoneLabelSubhead strong { font-size: 10pt; text-transform: uppercase; }
+.phoneLabelSubhead span { font-size: 7.3pt; line-height: 1.25; }
+.phoneLabelWebRow { display: grid; grid-template-columns: 0.78in 1fr; gap: 0.08in; align-items: center; border: 1px solid #000; padding: 0.055in; }
+.phoneLabelQrBox { width: 0.72in; height: 0.72in; border: 1px solid #000; display: grid; place-items: center; }
+.phoneLabelQrBox img { width: 0.64in; height: 0.64in; display: block; }
+.phoneLabelWebRow div:last-child { display: grid; gap: 0.02in; }
+.phoneLabelWebRow span { font-size: 7pt; font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; }
+.phoneLabelWebRow strong { font-size: 17pt; letter-spacing: -0.04em; }
+.phoneLabelWebRow small { font-size: 7.2pt; font-weight: 700; }
+.phoneLabelInfoTable { width: 100%; border-collapse: collapse; table-layout: fixed; border: 1px solid #000; }
+.phoneLabelInfoTable th, .phoneLabelInfoTable td { border: 1px solid #000; padding: 0.035in 0.045in; text-align: left; vertical-align: top; }
+.phoneLabelInfoTable th { width: 17%; background: #f0f0f0; font-size: 6.9pt; text-transform: uppercase; letter-spacing: 0.035em; }
+.phoneLabelInfoTable td { width: 33%; font-size: 8.4pt; font-weight: 800; overflow-wrap: anywhere; }
+.phoneLabelIdGrid { display: grid; grid-template-columns: 1fr; border: 1px solid #000; }
+.phoneLabelIdGrid div { display: grid; grid-template-columns: 0.95in 1fr; border-bottom: 1px solid #000; min-height: 0.22in; }
+.phoneLabelIdGrid div:last-child { border-bottom: 0; }
+.phoneLabelIdGrid span { background: #f0f0f0; border-right: 1px solid #000; padding: 0.035in 0.045in; font-size: 6.8pt; font-weight: 900; text-transform: uppercase; }
+.phoneLabelIdGrid strong { padding: 0.035in 0.045in; font-size: 8.2pt; overflow-wrap: anywhere; }
+.phoneLabelBarcodeBlock { border: 1px solid #000; padding: 0.045in; display: grid; gap: 0.025in; text-align: center; }
+.phoneLabelBarcodeBlock span { text-align: left; font-size: 6.8pt; font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; }
+.labelBarcodeSvg { width: 100%; height: 0.34in; display: block; background: white; }
+.imeiBarcode .labelBarcodeSvg { height: 0.38in; }
+.phoneLabelBarcodeBlock strong { font-size: 8pt; letter-spacing: 0.03em; }
+.phoneLabelNotes { margin: 0; border: 1px solid #000; padding: 0.045in 0.055in; font-size: 6.9pt; line-height: 1.22; font-weight: 700; }
+.phoneLabelFooter { margin-top: auto; border-top: 2px solid #000; padding-top: 0.055in; display: flex; justify-content: space-between; align-items: center; gap: 0.08in; font-size: 8pt; font-weight: 900; }
+.phoneLabelFooter strong { font-size: 11pt; }
+
+@media (max-width: 980px) {
+  .labelCreatorHeading { display: grid; }
+  .labelCreatorActions { justify-content: flex-start; }
+  .labelCreatorGrid { grid-template-columns: 1fr; }
+  .labelPreviewColumn { overflow-x: auto; justify-items: start; padding-bottom: 10px; }
+  .phoneLabelPrintZone { min-width: 4in; }
+}
+
+@page { size: 4in 6in portrait; margin: 0; }
+@media print {
+  body.printPhoneLabelOnly { background: #fff !important; margin: 0 !important; }
+  body.printPhoneLabelOnly * { visibility: hidden !important; }
+  body.printPhoneLabelOnly .phoneLabelPrintZone, body.printPhoneLabelOnly .phoneLabelPrintZone * { visibility: visible !important; }
+  body.printPhoneLabelOnly .phoneLabelPrintZone { position: fixed !important; inset: 0 !important; width: 4in !important; height: 6in !important; margin: 0 !important; padding: 0 !important; display: block !important; }
+  body.printPhoneLabelOnly .phoneBoxLabel4x6 { width: 4in !important; height: 6in !important; border: 0 !important; box-shadow: none !important; margin: 0 !important; page-break-after: avoid !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+}

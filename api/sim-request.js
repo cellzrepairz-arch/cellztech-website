@@ -127,10 +127,9 @@ async function sendEmail(body) {
   return { skipped: false, response: data };
 }
 
-async function saveToSupabase(body) {
+async function postSupabaseRow(table, body) {
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const table = process.env.SUPABASE_SIM_REQUESTS_TABLE || 'ultra_sim_requests';
 
   if (!supabaseUrl || !serviceKey) {
     return { skipped: true, reason: 'Missing Supabase configuration' };
@@ -149,10 +148,42 @@ async function saveToSupabase(body) {
 
   const data = await parseJsonResponse(response);
   if (!response.ok) {
-    throw new Error(`Supabase SIM request error: ${JSON.stringify(data).slice(0, 500)}`);
+    const message = typeof data === 'object' ? JSON.stringify(data) : String(data);
+    throw new Error(`Supabase ${table} error: ${message.slice(0, 500)}`);
   }
 
-  return { skipped: false, response: data, id: Array.isArray(data) && data[0]?.id ? data[0].id : '' };
+  return { skipped: false, table, response: data, id: Array.isArray(data) && data[0]?.id ? data[0].id : '' };
+}
+
+async function saveToSupabase(body) {
+  const table = process.env.SUPABASE_SIM_REQUESTS_TABLE || 'ultra_sim_requests';
+  return postSupabaseRow(table, body);
+}
+
+async function saveToRepairRequestFallback(body, primaryError) {
+  const fallbackTable = process.env.SUPABASE_REPAIR_REQUESTS_TABLE || 'website_repair_requests';
+  const fallbackRow = {
+    source: 'CellzTech website - Ultra SIM fallback',
+    device: 'Ultra Mobile SIM',
+    series: 'Ultra Mobile',
+    model: body.plan_interest || 'Ultra Mobile SIM request',
+    issue: requestTypeLabels[body.request_type] || body.request_type || 'SIM request',
+    customer_name: body.customer_name,
+    customer_phone: body.customer_phone,
+    customer_email: body.customer_email,
+    requested_date: null,
+    requested_time: body.raw_payload?.selectedDuration || '',
+    notes: [
+      body.notes,
+      body.shipping_address ? `Ship to: ${body.shipping_address}, ${body.shipping_city || ''} ${body.shipping_state || ''} ${body.shipping_zip || ''}`.trim() : '',
+      body.needs_activation_help ? 'Customer requested activation/number transfer help.' : ''
+    ].filter(Boolean).join('\n'),
+    status: 'ultra_sim_request_saved',
+    integration_errors: primaryError ? { ultra_sim_requests: primaryError } : null,
+    raw_payload: body.raw_payload
+  };
+
+  return postSupabaseRow(fallbackTable, fallbackRow);
 }
 
 export default async function handler(req, res) {
@@ -200,7 +231,14 @@ export default async function handler(req, res) {
     try {
       saveResult = await saveToSupabase(body);
     } catch (error) {
-      warnings.push({ step: 'supabase', message: error instanceof Error ? error.message : String(error) });
+      const message = error instanceof Error ? error.message : String(error);
+      warnings.push({ step: 'supabase_ultra_sim_requests', message });
+      try {
+        saveResult = await saveToRepairRequestFallback(body, message);
+        warnings.push({ step: 'supabase_fallback', message: 'Saved SIM request to website_repair_requests fallback table for admin visibility.' });
+      } catch (fallbackError) {
+        warnings.push({ step: 'supabase_fallback', message: fallbackError instanceof Error ? fallbackError.message : String(fallbackError) });
+      }
     }
 
     try {

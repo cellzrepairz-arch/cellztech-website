@@ -60,6 +60,31 @@ export default async function handler(req, res) {
   }
 
 
+
+  function mapFallbackSimRequests(rows) {
+    return rows
+      .filter((row) => row.status === 'ultra_sim_request_saved' || row.device === 'Ultra Mobile SIM' || String(row.source || '').includes('Ultra SIM fallback'))
+      .map((row) => {
+        const raw = row.raw_payload || {};
+        return {
+          id: `fallback-${row.id}`,
+          submitted_at: row.submitted_at || row.created_at,
+          status: row.status || 'ultra_sim_request_saved',
+          request_type: raw.requestType || raw.request_type || 'shipping',
+          plan_interest: raw.planInterest || raw.plan_interest || row.model || 'Ultra Mobile SIM request',
+          needs_activation_help: Boolean(raw.needsActivationHelp || raw.needs_activation_help),
+          customer_name: row.customer_name,
+          customer_phone: row.customer_phone,
+          customer_email: row.customer_email,
+          shipping_address: raw.shippingAddress || raw.shipping_address || '',
+          shipping_city: raw.shippingCity || raw.shipping_city || '',
+          shipping_state: raw.shippingState || raw.shipping_state || '',
+          shipping_zip: raw.shippingZip || raw.shipping_zip || '',
+          notes: row.notes || raw.notes || ''
+        };
+      });
+  }
+
   async function loadVisitorStats() {
     const now = new Date();
     const todayStart = new Date(now);
@@ -128,15 +153,21 @@ export default async function handler(req, res) {
   }
 
   const simResult = await loadTable(simTable);
-  const simRequests = simResult.ok ? simResult.data : [];
+  const primarySimRequests = simResult.ok ? simResult.data : [];
+  const fallbackSimRequests = mapFallbackSimRequests(repairResult.data);
+  const simRequests = [...primarySimRequests, ...fallbackSimRequests]
+    .sort((a, b) => new Date(b.submitted_at || 0).getTime() - new Date(a.submitted_at || 0).getTime());
   const visitorResult = await loadVisitorStats();
 
   return res.status(200).json({
     ok: true,
-    requests: repairResult.data,
+    requests: repairResult.data.filter((row) => row.status !== 'ultra_sim_request_saved' && row.device !== 'Ultra Mobile SIM'),
     simRequests,
     visitorStats: visitorResult.ok ? visitorResult.data : { today: 0, last7Days: 0, last30Days: 0, topPages: [], dailyVisits: [], recent: [] },
-    simWarning: simResult.ok ? null : simResult.data,
+    simWarning: simResult.ok ? null : {
+      message: 'Ultra SIM request table is not connected. New SIM requests will still appear using the fallback storage path.',
+      details: simResult.data
+    },
     visitorWarning: visitorResult.ok ? null : visitorResult.data
   });
 }

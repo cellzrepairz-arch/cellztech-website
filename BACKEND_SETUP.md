@@ -53,3 +53,15 @@ Visit:
 `https://cellztech-website.vercel.app/admin`
 
 Enter the value from `CELLZTECH_ADMIN_KEY` to view recent website repair requests.
+
+## Ultra SIM request admin fix
+
+The Ultra SIM request API now saves requests to `ultra_sim_requests` first. If that table is missing or not connected, the API saves the request into the existing `website_repair_requests` table as a fallback with status `ultra_sim_request_saved` so the admin dashboard can still show it under Ultra SIM requests.
+
+Recommended Supabase setup:
+
+1. Open Supabase SQL Editor.
+2. Run `supabase/website_repair_requests.sql` again.
+3. Confirm this table exists: `ultra_sim_requests`.
+
+This keeps the clean dedicated SIM request table active, while the fallback prevents future SIM requests from disappearing from the admin view.

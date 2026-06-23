@@ -568,6 +568,229 @@ function formatAdminDate(value?: string) {
   });
 }
 
+type LabelFormState = {
+  model: string;
+  storage: string;
+  color: string;
+  carrier: string;
+  grade: string;
+  status: string;
+  battery: string;
+  imei: string;
+  serial: string;
+  inventoryId: string;
+  price: string;
+  notes: string;
+};
+
+const code128Patterns = [
+  '212222','222122','222221','121223','121322','131222','122213','122312','132212','221213','221312','231212','112232','122132','122231','113222','123122','123221','223211','221132','221231','213212','223112','312131','311222','321122','321221','312212','322112','322211','212123','212321','232121','111323','131123','131321','112313','132113','132311','211313','231113','231311','112133','112331','132131','113123','113321','133121','313121','211331','231131','213113','213311','213131','311123','311321','331121','312113','312311','332111','314111','221411','431111','111224','111422','121124','121421','141122','141221','112214','112412','122114','122411','142112','142211','241211','221114','413111','241112','134111','111242','121142','121241','114212','124112','124211','411212','421112','421211','212141','214121','412121','111143','111341','131141','114113','114311','411113','411311','113141','114131','311141','411131','211412','211214','211232','2331112'
+];
+
+function makeInventoryId() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let suffix = '';
+  for (let index = 0; index < 8; index += 1) suffix += chars[Math.floor(Math.random() * chars.length)];
+  return `CT-INV-${suffix}`;
+}
+
+function normalizeLabelValue(value: string | undefined, fallback: string) {
+  return value && value.trim() ? value.trim() : fallback;
+}
+
+function code128Codes(rawValue: string) {
+  const value = (rawValue || 'CELLZTECH').replace(/[^\x20-\x7E]/g, '').slice(0, 42) || 'CELLZTECH';
+  const codes = [104, ...Array.from(value).map((char) => char.charCodeAt(0) - 32)];
+  const checksum = codes.reduce((total, code, index) => total + (index === 0 ? code : code * index), 0) % 103;
+  return [...codes, checksum, 106];
+}
+
+function BarcodeSvg({ value, height = 42 }: { value: string; height?: number }) {
+  const modules: { x: number; width: number }[] = [];
+  let x = 0;
+  code128Codes(value).forEach((code) => {
+    const pattern = code128Patterns[code] || code128Patterns[0];
+    pattern.split('').forEach((digit, index) => {
+      const width = Number(digit);
+      if (index % 2 === 0) modules.push({ x, width });
+      x += width;
+    });
+  });
+  const totalWidth = Math.max(x, 1);
+  return (
+    <svg className="labelBarcodeSvg" viewBox={`0 0 ${totalWidth} ${height}`} preserveAspectRatio="none" role="img" aria-label={`Barcode for ${value}`}>
+      <rect width={totalWidth} height={height} fill="#fff" />
+      {modules.map((bar, index) => <rect key={`${bar.x}-${index}`} x={bar.x} y="0" width={bar.width} height={height} fill="#000" />)}
+    </svg>
+  );
+}
+
+function LabelPreview({ form }: { form: LabelFormState }) {
+  const model = normalizeLabelValue(form.model, 'Apple iPhone 11');
+  const storage = normalizeLabelValue(form.storage, '128GB');
+  const color = normalizeLabelValue(form.color, 'Purple');
+  const carrier = normalizeLabelValue(form.carrier, 'Unlocked');
+  const grade = normalizeLabelValue(form.grade, 'Excellent');
+  const status = normalizeLabelValue(form.status, 'Pre-Owned');
+  const battery = normalizeLabelValue(form.battery, 'N/A');
+  const imei = normalizeLabelValue(form.imei, '352911116584519');
+  const serial = normalizeLabelValue(form.serial, 'N/A');
+  const inventoryId = normalizeLabelValue(form.inventoryId, makeInventoryId());
+  const price = form.price.trim();
+  const notes = form.notes.trim();
+
+  return (
+    <div className="phoneLabelPrintZone">
+      <section className="phoneBoxLabel4x6" aria-label="4 by 6 phone box label preview">
+        <header className="phoneLabelHeader">
+          <div>
+            <span className="phoneLabelKicker">CELLZTECH CERTIFIED</span>
+            <h2>{model}</h2>
+          </div>
+          <aside>
+            <strong>{storage}</strong>
+            <span>{carrier}</span>
+          </aside>
+        </header>
+
+        <div className="phoneLabelSubhead">
+          <strong>{status} device</strong>
+          <span>Inspected by CellzTech. Accessories, SIM card, and warranty terms may vary by listing.</span>
+        </div>
+
+        <div className="phoneLabelWebRow">
+          <div className="phoneLabelQrBox">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=118x118&data=https%3A%2F%2Fcellztech.com" alt="QR code for cellztech.com" />
+          </div>
+          <div>
+            <span>Scan for store details</span>
+            <strong>cellztech.com</strong>
+            <small>3412 N Harlem Ave STE A • Chicago, IL 60634</small>
+          </div>
+        </div>
+
+        <table className="phoneLabelInfoTable">
+          <tbody>
+            <tr><th>Model</th><td>{model}</td><th>Storage</th><td>{storage}</td></tr>
+            <tr><th>Color</th><td>{color}</td><th>Carrier</th><td>{carrier}</td></tr>
+            <tr><th>Grade</th><td>{grade}</td><th>Status</th><td>{status}</td></tr>
+            <tr><th>Battery</th><td>{battery}</td><th>{price ? 'Price' : 'SKU'}</th><td>{price ? price : inventoryId}</td></tr>
+          </tbody>
+        </table>
+
+        <div className="phoneLabelIdGrid">
+          <div><span>IMEI</span><strong>{imei}</strong></div>
+          <div><span>Serial Number</span><strong>{serial}</strong></div>
+          <div><span>Inventory ID / SKU</span><strong>{inventoryId}</strong></div>
+        </div>
+
+        <div className="phoneLabelBarcodeBlock">
+          <span>Inventory barcode</span>
+          <BarcodeSvg value={inventoryId} height={42} />
+          <strong>{inventoryId}</strong>
+        </div>
+
+        <div className="phoneLabelBarcodeBlock imeiBarcode">
+          <span>IMEI barcode</span>
+          <BarcodeSvg value={imei} height={44} />
+          <strong>{imei}</strong>
+        </div>
+
+        {notes ? <p className="phoneLabelNotes">Notes: {notes}</p> : <p className="phoneLabelNotes">Pre-owned device. Cosmetic condition and included accessories should be verified before purchase.</p>}
+
+        <footer className="phoneLabelFooter">
+          <span>CellzTech • cellztech.com</span>
+          <strong>773-413-7489</strong>
+        </footer>
+      </section>
+    </div>
+  );
+}
+
+function LabelCreatorTool() {
+  const defaultForm = React.useCallback((): LabelFormState => ({
+    model: 'Apple iPhone 11',
+    storage: '128GB',
+    color: 'Purple',
+    carrier: 'Unlocked',
+    grade: 'Excellent',
+    status: 'Pre-Owned',
+    battery: 'N/A',
+    imei: '352911116584519',
+    serial: '',
+    inventoryId: 'ATX-INV-630BA1E985',
+    price: '',
+    notes: ''
+  }), []);
+  const [form, setForm] = useState<LabelFormState>(() => defaultForm());
+
+  const updateField = (field: keyof LabelFormState, value: string) => setForm((current) => ({ ...current, [field]: value }));
+  const ensureInventoryId = () => setForm((current) => current.inventoryId.trim() ? current : { ...current, inventoryId: makeInventoryId() });
+  const printLabel = () => {
+    ensureInventoryId();
+    window.setTimeout(() => {
+      document.body.classList.add('printPhoneLabelOnly');
+      window.print();
+      window.setTimeout(() => document.body.classList.remove('printPhoneLabelOnly'), 400);
+    }, 0);
+  };
+  const resetForm = () => setForm({
+    model: '', storage: '', color: '', carrier: 'Unlocked', grade: 'Excellent', status: 'Pre-Owned', battery: 'N/A', imei: '', serial: '', inventoryId: makeInventoryId(), price: '', notes: ''
+  });
+
+  return (
+    <section className="labelCreatorPanel">
+      <div className="adminSectionHeading labelCreatorHeading">
+        <div>
+          <span className="adminEyebrow">Admin tool</span>
+          <h2>Label Creator</h2>
+          <p>Create a 4x6 DYMO 4XL phone box label. This is structured so inventory rows can auto-fill it later.</p>
+        </div>
+        <div className="labelCreatorActions">
+          <button className="secondaryBtn compact" type="button" onClick={ensureInventoryId}>Preview Label</button>
+          <button className="primaryBtn compact" type="button" onClick={printLabel}>Print 4x6 Label <ArrowRight size={16} /></button>
+          <button className="secondaryBtn compact" type="button" onClick={printLabel}>Download PDF</button>
+          <button className="secondaryBtn compact dark" type="button" onClick={resetForm}>Clear / Reset</button>
+        </div>
+      </div>
+
+      <div className="labelCreatorGrid">
+        <form className="labelCreatorForm" onSubmit={(event) => event.preventDefault()}>
+          <div className="labelFormSectionTitle">Phone information</div>
+          <label>Model<input value={form.model} onChange={(event) => updateField('model', event.target.value)} placeholder="Apple iPhone 11" /></label>
+          <div className="labelFormTwoCol">
+            <label>Storage<input value={form.storage} onChange={(event) => updateField('storage', event.target.value)} placeholder="128GB" /></label>
+            <label>Color<input value={form.color} onChange={(event) => updateField('color', event.target.value)} placeholder="Purple" /></label>
+          </div>
+          <label>Carrier / Unlock status<input value={form.carrier} onChange={(event) => updateField('carrier', event.target.value)} placeholder="Unlocked" /></label>
+          <div className="labelFormTwoCol">
+            <label>Grade<input value={form.grade} onChange={(event) => updateField('grade', event.target.value)} placeholder="Excellent" /></label>
+            <label>Status<input value={form.status} onChange={(event) => updateField('status', event.target.value)} placeholder="Pre-Owned" /></label>
+          </div>
+          <div className="labelFormTwoCol">
+            <label>Battery<input value={form.battery} onChange={(event) => updateField('battery', event.target.value)} placeholder="N/A" /></label>
+            <label>Price, optional<input value={form.price} onChange={(event) => updateField('price', event.target.value)} placeholder="$249.99" /></label>
+          </div>
+
+          <div className="labelFormSectionTitle">Identifiers</div>
+          <label>IMEI<input value={form.imei} onChange={(event) => updateField('imei', event.target.value)} placeholder="352911116584519" inputMode="numeric" /></label>
+          <label>Serial Number<input value={form.serial} onChange={(event) => updateField('serial', event.target.value)} placeholder="Optional" /></label>
+          <label>Inventory ID / SKU<input value={form.inventoryId} onChange={(event) => updateField('inventoryId', event.target.value)} placeholder="CT-INV-XXXXXXXX" /></label>
+          <label>Notes, optional<textarea value={form.notes} onChange={(event) => updateField('notes', event.target.value)} placeholder="Optional label note" /></label>
+        </form>
+
+        <div className="labelPreviewColumn">
+          <div className="labelPreviewToolbar">
+            <strong>Live 4x6 preview</strong>
+            <span>Print at 100% / Actual Size on DYMO 4XL.</span>
+          </div>
+          <LabelPreview form={form} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function AdminDashboard() {
   const [adminKey, setAdminKey] = useState('');
   const [inputKey, setInputKey] = useState('');
@@ -575,6 +798,7 @@ function AdminDashboard() {
   const [simRequests, setSimRequests] = useState<AdminSimRequest[]>([]);
   const [visitorStats, setVisitorStats] = useState<AdminVisitStats>({ today: 0, last7Days: 0, last30Days: 0, topPages: [], dailyVisits: [] });
   const [adminView, setAdminView] = useState<'repairs' | 'sim'>('repairs');
+  const [adminTool, setAdminTool] = useState<'dashboard' | 'labels'>('dashboard');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [query, setQuery] = useState('');
@@ -750,6 +974,7 @@ function AdminDashboard() {
             <p>Repair requests, RepairDesk leads, SIM requests, and website traffic in one compact view.</p>
           </div>
           <div className="adminHeaderActions">
+            <button className="secondaryBtn compact" onClick={() => setAdminTool(adminTool === 'labels' ? 'dashboard' : 'labels')}>{adminTool === 'labels' ? 'Dashboard' : 'Label Creator'}</button>
             <button className="secondaryBtn compact" onClick={() => loadRequests(adminKey)} disabled={loading}>{loading ? 'Loading…' : 'Refresh data'}</button>
             <button className="secondaryBtn compact dark" onClick={signOut}>Lock console</button>
           </div>
@@ -760,6 +985,7 @@ function AdminDashboard() {
         <div className="wrap">
           {error && <div className="adminNotice error">{error}</div>}
 
+          {adminTool === 'labels' ? <LabelCreatorTool /> : <>
           <div className="adminMetricGrid" aria-label="Admin summary metrics">
             <article><span>Total requests</span><strong>{requests.length}</strong><small>{activeRequests} active / open</small></article>
             <article><span>RepairDesk leads</span><strong>{leadCount}</strong><small>{requests.length ? Math.round((leadCount / requests.length) * 100) : 0}% connected</small></article>
@@ -906,6 +1132,7 @@ function AdminDashboard() {
             </div>
           )}
           </section>
+          </>}
         </div>
       </section>
     </main>
