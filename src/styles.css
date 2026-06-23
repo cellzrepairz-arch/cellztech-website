@@ -11661,3 +11661,241 @@ canvas {
     overflow: hidden !important;
   }
 }
+
+/* 30334 alignment correction: true small side sticker sizing for DYMO 400/450.
+   Keeps the CellzTech style but prevents the sticker from stretching or clipping in print preview. */
+.sidePriceSticker.smallDymo30334Label {
+  width: 2.25in;
+  height: 1.25in;
+  box-sizing: border-box;
+  padding: 0.035in 0.045in;
+  border: 1px solid #d7e5f8;
+  border-radius: 0.055in;
+  background: #fff;
+  color: #07111f;
+  display: grid;
+  grid-template-rows: 0.22in 0.20in 0.15in 0.40in 0.11in;
+  gap: 0.010in;
+  overflow: hidden;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.sidePriceSticker .smallDymoTopBar {
+  display: grid;
+  grid-template-columns: minmax(0, 0.94in) minmax(0, 1fr);
+  align-items: center;
+  height: 0.22in;
+  min-height: 0;
+  padding: 0 0 0.012in;
+  border-bottom: 1.2px solid #2563eb;
+  gap: 0.035in;
+  overflow: hidden;
+}
+.sidePriceSticker .smallDymoBrandMark {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 0.025in;
+  overflow: hidden;
+}
+.sidePriceSticker .smallDymoBrandMark strong {
+  width: 0.18in;
+  height: 0.18in;
+  border-radius: 0.026in;
+  font-size: 6.8pt;
+  font-family: Sora, Inter, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  flex: 0 0 auto;
+}
+.sidePriceSticker .smallDymoBrandMark span {
+  display: inline-block;
+  font-family: Sora, Inter, sans-serif;
+  font-size: 7.6pt;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.055em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sidePriceSticker .smallDymoPrice {
+  font-family: Sora, Inter, sans-serif;
+  font-size: 18pt;
+  line-height: 0.85;
+  font-weight: 900;
+  letter-spacing: -0.08em;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sidePriceSticker .smallDymoModel {
+  height: 0.20in;
+  min-height: 0;
+  border: 0;
+  border-bottom: 1.2px solid #2563eb;
+  border-radius: 0;
+  padding: 0.010in 0 0.016in;
+  font-family: Sora, Inter, sans-serif;
+  font-size: 10.4pt;
+  line-height: 0.98;
+  font-weight: 900;
+  letter-spacing: -0.058em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidePriceSticker .smallDymoModel.smallDymoMediumTitle,
+.sidePriceSticker .smallDymoModel.smallDymoLongTitle {
+  font-size: 8.8pt;
+  letter-spacing: -0.065em;
+}
+.sidePriceSticker .smallDymoSpecLine {
+  height: 0.15in;
+  min-height: 0;
+  border: 0;
+  border-bottom: 1.2px solid #2563eb;
+  padding: 0.010in 0 0.012in;
+  font-size: 7.1pt;
+  line-height: 1;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidePriceSticker .smallDymoBarcodeArea.fullWidth {
+  height: 0.40in;
+  min-height: 0;
+  display: grid;
+  align-content: center;
+  border-left: 1px solid #2563eb;
+  border-right: 1px solid #2563eb;
+  padding: 0 0.018in;
+  gap: 0.006in;
+  overflow: hidden;
+}
+.sidePriceSticker .smallDymoBarcodeArea.fullWidth .labelBarcodeSvg {
+  height: 0.285in;
+  width: 100%;
+  display: block;
+}
+.sidePriceSticker .smallDymoBarcodeArea.fullWidth span {
+  font-size: 6.5pt;
+  line-height: 0.9;
+  font-weight: 850;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidePriceSticker .smallDymoFooterLine {
+  height: 0.11in;
+  min-height: 0;
+  border-top: 1.1px solid #2563eb;
+  padding-top: 0.006in;
+  font-size: 6.1pt;
+  line-height: 0.9;
+  font-weight: 850;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.035in;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.sidePriceSticker .smallDymoFooterLine strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.018in;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sidePriceSticker .smallDymoFooterLine strong::before {
+  content: '';
+  width: 0.07in;
+  height: 0.07in;
+  border-radius: 999px;
+  background: #2563eb;
+  flex: 0 0 auto;
+}
+.sidePriceSticker .smallDymoFooterLine span {
+  flex: 0 0 auto;
+  font-weight: 900;
+}
+
+@page smallDymo30334 { size: 2.25in 1.25in landscape; margin: 0; }
+
+@media print {
+  body.printSmallDymoLabelOnly {
+    width: 2.25in !important;
+    height: 1.25in !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    background: #fff !important;
+  }
+  body.printSmallDymoLabelOnly #labelPrintHost {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 2.25in !important;
+    height: 1.25in !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    background: #fff !important;
+  }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoPrintZone {
+    width: 2.25in !important;
+    height: 1.25in !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+  body.printSmallDymoLabelOnly #labelPrintHost .sidePriceSticker.smallDymo30334Label,
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymo30334Label {
+    width: 2.14in !important;
+    height: 1.13in !important;
+    margin: 0 !important;
+    padding: 0.032in 0.040in !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-rows: 0.20in 0.18in 0.135in 0.39in 0.10in !important;
+    gap: 0.008in !important;
+    overflow: hidden !important;
+    background: #fff !important;
+    color: #07111f !important;
+    transform: none !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-before: avoid-page !important;
+    break-after: avoid-page !important;
+    break-inside: avoid-page !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoTopBar { height: 0.20in !important; grid-template-columns: minmax(0, 0.88in) minmax(0, 1fr) !important; padding-bottom: 0.010in !important; gap: 0.025in !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBrandMark strong { width: 0.16in !important; height: 0.16in !important; font-size: 5.8pt !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBrandMark span { font-size: 6.9pt !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoPrice { font-size: 16.2pt !important; letter-spacing: -0.08em !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoModel { height: 0.18in !important; font-size: 9.2pt !important; padding: 0.008in 0 0.012in !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoModel.smallDymoMediumTitle,
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoModel.smallDymoLongTitle { font-size: 7.9pt !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoSpecLine { height: 0.135in !important; font-size: 6.4pt !important; padding: 0.008in 0 0.010in !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBarcodeArea.fullWidth { height: 0.39in !important; padding: 0 0.014in !important; gap: 0.004in !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBarcodeArea.fullWidth .labelBarcodeSvg { height: 0.27in !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBarcodeArea.fullWidth span { font-size: 5.9pt !important; line-height: 0.85 !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoFooterLine { height: 0.10in !important; font-size: 5.4pt !important; padding-top: 0.004in !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoFooterLine strong::before { width: 0.055in !important; height: 0.055in !important; }
+}
