@@ -11257,3 +11257,83 @@ canvas {
     -webkit-print-color-adjust: exact;
   }
 }
+
+/* Label print pagination fix: print a cloned label only so Chrome/DYMO does not count the hidden admin page as extra sheets. */
+#labelPrintHost { display: none; }
+
+@media print {
+  body.printPhoneLabelOnly,
+  body.printSmallDymoLabelOnly {
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.printPhoneLabelOnly #root,
+  body.printSmallDymoLabelOnly #root {
+    display: none !important;
+  }
+
+  body.printPhoneLabelOnly #labelPrintHost,
+  body.printSmallDymoLabelOnly #labelPrintHost {
+    display: block !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #fff !important;
+    z-index: 999999 !important;
+  }
+
+  body.printPhoneLabelOnly #labelPrintHost {
+    width: 4in !important;
+    height: 6in !important;
+  }
+
+  body.printPhoneLabelOnly #labelPrintHost .phoneBoxLabel4x6 {
+    width: 4in !important;
+    height: 6in !important;
+    margin: 0 !important;
+    padding: 0.13in !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-before: avoid-page !important;
+    break-after: avoid-page !important;
+    break-inside: avoid-page !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost {
+    width: 2.25in !important;
+    height: 1.25in !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymo30334Label {
+    width: 2.25in !important;
+    height: 1.25in !important;
+    margin: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-before: avoid-page !important;
+    break-after: avoid-page !important;
+    break-inside: avoid-page !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+}

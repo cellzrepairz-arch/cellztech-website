@@ -702,7 +702,7 @@ function LabelPreview({ form }: { form: LabelFormState }) {
           <strong>{imei}</strong>
         </div>
 
-        {notes ? <p className="phoneLabelNotes">Notes: {notes}</p> : <p className="phoneLabelNotes">Pre-owned device. Cosmetic condition and included accessories should be verified before purchase.</p>}
+        {notes ? <p className="phoneLabelNotes">Notes: {notes}</p> : null}
 
         <div className="phoneLabelBottomBlock">
           <div className="phoneLabelComplianceRow retailComplianceRow" aria-label="Retail-style device recycling symbols">
@@ -776,9 +776,28 @@ function LabelCreatorTool() {
   const printWithClass = (printClass: string) => {
     ensureInventoryId();
     window.setTimeout(() => {
+      const selector = printClass === 'printSmallDymoLabelOnly' ? '.smallDymo30334Label' : '.phoneBoxLabel4x6';
+      const sourceLabel = document.querySelector(selector);
+      const oldHost = document.getElementById('labelPrintHost');
+      if (oldHost) oldHost.remove();
+
+      const printHost = document.createElement('div');
+      printHost.id = 'labelPrintHost';
+      printHost.setAttribute('aria-hidden', 'true');
+      if (sourceLabel) printHost.appendChild(sourceLabel.cloneNode(true));
+      document.body.appendChild(printHost);
+
+      const cleanupPrintHost = () => {
+        document.body.classList.remove(printClass);
+        const host = document.getElementById('labelPrintHost');
+        if (host) host.remove();
+        window.removeEventListener('afterprint', cleanupPrintHost);
+      };
+
       document.body.classList.add(printClass);
+      window.addEventListener('afterprint', cleanupPrintHost);
       window.print();
-      window.setTimeout(() => document.body.classList.remove(printClass), 500);
+      window.setTimeout(cleanupPrintHost, 1200);
     }, 0);
   };
   const printLabel = () => printWithClass(labelMode === '30334' ? 'printSmallDymoLabelOnly' : 'printPhoneLabelOnly');
