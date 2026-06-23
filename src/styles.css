@@ -11899,3 +11899,149 @@ canvas {
   body.printSmallDymoLabelOnly #labelPrintHost .smallDymoFooterLine { height: 0.10in !important; font-size: 5.4pt !important; padding-top: 0.004in !important; }
   body.printSmallDymoLabelOnly #labelPrintHost .smallDymoFooterLine strong::before { width: 0.055in !important; height: 0.055in !important; }
 }
+
+/* 30334 final safe-margin correction: keep the side sticker away from DYMO trim edges. */
+@page smallDymo30334 { size: 2.25in 1.25in landscape; margin: 0; }
+
+@media print {
+  body.printSmallDymoLabelOnly {
+    width: 2.25in !important;
+    height: 1.25in !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 2.25in !important;
+    height: 1.25in !important;
+    margin: 0 !important;
+    padding: 0.060in 0.075in 0.055in 0.075in !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    background: #fff !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoPrintZone {
+    width: 2.10in !important;
+    height: 1.135in !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost .sidePriceSticker.smallDymo30334Label,
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymo30334Label {
+    width: 2.06in !important;
+    height: 1.02in !important;
+    margin: 0 !important;
+    padding: 0.026in 0.034in !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-rows: 0.175in 0.155in 0.120in 0.360in 0.085in !important;
+    gap: 0.006in !important;
+    overflow: hidden !important;
+    background: #fff !important;
+    color: #07111f !important;
+    transform: none !important;
+    page-break-before: avoid !important;
+    page-break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-before: avoid-page !important;
+    break-after: avoid-page !important;
+    break-inside: avoid-page !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoTopBar {
+    height: 0.175in !important;
+    grid-template-columns: minmax(0, 0.78in) minmax(0, 1fr) !important;
+    padding: 0 0 0.007in !important;
+    gap: 0.020in !important;
+    border-bottom-width: 1px !important;
+    overflow: hidden !important;
+  }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBrandMark { gap: 0.020in !important; }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBrandMark strong {
+    width: 0.140in !important;
+    height: 0.140in !important;
+    border-radius: 0.020in !important;
+    font-size: 5.1pt !important;
+  }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBrandMark span {
+    font-size: 6.1pt !important;
+    letter-spacing: -0.05em !important;
+  }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoPrice {
+    font-size: 14.0pt !important;
+    line-height: 0.82 !important;
+    letter-spacing: -0.08em !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoModel {
+    height: 0.155in !important;
+    padding: 0.006in 0 0.010in !important;
+    font-size: 7.8pt !important;
+    line-height: 0.92 !important;
+    border-bottom-width: 1px !important;
+    letter-spacing: -0.055em !important;
+  }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoModel.smallDymoMediumTitle,
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoModel.smallDymoLongTitle {
+    font-size: 6.7pt !important;
+    letter-spacing: -0.06em !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoSpecLine {
+    height: 0.120in !important;
+    padding: 0.005in 0 0.008in !important;
+    font-size: 5.5pt !important;
+    line-height: 0.9 !important;
+    border-bottom-width: 1px !important;
+    letter-spacing: -0.015em !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBarcodeArea.fullWidth {
+    height: 0.360in !important;
+    padding: 0 0.012in !important;
+    gap: 0.002in !important;
+    border-left-width: 1px !important;
+    border-right-width: 1px !important;
+  }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBarcodeArea.fullWidth .labelBarcodeSvg {
+    height: 0.245in !important;
+    max-height: 0.245in !important;
+  }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBarcodeArea.fullWidth span {
+    font-size: 5.0pt !important;
+    line-height: 0.78 !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoFooterLine {
+    height: 0.085in !important;
+    min-height: 0 !important;
+    padding-top: 0.002in !important;
+    font-size: 4.8pt !important;
+    line-height: 0.78 !important;
+    border-top-width: 1px !important;
+    overflow: hidden !important;
+  }
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoFooterLine strong::before {
+    width: 0.045in !important;
+    height: 0.045in !important;
+  }
+}
