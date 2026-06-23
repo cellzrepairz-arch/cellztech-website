@@ -1,18 +1,3 @@
-# CellzTech V3
+CellzTech admin label creator update.
 
-Premium Vite/React website for CellzTech, operated by Cellz Repairz LLC.
-
-## V3 direction
-
-- Clean wordmark brand direction
-- No mascot or floating clutter
-- Premium local tech retail/service layout
-- Customer-facing trust section
-- SEO structure kept behind the scenes
-- Vercel-ready Vite build
-
-## Deploy settings
-
-Framework: Vite
-Build command: npm run build
-Output directory: dist
+Includes the 4x6 DYMO 4XL box label, the DYMO 30334 side sticker, IMEI-only inventory barcode, large retail-style regulatory icons, and a price badge beside the pre-owned device section.

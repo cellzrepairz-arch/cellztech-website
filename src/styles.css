@@ -11134,3 +11134,126 @@ canvas {
     -webkit-print-color-adjust: exact;
   }
 }
+
+/* Label Creator polish: price badge next to pre-owned status + cleaner retail-box bottom icons */
+.phoneLabelSubhead {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.05in;
+}
+.phoneLabelSubheadText {
+  display: grid;
+  gap: 0.018in;
+  min-width: 0;
+}
+.phoneLabelSubheadText strong {
+  font-size: 9.2pt;
+  text-transform: uppercase;
+}
+.phoneLabelSubheadText span {
+  font-size: 6.55pt;
+  line-height: 1.12;
+}
+.phoneLabelPriceBadge {
+  border-left: 2px solid #000;
+  padding-left: 0.07in;
+  font-size: 15pt;
+  line-height: 1;
+  font-weight: 950;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+  color: #000;
+}
+.phoneLabelBottomBlock {
+  margin-top: auto;
+  display: grid;
+  gap: 0.035in;
+}
+.phoneLabelBottomBlock .phoneLabelFooter {
+  margin-top: 0;
+}
+.retailComplianceRow.phoneLabelComplianceRow {
+  border: 0;
+  border-top: 1.5px solid #000;
+  border-bottom: 1.5px solid #000;
+  min-height: 0.42in;
+  padding: 0.045in 0.035in;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.16in;
+}
+.retailRegIcon {
+  width: 0.38in;
+  height: 0.31in;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  flex: 0 0 auto;
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1;
+}
+.retailRegIcon.ceIcon {
+  width: 0.44in;
+  font-size: 22pt;
+  font-weight: 900;
+  letter-spacing: -0.14em;
+  transform: scaleX(1.08);
+}
+.crossedBinIcon {
+  width: 0.31in;
+  height: 0.34in;
+  border-bottom: 2px solid #000;
+}
+.crossedBinIcon::before {
+  content: '';
+  position: absolute;
+  left: 0.085in;
+  top: 0.066in;
+  width: 0.14in;
+  height: 0.19in;
+  border: 2px solid #000;
+  border-top: 0;
+  border-radius: 0 0 0.02in 0.02in;
+}
+.crossedBinIcon::after {
+  content: '';
+  position: absolute;
+  left: -0.015in;
+  top: 0.145in;
+  width: 0.36in;
+  height: 2.4px;
+  background: #000;
+  transform: rotate(-47deg);
+  transform-origin: center;
+}
+.crossedBinIcon .binLid { display: none; }
+.recycleTriangleIcon {
+  width: 0.36in;
+  height: 0.32in;
+}
+.recycleTriangleIcon::before {
+  content: '♻';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 24pt;
+  font-weight: 900;
+  line-height: 1;
+  color: #000;
+  transform: translateY(-0.01in);
+}
+@media print {
+  .phoneLabelPriceBadge,
+  .phoneLabelBottomBlock,
+  .retailComplianceRow.phoneLabelComplianceRow,
+  .retailRegIcon,
+  .crossedBinIcon::before,
+  .crossedBinIcon::after,
+  .recycleTriangleIcon::before {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

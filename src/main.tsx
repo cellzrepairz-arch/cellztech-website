@@ -664,8 +664,11 @@ function LabelPreview({ form }: { form: LabelFormState }) {
         </header>
 
         <div className="phoneLabelSubhead">
-          <strong>{status} device</strong>
-          <span>Inspected by CellzTech. Accessories, SIM card, and warranty terms may vary by listing.</span>
+          <div className="phoneLabelSubheadText">
+            <strong>{status} device</strong>
+            <span>Inspected by CellzTech. Accessories, SIM card, and warranty terms may vary by listing.</span>
+          </div>
+          {price ? <div className="phoneLabelPriceBadge">{formatLabelPrice(price)}</div> : null}
         </div>
 
         <div className="phoneLabelWebRow">
@@ -701,16 +704,18 @@ function LabelPreview({ form }: { form: LabelFormState }) {
 
         {notes ? <p className="phoneLabelNotes">Notes: {notes}</p> : <p className="phoneLabelNotes">Pre-owned device. Cosmetic condition and included accessories should be verified before purchase.</p>}
 
-        <div className="phoneLabelComplianceRow retailComplianceRow" aria-label="Retail-style device recycling symbols">
-          <span className="retailRegIcon crossedBinIcon" aria-label="Do not dispose in household waste"></span>
-          <span className="retailRegIcon ceIcon" aria-label="CE style mark">CE</span>
-          <span className="retailRegIcon recycleTriangleIcon" aria-label="Recycle">♻</span>
-        </div>
+        <div className="phoneLabelBottomBlock">
+          <div className="phoneLabelComplianceRow retailComplianceRow" aria-label="Retail-style device recycling symbols">
+            <span className="retailRegIcon ceIcon" aria-label="CE style mark">CE</span>
+            <span className="retailRegIcon crossedBinIcon" aria-label="Do not dispose in household waste"></span>
+            <span className="retailRegIcon recycleTriangleIcon" aria-label="Recycle"></span>
+          </div>
 
-        <footer className="phoneLabelFooter">
-          <span>CellzTech • cellztech.com</span>
-          <strong>773-413-7489</strong>
-        </footer>
+          <footer className="phoneLabelFooter">
+            <span>CellzTech • cellztech.com</span>
+            <strong>773-413-7489</strong>
+          </footer>
+        </div>
       </section>
     </div>
   );
