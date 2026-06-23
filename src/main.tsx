@@ -583,6 +583,15 @@ type LabelFormState = {
   notes: string;
 };
 
+
+type LabelPrintMode = '4x6' | '30334';
+
+function formatLabelPrice(rawPrice: string) {
+  const value = rawPrice.trim();
+  if (!value) return '';
+  return value.startsWith('$') ? value : `$${value}`;
+}
+
 const code128Patterns = [
   '212222','222122','222221','121223','121322','131222','122213','122312','132212','221213','221312','231212','112232','122132','122231','113222','123122','123221','223211','221132','221231','213212','223112','312131','311222','321122','321221','312212','322112','322211','212123','212321','232121','111323','131123','131321','112313','132113','132311','211313','231113','231311','112133','112331','132131','113123','113321','133121','313121','211331','231131','213113','213311','213131','311123','311321','331121','312113','312311','332111','314111','221411','431111','111224','111422','121124','121421','141122','141221','112214','112412','122114','122411','142112','142211','241211','221114','413111','241112','134111','111242','121142','121241','114212','124112','124211','411212','421112','421211','212141','214121','412121','111143','111341','131141','114113','114311','411113','411311','113141','114131','311141','411131','211412','211214','211232','2331112'
 ];
@@ -638,6 +647,7 @@ function LabelPreview({ form }: { form: LabelFormState }) {
   const inventoryId = normalizeLabelValue(form.inventoryId, makeInventoryId());
   const price = form.price.trim();
   const notes = form.notes.trim();
+  const titleClass = model.length > 42 ? 'veryLongTitle' : model.length > 28 ? 'longTitle' : '';
 
   return (
     <div className="phoneLabelPrintZone">
@@ -645,7 +655,7 @@ function LabelPreview({ form }: { form: LabelFormState }) {
         <header className="phoneLabelHeader">
           <div>
             <span className="phoneLabelKicker">CELLZTECH CERTIFIED</span>
-            <h2>{model}</h2>
+            <h2 className={titleClass}>{model}</h2>
           </div>
           <aside>
             <strong>{storage}</strong>
@@ -698,10 +708,58 @@ function LabelPreview({ form }: { form: LabelFormState }) {
 
         {notes ? <p className="phoneLabelNotes">Notes: {notes}</p> : <p className="phoneLabelNotes">Pre-owned device. Cosmetic condition and included accessories should be verified before purchase.</p>}
 
+        <div className="phoneLabelComplianceRow" aria-label="Device handling and recycling symbols">
+          <span className="complianceMark recycleMark">♻</span>
+          <span className="complianceMark">WEEE</span>
+          <span className="complianceMark binMark">⌧</span>
+          <span className="complianceMark">Li-ion</span>
+          <span className="complianceMark">RoHS</span>
+          <small>Recycle electronics responsibly. Regulatory markings may vary by original manufacturer/model.</small>
+        </div>
+
         <footer className="phoneLabelFooter">
           <span>CellzTech • cellztech.com</span>
           <strong>773-413-7489</strong>
         </footer>
+      </section>
+    </div>
+  );
+}
+
+function SmallDymoLabelPreview({ form }: { form: LabelFormState }) {
+  const model = normalizeLabelValue(form.model, 'Apple iPhone 11');
+  const storage = normalizeLabelValue(form.storage, '128GB');
+  const color = normalizeLabelValue(form.color, 'Purple');
+  const carrier = normalizeLabelValue(form.carrier, 'Unlocked');
+  const status = normalizeLabelValue(form.status, 'Used');
+  const battery = normalizeLabelValue(form.battery, 'N/A');
+  const serial = normalizeLabelValue(form.serial || form.imei, '352911116584519');
+  const inventoryId = normalizeLabelValue(form.inventoryId, makeInventoryId());
+  const price = formatLabelPrice(form.price) || '$199.99';
+  const compactTitle = model.length > 34 ? 'smallDymoLongTitle' : model.length > 25 ? 'smallDymoMediumTitle' : '';
+
+  return (
+    <div className="smallDymoPrintZone">
+      <section className="smallDymo30334Label" aria-label="DYMO 30334 small phone box label preview">
+        <div className="smallDymoTopBar">
+          <div className="smallDymoBrandMark">
+            <strong>CT</strong>
+            <span>CellzTech</span>
+          </div>
+          <div className="smallDymoPrice">{price}</div>
+        </div>
+        <div className={`smallDymoModel ${compactTitle}`}>{model}</div>
+        <div className="smallDymoBody">
+          <div className="smallDymoSpecs">
+            <strong>{color} {storage} {carrier}</strong>
+            <span>{battery !== 'N/A' ? `${battery} Battery` : '180 days Warranty'}</span>
+            <b>{status}</b>
+          </div>
+          <div className="smallDymoBarcodeArea">
+            <BarcodeSvg value={inventoryId} height={42} />
+            <span>Serial: {serial}</span>
+          </div>
+        </div>
       </section>
     </div>
   );
@@ -723,17 +781,21 @@ function LabelCreatorTool() {
     notes: ''
   }), []);
   const [form, setForm] = useState<LabelFormState>(() => defaultForm());
+  const [labelMode, setLabelMode] = useState<LabelPrintMode>('4x6');
 
   const updateField = (field: keyof LabelFormState, value: string) => setForm((current) => ({ ...current, [field]: value }));
   const ensureInventoryId = () => setForm((current) => current.inventoryId.trim() ? current : { ...current, inventoryId: makeInventoryId() });
-  const printLabel = () => {
+  const printWithClass = (printClass: string) => {
     ensureInventoryId();
     window.setTimeout(() => {
-      document.body.classList.add('printPhoneLabelOnly');
+      document.body.classList.add(printClass);
       window.print();
-      window.setTimeout(() => document.body.classList.remove('printPhoneLabelOnly'), 400);
+      window.setTimeout(() => document.body.classList.remove(printClass), 500);
     }, 0);
   };
+  const printLabel = () => printWithClass(labelMode === '30334' ? 'printSmallDymoLabelOnly' : 'printPhoneLabelOnly');
+  const print4x6Label = () => printWithClass('printPhoneLabelOnly');
+  const printSmallLabel = () => printWithClass('printSmallDymoLabelOnly');
   const resetForm = () => setForm({
     model: '', storage: '', color: '', carrier: 'Unlocked', grade: 'Excellent', status: 'Pre-Owned', battery: 'N/A', imei: '', serial: '', inventoryId: makeInventoryId(), price: '', notes: ''
   });
@@ -744,11 +806,12 @@ function LabelCreatorTool() {
         <div>
           <span className="adminEyebrow">Admin tool</span>
           <h2>Label Creator</h2>
-          <p>Create a 4x6 DYMO 4XL phone box label. This is structured so inventory rows can auto-fill it later.</p>
+          <p>Create phone box labels for a DYMO 4XL 4x6 label or a DYMO 400/450 30334 small price label. This is structured so inventory rows can auto-fill it later.</p>
         </div>
         <div className="labelCreatorActions">
           <button className="secondaryBtn compact" type="button" onClick={ensureInventoryId}>Preview Label</button>
-          <button className="primaryBtn compact" type="button" onClick={printLabel}>Print 4x6 Label <ArrowRight size={16} /></button>
+          <button className="primaryBtn compact" type="button" onClick={print4x6Label}>Print 4x6 Label <ArrowRight size={16} /></button>
+          <button className="secondaryBtn compact" type="button" onClick={printSmallLabel}>Print 30334 Small Label</button>
           <button className="secondaryBtn compact" type="button" onClick={printLabel}>Download PDF</button>
           <button className="secondaryBtn compact dark" type="button" onClick={resetForm}>Clear / Reset</button>
         </div>
@@ -756,6 +819,11 @@ function LabelCreatorTool() {
 
       <div className="labelCreatorGrid">
         <form className="labelCreatorForm" onSubmit={(event) => event.preventDefault()}>
+          <div className="labelFormSectionTitle">Label size</div>
+          <div className="labelModePicker" role="tablist" aria-label="Label print size">
+            <button type="button" className={labelMode === '4x6' ? 'active' : ''} onClick={() => setLabelMode('4x6')}>4x6 DYMO 4XL</button>
+            <button type="button" className={labelMode === '30334' ? 'active' : ''} onClick={() => setLabelMode('30334')}>30334 DYMO 400/450</button>
+          </div>
           <div className="labelFormSectionTitle">Phone information</div>
           <label>Model<input value={form.model} onChange={(event) => updateField('model', event.target.value)} placeholder="Apple iPhone 11" /></label>
           <div className="labelFormTwoCol">
@@ -781,10 +849,10 @@ function LabelCreatorTool() {
 
         <div className="labelPreviewColumn">
           <div className="labelPreviewToolbar">
-            <strong>Live 4x6 preview</strong>
-            <span>Print at 100% / Actual Size on DYMO 4XL.</span>
+            <strong>{labelMode === '30334' ? 'Live 30334 preview' : 'Live 4x6 preview'}</strong>
+            <span>{labelMode === '30334' ? 'Use DYMO 30334, 2-1/4in x 1-1/4in, Actual Size.' : 'Print at 100% / Actual Size on DYMO 4XL.'}</span>
           </div>
-          <LabelPreview form={form} />
+          {labelMode === '30334' ? <SmallDymoLabelPreview form={form} /> : <LabelPreview form={form} />}
         </div>
       </div>
     </section>
