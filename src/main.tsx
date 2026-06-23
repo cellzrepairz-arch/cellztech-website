@@ -732,15 +732,13 @@ function SmallDymoLabelPreview({ form }: { form: LabelFormState }) {
   const color = normalizeLabelValue(form.color, 'Purple');
   const carrier = normalizeLabelValue(form.carrier, 'Unlocked');
   const status = normalizeLabelValue(form.status, 'Used');
-  const battery = normalizeLabelValue(form.battery, 'N/A');
-  const serial = normalizeLabelValue(form.serial || form.imei, '352911116584519');
-  const inventoryId = normalizeLabelValue(form.inventoryId, makeInventoryId());
+  const imei = normalizeLabelValue(form.imei || form.serial || form.inventoryId, '352911116584519');
   const price = formatLabelPrice(form.price) || '$199.99';
-  const compactTitle = model.length > 34 ? 'smallDymoLongTitle' : model.length > 25 ? 'smallDymoMediumTitle' : '';
+  const compactTitle = model.length > 38 ? 'smallDymoLongTitle' : model.length > 28 ? 'smallDymoMediumTitle' : '';
 
   return (
     <div className="smallDymoPrintZone">
-      <section className="smallDymo30334Label" aria-label="DYMO 30334 small phone box label preview">
+      <section className="smallDymo30334Label sidePriceSticker" aria-label="DYMO 30334 side sticker preview">
         <div className="smallDymoTopBar">
           <div className="smallDymoBrandMark">
             <strong>CT</strong>
@@ -749,17 +747,12 @@ function SmallDymoLabelPreview({ form }: { form: LabelFormState }) {
           <div className="smallDymoPrice">{price}</div>
         </div>
         <div className={`smallDymoModel ${compactTitle}`}>{model}</div>
-        <div className="smallDymoBody">
-          <div className="smallDymoSpecs">
-            <strong>{color} {storage} {carrier}</strong>
-            <span>{battery !== 'N/A' ? `${battery} Battery` : '180 days Warranty'}</span>
-            <b>{status}</b>
-          </div>
-          <div className="smallDymoBarcodeArea">
-            <BarcodeSvg value={inventoryId} height={42} />
-            <span>Serial: {serial}</span>
-          </div>
+        <div className="smallDymoSpecLine">{color} • {storage} • {carrier}</div>
+        <div className="smallDymoBarcodeArea fullWidth">
+          <BarcodeSvg value={imei} height={44} />
+          <span>IMEI: {imei}</span>
         </div>
+        <div className="smallDymoFooterLine"><strong>{status}</strong><span>cellztech.com</span></div>
       </section>
     </div>
   );
@@ -806,12 +799,20 @@ function LabelCreatorTool() {
         <div>
           <span className="adminEyebrow">Admin tool</span>
           <h2>Label Creator</h2>
-          <p>Create phone box labels for a DYMO 4XL 4x6 label or a DYMO 400/450 30334 small price label. This is structured so inventory rows can auto-fill it later.</p>
+          <p>Create both labels from the same phone information: the full 4x6 box label and a smaller DYMO 30334 side sticker with model, storage, price, and IMEI barcode.</p>
+          <div className="labelFormatHero" role="tablist" aria-label="Label type preview">
+            <button type="button" className={labelMode === '4x6' ? 'active' : ''} onClick={() => setLabelMode('4x6')}>
+              <strong>Box Label</strong><span>4x6 DYMO 4XL</span>
+            </button>
+            <button type="button" className={labelMode === '30334' ? 'active' : ''} onClick={() => setLabelMode('30334')}>
+              <strong>Side Sticker</strong><span>DYMO 30334 / 400 / 450</span>
+            </button>
+          </div>
         </div>
         <div className="labelCreatorActions">
           <button className="secondaryBtn compact" type="button" onClick={ensureInventoryId}>Preview Label</button>
-          <button className="primaryBtn compact" type="button" onClick={print4x6Label}>Print 4x6 Label <ArrowRight size={16} /></button>
-          <button className="secondaryBtn compact" type="button" onClick={printSmallLabel}>Print 30334 Small Label</button>
+          <button className="primaryBtn compact" type="button" onClick={print4x6Label}>Print 4x6 Box Label <ArrowRight size={16} /></button>
+          <button className="primaryBtn compact smallPrintBtn" type="button" onClick={printSmallLabel}>Print Side Sticker 30334</button>
           <button className="secondaryBtn compact" type="button" onClick={printLabel}>Download PDF</button>
           <button className="secondaryBtn compact dark" type="button" onClick={resetForm}>Clear / Reset</button>
         </div>
@@ -819,11 +820,12 @@ function LabelCreatorTool() {
 
       <div className="labelCreatorGrid">
         <form className="labelCreatorForm" onSubmit={(event) => event.preventDefault()}>
-          <div className="labelFormSectionTitle">Label size</div>
+          <div className="labelFormSectionTitle">Label type</div>
           <div className="labelModePicker" role="tablist" aria-label="Label print size">
-            <button type="button" className={labelMode === '4x6' ? 'active' : ''} onClick={() => setLabelMode('4x6')}>4x6 DYMO 4XL</button>
-            <button type="button" className={labelMode === '30334' ? 'active' : ''} onClick={() => setLabelMode('30334')}>30334 DYMO 400/450</button>
+            <button type="button" className={labelMode === '4x6' ? 'active' : ''} onClick={() => setLabelMode('4x6')}>4x6 Box Label</button>
+            <button type="button" className={labelMode === '30334' ? 'active' : ''} onClick={() => setLabelMode('30334')}>Side Sticker 30334</button>
           </div>
+          <p className="labelModeHint">The side sticker uses Model, Storage, Price, and IMEI barcode for the side of the phone box.</p>
           <div className="labelFormSectionTitle">Phone information</div>
           <label>Model<input value={form.model} onChange={(event) => updateField('model', event.target.value)} placeholder="Apple iPhone 11" /></label>
           <div className="labelFormTwoCol">
@@ -850,7 +852,7 @@ function LabelCreatorTool() {
         <div className="labelPreviewColumn">
           <div className="labelPreviewToolbar">
             <strong>{labelMode === '30334' ? 'Live 30334 preview' : 'Live 4x6 preview'}</strong>
-            <span>{labelMode === '30334' ? 'Use DYMO 30334, 2-1/4in x 1-1/4in, Actual Size.' : 'Print at 100% / Actual Size on DYMO 4XL.'}</span>
+            <span>{labelMode === '30334' ? 'Side sticker: model, storage, price, and IMEI barcode. Use DYMO 30334 at Actual Size.' : 'Full box label. Print at 100% / Actual Size on DYMO 4XL.'}</span>
           </div>
           {labelMode === '30334' ? <SmallDymoLabelPreview form={form} /> : <LabelPreview form={form} />}
         </div>
