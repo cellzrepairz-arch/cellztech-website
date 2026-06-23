@@ -11507,3 +11507,157 @@ canvas {
     font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
   }
 }
+
+/* Final DYMO 30334 side-sticker print + fit fix
+   - Keeps the small sticker visible in Chrome print preview
+   - Prevents older print rules from hiding the cloned print label
+   - Tightens the side sticker so model/price/barcode fit inside 2.25 x 1.25
+*/
+.sidePriceSticker.smallDymo30334Label {
+  width: 2.25in;
+  height: 1.25in;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: 0.28in 0.22in 0.17in 0.38in 0.12in;
+  gap: 0.015in;
+  padding: 0.045in 0.055in;
+  overflow: hidden;
+}
+
+.sidePriceSticker .smallDymoTopBar {
+  height: auto;
+  min-height: 0;
+  grid-template-columns: minmax(0, 0.9in) minmax(0, 1fr);
+  align-items: center;
+  padding: 0 0 0.018in;
+  gap: 0.035in;
+}
+
+.sidePriceSticker .smallDymoBrandMark {
+  min-width: 0;
+  gap: 0.026in;
+}
+
+.sidePriceSticker .smallDymoBrandMark strong {
+  width: 0.22in;
+  height: 0.22in;
+  font-size: 7.6pt;
+}
+
+.sidePriceSticker .smallDymoBrandMark span {
+  font-size: 7.6pt;
+  letter-spacing: -0.05em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidePriceSticker .smallDymoPrice {
+  font-size: 18.5pt;
+  line-height: 0.86;
+  letter-spacing: -0.075em;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.sidePriceSticker .smallDymoModel {
+  height: auto;
+  min-height: 0;
+  font-size: 10.7pt;
+  line-height: 0.96;
+  padding: 0.008in 0 0.018in;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidePriceSticker .smallDymoModel.smallDymoMediumTitle,
+.sidePriceSticker .smallDymoModel.smallDymoLongTitle {
+  font-size: 9.2pt;
+  letter-spacing: -0.055em;
+}
+
+.sidePriceSticker .smallDymoSpecLine {
+  height: auto;
+  min-height: 0;
+  font-size: 6.8pt;
+  line-height: 0.95;
+  padding: 0.006in 0 0.016in;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidePriceSticker .smallDymoBarcodeArea.fullWidth {
+  min-height: 0;
+  align-content: center;
+  gap: 0.006in;
+  padding: 0 0.018in;
+  overflow: hidden;
+}
+
+.sidePriceSticker .smallDymoBarcodeArea.fullWidth .labelBarcodeSvg {
+  height: 0.285in;
+  min-height: 0;
+  display: block;
+}
+
+.sidePriceSticker .smallDymoBarcodeArea.fullWidth span {
+  font-size: 6.4pt;
+  line-height: 0.85;
+  white-space: nowrap;
+}
+
+.sidePriceSticker .smallDymoFooterLine {
+  min-height: 0;
+  font-size: 5.9pt;
+  line-height: 0.9;
+  padding-top: 0.008in;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.sidePriceSticker .smallDymoFooterLine strong::before {
+  width: 0.09in;
+  height: 0.09in;
+  font-size: 4.2pt;
+}
+
+@media print {
+  body.printPhoneLabelOnly #labelPrintHost,
+  body.printPhoneLabelOnly #labelPrintHost *,
+  body.printSmallDymoLabelOnly #labelPrintHost,
+  body.printSmallDymoLabelOnly #labelPrintHost * {
+    visibility: visible !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost {
+    width: 2.25in !important;
+    height: 1.25in !important;
+    left: 0 !important;
+    top: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymo30334Label,
+  body.printSmallDymoLabelOnly #labelPrintHost .sidePriceSticker.smallDymo30334Label {
+    width: 2.25in !important;
+    height: 1.25in !important;
+    padding: 0.045in 0.055in !important;
+    display: grid !important;
+    grid-template-rows: 0.28in 0.22in 0.17in 0.38in 0.12in !important;
+    gap: 0.015in !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    background: #fff !important;
+  }
+
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoTopBar,
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoModel,
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoSpecLine,
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoBarcodeArea,
+  body.printSmallDymoLabelOnly #labelPrintHost .smallDymoFooterLine {
+    overflow: hidden !important;
+  }
+}
