@@ -11337,3 +11337,173 @@ canvas {
     -webkit-print-color-adjust: exact !important;
   }
 }
+
+/* CellzTech side sticker font/style polish: match website typography */
+.sidePriceSticker.smallDymo30334Label,
+.smallDymo30334Label {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.sidePriceSticker.smallDymo30334Label {
+  background: #ffffff;
+  border: 1px solid #0f172a;
+  border-radius: 0.055in;
+  padding: 0.045in 0.05in;
+  gap: 0.022in;
+  color: #07111f;
+}
+
+.sidePriceSticker .smallDymoTopBar {
+  height: 0.30in;
+  background: #ffffff;
+  color: #07111f;
+  grid-template-columns: 1.08in 1fr;
+  border-radius: 0;
+  border-bottom: 1.4px solid #2563eb;
+  padding: 0 0 0.025in;
+  gap: 0.05in;
+}
+
+.sidePriceSticker .smallDymoBrandMark {
+  width: auto;
+  height: auto;
+  background: transparent;
+  color: #07111f;
+  display: flex;
+  align-items: center;
+  gap: 0.035in;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.sidePriceSticker .smallDymoBrandMark strong {
+  width: 0.24in;
+  height: 0.24in;
+  border-radius: 0.035in;
+  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Sora, Inter, sans-serif;
+  font-size: 8.2pt;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  flex: 0 0 auto;
+}
+
+.sidePriceSticker .smallDymoBrandMark span {
+  display: inline-block;
+  font-family: Sora, Inter, sans-serif;
+  font-size: 9.2pt;
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  white-space: nowrap;
+  color: #07111f;
+}
+
+.sidePriceSticker .smallDymoBrandMark span::first-letter { color: #07111f; }
+
+.sidePriceSticker .smallDymoPrice {
+  font-family: Sora, Inter, sans-serif;
+  color: #07111f;
+  text-align: right;
+  font-size: 22.5pt;
+  font-weight: 800;
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+}
+
+.sidePriceSticker .smallDymoModel {
+  border: 0;
+  border-bottom: 1.4px solid #2563eb;
+  border-radius: 0;
+  padding: 0.012in 0 0.025in;
+  font-family: Sora, Inter, sans-serif;
+  font-size: 13pt;
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+  color: #07111f;
+}
+
+.sidePriceSticker .smallDymoModel.smallDymoMediumTitle { font-size: 10.8pt; letter-spacing: -0.06em; }
+.sidePriceSticker .smallDymoModel.smallDymoLongTitle { font-size: 9.1pt; letter-spacing: -0.065em; }
+
+.sidePriceSticker .smallDymoSpecLine {
+  border: 0;
+  border-bottom: 1.2px solid #2563eb;
+  border-radius: 0;
+  padding: 0.018in 0 0.024in;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 8pt;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.sidePriceSticker .smallDymoSpecLine::first-letter { text-transform: uppercase; }
+
+.sidePriceSticker .smallDymoBarcodeArea.fullWidth {
+  border-left: 1.2px solid #2563eb;
+  border-right: 1.2px solid #2563eb;
+  padding: 0 0.025in;
+  gap: 0.012in;
+}
+
+.sidePriceSticker .smallDymoBarcodeArea.fullWidth .labelBarcodeSvg {
+  height: 0.315in;
+}
+
+.sidePriceSticker .smallDymoBarcodeArea.fullWidth span {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 7.6pt;
+  font-weight: 800;
+  color: #07111f;
+}
+
+.sidePriceSticker .smallDymoBarcodeArea.fullWidth span::first-letter { color: #2563eb; }
+
+.sidePriceSticker .smallDymoFooterLine {
+  border-top: 1.2px solid #2563eb;
+  padding-top: 0.016in;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 6.8pt;
+  font-weight: 800;
+  color: #07111f;
+}
+
+.sidePriceSticker .smallDymoFooterLine strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.025in;
+  font-weight: 800;
+}
+
+.sidePriceSticker .smallDymoFooterLine strong::before {
+  content: '✓';
+  width: 0.12in;
+  height: 0.12in;
+  border-radius: 999px;
+  background: #2563eb;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5pt;
+  line-height: 1;
+}
+
+.sidePriceSticker .smallDymoFooterLine span {
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 800;
+}
+
+@media print {
+  body.printSmallDymoLabelOnly .sidePriceSticker.smallDymo30334Label {
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 0.045in 0.05in !important;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  }
+}
