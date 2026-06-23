@@ -11052,3 +11052,85 @@ canvas {
     -webkit-print-color-adjust: exact;
   }
 }
+
+/* Final label cleanup: IMEI-only inventory lookup + cleaner phone-box regulatory row */
+.phoneLabelIdGrid.simplified div {
+  grid-template-columns: 0.9in 1fr;
+  min-height: 0.2in;
+}
+.phoneLabelBarcodeBlock.primaryImeiBarcode {
+  padding: 0.04in;
+  gap: 0.022in;
+}
+.phoneLabelBarcodeBlock.primaryImeiBarcode .labelBarcodeSvg,
+.primaryImeiBarcode .labelBarcodeSvg {
+  height: 0.48in;
+}
+.retailComplianceRow.phoneLabelComplianceRow {
+  border: 0;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  min-height: 0.28in;
+  padding: 0.035in 0.04in;
+  justify-content: flex-end;
+  gap: 0.08in;
+}
+.retailRegIcon {
+  width: 0.22in;
+  height: 0.22in;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  flex: 0 0 auto;
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1;
+}
+.retailRegIcon.ceIcon {
+  width: 0.33in;
+  font-size: 13pt;
+  font-weight: 900;
+  letter-spacing: -0.12em;
+  transform: scaleX(1.08);
+}
+.retailRegIcon.recycleTriangleIcon {
+  font-size: 15pt;
+  font-weight: 900;
+}
+.crossedBinIcon::before {
+  content: '';
+  position: absolute;
+  left: 0.055in;
+  top: 0.052in;
+  width: 0.11in;
+  height: 0.135in;
+  border: 1.4px solid #000;
+  border-top: 0;
+  border-radius: 0 0 0.018in 0.018in;
+}
+.crossedBinIcon::after {
+  content: '';
+  position: absolute;
+  left: 0.015in;
+  top: 0.102in;
+  width: 0.19in;
+  height: 1.6px;
+  background: #000;
+  transform: rotate(-45deg);
+  transform-origin: center;
+}
+.crossedBinIcon span { display: none; }
+.crossedBinIcon {
+  border-bottom: 1.4px solid #000;
+}
+.crossedBinIcon:focus { outline: none; }
+@media print {
+  .retailComplianceRow.phoneLabelComplianceRow,
+  .retailRegIcon,
+  .crossedBinIcon::before,
+  .crossedBinIcon::after {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

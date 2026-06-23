@@ -684,37 +684,27 @@ function LabelPreview({ form }: { form: LabelFormState }) {
             <tr><th>Model</th><td>{model}</td><th>Storage</th><td>{storage}</td></tr>
             <tr><th>Color</th><td>{color}</td><th>Carrier</th><td>{carrier}</td></tr>
             <tr><th>Grade</th><td>{grade}</td><th>Status</th><td>{status}</td></tr>
-            <tr><th>Battery</th><td>{battery}</td><th>{price ? 'Price' : 'SKU'}</th><td>{price ? price : inventoryId}</td></tr>
+            <tr><th>Battery</th><td>{battery}</td><th>Price</th><td>{price || 'N/A'}</td></tr>
           </tbody>
         </table>
 
-        <div className="phoneLabelIdGrid">
+        <div className="phoneLabelIdGrid simplified">
           <div><span>IMEI</span><strong>{imei}</strong></div>
           <div><span>Serial Number</span><strong>{serial}</strong></div>
-          <div><span>Inventory ID / SKU</span><strong>{inventoryId}</strong></div>
         </div>
 
-        <div className="phoneLabelBarcodeBlock">
-          <span>Inventory barcode</span>
-          <BarcodeSvg value={inventoryId} height={42} />
-          <strong>{inventoryId}</strong>
-        </div>
-
-        <div className="phoneLabelBarcodeBlock imeiBarcode">
+        <div className="phoneLabelBarcodeBlock imeiBarcode primaryImeiBarcode">
           <span>IMEI barcode</span>
-          <BarcodeSvg value={imei} height={44} />
+          <BarcodeSvg value={imei} height={58} />
           <strong>{imei}</strong>
         </div>
 
         {notes ? <p className="phoneLabelNotes">Notes: {notes}</p> : <p className="phoneLabelNotes">Pre-owned device. Cosmetic condition and included accessories should be verified before purchase.</p>}
 
-        <div className="phoneLabelComplianceRow" aria-label="Device handling and recycling symbols">
-          <span className="complianceMark recycleMark">♻</span>
-          <span className="complianceMark">WEEE</span>
-          <span className="complianceMark binMark">⌧</span>
-          <span className="complianceMark">Li-ion</span>
-          <span className="complianceMark">RoHS</span>
-          <small>Recycle electronics responsibly. Regulatory markings may vary by original manufacturer/model.</small>
+        <div className="phoneLabelComplianceRow retailComplianceRow" aria-label="Retail-style device recycling symbols">
+          <span className="retailRegIcon crossedBinIcon" aria-label="Do not dispose in household waste"></span>
+          <span className="retailRegIcon ceIcon" aria-label="CE style mark">CE</span>
+          <span className="retailRegIcon recycleTriangleIcon" aria-label="Recycle">♻</span>
         </div>
 
         <footer className="phoneLabelFooter">
