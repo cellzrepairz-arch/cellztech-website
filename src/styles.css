@@ -13330,3 +13330,72 @@ canvas {
   text-transform: uppercase;
   font-weight: 1000;
 }
+
+
+/* July Ultra translation + hero visual polish */
+.julyUltraHero {
+  position: relative;
+  overflow: visible;
+}
+
+.julyUltraHero small {
+  display: block;
+  max-width: 34rem;
+}
+
+.julyHeroDevice {
+  position: absolute;
+  right: -2.25rem;
+  bottom: 1.2rem;
+  width: 180px;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 20px 35px rgba(10, 20, 60, 0.4));
+}
+
+.julyHeroDevice img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.julyUltraHero > *:not(.julyHeroDevice) {
+  position: relative;
+  z-index: 2;
+}
+
+.julyBoardHeader {
+  align-items: center;
+}
+
+.julyBoardHeaderText {
+  display: flex;
+  align-items: baseline;
+  gap: .8rem;
+  flex-wrap: wrap;
+}
+
+.julyBoardHeaderText span {
+  margin-right: 0;
+}
+
+@media (max-width: 1180px) {
+  .julyHeroDevice {
+    right: -1rem;
+    bottom: .2rem;
+    width: 150px;
+    opacity: .95;
+  }
+}
+
+@media (max-width: 980px) {
+  .julyHeroDevice {
+    position: static;
+    width: min(240px, 60%);
+    margin: 1rem auto 0;
+  }
+
+  .julyUltraHero small {
+    max-width: none;
+  }
+}

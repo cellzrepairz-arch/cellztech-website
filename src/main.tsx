@@ -1627,6 +1627,140 @@ const storeHoursByDay = [
   { label: 'Saturday', open: '11:00', close: '15:00', note: '11:00 AM - 3:00 PM' }
 ] as const;
 
+
+const ultraJulyPromoCopy: Record<LanguageKey, {
+  pill: string;
+  title: string;
+  text: string;
+  requestSim: string;
+  comparePlans: string;
+  callCellzTech: string;
+  finePrint: string;
+  boardAria: string;
+  boardBrand: string;
+  boardTitle: string;
+  visualAlt: string;
+  cards: {
+    familyLabel: string;
+    familyTitle: string;
+    familyPrice: string;
+    familyText: string;
+    buy3Label: string;
+    buy3Title: string;
+    buy3Text: string;
+    newLabel: string;
+    newTitle: string;
+    newPrice: string;
+    newText: string;
+  };
+}> = {
+  en: {
+    pill: 'HAPPY 4TH OF JULY',
+    title: '4th of July Ultra Mobile Savings at CellzTech',
+    text: 'Celebrate with limited-time July promos from Ultra Mobile. Stop in for local activation help, number transfer support, and SIM setup.',
+    requestSim: 'Request a SIM',
+    comparePlans: 'Compare plans',
+    callCellzTech: 'Call CellzTech',
+    finePrint: 'July limited-time offers. Promo eligibility, taxes, fees, plan terms, and device compatibility must be confirmed before activation.',
+    boardAria: 'Ultra Mobile July promos',
+    boardBrand: 'Ultra Mobile',
+    boardTitle: 'July Promos',
+    visualAlt: 'Ultra Mobile iPhone with American flag background',
+    cards: {
+      familyLabel: 'Family savings',
+      familyTitle: '4 Lines Unlimited',
+      familyPrice: '$100/mo',
+      familyText: 'Unlimited talk, text, and data on qualifying family plan.',
+      buy3Label: 'For life',
+      buy3Title: 'Buy 3 Months, Get 1 Free',
+      buy3Text: 'Every fourth month free on qualifying 1-month 8GB+ plans while eligible.',
+      newLabel: 'New customers',
+      newTitle: 'Ultra Unlimited',
+      newPrice: '$25/mo',
+      newText: 'With 6 months prepaid for $150.'
+    }
+  },
+  pl: {
+    pill: 'PROMOCJE NA 4 LIPCA',
+    title: 'Oszczędności Ultra Mobile na 4 lipca w CellzTech',
+    text: 'Skorzystaj z limitowanych lipcowych promocji Ultra Mobile. Zapraszamy po lokalną pomoc przy aktywacji, przeniesieniu numeru i konfiguracji karty SIM.',
+    requestSim: 'Zamów kartę SIM',
+    comparePlans: 'Porównaj plany',
+    callCellzTech: 'Zadzwoń do CellzTech',
+    finePrint: 'Lipcowe oferty są ograniczone czasowo. Kwalifikacja do promocji, podatki, opłaty, warunki planu i zgodność urządzenia muszą zostać potwierdzone przed aktywacją.',
+    boardAria: 'Lipcowe promocje Ultra Mobile',
+    boardBrand: 'Ultra Mobile',
+    boardTitle: 'Promocje lipcowe',
+    visualAlt: 'iPhone Ultra Mobile na tle amerykańskiej flagi',
+    cards: {
+      familyLabel: 'Oszczędności rodzinne',
+      familyTitle: '4 linie Unlimited',
+      familyPrice: '$100/mies.',
+      familyText: 'Nielimitowane rozmowy, SMS-y i dane w kwalifikującym się planie rodzinnym.',
+      buy3Label: 'Na stałe',
+      buy3Title: 'Kup 3 miesiące, 1 gratis',
+      buy3Text: 'Co czwarty miesiąc gratis w kwalifikujących się planach 1-miesięcznych 8GB+.',
+      newLabel: 'Nowi klienci',
+      newTitle: 'Ultra Unlimited',
+      newPrice: '$25/mies.',
+      newText: 'Przy 6 miesiącach opłaconych z góry za $150.'
+    }
+  },
+  es: {
+    pill: '¡FELIZ 4 DE JULIO!',
+    title: 'Ahorros de Ultra Mobile por el 4 de julio en CellzTech',
+    text: 'Aprovecha las promociones limitadas de julio de Ultra Mobile. Visítanos para recibir ayuda local con activación, transferencia de número y configuración de SIM.',
+    requestSim: 'Pedir una SIM',
+    comparePlans: 'Comparar planes',
+    callCellzTech: 'Llamar a CellzTech',
+    finePrint: 'Ofertas limitadas de julio. La elegibilidad de la promoción, impuestos, cargos, términos del plan y compatibilidad del dispositivo deben confirmarse antes de la activación.',
+    boardAria: 'Promociones de julio de Ultra Mobile',
+    boardBrand: 'Ultra Mobile',
+    boardTitle: 'Promociones de julio',
+    visualAlt: 'iPhone de Ultra Mobile con fondo de bandera estadounidense',
+    cards: {
+      familyLabel: 'Ahorro familiar',
+      familyTitle: '4 líneas Unlimited',
+      familyPrice: '$100/mes',
+      familyText: 'Llamadas, textos y datos ilimitados en un plan familiar elegible.',
+      buy3Label: 'De por vida',
+      buy3Title: 'Compra 3 meses y recibe 1 gratis',
+      buy3Text: 'Cada cuarto mes es gratis en planes elegibles de 1 mes con 8GB o más.',
+      newLabel: 'Nuevos clientes',
+      newTitle: 'Ultra Unlimited',
+      newPrice: '$25/mes',
+      newText: 'Con 6 meses prepagados por $150.'
+    }
+  },
+  uk: {
+    pill: 'З 4 ЛИПНЯ!',
+    title: 'Заощадження Ultra Mobile до 4 липня у CellzTech',
+    text: 'Скористайтеся липневими акціями Ultra Mobile. Завітайте по локальну допомогу з активацією, перенесенням номера та налаштуванням SIM.',
+    requestSim: 'Замовити SIM',
+    comparePlans: 'Порівняти плани',
+    callCellzTech: 'Подзвонити в CellzTech',
+    finePrint: 'Липневі пропозиції обмежені в часі. Право на акцію, податки, збори, умови плану та сумісність пристрою потрібно підтвердити перед активацією.',
+    boardAria: 'Липневі акції Ultra Mobile',
+    boardBrand: 'Ultra Mobile',
+    boardTitle: 'Липневі акції',
+    visualAlt: 'iPhone Ultra Mobile на тлі прапора США',
+    cards: {
+      familyLabel: 'Сімейна економія',
+      familyTitle: '4 лінії Unlimited',
+      familyPrice: '$100/міс.',
+      familyText: 'Безлімітні дзвінки, текст і дані на відповідному сімейному плані.',
+      buy3Label: 'Назавжди',
+      buy3Title: 'Купи 3 місяці, 1 безкоштовно',
+      buy3Text: 'Кожен четвертий місяць безкоштовний на відповідних 1-місячних планах 8GB+.',
+      newLabel: 'Нові клієнти',
+      newTitle: 'Ultra Unlimited',
+      newPrice: '$25/міс.',
+      newText: 'За умови передплати 6 місяців за $150.'
+    }
+  }
+};
+
+
 function localDateFromInput(value: string) {
   if (!value) return null;
   const [year, month, day] = value.split('-').map(Number);
@@ -3704,47 +3838,55 @@ function UltraPlanStoreCard({ plan, lang }: { plan: UltraPlan; lang: LanguageKey
 }
 
 
-function UltraJulyPromoPanel({ onCompare }: { onCompare: () => void }) {
+function UltraJulyPromoPanel({ onCompare, lang }: { onCompare: () => void; lang: LanguageKey }) {
+  const copy = ultraJulyPromoCopy[lang] || ultraJulyPromoCopy.en;
+
   return (
     <section className="section julyUltraLanding" id="july-promos">
       <div className="wrap julyUltraShell">
         <div className="julyUltraHero">
-          <span className="julyPill"><Star size={16} /> HAPPY 4TH OF JULY</span>
-          <h1>4th of July Ultra Mobile Savings at CellzTech</h1>
-          <p>Celebrate with limited-time July promos from Ultra Mobile. Stop in for local activation help, number transfer support, and SIM setup.</p>
+          <span className="julyPill"><Star size={16} /> {copy.pill}</span>
+          <h1>{copy.title}</h1>
+          <p>{copy.text}</p>
           <div className="julyUltraActions">
-            <a className="primaryBtn" href={`${routes.sim}?request=july-promo&plan=${encodeURIComponent('July Ultra Mobile Promo')}`}>Request a SIM <ArrowRight size={18} /></a>
-            <button className="secondaryBtn" type="button" onClick={onCompare}>Compare plans</button>
-            <a className="secondaryBtn ghost" href="tel:7734137489">Call CellzTech</a>
+            <a className="primaryBtn" href={`${routes.sim}?request=july-promo&plan=${encodeURIComponent('July Ultra Mobile Promo')}`}>{copy.requestSim} <ArrowRight size={18} /></a>
+            <button className="secondaryBtn" type="button" onClick={onCompare}>{copy.comparePlans}</button>
+            <a className="secondaryBtn ghost" href="tel:7734137489">{copy.callCellzTech}</a>
           </div>
-          <small>July limited-time offers. Promo eligibility, taxes, fees, plan terms, and device compatibility must be confirmed before activation.</small>
+          <small>{copy.finePrint}</small>
+
+          <div className="julyHeroDevice" aria-hidden="true">
+            <img src="/july-ultra-phone-flag.png" alt={copy.visualAlt} />
+          </div>
         </div>
 
-        <div className="julyPromoBoard" aria-label="Ultra Mobile July promos">
+        <div className="julyPromoBoard" aria-label={copy.boardAria}>
           <div className="julyBoardHeader">
-            <span>Ultra Mobile</span>
-            <strong>July Promos</strong>
+            <div className="julyBoardHeaderText">
+              <span>{copy.boardBrand}</span>
+              <strong>{copy.boardTitle}</strong>
+            </div>
           </div>
           <div className="julyPromoCards">
             <article>
               <div className="julyIcon">👨‍👩‍👧‍👦</div>
-              <span>Family savings</span>
-              <h3>4 Lines Unlimited</h3>
-              <p className="julyPrice">$100<span>/mo</span></p>
-              <small>Unlimited talk, text, and data on qualifying family plan.</small>
+              <span>{copy.cards.familyLabel}</span>
+              <h3>{copy.cards.familyTitle}</h3>
+              <p className="julyPrice">{copy.cards.familyPrice.split('/')[0]}<span>/{copy.cards.familyPrice.split('/')[1] || 'mo'}</span></p>
+              <small>{copy.cards.familyText}</small>
             </article>
             <article>
               <div className="julyIcon">🎁</div>
-              <span>For life</span>
-              <h3>Buy 3 Months, Get 1 Free</h3>
-              <p>Every fourth month free on qualifying 1-month 8GB+ plans while eligible.</p>
+              <span>{copy.cards.buy3Label}</span>
+              <h3>{copy.cards.buy3Title}</h3>
+              <p>{copy.cards.buy3Text}</p>
             </article>
             <article className="featured">
               <div className="julyIcon">⚡</div>
-              <span>New customers</span>
-              <h3>Ultra Unlimited</h3>
-              <p className="julyPrice">$25<span>/mo</span></p>
-              <small>With 6 months prepaid for $150.</small>
+              <span>{copy.cards.newLabel}</span>
+              <h3>{copy.cards.newTitle}</h3>
+              <p className="julyPrice">{copy.cards.newPrice.split('/')[0]}<span>/{copy.cards.newPrice.split('/')[1] || 'mo'}</span></p>
+              <small>{copy.cards.newText}</small>
             </article>
           </div>
         </div>
@@ -3760,7 +3902,7 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
 
   return (
     <>
-      <UltraJulyPromoPanel onCompare={() => setSavingsOpen(true)} />
+      <UltraJulyPromoPanel lang={lang} onCompare={() => setSavingsOpen(true)} />
       <section className="section ultraStoreHero">
         <div className="wrap ultraHeroStack">
           <div className="ultraHeroGrid">
