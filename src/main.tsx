@@ -62,9 +62,9 @@ const languages: { key: LanguageKey; label: string; name: string }[] = [
 
 const navLabels: Record<LanguageKey, Record<PageKey, string>> = {
   en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact', book: 'Book Repair', sim: 'SIM Request', admin: 'Admin', activateJuly: 'July Deals' },
-  pl: { activateJuly: 'Lipcowe Promocje', home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Zgłoś naprawę', sim: 'Zamów SIM', admin: 'Admin', activateJuly: 'July Deals' },
-  es: { activateJuly: 'Ofertas de Julio', home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Solicitar reparación', sim: 'Pedir SIM', admin: 'Admin', activateJuly: 'July Deals' },
-  uk: { activateJuly: 'Липневі Пропозиції', home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Заявка на ремонт', sim: 'Запит SIM', admin: 'Admin', activateJuly: 'July Deals' }
+  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Zgłoś naprawę', sim: 'Zamów SIM', admin: 'Admin', activateJuly: 'Lipcowe Promocje' },
+  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Solicitar reparación', sim: 'Pedir SIM', admin: 'Admin', activateJuly: 'Ofertas de Julio' },
+  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Заявка на ремонт', sim: 'Запит SIM', admin: 'Admin', activateJuly: 'Липневі Пропозиції' }
 };
 
 const serviceCards = [
