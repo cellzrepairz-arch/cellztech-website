@@ -398,48 +398,90 @@ function Header({ page, setPage, lang, setLang }: { page: PageKey; setPage: (p: 
 }
 
 function Hero({ lang }: { lang: LanguageKey }) {
-  const copy = homeText[lang];
-  const cards = localizedServiceCards[lang];
+  const promoServices = [
+    { key: 'repairs' as PageKey, icon: Wrench, title: 'Phone Repairs', text: 'Fast, reliable repairs for all major brands.' },
+    { key: 'ultra' as PageKey, icon: Wifi, title: 'Phone Plans', text: 'Affordable wireless plans for less.' },
+    { key: 'phones' as PageKey, icon: Smartphone, title: 'Phones', text: 'New & used phones at great prices.' },
+    { key: 'accessories' as PageKey, icon: ShoppingBag, title: 'Accessories', text: 'Cases, chargers, and more must-haves.' },
+    { key: 'buyback' as PageKey, icon: DollarSign, title: 'Buyback', text: 'Instant cash for your devices.' }
+  ];
+
   return (
-    <section className="hero">
-      <div className="wrap heroGrid">
-        <div className="heroCopy">
-          <div className="eyebrow"><Star size={15} /> {copy.eyebrow}</div>
-          <h1>{copy.title}</h1>
-          <p>{copy.text}</p>
-          <div className="heroCtas">
-            <button className="primaryBtn" onClick={() => goTo('book')}>{copy.book} <ArrowRight size={18} /></button>
-            <a className="secondaryBtn" href="tel:7734137489">{copy.call}</a>
-            <button className="secondaryBtn" onClick={() => goTo('ultra')}>{copy.ultra}</button>
-            <button className="secondaryBtn ghost" onClick={() => goTo('buyback')}>{copy.sell}</button>
+    <section className="julyHomeLanding" aria-label="4th of July CellzTech Ultra Mobile promotions">
+      <div className="julyFirework julyFireworkLeft" aria-hidden="true"></div>
+      <div className="julyFirework julyFireworkRight" aria-hidden="true"></div>
+      <div className="julyStarField" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div className="wrap julyHomeWrap">
+        <div className="julyHomeHeroGrid">
+          <div className="julyHomeCopy">
+            <div className="julyHomeBadge"><span>★</span> Happy 4th of July!</div>
+            <h1>4th of July Savings at CellzTech</h1>
+            <p>Celebrate with phone plans, repairs, and accessories — plus fresh Ultra Mobile July promos.</p>
+            <div className="julyHomeActions">
+              <button className="primaryBtn" onClick={() => goTo('ultra')}>Shop Ultra Mobile</button>
+              <button className="secondaryBtn" onClick={() => goTo('sim')}>Request a SIM <Smartphone size={18} /></button>
+            </div>
+            <small className="julyHomeFinePrint">ⓘ July limited-time offers. Ask CellzTech for details.</small>
           </div>
-          <div className="miniTrust">
-            <span><CheckCircle2 size={16} /> {copy.trust[0]}</span>
-            <span><CheckCircle2 size={16} /> {copy.trust[1]}</span>
-            <span><CheckCircle2 size={16} /> {copy.trust[2]}</span>
-          </div>
-        </div>
-        <div className="servicePanel" aria-label="Service options">
-          <div className="panelHeader">
-            <span>{copy.start}</span>
-            <strong>{copy.need}</strong>
-          </div>
-          <div className="panelList">
-            {cards.map((service) => {
-              const Icon = service.icon;
-              return (
-                <button key={service.key} onClick={() => goTo(service.key)}>
-                  <span className="panelIcon"><Icon size={19} /></span>
-                  <span>{service.title}</span>
-                  <ChevronRight size={18} />
-                </button>
-              );
-            })}
-          </div>
-          <div className="panelNote">
-            <Search size={16} /> {copy.note}
+
+          <div className="julyVisual" aria-hidden="true">
+            <div className="flagRibbon"><i></i><i></i><i></i></div>
+            <div className="phoneMock phoneBack"></div>
+            <div className="phoneMock phoneFront"><strong>ultra</strong><span>mobile</span></div>
           </div>
         </div>
+
+        <div className="julyPromoPanel" aria-label="Ultra Mobile July Promos">
+          <div className="julyPromoHeader">
+            <div className="ultraWordmark"><strong>ultra</strong><span>mobile</span></div>
+            <div className="promoDivider"><span>★</span><span>★</span></div>
+            <h2>Ultra Mobile July Promos</h2>
+            <div className="promoDivider"><span>★</span><span>★</span></div>
+          </div>
+
+          <div className="julyPromoCardGrid">
+            <article className="julyHomePromoCard">
+              <div className="promoLineIcon">👨‍👩‍👧‍👦</div>
+              <div>
+                <h3>4 Lines Unlimited</h3>
+                <p className="bigPrice">$100<span>/mo</span></p>
+                <small>Unlimited Talk, Text & Data</small>
+              </div>
+            </article>
+
+            <article className="julyHomePromoCard">
+              <div className="promoLineIcon">🎁</div>
+              <div>
+                <h3>Buy 3 Months,<br />Get 1 Free — <span>For Life</span></h3>
+                <small>Pick any qualifying 8GB+ monthly plan and get every 4th month free.</small>
+              </div>
+            </article>
+
+            <article className="julyHomePromoCard featured">
+              <div className="newBurst">NEW</div>
+              <div>
+                <small>New Customers:</small>
+                <h3>Ultra Unlimited</h3>
+                <p className="bigPrice">$25<span>/mo</span></p>
+                <small>with 6 Months prepaid</small>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <div className="wrap julyQuickLinks">
+        {promoServices.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button className="julyQuickCard" key={item.key} onClick={() => goTo(item.key)}>
+              <span className="quickIcon"><Icon size={34} /></span>
+              <span><strong>{item.title}</strong><small>{item.text}</small></span>
+            </button>
+          );
+        })}
       </div>
     </section>
   );
