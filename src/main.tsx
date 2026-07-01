@@ -399,37 +399,15 @@ function Header({ page, setPage, lang, setLang }: { page: PageKey; setPage: (p: 
 
 function Hero({ lang }: { lang: LanguageKey }) {
   const julyCopy: Record<LanguageKey, {
-    badge: string;
-    title: string;
-    subtitle: string;
     shop: string;
     sim: string;
     finePrint: string;
-    promoTitle: string;
-    fourLinesTitle: string;
-    fourLinesNote: string;
-    buyTitle: JSX.Element;
-    buyNote: string;
-    newCustomers: string;
-    ultraUnlimited: string;
-    prepaidNote: string;
     quick: { key: PageKey; icon: any; title: string; text: string }[];
   }> = {
     en: {
-      badge: 'Happy 4th of July!',
-      title: '4th of July Savings at CellzTech',
-      subtitle: 'Celebrate with phone plans, repairs, and accessories — plus fresh Ultra Mobile July promos.',
       shop: 'Shop Ultra Mobile',
       sim: 'Request a SIM',
       finePrint: 'July limited-time offers. Ask CellzTech for details.',
-      promoTitle: 'Ultra Mobile July Promos',
-      fourLinesTitle: '4 Lines Unlimited',
-      fourLinesNote: 'Unlimited Talk, Text & Data',
-      buyTitle: <>Buy 3 Months,<br />Get 1 Free — <span>For Life</span></>,
-      buyNote: 'Pick any qualifying 8GB+ monthly plan and get every 4th month free.',
-      newCustomers: 'New Customers:',
-      ultraUnlimited: 'Ultra Unlimited',
-      prepaidNote: 'with 6 Months prepaid',
       quick: [
         { key: 'repairs', icon: Wrench, title: 'Phone Repairs', text: 'Fast, reliable repairs for all major brands.' },
         { key: 'ultra', icon: Wifi, title: 'Phone Plans', text: 'Affordable wireless plans for less.' },
@@ -439,20 +417,9 @@ function Hero({ lang }: { lang: LanguageKey }) {
       ]
     },
     pl: {
-      badge: 'Wesołego 4 lipca!',
-      title: 'Promocje na 4 lipca w CellzTech',
-      subtitle: 'Świętuj z planami telefonicznymi, naprawami i akcesoriami — oraz najnowszymi promocjami Ultra Mobile na lipiec.',
       shop: 'Zobacz Ultra Mobile',
       sim: 'Zamów kartę SIM',
       finePrint: 'Promocje ograniczone czasowo w lipcu. Zapytaj CellzTech o szczegóły.',
-      promoTitle: 'Lipcowe promocje Ultra Mobile',
-      fourLinesTitle: '4 linie Unlimited',
-      fourLinesNote: 'Nielimitowane rozmowy, SMS i dane',
-      buyTitle: <>Kup 3 miesiące,<br />odbierz 1 gratis — <span>na zawsze</span></>,
-      buyNote: 'Wybierz kwalifikujący plan miesięczny 8GB+ i otrzymuj co 4. miesiąc gratis.',
-      newCustomers: 'Nowi klienci:',
-      ultraUnlimited: 'Ultra Unlimited',
-      prepaidNote: 'przy przedpłacie za 6 miesięcy',
       quick: [
         { key: 'repairs', icon: Wrench, title: 'Naprawy telefonów', text: 'Szybkie naprawy popularnych marek.' },
         { key: 'ultra', icon: Wifi, title: 'Plany telefoniczne', text: 'Tanie plany bez przepłacania.' },
@@ -462,20 +429,9 @@ function Hero({ lang }: { lang: LanguageKey }) {
       ]
     },
     es: {
-      badge: '¡Feliz 4 de Julio!',
-      title: 'Ahorros del 4 de Julio en CellzTech',
-      subtitle: 'Celebra con planes telefónicos, reparaciones y accesorios — más nuevas promociones de Ultra Mobile para julio.',
       shop: 'Ver Ultra Mobile',
       sim: 'Pedir SIM',
       finePrint: 'Ofertas de julio por tiempo limitado. Pregunta a CellzTech por detalles.',
-      promoTitle: 'Promociones de julio de Ultra Mobile',
-      fourLinesTitle: '4 líneas Unlimited',
-      fourLinesNote: 'Llamadas, textos y datos ilimitados',
-      buyTitle: <>Compra 3 meses,<br />recibe 1 gratis — <span>de por vida</span></>,
-      buyNote: 'Elige un plan mensual elegible de 8GB+ y recibe cada 4.º mes gratis.',
-      newCustomers: 'Clientes nuevos:',
-      ultraUnlimited: 'Ultra Unlimited',
-      prepaidNote: 'con 6 meses prepagados',
       quick: [
         { key: 'repairs', icon: Wrench, title: 'Reparaciones', text: 'Reparaciones rápidas para marcas principales.' },
         { key: 'ultra', icon: Wifi, title: 'Planes móviles', text: 'Planes económicos para ahorrar.' },
@@ -485,20 +441,9 @@ function Hero({ lang }: { lang: LanguageKey }) {
       ]
     },
     uk: {
-      badge: 'З 4 липня!',
-      title: 'Знижки до 4 липня в CellzTech',
-      subtitle: 'Святкуйте з тарифами, ремонтом і аксесуарами — плюс нові липневі пропозиції Ultra Mobile.',
       shop: 'Переглянути Ultra Mobile',
       sim: 'Замовити SIM',
       finePrint: 'Липневі пропозиції обмежені в часі. Запитайте CellzTech про деталі.',
-      promoTitle: 'Липневі пропозиції Ultra Mobile',
-      fourLinesTitle: '4 лінії Unlimited',
-      fourLinesNote: 'Безлімітні дзвінки, SMS і дані',
-      buyTitle: <>Купи 3 місяці,<br />отримай 1 безкоштовно — <span>назавжди</span></>,
-      buyNote: 'Обери відповідний місячний план 8GB+ і отримуй кожен 4-й місяць безкоштовно.',
-      newCustomers: 'Нові клієнти:',
-      ultraUnlimited: 'Ultra Unlimited',
-      prepaidNote: 'з передплатою на 6 місяців',
       quick: [
         { key: 'repairs', icon: Wrench, title: 'Ремонт телефонів', text: 'Швидкий ремонт популярних брендів.' },
         { key: 'ultra', icon: Wifi, title: 'Мобільні плани', text: 'Доступні тарифи без переплат.' },
@@ -512,71 +457,26 @@ function Hero({ lang }: { lang: LanguageKey }) {
   const copy = julyCopy[lang];
 
   return (
-    <section className="julyHomeLanding" aria-label={copy.promoTitle}>
-      <div className="wrap julyHomeWrap">
-        <div className="julyHomeHeroGrid">
-          <div className="julyHomeCopy">
-            <div className="julyHomeBadge"><span>★</span> {copy.badge}</div>
-            <h1>{copy.title}</h1>
-            <p>{copy.subtitle}</p>
-            <div className="julyHomeActions">
-              <button className="primaryBtn" onClick={() => goTo('ultra')}>{copy.shop}</button>
-              <button className="secondaryBtn" onClick={() => goTo('sim')}>{copy.sim} <Smartphone size={18} /></button>
-            </div>
-            <small className="julyHomeFinePrint">ⓘ {copy.finePrint}</small>
-          </div>
-
-          <div className="julyVisual" aria-hidden="true">
-            <div className="flagBackdrop">
-              <span className="flagStars">★ ★ ★ ★ ★ ★</span>
-              <span className="flagStripe red one"></span>
-              <span className="flagStripe white two"></span>
-              <span className="flagStripe red three"></span>
-            </div>
-            <img className="ultraPhoneDevice" src="/ultra-phone-device.png" alt="" />
-          </div>
+    <section className="homepageBannerSection" aria-label="CellzTech July Promo Banner">
+      <div className="wrap homepageBannerWrap">
+        <div className="homepageBannerCard">
+          <img
+            className="homepageBannerImage"
+            src="/homepage-july-banner.png"
+            alt="4th of July Savings at CellzTech with Ultra Mobile July promos"
+          />
         </div>
 
-        <div className="julyPromoPanel" aria-label={copy.promoTitle}>
-          <div className="julyPromoHeader">
-            <div className="ultraWordmark"><strong>ultra</strong><span>mobile</span></div>
-            <div className="promoDivider"><span>★</span><span>★</span></div>
-            <h2>{copy.promoTitle}</h2>
-            <div className="promoDivider"><span>★</span><span>★</span></div>
+        <div className="homepageBannerActionsRow">
+          <div className="homepageBannerActions">
+            <button className="primaryBtn" onClick={() => goTo('ultra')}>{copy.shop}</button>
+            <button className="secondaryBtn" onClick={() => goTo('sim')}>{copy.sim} <Smartphone size={18} /></button>
           </div>
-
-          <div className="julyPromoCardGrid">
-            <article className="julyHomePromoCard">
-              <div className="promoLineIcon">👨‍👩‍👧‍👦</div>
-              <div>
-                <h3>{copy.fourLinesTitle}</h3>
-                <p className="bigPrice">$100<span>/mo</span></p>
-                <small>{copy.fourLinesNote}</small>
-              </div>
-            </article>
-
-            <article className="julyHomePromoCard">
-              <div className="promoLineIcon">🎁</div>
-              <div>
-                <h3>{copy.buyTitle}</h3>
-                <small>{copy.buyNote}</small>
-              </div>
-            </article>
-
-            <article className="julyHomePromoCard featured">
-              <div className="newBurst">NEW</div>
-              <div>
-                <small>{copy.newCustomers}</small>
-                <h3>{copy.ultraUnlimited}</h3>
-                <p className="bigPrice">$25<span>/mo</span></p>
-                <small>{copy.prepaidNote}</small>
-              </div>
-            </article>
-          </div>
+          <small className="homepageBannerFinePrint">ⓘ {copy.finePrint}</small>
         </div>
       </div>
 
-      <div className="wrap julyQuickLinks">
+      <div className="wrap julyQuickLinks homepageBannerQuickLinks">
         {copy.quick.map((item) => {
           const Icon = item.icon;
           return (
