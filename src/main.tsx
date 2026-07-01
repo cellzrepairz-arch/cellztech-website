@@ -270,7 +270,20 @@ const localizedPageData: Record<LanguageKey, typeof pageData> = {
     book: { eyebrow: 'Заявка на ремонт', title: 'Надішліть заявку на ремонт до CellzTech.', text: 'Виберіть бренд, модель, проблему та зручне вікно для здачі пристрою. Ми зв’яжемося з вами, щоб підтвердити деталі, ціну та наявність деталей.', bullets: ['Спочатку ремонт Apple', 'Samsung, Motorola та Google Pixel можна додати далі', 'Оплата онлайн не стягується'], cta: 'Почати заявку' },
     sim: { eyebrow: 'Запит SIM Ultra Mobile', title: 'Замовте SIM-картку Ultra Mobile для самовивозу або доставки.', text: 'Надішліть запит на SIM для самовивозу, доставки по США або допомоги з eSIM. Ми підтвердимо наявність, активацію, доставку та оплату до завершення.', bullets: ['Запит на доставку фізичної SIM-картки', 'Самовивіз у CellzTech', 'Допомога з eSIM для сумісних телефонів'], cta: 'Почати запит SIM' },
     admin: pageData.admin
-  }
+  },
+  activateJuly: {
+    eyebrow: '4th of July Promo',
+    title: 'Ultra Mobile Independence Day Deals',
+    text: 'Limited time July promotions with Ultra Mobile plans.',
+    bullets: [
+      '$25 Unlimited (6 months prepaid)',
+      '4 lines for $100 unlimited',
+      'Buy 3 Get 1 Free for life'
+    ],
+    cta: 'Switch now'
+  },
+
+
 };
 
 const homeText = {
