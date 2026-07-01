@@ -12222,3 +12222,263 @@ canvas {
     margin-right: 0.014in !important;
   }
 }
+
+
+/* JULY LANDING PAGE */
+.julyPage {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.julyHero {
+  text-align: center;
+  background: linear-gradient(135deg, #0b1b3a, #1a2b5a);
+  padding: 60px 20px;
+  border-radius: 18px;
+  color: white;
+}
+
+.julyBadge {
+  display: inline-block;
+  padding: 6px 12px;
+  background: #ff2d55;
+  border-radius: 999px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.julyCtas {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.julyGrid {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.promoCard {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+}
+
+.promoCard.highlight {
+  border: 2px solid #4f46e5;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+
+/* ===========================
+   GLOBAL LAYOUT SYSTEM FIX
+   =========================== */
+
+:root {
+  --container: 1200px;
+  --gap: 16px;
+  --radius: 14px;
+  --primary: #2563eb;
+  --dark: #0b1220;
+}
+
+/* FIX: consistent page alignment */
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* FIX: prevent uneven hero spacing */
+section {
+  width: 100%;
+}
+
+/* FIX: consistent typography rhythm */
+h1, h2, h3, p {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+p {
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* FIX: button system standardization */
+button {
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+/* PRIMARY CTA */
+.primaryBtn {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+
+/* SECONDARY CTA */
+.secondaryBtn {
+  background: white;
+  color: var(--dark);
+  border: 1px solid #e5e7eb;
+}
+
+/* FIX: grid system for ALL pages */
+.grid {
+  display: grid;
+  gap: var(--gap);
+}
+
+/* FIX: mobile consistency */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 14px;
+  }
+
+  h1 {
+    font-size: 28px !important;
+  }
+}
+
+
+
+/* ===========================
+   HERO ALIGNMENT FIX
+   =========================== */
+
+.hero,
+.julyHero {
+  max-width: var(--container);
+  margin: 0 auto;
+  text-align: left;
+  padding: 80px 20px;
+  display: grid;
+  gap: 16px;
+}
+
+.julyHero {
+  border-radius: var(--radius);
+}
+
+/* Fix CTA alignment */
+.julyCtas,
+.heroCtas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+
+
+/* ===========================
+   ULTRA CONVERSION PAGE
+   =========================== */
+
+.ultraPage {
+  padding: 40px 20px;
+}
+
+.ultraHero {
+  background: linear-gradient(135deg, #0b1220, #1e3a8a);
+  color: white;
+  padding: 60px 20px;
+  border-radius: 16px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.badge {
+  background: #ff2d55;
+  padding: 6px 12px;
+  display: inline-block;
+  border-radius: 999px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.ctaRow {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.ultraGrid {
+  margin-top: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.card.highlight {
+  border: 2px solid #2563eb;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.compare {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 12px;
+}
+
+.formBox {
+  margin-top: 30px;
+  padding: 25px;
+  background: white;
+  border-radius: 14px;
+}
+
+.formBox form {
+  display: grid;
+  gap: 10px;
+}
+
+.formBox input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.finalCta {
+  margin-top: 30px;
+  text-align: center;
+  padding: 40px;
+  background: #0b1220;
+  color: white;
+  border-radius: 16px;
+}
