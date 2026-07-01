@@ -29,7 +29,7 @@ import {
 import './styles.css';
 import { deviceCatalog, getBrandTotalModels } from './deviceCatalog';
 
-type PageKey = 'home' | 'repairs' | 'ultra' | 'xfinity' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'sim' | 'admin' | 'activateJuly';
+type PageKey = 'home' | 'repairs' | 'ultra' | 'xfinity' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'sim' | 'admin';
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk';
 
 const routes: Record<PageKey, string> = {
@@ -44,14 +44,14 @@ const routes: Record<PageKey, string> = {
   contact: '/contact',
   book: '/book-repair',
   sim: '/ultra-sim',
-  admin: '/admin',
-  activateJuly: '/activate-july'
+  admin: '/admin'
 };
 
 const pathToPage = Object.entries(routes).reduce((acc, [key, value]) => {
   acc[value] = key as PageKey;
   return acc;
 }, {} as Record<string, PageKey>);
+pathToPage['/activate-july'] = 'ultra';
 
 const languages: { key: LanguageKey; label: string; name: string }[] = [
   { key: 'en', label: 'EN', name: 'English' },
@@ -61,10 +61,10 @@ const languages: { key: LanguageKey; label: string; name: string }[] = [
 ];
 
 const navLabels: Record<LanguageKey, Record<PageKey, string>> = {
-  en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact', book: 'Book Repair', sim: 'SIM Request', admin: 'Admin', activateJuly: 'July Deals' },
-  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Zgłoś naprawę', sim: 'Zamów SIM', admin: 'Admin', activateJuly: 'Lipcowe Promocje' },
-  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Solicitar reparación', sim: 'Pedir SIM', admin: 'Admin', activateJuly: 'Ofertas de Julio' },
-  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Заявка на ремонт', sim: 'Запит SIM', admin: 'Admin', activateJuly: 'Липневі Пропозиції' }
+  en: { home: 'Home', repairs: 'Repairs', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Buyback', phones: 'Phones', accessories: 'Accessories', about: 'About', contact: 'Contact', book: 'Book Repair', sim: 'SIM Request', admin: 'Admin' },
+  pl: { home: 'Start', repairs: 'Naprawy', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Skup', phones: 'Telefony', accessories: 'Akcesoria', about: 'O nas', contact: 'Kontakt', book: 'Zgłoś naprawę', sim: 'Zamów SIM', admin: 'Admin' },
+  es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Solicitar reparación', sim: 'Pedir SIM', admin: 'Admin' },
+  uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Заявка на ремонт', sim: 'Запит SIM', admin: 'Admin' }
 };
 
 const serviceCards = [
@@ -221,13 +221,6 @@ const pageData: Record<PageKey, { eyebrow: string; title: string; text: string; 
     text: 'Private staff view for website repair requests, RepairDesk leads, and backend status.',
     bullets: ['Staff-only access', 'RepairDesk lead tracking', 'Supabase backup visibility'],
     cta: 'Open admin'
-  },
-  activateJuly: {
-    eyebrow: '4th of July Ultra Mobile Promos',
-    title: 'Celebrate July with big Ultra Mobile savings at CellzTech.',
-    text: 'Limited-time July offers are here. Get help switching, keeping your number, checking compatibility, and activating locally at CellzTech.',
-    bullets: ['$25 Ultra Unlimited when new customers prepay 6 months', '4 lines of Unlimited for $100/month', 'Buy 3 months, get every 4th month free for life on qualifying plans'],
-    cta: 'Request a SIM'
   }
 };
 
@@ -246,8 +239,7 @@ const localizedPageData: Record<LanguageKey, typeof pageData> = {
     contact: { eyebrow: 'Odwiedź nas lub zadzwoń', title: 'Wpadnij albo zadzwoń do CellzTech po lokalną pomoc technologiczną.', text: 'Znajdujemy się pod adresem 3412 N Harlem Ave STE A, Chicago, IL 60634. Zadzwoń w sprawie napraw, Ultra Mobile, skupu, telefonów i akcesoriów.', bullets: ['3412 N Harlem Ave STE A, Chicago, IL 60634', '773-413-7489', 'CellzTech jest prowadzone przez Cellz Repairz LLC'], cta: 'Zadzwoń do CellzTech' },
     book: { eyebrow: 'Zgłoszenie naprawy', title: 'Wyślij zgłoszenie naprawy do CellzTech.', text: 'Wybierz markę, model, usterkę oraz preferowane okno czasowe. Skontaktujemy się z Tobą, aby potwierdzić szczegóły, cenę i dostępność części.', bullets: ['Najpierw naprawy Apple', 'Samsung, Motorola i Google Pixel obsługiwane w kolejnym etapie', 'Płatność online nie jest pobierana'], cta: 'Rozpocznij zgłoszenie' },
     sim: { eyebrow: 'Prośba o kartę SIM Ultra Mobile', title: 'Zamów kartę SIM Ultra Mobile do odbioru lub wysyłki.', text: 'Rozpocznij prośbę o kartę SIM do odbioru w sklepie, wysyłki na terenie USA albo pomocy z eSIM. Potwierdzimy dostępność, aktywację, wysyłkę i płatność przed finalizacją.', bullets: ['Prośba o wysyłkę fizycznej karty SIM', 'Odbiór w CellzTech', 'Pomoc z eSIM dla zgodnych telefonów'], cta: 'Rozpocznij prośbę o SIM' },
-    admin: pageData.admin,
-    activateJuly: { eyebrow: 'Promocje Ultra Mobile na 4 Lipca', title: 'Świętuj lipiec z dużymi oszczędnościami Ultra Mobile w CellzTech.', text: 'Limitowane lipcowe oferty są dostępne. Pomagamy zmienić operatora, zachować numer, sprawdzić kompatybilność i aktywować usługę lokalnie w CellzTech.', bullets: ['$25 Ultra Unlimited przy opłaceniu 6 miesięcy przez nowych klientów', '4 linie Unlimited za $100 miesięcznie', 'Kup 3 miesiące i otrzymuj każdy 4. miesiąc gratis na kwalifikujących się planach'], cta: 'Zamów SIM' }
+    admin: pageData.admin
   },
   es: {
     home: { eyebrow: 'Tienda local de tecnología en Chicago', title: 'Reparación de teléfonos, planes móviles, teléfonos, accesorios y recompra en Chicago.', text: 'CellzTech reúne reparación de dispositivos, activaciones de Ultra Mobile, teléfonos usados, accesorios y cotizaciones instantáneas de iPhone mediante Apex Tech Exchange en una experiencia local y sencilla.', bullets: ['Reparación de iPhone, Samsung, iPad, Motorola y Google Pixel', 'Activaciones de Ultra Mobile y ayuda para transferir tu número', 'Teléfonos usados, accesorios y cotizaciones instantáneas para iPhone'] },
@@ -261,8 +253,7 @@ const localizedPageData: Record<LanguageKey, typeof pageData> = {
     contact: { eyebrow: 'Visítanos o llama', title: 'Pasa por la tienda o llama a CellzTech para ayuda local.', text: 'Estamos en 3412 N Harlem Ave STE A, Chicago, IL 60634. Llámanos para reparaciones, Ultra Mobile, recompra, teléfonos y accesorios.', bullets: ['3412 N Harlem Ave STE A, Chicago, IL 60634', '773-413-7489', 'CellzTech es operado por Cellz Repairz LLC'], cta: 'Llamar a CellzTech' },
     book: { eyebrow: 'Solicitud de reparación', title: 'Envía una solicitud de reparación a CellzTech.', text: 'Elige la marca, el modelo, el problema y una ventana preferida para dejar el equipo. Te contactaremos para confirmar detalles, precio y disponibilidad de piezas.', bullets: ['Primero reparaciones Apple', 'Samsung, Motorola y Google Pixel se pueden ampliar después', 'No se cobra ningún pago en línea'], cta: 'Iniciar solicitud' },
     sim: { eyebrow: 'Solicitud de SIM Ultra Mobile', title: 'Solicita una tarjeta SIM Ultra Mobile para recoger o enviar.', text: 'Inicia una solicitud para recoger en tienda, envío dentro de EE. UU. o ayuda con eSIM. Confirmaremos disponibilidad, activación, envío y pago antes de finalizar.', bullets: ['Solicitud de envío de SIM física', 'Recoger en CellzTech', 'Ayuda con eSIM en teléfonos compatibles'], cta: 'Iniciar solicitud de SIM' },
-    admin: pageData.admin,
-    activateJuly: { eyebrow: 'Promociones Ultra Mobile del 4 de Julio', title: 'Celebra julio con grandes ahorros de Ultra Mobile en CellzTech.', text: 'Ofertas limitadas de julio disponibles. Te ayudamos a cambiarte, conservar tu número, revisar compatibilidad y activar localmente en CellzTech.', bullets: ['$25 Ultra Unlimited al prepagar 6 meses para nuevos clientes', '4 líneas Unlimited por $100 al mes', 'Compra 3 meses y recibe cada 4.º mes gratis en planes elegibles'], cta: 'Pedir SIM' }
+    admin: pageData.admin
   },
   uk: {
     home: { eyebrow: 'Місцева технічна майстерня в Чикаго', title: 'Ремонт телефонів, мобільні плани, телефони, аксесуари та викуп у Чикаго.', text: 'CellzTech поєднує ремонт пристроїв, активації Ultra Mobile, вживані телефони, аксесуари та миттєві оцінки iPhone через Apex Tech Exchange в одному зручному місцевому сервісі.', bullets: ['Ремонт iPhone, Samsung, iPad, Motorola та Google Pixel', 'Активації Ultra Mobile і допомога з перенесенням номера', 'Вживані телефони, аксесуари та швидка оцінка iPhone для викупу'] },
@@ -276,8 +267,7 @@ const localizedPageData: Record<LanguageKey, typeof pageData> = {
     contact: { eyebrow: 'Завітайте або зателефонуйте', title: 'Завітайте до CellzTech або зателефонуйте для місцевої технічної допомоги.', text: 'Ми знаходимося за адресою 3412 N Harlem Ave STE A, Chicago, IL 60634. Телефонуйте щодо ремонту, Ultra Mobile, викупу, телефонів і аксесуарів.', bullets: ['3412 N Harlem Ave STE A, Chicago, IL 60634', '773-413-7489', 'CellzTech керується Cellz Repairz LLC'], cta: 'Зателефонувати до CellzTech' },
     book: { eyebrow: 'Заявка на ремонт', title: 'Надішліть заявку на ремонт до CellzTech.', text: 'Виберіть бренд, модель, проблему та зручне вікно для здачі пристрою. Ми зв’яжемося з вами, щоб підтвердити деталі, ціну та наявність деталей.', bullets: ['Спочатку ремонт Apple', 'Samsung, Motorola та Google Pixel можна додати далі', 'Оплата онлайн не стягується'], cta: 'Почати заявку' },
     sim: { eyebrow: 'Запит SIM Ultra Mobile', title: 'Замовте SIM-картку Ultra Mobile для самовивозу або доставки.', text: 'Надішліть запит на SIM для самовивозу, доставки по США або допомоги з eSIM. Ми підтвердимо наявність, активацію, доставку та оплату до завершення.', bullets: ['Запит на доставку фізичної SIM-картки', 'Самовивіз у CellzTech', 'Допомога з eSIM для сумісних телефонів'], cta: 'Почати запит SIM' },
-    admin: pageData.admin,
-    activateJuly: { eyebrow: 'Липневі промо Ultra Mobile', title: 'Святкуйте липень із великими знижками Ultra Mobile у CellzTech.', text: 'Обмежені липневі пропозиції доступні зараз. Ми допоможемо перейти, зберегти номер, перевірити сумісність і активувати послугу локально в CellzTech.', bullets: ['$25 Ultra Unlimited при передоплаті 6 місяців для нових клієнтів', '4 лінії Unlimited за $100/місяць', 'Купіть 3 місяці й отримуйте кожен 4-й місяць безкоштовно на відповідних планах'], cta: 'Запит SIM' }
+    admin: pageData.admin
   }
 };
 
@@ -2808,7 +2798,7 @@ const ultraCopy: Record<LanguageKey, {
   plans: Record<string, { name: string; badge?: string; highlight: string; includes: string[] }>;
 }> = {
   en: {
-    hero: { label: 'Ultra Mobile authorized activation help', title: 'Ultra Mobile plans, family savings, and travel-ready service at CellzTech.', text: 'We help customers compare monthly and multi-month plans, family promos, number transfers, Go Roam passes, and compatibility before they pay.', call: 'Call for Ultra Mobile', visit: 'Visit the store' },
+    hero: { label: 'July Ultra Mobile promos at CellzTech', title: '4th of July Ultra Mobile deals are live at CellzTech.', text: 'Switch, save, and get local activation help with the July Ultra Mobile promos: $25 Unlimited with 6 months, 4 Unlimited lines for $100, and Buy 3 Get 1 Free for life on qualifying plans.', call: 'Call for Ultra Mobile', visit: 'Visit the store' },
     family: { badge: 'Family\nDeal', label: 'Featured promo', title: '4 Ultra Unlimited lines for $100/mo', text: 'Bring up to four lines onto one Ultra Unlimited account and get international features included with each line.', cta: 'Ask about 4 for $100', checklist: ['No data cap on Ultra Unlimited', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Hotspot included on supported plans'], lineLabels: ['1 line', '2 lines', '3 lines', '4 lines'] },
     quick: { label: 'Quick details', title: 'What customers usually want to know first.', items: ['Plans from $15/month, with monthly and multi-month options.', '4 Ultra Unlimited lines for $100/month.', 'International calling to Poland and 90+ destinations.', 'Free SIM card at CellzTech, with eSIM available on supported phones.', 'Bring your account number, transfer PIN, and an unlocked compatible phone.'] },
     infoCards: [
@@ -3655,6 +3645,56 @@ function UltraPlanStoreCard({ plan, lang }: { plan: UltraPlan; lang: LanguageKey
   );
 }
 
+
+function UltraJulyPromoPanel({ onCompare }: { onCompare: () => void }) {
+  return (
+    <section className="section julyUltraLanding" id="july-promos">
+      <div className="wrap julyUltraShell">
+        <div className="julyUltraHero">
+          <span className="julyPill"><Star size={16} /> HAPPY 4TH OF JULY</span>
+          <h1>4th of July Ultra Mobile Savings at CellzTech</h1>
+          <p>Celebrate with limited-time July promos from Ultra Mobile. Stop in for local activation help, number transfer support, and SIM setup.</p>
+          <div className="julyUltraActions">
+            <a className="primaryBtn" href={`${routes.sim}?request=july-promo&plan=${encodeURIComponent('July Ultra Mobile Promo')}`}>Request a SIM <ArrowRight size={18} /></a>
+            <button className="secondaryBtn" type="button" onClick={onCompare}>Compare plans</button>
+            <a className="secondaryBtn ghost" href="tel:7734137489">Call CellzTech</a>
+          </div>
+          <small>July limited-time offers. Promo eligibility, taxes, fees, plan terms, and device compatibility must be confirmed before activation.</small>
+        </div>
+
+        <div className="julyPromoBoard" aria-label="Ultra Mobile July promos">
+          <div className="julyBoardHeader">
+            <span>Ultra Mobile</span>
+            <strong>July Promos</strong>
+          </div>
+          <div className="julyPromoCards">
+            <article>
+              <div className="julyIcon">👨‍👩‍👧‍👦</div>
+              <span>Family savings</span>
+              <h3>4 Lines Unlimited</h3>
+              <p className="julyPrice">$100<span>/mo</span></p>
+              <small>Unlimited talk, text, and data on qualifying family plan.</small>
+            </article>
+            <article>
+              <div className="julyIcon">🎁</div>
+              <span>For life</span>
+              <h3>Buy 3 Months, Get 1 Free</h3>
+              <p>Every fourth month free on qualifying 1-month 8GB+ plans while eligible.</p>
+            </article>
+            <article className="featured">
+              <div className="julyIcon">⚡</div>
+              <span>New customers</span>
+              <h3>Ultra Unlimited</h3>
+              <p className="julyPrice">$25<span>/mo</span></p>
+              <small>With 6 months prepaid for $150.</small>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function UltraDetails({ lang }: { lang: LanguageKey }) {
   const copy = ultraCopy[lang] || ultraCopy.en;
   const [savingsOpen, setSavingsOpen] = useState(false);
@@ -3662,6 +3702,7 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
 
   return (
     <>
+      <UltraJulyPromoPanel onCompare={() => setSavingsOpen(true)} />
       <section className="section ultraStoreHero">
         <div className="wrap ultraHeroStack">
           <div className="ultraHeroGrid">
