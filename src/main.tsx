@@ -68,19 +68,7 @@ const navLabels: Record<LanguageKey, Record<PageKey, string>> = {
 };
 
 
-  activateJuly: {
-    eyebrow: '4th of July Promo',
-    title: 'Ultra Mobile Independence Day Deals',
-    text: 'Limited time July promotions with Ultra Mobile plans.',
-    bullets: [
-      '$25 Unlimited (6 months prepaid)',
-      '4 lines for $100 unlimited',
-      'Buy 3 Get 1 Free for life'
-    ],
-    cta: 'Switch now'
-  },
-
-const serviceCards = [
+  const serviceCards = [
   {
     key: 'repairs' as PageKey,
     icon: Wrench,
@@ -235,7 +223,8 @@ const pageData: Record<PageKey, { eyebrow: string; title: string; text: string; 
     bullets: ['Staff-only access', 'RepairDesk lead tracking', 'Supabase backup visibility'],
     cta: 'Open admin'
   }
-};
+,
+  };
 
 
 const localizedPageData: Record<LanguageKey, typeof pageData> = {
