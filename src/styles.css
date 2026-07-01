@@ -12770,3 +12770,289 @@ canvas {
   .julyQuickLinks { grid-template-columns: 1fr; padding-inline: 14px; }
   .julyFirework { opacity: .28; }
 }
+
+
+/* =========================================================
+   JULY HOMEPAGE POLISH PASS - production hotfix
+   Goal: one-screen landing, no fake phone mockup, cleaner UX
+   ========================================================= */
+
+.julyHomeLanding {
+  min-height: calc(100vh - 96px);
+  padding: 26px 0 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 6% 24%, rgba(0, 102, 255, .35), transparent 11rem),
+    radial-gradient(circle at 88% 18%, rgba(236, 35, 77, .30), transparent 13rem),
+    radial-gradient(circle at 78% 75%, rgba(124, 58, 237, .24), transparent 14rem),
+    linear-gradient(118deg, #061936 0%, #08244b 48%, #260747 100%);
+}
+
+.julyHomeWrap {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(420px, 1.08fr);
+  gap: 30px;
+  align-items: center;
+}
+
+.julyHomeHeroGrid {
+  display: block;
+  min-height: 0;
+}
+
+.julyHomeCopy {
+  max-width: 560px;
+}
+
+.julyHomeBadge {
+  padding: 9px 18px;
+  font-size: .86rem;
+  letter-spacing: .13em;
+  box-shadow: 0 10px 28px rgba(0,0,0,.18);
+}
+
+.julyHomeCopy h1 {
+  margin: 16px 0 13px;
+  font-size: clamp(3.25rem, 5vw, 5rem);
+  line-height: .95;
+  letter-spacing: -0.06em;
+  max-width: 560px;
+}
+
+.julyHomeCopy p {
+  max-width: 540px;
+  font-size: clamp(1.08rem, 1.55vw, 1.38rem);
+  line-height: 1.22;
+}
+
+.julyHomeActions {
+  gap: 12px;
+  margin: 22px 0 12px;
+}
+
+.julyHomeActions .primaryBtn,
+.julyHomeActions .secondaryBtn {
+  min-height: 54px;
+  padding: 0 25px;
+  font-size: 1rem;
+  border-radius: 16px;
+}
+
+.julyHomeFinePrint {
+  font-size: .88rem;
+  color: rgba(255,255,255,.76);
+}
+
+/* Hide the old artificial phone mockup. The promo card now carries the visual weight. */
+.julyVisual,
+.phoneMock,
+.flagRibbon {
+  display: none !important;
+}
+
+.julyPromoPanel {
+  margin: 0;
+  max-width: none;
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.985);
+  box-shadow: 0 26px 70px rgba(0,0,0,.24);
+  border: 1px solid rgba(226,232,240,.96);
+}
+
+.julyPromoHeader {
+  grid-template-columns: 132px 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.julyPromoHeader .promoDivider {
+  display: none;
+}
+
+.ultraWordmark strong {
+  font-size: 2.3rem;
+}
+
+.ultraWordmark span {
+  font-size: .92rem;
+  margin-left: 36px;
+}
+
+.julyPromoHeader h2 {
+  text-align: left;
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+}
+
+.julyPromoCardGrid {
+  grid-template-columns: 1fr;
+  gap: 11px;
+}
+
+.julyHomePromoCard {
+  min-height: 104px;
+  grid-template-columns: 74px 1fr;
+  gap: 14px;
+  padding: 15px 17px;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, #fff 0%, #f8fbff 100%);
+}
+
+.julyHomePromoCard.featured {
+  grid-template-columns: 74px 1fr;
+  border-color: rgba(91, 33, 182, .26);
+  background:
+    radial-gradient(circle at 88% 28%, rgba(91, 33, 182, .09), transparent 9rem),
+    linear-gradient(180deg, #fff 0%, #faf7ff 100%);
+}
+
+.promoLineIcon,
+.newBurst {
+  width: 58px;
+  height: 58px;
+  font-size: 1.75rem;
+}
+
+.newBurst {
+  border-width: 3px;
+  font-size: .78rem;
+}
+
+.julyHomePromoCard h3 {
+  font-size: 1.12rem;
+  margin-bottom: 5px;
+}
+
+.julyHomePromoCard small {
+  font-size: .82rem;
+  line-height: 1.24;
+}
+
+.bigPrice {
+  font-size: 2.55rem;
+  margin: 0 0 2px;
+}
+
+.bigPrice span {
+  font-size: 1.25rem;
+}
+
+.julyQuickLinks {
+  width: 100%;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  padding: 16px 0 0;
+}
+
+.julyQuickCard {
+  grid-template-columns: 46px 1fr;
+  gap: 10px;
+  padding: 11px 13px;
+  border-radius: 15px;
+}
+
+.quickIcon {
+  width: 42px;
+  height: 42px;
+}
+
+.quickIcon svg {
+  width: 28px;
+  height: 28px;
+}
+
+.julyQuickCard strong {
+  font-size: .91rem;
+}
+
+.julyQuickCard small {
+  font-size: .76rem;
+  line-height: 1.18;
+}
+
+.julyFirework {
+  width: 190px;
+  height: 190px;
+  opacity: .64;
+}
+
+.julyFireworkLeft {
+  left: -42px;
+  top: 110px;
+  transform: scale(.72);
+}
+
+.julyFireworkRight {
+  right: 34px;
+  top: 36px;
+  transform: scale(.85);
+}
+
+.julyStarField span {
+  opacity: .72;
+}
+
+/* medium screens */
+@media (max-width: 1180px) {
+  .julyHomeLanding {
+    min-height: auto;
+    padding: 28px 0 24px;
+  }
+
+  .julyHomeWrap {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .julyHomeCopy {
+    max-width: 760px;
+  }
+
+  .julyPromoPanel {
+    max-width: 760px;
+  }
+
+  .julyPromoCardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .julyQuickLinks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* mobile */
+@media (max-width: 620px) {
+  .julyHomeLanding {
+    padding: 22px 0;
+  }
+
+  .julyHomeCopy h1 {
+    font-size: clamp(2.65rem, 14vw, 3.35rem);
+  }
+
+  .julyHomeCopy p {
+    font-size: 1rem;
+  }
+
+  .julyPromoHeader {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .julyPromoHeader h2 {
+    text-align: center;
+  }
+
+  .ultraWordmark span {
+    margin-left: 0;
+  }
+
+  .julyQuickLinks {
+    grid-template-columns: 1fr;
+  }
+}
