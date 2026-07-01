@@ -3602,9 +3602,14 @@ function UltraPlanStoreCard({ plan, lang }: { plan: UltraPlan; lang: LanguageKey
   const selected = plan.durations[duration] || plan.durations['1'];
   const selectedTab = copy.durationTabs.find((tab) => tab.key === duration);
   const selectedLabel = selectedTab?.label || selected?.label || 'Not selected';
-  const selectedMonthly = selected?.monthly ? localizeMonthly(selected.monthly, lang) : `${plan.basePrice}/mo`;
-  const selectedBilled = selected?.billed ? localizeBilled(selected.billed, lang) : copy.planCard.askPricing;
-  const purchasePath = `${routes.sim}?plan=${encodeURIComponent(plan.name)}&duration=${encodeURIComponent(selectedLabel)}&durationKey=${encodeURIComponent(duration)}&price=${encodeURIComponent(selectedMonthly)}&billed=${encodeURIComponent(selectedBilled)}`;
+  const isUltraUnlimitedSixMonthPromo = plan.name === 'Ultra Unlimited Plan' && duration === '6';
+  const selectedMonthly = isUltraUnlimitedSixMonthPromo
+    ? '$25/mo'
+    : selected?.monthly ? localizeMonthly(selected.monthly, lang) : `${plan.basePrice}/mo`;
+  const selectedBilled = isUltraUnlimitedSixMonthPromo
+    ? '$150 total'
+    : selected?.billed ? localizeBilled(selected.billed, lang) : copy.planCard.askPricing;
+  const purchasePath = `${routes.sim}?plan=${encodeURIComponent(plan.name)}&duration=${encodeURIComponent(selectedLabel)}&durationKey=${encodeURIComponent(duration)}&price=${encodeURIComponent(selectedMonthly)}&billed=${encodeURIComponent(selectedBilled)}${isUltraUnlimitedSixMonthPromo ? '&promo=new-customer-6mo-unlimited' : ''}`;
 
   return (
     <article className={`ultraStorePlan ${plan.badge === 'Most Popular' ? 'bestPlan' : ''}`}>
@@ -3645,13 +3650,20 @@ function UltraPlanStoreCard({ plan, lang }: { plan: UltraPlan; lang: LanguageKey
                   disabled={!option}
                 >
                   <span>{tab.label}</span>
-                  <small>{option ? (plan.promoEligible && tab.key === '1' ? copy.planCard.fourthFree : tab.sublabel) : copy.planCard.askStore}</small>
+                  <small>{option ? (plan.name === 'Ultra Unlimited Plan' && tab.key === '6' ? 'New customer promo' : (plan.promoEligible && tab.key === '1' ? copy.planCard.fourthFree : tab.sublabel)) : copy.planCard.askStore}</small>
                 </button>
               );
             })}
           </div>
 
-          {plan.promoEligible && (
+          {isUltraUnlimitedSixMonthPromo && (
+            <div className="promoRuleNote ultraSixMonthPromoNote activePromoRule">
+              <strong>New customer 6-month promo selected</strong>
+              <span>Ultra Unlimited is available for $25/mo when new customers prepay 6 months ($150 total). Promo eligibility, taxes, and device compatibility must be confirmed before activation.</span>
+            </div>
+          )}
+
+          {plan.promoEligible && !isUltraUnlimitedSixMonthPromo && (
             <div className={`promoRuleNote ${duration === '1' ? 'activePromoRule' : ''}`}>
               <strong>{duration === '1' ? copy.planCard.promoApplyTitle : copy.planCard.multiTitle}</strong>
               <span>{duration === '1' ? copy.planCard.promoApplyText : copy.planCard.multiText}</span>

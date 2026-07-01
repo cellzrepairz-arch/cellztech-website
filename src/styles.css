@@ -13285,3 +13285,48 @@ canvas {
     min-height: auto !important;
   }
 }
+
+
+/* Ultra Unlimited 6-month new customer promo callout */
+.durationTabs button.active small,
+.durationTabs button small {
+  line-height: 1.18;
+}
+
+.promoRuleNote.ultraSixMonthPromoNote {
+  border-color: rgba(34, 197, 94, .45);
+  background:
+    radial-gradient(circle at 92% 12%, rgba(34, 197, 94, .13), transparent 10rem),
+    linear-gradient(135deg, rgba(34, 197, 94, .10), rgba(124, 58, 237, .08));
+}
+
+.promoRuleNote.ultraSixMonthPromoNote strong {
+  color: #15803d;
+}
+
+.promoRuleNote.ultraSixMonthPromoNote span {
+  color: #2f3b2f;
+}
+
+.ultraStorePlan.bestPlan .durationTabs button:nth-child(3) {
+  position: relative;
+  border-color: rgba(34, 197, 94, .48);
+  box-shadow: 0 14px 32px rgba(34, 197, 94, .08);
+}
+
+.ultraStorePlan.bestPlan .durationTabs button:nth-child(3)::after {
+  content: '$25/mo new customer';
+  position: absolute;
+  left: 50%;
+  top: -13px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #fff;
+  font-size: 10px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-weight: 1000;
+}
