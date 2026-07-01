@@ -427,9 +427,7 @@ function Hero({ lang }: { lang: LanguageKey }) {
           </div>
 
           <div className="julyVisual" aria-hidden="true">
-            <div className="flagRibbon"><i></i><i></i><i></i></div>
-            <div className="phoneMock phoneBack"></div>
-            <div className="phoneMock phoneFront"><strong>ultra</strong><span>mobile</span></div>
+            <img src="/july-ultra-phone-flag.png" alt="" />
           </div>
         </div>
 
