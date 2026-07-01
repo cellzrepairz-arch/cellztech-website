@@ -13153,3 +13153,135 @@ canvas {
     font-size: 1.65rem;
   }
 }
+
+
+/* ================================
+   Ultra Mobile July hero fit-to-screen pass
+   Keeps the page above-the-fold on normal desktop screens
+   ================================ */
+.julyUltraLanding.section,
+.julyUltraLanding {
+  padding-top: 30px !important;
+  padding-bottom: 34px !important;
+}
+
+.julyUltraShell {
+  align-items: center !important;
+  gap: 30px !important;
+}
+
+.julyUltraHero h1 {
+  font-size: clamp(3.15rem, 5vw, 5.05rem) !important;
+  line-height: .92 !important;
+  margin: 14px 0 16px !important;
+}
+
+.julyUltraHero p {
+  font-size: 1.08rem !important;
+  line-height: 1.45 !important;
+  max-width: 620px !important;
+}
+
+.julyPill {
+  padding: 8px 16px !important;
+  font-size: .82rem !important;
+}
+
+.julyUltraActions {
+  margin: 22px 0 10px !important;
+}
+
+.julyUltraActions .primaryBtn,
+.julyUltraActions .secondaryBtn {
+  min-height: 48px !important;
+  padding: 0 22px !important;
+  border-radius: 16px !important;
+}
+
+.julyUltraHero small {
+  font-size: .88rem !important;
+  line-height: 1.35 !important;
+  max-width: 650px !important;
+}
+
+.julyPromoBoard {
+  padding: 18px !important;
+  border-radius: 28px !important;
+  gap: 13px !important;
+}
+
+.julyBoardHeader {
+  padding-bottom: 10px !important;
+  margin-bottom: 0 !important;
+}
+
+.julyBoardHeader span,
+.julyBoardHeader strong {
+  font-size: 1.72rem !important;
+}
+
+.julyPromoCards {
+  gap: 12px !important;
+}
+
+.julyPromoCards article {
+  min-height: 132px !important;
+  padding: 15px 16px 14px !important;
+  border-radius: 20px !important;
+  gap: 4px !important;
+}
+
+.julyIcon {
+  width: 42px !important;
+  height: 42px !important;
+  font-size: 1.45rem !important;
+  border-radius: 14px !important;
+}
+
+.julyPromoCards span {
+  font-size: .68rem !important;
+  line-height: 1.1 !important;
+  margin-top: 0 !important;
+}
+
+.julyPromoCards h3 {
+  font-size: 1.46rem !important;
+  line-height: 1.02 !important;
+}
+
+.julyPromoCards p,
+.julyPromoCards small {
+  font-size: .9rem !important;
+  line-height: 1.28 !important;
+}
+
+.julyPrice {
+  font-size: 2.55rem !important;
+  line-height: .9 !important;
+}
+
+@media (min-width: 1100px) and (max-height: 850px) {
+  .julyUltraShell {
+    grid-template-columns: minmax(0, 1.02fr) minmax(360px, 520px) !important;
+  }
+
+  .julyUltraHero h1 {
+    font-size: clamp(3rem, 4.65vw, 4.7rem) !important;
+  }
+
+  .julyPromoCards article {
+    min-height: 124px !important;
+  }
+}
+
+@media (max-width: 920px) {
+  .julyUltraLanding.section,
+  .julyUltraLanding {
+    padding-top: 34px !important;
+    padding-bottom: 40px !important;
+  }
+
+  .julyPromoCards article {
+    min-height: auto !important;
+  }
+}
