@@ -29,10 +29,11 @@ import {
 import './styles.css';
 import { deviceCatalog, getBrandTotalModels } from './deviceCatalog';
 
-type PageKey = 'activateJuly' |  'home' | 'repairs' | 'ultra' | 'xfinity' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'sim' | 'admin';
+type PageKey = 'home' | 'repairs' | 'ultra' | 'xfinity' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'sim' | 'admin';
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk';
 
 const routes: Record<PageKey, string> = {
+  activateJuly: '/activate-july',
   home: '/',
   repairs: '/repairs',
   ultra: '/ultra-mobile',
@@ -44,8 +45,7 @@ const routes: Record<PageKey, string> = {
   contact: '/contact',
   book: '/book-repair',
   sim: '/ultra-sim',
-  admin: '/admin',
-  activateJuly: '/activate-july'
+  admin: '/admin'
 };
 
 const pathToPage = Object.entries(routes).reduce((acc, [key, value]) => {
@@ -66,6 +66,19 @@ const navLabels: Record<LanguageKey, Record<PageKey, string>> = {
   es: { home: 'Inicio', repairs: 'Reparaciones', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Compra', phones: 'Teléfonos', accessories: 'Accesorios', about: 'Nosotros', contact: 'Contacto', book: 'Solicitar reparación', sim: 'Pedir SIM', admin: 'Admin', activateJuly: 'Ofertas de Julio' },
   uk: { home: 'Головна', repairs: 'Ремонт', ultra: 'Ultra Mobile', xfinity: 'Xfinity', buyback: 'Викуп', phones: 'Телефони', accessories: 'Аксесуари', about: 'Про нас', contact: 'Контакти', book: 'Заявка на ремонт', sim: 'Запит SIM', admin: 'Admin', activateJuly: 'Липневі Пропозиції' }
 };
+
+
+  activateJuly: {
+    eyebrow: '4th of July Promo',
+    title: 'Ultra Mobile Independence Day Deals',
+    text: 'Limited time July promotions with Ultra Mobile plans.',
+    bullets: [
+      '$25 Unlimited (6 months prepaid)',
+      '4 lines for $100 unlimited',
+      'Buy 3 Get 1 Free for life'
+    ],
+    cta: 'Switch now'
+  },
 
 const serviceCards = [
   {
@@ -1256,25 +1269,6 @@ function PageDetail({ page, lang }: { page: PageKey; lang: LanguageKey }) {
   if (page === 'admin') return <AdminDashboard />;
   if (page === 'sim') return <UltraSimRequestPage lang={lang} />;
   if (page === 'xfinity') return <XfinityPrepaidPage lang={lang} />;
-  
-  if (page === 'activateJuly') {
-    return (
-      <main className="pageMain">
-        <section className="pageHero">
-          <div className="wrap">
-            <h1>4th of July Savings at CellzTech</h1>
-            <p>Ultra Mobile July promos now live.</p>
-
-            <div style={{display:'flex',gap:'10px',flexWrap:'wrap'}}>
-              <a className="primaryBtn" href="/ultra-mobile">Shop Ultra Mobile</a>
-              <a className="secondaryBtn" href="/ultra-sim">Request SIM</a>
-            </div>
-          </div>
-        </section>
-      </main>
-    );
-  }
-
   if (page === 'ultra') {
     return (
       <main className="pageMain">
