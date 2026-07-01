@@ -29,7 +29,7 @@ import {
 import './styles.css';
 import { deviceCatalog, getBrandTotalModels } from './deviceCatalog';
 
-type PageKey = 'home' | 'repairs' | 'ultra' | 'xfinity' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'sim' | 'admin';
+type PageKey = 'activateJuly' |  'home' | 'repairs' | 'ultra' | 'xfinity' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'sim' | 'admin';
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk';
 
 const routes: Record<PageKey, string> = {
@@ -1255,6 +1255,25 @@ function PageDetail({ page, lang }: { page: PageKey; lang: LanguageKey }) {
   if (page === 'admin') return <AdminDashboard />;
   if (page === 'sim') return <UltraSimRequestPage lang={lang} />;
   if (page === 'xfinity') return <XfinityPrepaidPage lang={lang} />;
+  
+  if (page === 'activateJuly') {
+    return (
+      <main className="pageMain">
+        <section className="pageHero">
+          <div className="wrap">
+            <h1>4th of July Savings at CellzTech</h1>
+            <p>Ultra Mobile July promos now live.</p>
+
+            <div style={{display:'flex',gap:'10px',flexWrap:'wrap'}}>
+              <a className="primaryBtn" href="/ultra-mobile">Shop Ultra Mobile</a>
+              <a className="secondaryBtn" href="/ultra-sim">Request SIM</a>
+            </div>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   if (page === 'ultra') {
     return (
       <main className="pageMain">
@@ -4310,145 +4329,3 @@ function App() {
 }
 
 createRoot(document.getElementById('root')!).render(<App />);
-
-
-
-function JulyLandingPage({ goTo }: any) {
-  return (
-    <div className="julyPage">
-      <div className="julyHero">
-        <div className="julyBadge">🎆 HAPPY 4TH OF JULY</div>
-
-        <h1>4th of July Savings at CellzTech</h1>
-
-        <p>
-          Celebrate with phone plans, repairs, and accessories — plus Ultra Mobile July promos.
-        </p>
-
-        <div className="julyCtas">
-          <button className="primaryBtn">Shop Ultra Mobile</button>
-          <button className="secondaryBtn">Request a SIM</button>
-        </div>
-
-        <div className="julyNote">
-          July limited-time offers. Ask CellzTech for details.
-        </div>
-      </div>
-
-      <div className="julyGrid">
-        <div className="promoCard">
-          <h3>4 Lines Unlimited</h3>
-          <p className="price">$100/mo</p>
-          <span>Unlimited Talk, Text & Data</span>
-        </div>
-
-        <div className="promoCard">
-          <h3>Buy 3 Months, Get 1 Free</h3>
-          <span>For Life on qualifying plans</span>
-        </div>
-
-        <div className="promoCard highlight">
-          <h3>Ultra Unlimited</h3>
-          <p className="price">$25/mo</p>
-          <span>with 6 Months Prepaid</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
-
-const currentPath = window.location.pathname;
-
-function AppRouter(props: any) {
-  const [lang] = useState<LanguageKey>('en');
-
-  if (currentPath === '/activate-july') {
-    return <JulyLandingPage />;
-  }
-
-  return <div className='container'><Hero lang={lang} />;
-}
-
-
-
-function UltraConversionPage() {
-  return (
-    <div className="container ultraPage">
-
-      {/* HERO */}
-      <section className="ultraHero">
-        <div className="badge">🔥 SWITCH & SAVE</div>
-        <h1>Ultra Mobile Plans Built for Savings</h1>
-        <p>Activate today and keep your number. No contracts. No hidden fees.</p>
-
-        <div className="ctaRow">
-          <button className="primaryBtn">Request SIM</button>
-          <button className="secondaryBtn">Compare Plans</button>
-        </div>
-      </section>
-
-      {/* PRICING CARDS */}
-      <section className="grid ultraGrid">
-        <div className="card highlight">
-          <h3>Ultra Unlimited</h3>
-          <p className="price">$25/mo</p>
-          <span>6 months prepaid new customers</span>
-        </div>
-
-        <div className="card">
-          <h3>4 Lines Family</h3>
-          <p className="price">$100/mo</p>
-          <span>Unlimited Talk, Text & Data</span>
-        </div>
-
-        <div className="card">
-          <h3>Buy 3 Get 1 Free</h3>
-          <span>For Life on qualifying plans</span>
-        </div>
-      </section>
-
-      {/* COMPARISON */}
-      <section className="compare">
-        <h2>Why switch to Ultra?</h2>
-        <ul>
-          <li>No contracts</li>
-          <li>Nationwide 5G coverage</li>
-          <li>International texting included</li>
-          <li>Bring your own phone</li>
-        </ul>
-      </section>
-
-      {/* SIM LEAD FORM */}
-      <section className="formBox">
-        <h2>Request Your SIM</h2>
-        <p>We’ll activate it in-store or ship it to you.</p>
-
-        <form>
-          <input placeholder="Full Name" />
-          <input placeholder="Phone Number" />
-          <input placeholder="Email" />
-
-          <button className="primaryBtn" type="submit">
-            Submit Request
-          </button>
-        </form>
-      </section>
-
-      {/* CTA FOOTER */}
-      <section className="finalCta">
-        <h2>Ready to switch?</h2>
-        <button className="primaryBtn">Activate Now</button>
-      </section>
-
-    </div>
-  );
-}
-
-
-
-// ULTRA ROUTE ADD
-if (window.location.pathname === '/ultra') {
-  return <UltraConversionPage />;
-}
