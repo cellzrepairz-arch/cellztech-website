@@ -1,0 +1,5 @@
+UPLOAD THESE PROJECT CONTENTS TO THE ROOT OF THE EXISTING GITHUB REPOSITORY.
+
+The GitHub root should show package.json, package-lock.json, index.html,
+vite.config.ts, vercel.json, and the folders src, public, api, backend, and supabase.
+Do not upload the outer cellztech-website-main folder as a nested folder.
