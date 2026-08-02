@@ -28,6 +28,7 @@ import {
 } from 'lucide-react';
 import './styles.css';
 import { deviceCatalog, getBrandTotalModels } from './deviceCatalog';
+import { AugustHome } from './AugustHome';
 
 type PageKey = 'home' | 'repairs' | 'ultra' | 'xfinity' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'sim' | 'admin';
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk';
@@ -51,7 +52,6 @@ const pathToPage = Object.entries(routes).reduce((acc, [key, value]) => {
   acc[value] = key as PageKey;
   return acc;
 }, {} as Record<string, PageKey>);
-pathToPage['/activate-july'] = 'ultra';
 
 const languages: { key: LanguageKey; label: string; name: string }[] = [
   { key: 'en', label: 'EN', name: 'English' },
@@ -351,6 +351,12 @@ function Logo() {
 function Header({ page, setPage, lang, setLang }: { page: PageKey; setPage: (p: PageKey) => void; lang: LanguageKey; setLang: (l: LanguageKey) => void }) {
   const [open, setOpen] = useState(false);
   const labels = navLabels[lang];
+  const chromeText = {
+    en: { call: 'Call', language: 'Language', menu: 'Menu' },
+    pl: { call: 'Zadzwoń', language: 'Język', menu: 'Menu' },
+    es: { call: 'Llamar', language: 'Idioma', menu: 'Menú' },
+    uk: { call: 'Дзвінок', language: 'Мова', menu: 'Меню' }
+  }[lang];
   const nav: PageKey[] = ['home', 'repairs', 'ultra', 'xfinity', 'buyback', 'phones', 'accessories', 'about', 'contact'];
 
   const navigate = (p: PageKey) => {
@@ -378,13 +384,13 @@ function Header({ page, setPage, lang, setLang }: { page: PageKey; setPage: (p: 
           <div className="headerActions">
             <div className="languageSelect">
               <Languages size={17} />
-              <select value={lang} onChange={(e) => setLang(e.target.value as LanguageKey)} aria-label="Language">
+              <select value={lang} onChange={(e) => setLang(e.target.value as LanguageKey)} aria-label={chromeText.language}>
                 {languages.map((language) => <option key={language.key} value={language.key}>{language.label}</option>)}
               </select>
             </div>
             <button className="bookHeaderButton" onClick={() => navigate('book')}>{labels.book}</button>
-            <a className="callButton" href="tel:7734137489">Call</a>
-            <button className="menuButton" onClick={() => setOpen(!open)} aria-label="Menu">{open ? <X /> : <Menu />}</button>
+            <a className="callButton" href="tel:7734137489">{chromeText.call}</a>
+            <button className="menuButton" onClick={() => setOpen(!open)} aria-label={chromeText.menu}>{open ? <X /> : <Menu />}</button>
           </div>
         </div>
         {open && (
@@ -394,100 +400,6 @@ function Header({ page, setPage, lang, setLang }: { page: PageKey; setPage: (p: 
         )}
       </header>
     </>
-  );
-}
-
-function Hero({ lang }: { lang: LanguageKey }) {
-  const julyCopy: Record<LanguageKey, {
-    shop: string;
-    sim: string;
-    finePrint: string;
-    quick: { key: PageKey; icon: any; title: string; text: string }[];
-  }> = {
-    en: {
-      shop: 'Shop Ultra Mobile',
-      sim: 'Request a SIM',
-      finePrint: 'July limited-time offers. Ask CellzTech for details.',
-      quick: [
-        { key: 'repairs', icon: Wrench, title: 'Phone Repairs', text: 'Fast, reliable repairs for all major brands.' },
-        { key: 'ultra', icon: Wifi, title: 'Phone Plans', text: 'Affordable wireless plans for less.' },
-        { key: 'phones', icon: Smartphone, title: 'Phones', text: 'New & used phones at great prices.' },
-        { key: 'accessories', icon: ShoppingBag, title: 'Accessories', text: 'Cases, chargers, and more must-haves.' },
-        { key: 'buyback', icon: DollarSign, title: 'Buyback', text: 'Instant cash for your devices.' }
-      ]
-    },
-    pl: {
-      shop: 'Zobacz Ultra Mobile',
-      sim: 'Zamów kartę SIM',
-      finePrint: 'Promocje ograniczone czasowo w lipcu. Zapytaj CellzTech o szczegóły.',
-      quick: [
-        { key: 'repairs', icon: Wrench, title: 'Naprawy telefonów', text: 'Szybkie naprawy popularnych marek.' },
-        { key: 'ultra', icon: Wifi, title: 'Plany telefoniczne', text: 'Tanie plany bez przepłacania.' },
-        { key: 'phones', icon: Smartphone, title: 'Telefony', text: 'Nowe i używane telefony w dobrych cenach.' },
-        { key: 'accessories', icon: ShoppingBag, title: 'Akcesoria', text: 'Etui, ładowarki i potrzebne dodatki.' },
-        { key: 'buyback', icon: DollarSign, title: 'Skup', text: 'Gotówka za Twoje urządzenia.' }
-      ]
-    },
-    es: {
-      shop: 'Ver Ultra Mobile',
-      sim: 'Pedir SIM',
-      finePrint: 'Ofertas de julio por tiempo limitado. Pregunta a CellzTech por detalles.',
-      quick: [
-        { key: 'repairs', icon: Wrench, title: 'Reparaciones', text: 'Reparaciones rápidas para marcas principales.' },
-        { key: 'ultra', icon: Wifi, title: 'Planes móviles', text: 'Planes económicos para ahorrar.' },
-        { key: 'phones', icon: Smartphone, title: 'Teléfonos', text: 'Teléfonos nuevos y usados a buenos precios.' },
-        { key: 'accessories', icon: ShoppingBag, title: 'Accesorios', text: 'Fundas, cargadores y más.' },
-        { key: 'buyback', icon: DollarSign, title: 'Compra', text: 'Dinero al instante por tus dispositivos.' }
-      ]
-    },
-    uk: {
-      shop: 'Переглянути Ultra Mobile',
-      sim: 'Замовити SIM',
-      finePrint: 'Липневі пропозиції обмежені в часі. Запитайте CellzTech про деталі.',
-      quick: [
-        { key: 'repairs', icon: Wrench, title: 'Ремонт телефонів', text: 'Швидкий ремонт популярних брендів.' },
-        { key: 'ultra', icon: Wifi, title: 'Мобільні плани', text: 'Доступні тарифи без переплат.' },
-        { key: 'phones', icon: Smartphone, title: 'Телефони', text: 'Нові та вживані телефони за хорошими цінами.' },
-        { key: 'accessories', icon: ShoppingBag, title: 'Аксесуари', text: 'Чохли, зарядки та інше.' },
-        { key: 'buyback', icon: DollarSign, title: 'Викуп', text: 'Готівка за ваші пристрої.' }
-      ]
-    }
-  };
-
-  const copy = julyCopy[lang];
-
-  return (
-    <section className="homepageBannerSection" aria-label="CellzTech July Promo Banner">
-      <div className="wrap homepageBannerWrap">
-        <div className="homepageBannerCard">
-          <img
-            className="homepageBannerImage"
-            src="/homepage-july-banner.png"
-            alt="4th of July Savings at CellzTech with Ultra Mobile July promos"
-          />
-        </div>
-
-        <div className="homepageBannerActionsRow">
-          <div className="homepageBannerActions">
-            <button className="primaryBtn" onClick={() => goTo('ultra')}>{copy.shop}</button>
-            <button className="secondaryBtn" onClick={() => goTo('sim')}>{copy.sim} <Smartphone size={18} /></button>
-          </div>
-          <small className="homepageBannerFinePrint">ⓘ {copy.finePrint}</small>
-        </div>
-      </div>
-
-      <div className="wrap julyQuickLinks homepageBannerQuickLinks">
-        {copy.quick.map((item) => {
-          const Icon = item.icon;
-          return (
-            <button className="julyQuickCard" key={item.key} onClick={() => goTo(item.key)}>
-              <span className="quickIcon"><Icon size={34} /></span>
-              <span><strong>{item.title}</strong><small>{item.text}</small></span>
-            </button>
-          );
-        })}
-      </div>
-    </section>
   );
 }
 
@@ -1275,26 +1187,10 @@ function AdminDashboard() {
 
 function PageDetail({ page, lang }: { page: PageKey; lang: LanguageKey }) {
   const data = localizedPageData[lang][page];
-  const copy = homeText[lang];
   const isHome = page === 'home';
 
   if (isHome) {
-    return (
-      <>
-        <Hero lang={lang} />
-        <ServiceGrid lang={lang} />
-        <TrustSection lang={lang} />
-        <section className="section ctaBand">
-          <div className="wrap ctaPanel">
-            <div>
-              <span className="label">{copy.ready}</span>
-              <h2>{copy.readyTitle}</h2>
-            </div>
-            <a className="primaryBtn" href="tel:7734137489">Call CellzTech <ArrowRight size={18} /></a>
-          </div>
-        </section>
-      </>
-    );
+    return <AugustHome lang={lang} navigate={goTo} navigatePath={goToPath} />;
   }
 
   if (page === 'repairs') return <RepairsPage lang={lang} />;
@@ -1466,14 +1362,108 @@ const localizedRepairContent = {
   }
 } as const;
 
+type RepairBookingBridgeCopy = {
+  serviceCta: string;
+  bridgeEyebrow: string;
+  bridgeTitle: string;
+  bridgeText: string;
+  bridgeSteps: [string, string, string];
+  bridgeNote: string;
+  bridgeCta: string;
+  bridgeCall: string;
+  problemCta: string;
+};
+
+const repairBookingBridgeCopy: Record<LanguageKey, RepairBookingBridgeCopy> = {
+  en: {
+    serviceCta: 'Start this repair',
+    bridgeEyebrow: 'ONLINE REPAIR REQUEST',
+    bridgeTitle: 'Choose the device and problem before you come in.',
+    bridgeText: 'The booking page helps us understand the device, prepare for the repair, and contact you with the right next step.',
+    bridgeSteps: ['Select the brand and exact model', 'Choose the main repair issue', 'Request a preferred drop-off window'],
+    bridgeNote: 'No payment is taken online. A request is not a confirmed appointment; we verify timing, price, parts, and availability first.',
+    bridgeCta: 'Start a repair request',
+    bridgeCall: 'Call the repair desk',
+    problemCta: 'Choose this issue'
+  },
+  pl: {
+    serviceCta: 'Rozpocznij zgłoszenie',
+    bridgeEyebrow: 'ZGŁOSZENIE NAPRAWY ONLINE',
+    bridgeTitle: 'Wybierz urządzenie i usterkę przed wizytą.',
+    bridgeText: 'Strona zgłoszenia pomaga nam poznać urządzenie, przygotować się do naprawy i skontaktować się z Tobą z właściwym kolejnym krokiem.',
+    bridgeSteps: ['Wybierz markę i dokładny model', 'Wskaż główną usterkę', 'Poproś o preferowane okno oddania'],
+    bridgeNote: 'Nie pobieramy płatności online. Zgłoszenie nie jest potwierdzoną wizytą; najpierw sprawdzamy termin, cenę, części i dostępność.',
+    bridgeCta: 'Rozpocznij zgłoszenie naprawy',
+    bridgeCall: 'Zadzwoń do serwisu',
+    problemCta: 'Wybierz tę usterkę'
+  },
+  es: {
+    serviceCta: 'Iniciar esta reparación',
+    bridgeEyebrow: 'SOLICITUD DE REPARACIÓN EN LÍNEA',
+    bridgeTitle: 'Elige el equipo y el problema antes de venir.',
+    bridgeText: 'La página de solicitud nos ayuda a entender el equipo, prepararnos para la reparación y contactarte con el siguiente paso correcto.',
+    bridgeSteps: ['Elige la marca y el modelo exacto', 'Selecciona el problema principal', 'Solicita una ventana preferida para dejarlo'],
+    bridgeNote: 'No se cobra en línea. Una solicitud no es una cita confirmada; primero verificamos horario, precio, piezas y disponibilidad.',
+    bridgeCta: 'Iniciar solicitud de reparación',
+    bridgeCall: 'Llamar al área de reparación',
+    problemCta: 'Elegir este problema'
+  },
+  uk: {
+    serviceCta: 'Почати цю заявку',
+    bridgeEyebrow: 'ОНЛАЙН-ЗАЯВКА НА РЕМОНТ',
+    bridgeTitle: 'Виберіть пристрій і проблему перед візитом.',
+    bridgeText: 'Сторінка заявки допомагає нам зрозуміти пристрій, підготуватися до ремонту та зв’язатися з вами щодо наступного кроку.',
+    bridgeSteps: ['Виберіть бренд і точну модель', 'Вкажіть основну проблему', 'Запросіть зручне вікно для здачі'],
+    bridgeNote: 'Онлайн-оплата не стягується. Заявка не є підтвердженим записом; спочатку ми перевіряємо час, ціну, деталі та наявність.',
+    bridgeCta: 'Почати заявку на ремонт',
+    bridgeCall: 'Зателефонувати до сервісу',
+    problemCta: 'Вибрати цю проблему'
+  }
+};
+
+type RepairPrefill = { brand?: string; series?: string; issue?: string };
+
+const repairServicePrefills: RepairPrefill[] = [
+  { brand: 'Apple', series: 'iPhone' },
+  { brand: 'Samsung' },
+  { brand: 'Apple', series: 'iPad' },
+  { issue: 'Charging port issue' },
+  { issue: 'Back glass' },
+  { issue: 'Other / not sure' }
+];
+
+const repairProblemIssues = [
+  'Cracked screen',
+  'Battery replacement',
+  'Charging port issue',
+  'Back glass',
+  'Speaker or microphone',
+  'Other / not sure'
+] as const;
+
+function repairRequestPath(prefill: RepairPrefill = {}) {
+  const params = new URLSearchParams({ source: 'repairs-page' });
+  if (prefill.brand) params.set('brand', prefill.brand);
+  if (prefill.series) params.set('series', prefill.series);
+  if (prefill.issue) params.set('issue', prefill.issue);
+  return `/book-repair?${params.toString()}`;
+}
+
 function RepairsPage({ lang }: { lang: LanguageKey }) {
   const data = localizedPageData[lang].repairs;
   const rt = localizedRepairContent[lang];
+  const bridge = repairBookingBridgeCopy[lang];
   const serviceIcons = [Smartphone, TabletSmartphone, TabletSmartphone, BatteryCharging, Camera, Search];
-  const repairServices = rt.services.map(([title, text], index) => ({ icon: serviceIcons[index], title, text }));
+  const repairServices = rt.services.map((service, index) => ({
+    icon: serviceIcons[index],
+    title: service[0],
+    text: service[1],
+    prefill: repairServicePrefills[index]
+  }));
   const trustIcons = [MessageCircle, ShieldCheck, Store, DollarSign, Wrench, CheckCircle2];
-  const repairTrust = rt.trust.map(([title, text], index) => ({ icon: trustIcons[index], title, text }));
+  const repairTrust = rt.trust.map((item, index) => ({ icon: trustIcons[index], title: item[0], text: item[1] }));
   const commonProblems = rt.problems;
+  const startRequest = (prefill: RepairPrefill = {}) => goToPath(repairRequestPath(prefill));
 
   return (
     <main className="pageMain repairsPage">
@@ -1484,7 +1474,7 @@ function RepairsPage({ lang }: { lang: LanguageKey }) {
             <h1>{data.title}</h1>
             <p>{data.text}</p>
             <div className="pageActions">
-              <button className="primaryBtn" onClick={() => goTo('book')}>{rt.heroCta} <ArrowRight size={18} /></button>
+              <button className="primaryBtn" onClick={() => startRequest()}>{rt.heroCta} <ArrowRight size={18} /></button>
               <a className="secondaryBtn" href="tel:7734137489">{rt.call}</a>
               <a className="secondaryBtn" href="https://maps.google.com/?q=3412+N+Harlem+Ave+STE+A+Chicago+IL+60634" target="_blank" rel="noreferrer">{rt.directions}</a>
             </div>
@@ -1509,14 +1499,35 @@ function RepairsPage({ lang }: { lang: LanguageKey }) {
             {repairServices.map((item) => {
               const Icon = item.icon;
               return (
-                <article className="repairServiceCard" key={item.title}>
+                <article className="repairServiceCard repairServiceCardLinked" key={item.title}>
                   <div className="cardIcon"><Icon size={24} /></div>
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
+                  <button type="button" onClick={() => startRequest(item.prefill)}>
+                    {bridge.serviceCta} <ArrowRight size={16} />
+                  </button>
                 </article>
               );
             })}
           </div>
+
+          <aside className="repairBookingBridge" aria-label={bridge.bridgeEyebrow}>
+            <div className="repairBookingBridgeCopy">
+              <span>{bridge.bridgeEyebrow}</span>
+              <h3>{bridge.bridgeTitle}</h3>
+              <p>{bridge.bridgeText}</p>
+              <div className="repairBookingBridgeSteps">
+                {bridge.bridgeSteps.map((item, index) => (
+                  <div key={item}><strong>{index + 1}</strong><span>{item}</span></div>
+                ))}
+              </div>
+              <small><ShieldCheck size={17} /> {bridge.bridgeNote}</small>
+            </div>
+            <div className="repairBookingBridgeActions">
+              <button className="primaryBtn" type="button" onClick={() => startRequest()}>{bridge.bridgeCta} <ArrowRight size={18} /></button>
+              <a className="secondaryBtn" href="tel:7734137489">{bridge.bridgeCall}</a>
+            </div>
+          </aside>
         </div>
       </section>
 
@@ -1527,12 +1538,17 @@ function RepairsPage({ lang }: { lang: LanguageKey }) {
             <h2>{rt.smallTitle}</h2>
             <p className="lead">{rt.smallText}</p>
             <div className="inlineActions">
-              <button className="primaryBtn compact" onClick={() => goTo('book')}>{rt.startRequest}</button>
+              <button className="primaryBtn compact" onClick={() => startRequest()}>{rt.startRequest}</button>
               <a className="secondaryBtn compact" href="tel:7734137489">{rt.callNumber}</a>
             </div>
           </div>
-          <div className="problemList">
-            {commonProblems.map((problem) => <div key={problem}><CheckCircle2 size={18} /> {problem}</div>)}
+          <div className="problemList repairProblemLinks">
+            {commonProblems.map((problem, index) => (
+              <button type="button" key={problem} onClick={() => startRequest({ issue: repairProblemIssues[index] })}>
+                <span><CheckCircle2 size={18} /> {problem}</span>
+                <small>{bridge.problemCta} <ArrowRight size={14} /></small>
+              </button>
+            ))}
           </div>
         </div>
       </section>
@@ -1567,7 +1583,13 @@ function RepairsPage({ lang }: { lang: LanguageKey }) {
             <h2>{rt.processTitle}</h2>
           </div>
           <div className="processSteps">
-            {rt.steps.map(([number, title, text]) => <div key={number}><strong>{number}</strong><h3>{title}</h3><p>{text}</p></div>)}
+            {rt.steps.map((processStep) => (
+              <div key={processStep[0]}>
+                <strong>{processStep[0]}</strong>
+                <h3>{processStep[1]}</h3>
+                <p>{processStep[2]}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -1581,7 +1603,7 @@ function RepairsPage({ lang }: { lang: LanguageKey }) {
             <p><strong>CellzTech</strong><br />3412 N Harlem Ave STE A, Chicago, IL 60634</p>
           </div>
           <div className="ctaButtonsStack">
-            <button className="primaryBtn" onClick={() => goTo('book')}>{rt.heroCta} <ArrowRight size={18} /></button>
+            <button className="primaryBtn" onClick={() => startRequest()}>{rt.heroCta} <ArrowRight size={18} /></button>
             <a className="secondaryBtn" href="tel:7734137489">{rt.callNow}</a>
             <a className="secondaryBtn" href="https://maps.google.com/?q=3412+N+Harlem+Ave+STE+A+Chicago+IL+60634" target="_blank" rel="noreferrer">{rt.directions}</a>
           </div>
@@ -1617,6 +1639,82 @@ const bookText: Record<LanguageKey, any> = {
   uk: { eyebrow: 'Заявка на ремонт', title: 'Надішліть заявку на ремонт.', intro: 'Виберіть бренд, модель, проблему та зручне вікно для здачі пристрою. Перед вашим візитом ми підтвердимо час, ціну та наявність деталей.', current: 'Поточна заявка', repairRequest: 'заявка на ремонт', steps: ['Бренд', 'Модель', 'Проблема', 'Контакт', 'Надіслати'], step: 'Крок', brandTitle: 'Який бренд потребує ремонту?', brandHint: 'Почніть із типу пристрою. Ми підтримуємо найпопулярніші бренди, а якщо моделі немає в списку, виберіть “Інше”.', modelTitle: 'Знайдіть свою модель.', modelHint: 'Скористайтеся пошуком, виберіть популярну модель або серію. Якщо не впевнені, ми визначимо точну модель у магазині.', searchPlaceholder: 'Пошук моделі або номера моделі', clear: 'Очистити', searchResults: 'Результати пошуку', matching: 'збігів моделей', selected: 'Вибрано', notListed: 'Пристрою немає в списку', helpIdentify: 'Ми допоможемо визначити модель', popular: 'Популярні моделі', common: 'Найчастіші', browse: 'Перегляд за серією', chooseSeries: 'Виберіть серію', notSure: 'Не впевнений', issueTitle: 'Що потрібно відремонтувати?', issueHint: 'Виберіть основну проблему. Візуальна панель зміниться відповідно до вибраної несправності.', contactTitle: 'Ваші контактні дані.', contactHint: 'Виберіть зручне вікно для здачі пристрою в робочі години. Це заявка — ми зв’яжемося з вами для підтвердження.', name: 'Ім’я', phone: 'Телефон', email: 'Електронна пошта', required: 'Обов’язково', date: 'Бажана дата', window: 'Зручне вікно для здачі', chooseWindow: 'Виберіть доступне вікно', chooseDate: 'Спочатку виберіть дату', notes: 'Примітки', notesPlaceholder: 'Приклад: Екран розбитий, але сенсор працює.', consent: 'Надсилаючи заявку, ви погоджуєтеся, що CellzTech / Cellz Repairz LLC може зв’язатися з вами щодо ремонту. Це не гарантує підтвердженого запису, ціни, наявності деталей або часу виконання.', finalTitle: 'Готово до надсилання заявки.', finalHint: 'Заявка буде надіслана до CellzTech. Ми зв’яжемося з вами, щоб підтвердити час, ціну та наявність деталей.', brand: 'Бренд', series: 'Серія', model: 'Модель', issue: 'Проблема', notSelected: 'Не вибрано', notProvided: 'Не вказано', submit: 'Надіслати заявку', sending: 'Надсилання заявки...', textInstead: 'Надіслати SMS', callInstead: 'Зателефонувати', backendNote: 'Ваша заявка надсилається до CellzTech, щоб ми перевірили пристрій, проблему, деталі та час перед підтвердженням ремонту.', back: 'Назад', next: 'Далі', startOver: 'Почати спочатку' }
 };
 
+type BookingEnhancementCopy = {
+  noticeBadge: string;
+  noticeTitle: string;
+  noticeText: string;
+  prefilled: string;
+  sendingMessage: string;
+  successMessage: string;
+  errorMessage: string;
+  hoursPrompt: string;
+  hoursSummary: string;
+  hoursConfirmation: string;
+  progressAria: string;
+};
+
+const bookingEnhancementCopy: Record<LanguageKey, BookingEnhancementCopy> = {
+  en: {
+    noticeBadge: 'REPAIR REQUEST, NOT INSTANT APPOINTMENT',
+    noticeTitle: 'We confirm the repair details before you come in.',
+    noticeText: 'Choose a preferred drop-off window. We will contact you to verify the time, price, part availability, and expected repair timing. No payment is collected on this page.',
+    prefilled: 'We carried your selection into the request. You can change it at any step.',
+    sendingMessage: 'Sending your repair request...',
+    successMessage: 'Repair request sent. We will contact you to confirm the date, time, parts, and pricing.',
+    errorMessage: 'We could not send the online request yet. Please use the text option or call the store.',
+    hoursPrompt: 'Choose a date to see available request windows.',
+    hoursSummary: 'Store hours: Mon–Fri 11:00 AM–7:00 PM, Sat 11:00 AM–3:00 PM, Sun closed.',
+    hoursConfirmation: 'Times are request windows and still need confirmation from CellzTech.',
+    progressAria: 'Repair request progress'
+  },
+  pl: {
+    noticeBadge: 'ZGŁOSZENIE NAPRAWY, NIE NATYCHMIASTOWA REZERWACJA',
+    noticeTitle: 'Potwierdzamy szczegóły naprawy przed wizytą.',
+    noticeText: 'Wybierz preferowane okno oddania urządzenia. Skontaktujemy się, aby potwierdzić termin, cenę, dostępność części i przewidywany czas naprawy. Na tej stronie nie pobieramy płatności.',
+    prefilled: 'Przenieśliśmy Twój wybór do zgłoszenia. Możesz go zmienić na każdym etapie.',
+    sendingMessage: 'Wysyłanie zgłoszenia naprawy...',
+    successMessage: 'Zgłoszenie zostało wysłane. Skontaktujemy się, aby potwierdzić datę, godzinę, części i cenę.',
+    errorMessage: 'Nie udało się jeszcze wysłać zgłoszenia online. Wyślij SMS albo zadzwoń do sklepu.',
+    hoursPrompt: 'Wybierz datę, aby zobaczyć dostępne okna oddania.',
+    hoursSummary: 'Godziny: pon.–pt. 11:00 AM–7:00 PM, sob. 11:00 AM–3:00 PM, niedz. zamknięte.',
+    hoursConfirmation: 'Podane godziny są prośbą i wymagają potwierdzenia przez CellzTech.',
+    progressAria: 'Postęp zgłoszenia naprawy'
+  },
+  es: {
+    noticeBadge: 'SOLICITUD DE REPARACIÓN, NO CITA INSTANTÁNEA',
+    noticeTitle: 'Confirmamos los detalles antes de que vengas.',
+    noticeText: 'Elige una ventana preferida para dejar el equipo. Te contactaremos para confirmar el horario, el precio, la disponibilidad de piezas y el tiempo estimado. No se cobra en esta página.',
+    prefilled: 'Llevamos tu selección a la solicitud. Puedes cambiarla en cualquier paso.',
+    sendingMessage: 'Enviando tu solicitud de reparación...',
+    successMessage: 'Solicitud enviada. Te contactaremos para confirmar la fecha, la hora, las piezas y el precio.',
+    errorMessage: 'No pudimos enviar la solicitud en línea. Usa la opción de texto o llama a la tienda.',
+    hoursPrompt: 'Elige una fecha para ver las ventanas disponibles.',
+    hoursSummary: 'Horario: lun.–vie. 11:00 AM–7:00 PM, sáb. 11:00 AM–3:00 PM, dom. cerrado.',
+    hoursConfirmation: 'Las horas son ventanas solicitadas y todavía necesitan confirmación de CellzTech.',
+    progressAria: 'Progreso de la solicitud de reparación'
+  },
+  uk: {
+    noticeBadge: 'ЗАЯВКА НА РЕМОНТ, НЕ МИТТЄВИЙ ЗАПИС',
+    noticeTitle: 'Ми підтвердимо деталі ремонту до вашого візиту.',
+    noticeText: 'Виберіть зручне вікно для здачі пристрою. Ми зв’яжемося з вами, щоб підтвердити час, ціну, наявність деталей і орієнтовний строк ремонту. На цій сторінці оплата не стягується.',
+    prefilled: 'Ми перенесли ваш вибір у заявку. Його можна змінити на будь-якому кроці.',
+    sendingMessage: 'Надсилання заявки на ремонт...',
+    successMessage: 'Заявку надіслано. Ми зв’яжемося з вами, щоб підтвердити дату, час, деталі та ціну.',
+    errorMessage: 'Не вдалося надіслати онлайн-заявку. Скористайтеся SMS або зателефонуйте до магазину.',
+    hoursPrompt: 'Виберіть дату, щоб побачити доступні вікна.',
+    hoursSummary: 'Години: пн.–пт. 11:00 AM–7:00 PM, сб. 11:00 AM–3:00 PM, нд. зачинено.',
+    hoursConfirmation: 'Це запитувані вікна, які ще має підтвердити CellzTech.',
+    progressAria: 'Прогрес заявки на ремонт'
+  }
+};
+
+const storeDayLabels: Record<LanguageKey, string[]> = {
+  en: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  pl: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota'],
+  es: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+  uk: ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', 'П’ятниця', 'Субота']
+};
+
 const storeHoursByDay = [
   { label: 'Sunday', closed: true, note: 'Closed' },
   { label: 'Monday', open: '11:00', close: '19:00', note: '11:00 AM - 7:00 PM' },
@@ -1626,139 +1724,6 @@ const storeHoursByDay = [
   { label: 'Friday', open: '11:00', close: '19:00', note: '11:00 AM - 7:00 PM' },
   { label: 'Saturday', open: '11:00', close: '15:00', note: '11:00 AM - 3:00 PM' }
 ] as const;
-
-
-const ultraJulyPromoCopy: Record<LanguageKey, {
-  pill: string;
-  title: string;
-  text: string;
-  requestSim: string;
-  comparePlans: string;
-  callCellzTech: string;
-  finePrint: string;
-  boardAria: string;
-  boardBrand: string;
-  boardTitle: string;
-  visualAlt: string;
-  cards: {
-    familyLabel: string;
-    familyTitle: string;
-    familyPrice: string;
-    familyText: string;
-    buy3Label: string;
-    buy3Title: string;
-    buy3Text: string;
-    newLabel: string;
-    newTitle: string;
-    newPrice: string;
-    newText: string;
-  };
-}> = {
-  en: {
-    pill: 'HAPPY 4TH OF JULY',
-    title: '4th of July Ultra Mobile Savings at CellzTech',
-    text: 'Celebrate with limited-time July promos from Ultra Mobile. Stop in for local activation help, number transfer support, and SIM setup.',
-    requestSim: 'Request a SIM',
-    comparePlans: 'Compare plans',
-    callCellzTech: 'Call CellzTech',
-    finePrint: 'July limited-time offers. Promo eligibility, taxes, fees, plan terms, and device compatibility must be confirmed before activation.',
-    boardAria: 'Ultra Mobile July promos',
-    boardBrand: 'Ultra Mobile',
-    boardTitle: 'July Promos',
-    visualAlt: 'Ultra Mobile iPhone with American flag background',
-    cards: {
-      familyLabel: 'Family savings',
-      familyTitle: '4 Lines Unlimited',
-      familyPrice: '$100/mo',
-      familyText: 'Unlimited talk, text, and data on qualifying family plan.',
-      buy3Label: 'For life',
-      buy3Title: 'Buy 3 Months, Get 1 Free',
-      buy3Text: 'Every fourth month free on qualifying 1-month 8GB+ plans while eligible.',
-      newLabel: 'New customers',
-      newTitle: 'Ultra Unlimited',
-      newPrice: '$25/mo',
-      newText: 'With 6 months prepaid for $150.'
-    }
-  },
-  pl: {
-    pill: 'PROMOCJE NA 4 LIPCA',
-    title: 'Oszczędności Ultra Mobile na 4 lipca w CellzTech',
-    text: 'Skorzystaj z limitowanych lipcowych promocji Ultra Mobile. Zapraszamy po lokalną pomoc przy aktywacji, przeniesieniu numeru i konfiguracji karty SIM.',
-    requestSim: 'Zamów kartę SIM',
-    comparePlans: 'Porównaj plany',
-    callCellzTech: 'Zadzwoń do CellzTech',
-    finePrint: 'Lipcowe oferty są ograniczone czasowo. Kwalifikacja do promocji, podatki, opłaty, warunki planu i zgodność urządzenia muszą zostać potwierdzone przed aktywacją.',
-    boardAria: 'Lipcowe promocje Ultra Mobile',
-    boardBrand: 'Ultra Mobile',
-    boardTitle: 'Promocje lipcowe',
-    visualAlt: 'iPhone Ultra Mobile na tle amerykańskiej flagi',
-    cards: {
-      familyLabel: 'Oszczędności rodzinne',
-      familyTitle: '4 linie Unlimited',
-      familyPrice: '$100/mies.',
-      familyText: 'Nielimitowane rozmowy, SMS-y i dane w kwalifikującym się planie rodzinnym.',
-      buy3Label: 'Na stałe',
-      buy3Title: 'Kup 3 miesiące, 1 gratis',
-      buy3Text: 'Co czwarty miesiąc gratis w kwalifikujących się planach 1-miesięcznych 8GB+.',
-      newLabel: 'Nowi klienci',
-      newTitle: 'Ultra Unlimited',
-      newPrice: '$25/mies.',
-      newText: 'Przy 6 miesiącach opłaconych z góry za $150.'
-    }
-  },
-  es: {
-    pill: '¡FELIZ 4 DE JULIO!',
-    title: 'Ahorros de Ultra Mobile por el 4 de julio en CellzTech',
-    text: 'Aprovecha las promociones limitadas de julio de Ultra Mobile. Visítanos para recibir ayuda local con activación, transferencia de número y configuración de SIM.',
-    requestSim: 'Pedir una SIM',
-    comparePlans: 'Comparar planes',
-    callCellzTech: 'Llamar a CellzTech',
-    finePrint: 'Ofertas limitadas de julio. La elegibilidad de la promoción, impuestos, cargos, términos del plan y compatibilidad del dispositivo deben confirmarse antes de la activación.',
-    boardAria: 'Promociones de julio de Ultra Mobile',
-    boardBrand: 'Ultra Mobile',
-    boardTitle: 'Promociones de julio',
-    visualAlt: 'iPhone de Ultra Mobile con fondo de bandera estadounidense',
-    cards: {
-      familyLabel: 'Ahorro familiar',
-      familyTitle: '4 líneas Unlimited',
-      familyPrice: '$100/mes',
-      familyText: 'Llamadas, textos y datos ilimitados en un plan familiar elegible.',
-      buy3Label: 'De por vida',
-      buy3Title: 'Compra 3 meses y recibe 1 gratis',
-      buy3Text: 'Cada cuarto mes es gratis en planes elegibles de 1 mes con 8GB o más.',
-      newLabel: 'Nuevos clientes',
-      newTitle: 'Ultra Unlimited',
-      newPrice: '$25/mes',
-      newText: 'Con 6 meses prepagados por $150.'
-    }
-  },
-  uk: {
-    pill: 'З 4 ЛИПНЯ!',
-    title: 'Заощадження Ultra Mobile до 4 липня у CellzTech',
-    text: 'Скористайтеся липневими акціями Ultra Mobile. Завітайте по локальну допомогу з активацією, перенесенням номера та налаштуванням SIM.',
-    requestSim: 'Замовити SIM',
-    comparePlans: 'Порівняти плани',
-    callCellzTech: 'Подзвонити в CellzTech',
-    finePrint: 'Липневі пропозиції обмежені в часі. Право на акцію, податки, збори, умови плану та сумісність пристрою потрібно підтвердити перед активацією.',
-    boardAria: 'Липневі акції Ultra Mobile',
-    boardBrand: 'Ultra Mobile',
-    boardTitle: 'Липневі акції',
-    visualAlt: 'iPhone Ultra Mobile на тлі прапора США',
-    cards: {
-      familyLabel: 'Сімейна економія',
-      familyTitle: '4 лінії Unlimited',
-      familyPrice: '$100/міс.',
-      familyText: 'Безлімітні дзвінки, текст і дані на відповідному сімейному плані.',
-      buy3Label: 'Назавжди',
-      buy3Title: 'Купи 3 місяці, 1 безкоштовно',
-      buy3Text: 'Кожен четвертий місяць безкоштовний на відповідних 1-місячних планах 8GB+.',
-      newLabel: 'Нові клієнти',
-      newTitle: 'Ultra Unlimited',
-      newPrice: '$25/міс.',
-      newText: 'За умови передплати 6 місяців за $150.'
-    }
-  }
-};
 
 
 function localDateFromInput(value: string) {
@@ -1814,11 +1779,15 @@ function getBookingTimeSlots(dateValue: string) {
   return slots;
 }
 
-function getStoreHoursNote(dateValue: string) {
+function getStoreHoursNote(dateValue: string, lang: LanguageKey) {
+  const copy = bookingEnhancementCopy[lang];
   const date = localDateFromInput(dateValue);
-  if (!date) return 'Choose a date to see available request windows. Store hours: Mon-Fri 11:00 AM-7:00 PM, Sat 11:00 AM-3:00 PM, Sun closed.';
-  const dayHours = storeHoursByDay[date.getDay()];
-  return `${dayHours.label}: ${dayHours.note}. Times are request windows and still need confirmation from CellzTech.`;
+  if (!date) return `${copy.hoursPrompt} ${copy.hoursSummary}`;
+  const dayIndex = date.getDay();
+  const dayHours = storeHoursByDay[dayIndex];
+  const closedLabels: Record<LanguageKey, string> = { en: 'Closed', pl: 'Zamknięte', es: 'Cerrado', uk: 'Зачинено' };
+  const hoursText = 'closed' in dayHours && dayHours.closed ? closedLabels[lang] : dayHours.note;
+  return `${storeDayLabels[lang][dayIndex]}: ${hoursText}. ${copy.hoursConfirmation}`;
 }
 
 function todayInputValue() {
@@ -1970,23 +1939,71 @@ function BookingVisual({ issue }: { issue: string }) {
   );
 }
 
+type BookingPrefillState = {
+  booking: Record<BookingField, string>;
+  initialStep: number;
+  hasPrefill: boolean;
+  source: string;
+};
+
+function getBookingPrefillState(): BookingPrefillState {
+  const params = new URLSearchParams(window.location.search);
+  const brandParam = params.get('brand') || '';
+  const seriesParam = params.get('series') || '';
+  const modelParam = params.get('model') || '';
+  const issueParam = params.get('issue') || '';
+  const sourceParam = (params.get('source') || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 50);
+
+  const selectedBrand = deviceCatalog.find((item) => item.brand === brandParam) || deviceCatalog[0];
+  let selectedSeries = selectedBrand.series.find((item) => item.name === seriesParam) || selectedBrand.series[0];
+  let selectedModel = '';
+
+  if (modelParam) {
+    const modelMatch = selectedBrand.series
+      .flatMap((series) => series.models.map((model) => ({ model, series })))
+      .find((item) => item.model === modelParam);
+    if (modelMatch) {
+      selectedSeries = modelMatch.series;
+      selectedModel = modelMatch.model;
+    }
+  }
+
+  const selectedIssue = repairIssues.includes(issueParam) ? issueParam : '';
+  const hasDevicePrefill = Boolean(
+    (brandParam && selectedBrand.brand === brandParam) ||
+    (seriesParam && selectedSeries?.name === seriesParam) ||
+    selectedModel
+  );
+  const hasPrefill = Boolean(hasDevicePrefill || selectedIssue);
+  const initialStep = selectedModel ? (selectedIssue ? 3 : 2) : hasDevicePrefill ? 1 : 0;
+
+  return {
+    booking: {
+      device: selectedBrand.brand,
+      series: selectedSeries?.name || '',
+      model: selectedModel,
+      issue: selectedIssue,
+      name: '',
+      phone: '',
+      email: '',
+      requestedDate: '',
+      requestedTime: '',
+      notes: ''
+    },
+    initialStep,
+    hasPrefill,
+    source: sourceParam || 'website'
+  };
+}
+
 function BookRepairPage({ lang }: { lang: LanguageKey }) {
   const b = bookText[lang];
-  const [step, setStep] = useState(0);
+  const enhancement = bookingEnhancementCopy[lang];
+  const initialPrefill = useMemo(() => getBookingPrefillState(), []);
+  const [step, setStep] = useState(initialPrefill.initialStep);
   const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const [submissionMessage, setSubmissionMessage] = useState('');
-  const [booking, setBooking] = useState<Record<BookingField, string>>({
-    device: 'Apple',
-    series: 'iPhone',
-    model: '',
-    issue: '',
-    name: '',
-    phone: '',
-    email: '',
-    requestedDate: '',
-    requestedTime: '',
-    notes: ''
-  });
+  const [booking, setBooking] = useState<Record<BookingField, string>>(initialPrefill.booking);
 
   const [modelSearch, setModelSearch] = useState('');
 
@@ -2050,7 +2067,7 @@ function BookRepairPage({ lang }: { lang: LanguageKey }) {
   };
 
   const requestedTimeSlots = useMemo(() => getBookingTimeSlots(booking.requestedDate), [booking.requestedDate]);
-  const storeHoursNote = useMemo(() => getStoreHoursNote(booking.requestedDate), [booking.requestedDate]);
+  const storeHoursNote = useMemo(() => getStoreHoursNote(booking.requestedDate, lang), [booking.requestedDate, lang]);
   const minimumRequestDate = useMemo(() => todayInputValue(), []);
 
   const setRequestedDate = (value: string) => {
@@ -2088,7 +2105,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
     if (!canSubmit || submissionStatus === 'sending') return;
 
     setSubmissionStatus('sending');
-    setSubmissionMessage('Sending your repair request...');
+    setSubmissionMessage(enhancement.sendingMessage);
 
     try {
       const response = await fetch('/api/repair-request', {
@@ -2098,7 +2115,7 @@ I understand this is a repair request and CellzTech will contact me to confirm t
           ...booking,
           requestedDateTime,
           requestedTimeLabel,
-          source: 'CellzTech website'
+          source: `CellzTech website: ${initialPrefill.source}`
         })
       });
 
@@ -2109,10 +2126,10 @@ I understand this is a repair request and CellzTech will contact me to confirm t
       }
 
       setSubmissionStatus('sent');
-      setSubmissionMessage(result.message || 'Repair request sent. We will contact you to confirm the date, time, parts, and pricing.');
+      setSubmissionMessage(result.message || enhancement.successMessage);
     } catch (error) {
       setSubmissionStatus('error');
-      setSubmissionMessage(error instanceof Error ? error.message : 'We could not send the online request yet. Please use the text fallback or call the store.');
+      setSubmissionMessage(error instanceof Error ? error.message : enhancement.errorMessage);
     }
   };
 
@@ -2599,7 +2616,18 @@ I understand this is a repair request and CellzTech will contact me to confirm t
             </div>
           </div>
 
-          <div className="stepTracker" aria-label="Repair request progress">
+          <aside className="bookingConfirmationNotice" aria-label={enhancement.noticeBadge}>
+            <span className="bookingConfirmationBadge"><ShieldCheck size={17} /> {enhancement.noticeBadge}</span>
+            <div>
+              <strong>{enhancement.noticeTitle}</strong>
+              <p>{enhancement.noticeText}</p>
+              {initialPrefill.hasPrefill && (
+                <small><CheckCircle2 size={16} /> {enhancement.prefilled}</small>
+              )}
+            </div>
+          </aside>
+
+          <div className="stepTracker" aria-label={enhancement.progressAria}>
             {steps.map((item, index) => (
               <button key={item.label} className={`${index === step ? 'active' : ''} ${item.done ? 'done' : ''}`} onClick={() => setStep(index)} type="button">
                 <span>{index + 1}</span>{item.label}
@@ -2978,7 +3006,7 @@ const ultraCopy: Record<LanguageKey, {
   plans: Record<string, { name: string; badge?: string; highlight: string; includes: string[] }>;
 }> = {
   en: {
-    hero: { label: 'July Ultra Mobile promos at CellzTech', title: '4th of July Ultra Mobile deals are live at CellzTech.', text: 'Switch, save, and get local activation help with the July Ultra Mobile promos: $25 Unlimited with 6 months, 4 Unlimited lines for $100, and Buy 3 Get 1 Free for life on qualifying plans.', call: 'Call for Ultra Mobile', visit: 'Visit the store' },
+    hero: { label: 'August Ultra Mobile offers at CellzTech', title: 'Save with Ultra Mobile and get local activation help.', text: 'Compare the August offers, including Ultra Unlimited for $25/month with six months prepaid, four Unlimited lines for $100, and every fourth month free on qualifying monthly plans.', call: 'Call for Ultra Mobile', visit: 'Visit the store' },
     family: { badge: 'Family\nDeal', label: 'Featured promo', title: '4 Ultra Unlimited lines for $100/mo', text: 'Bring up to four lines onto one Ultra Unlimited account and get international features included with each line.', cta: 'Ask about 4 for $100', checklist: ['No data cap on Ultra Unlimited', 'Unlimited nationwide talk and global text', 'Talk to 90+ international destinations', 'Hotspot included on supported plans'], lineLabels: ['1 line', '2 lines', '3 lines', '4 lines'] },
     quick: { label: 'Quick details', title: 'What customers usually want to know first.', items: ['Plans from $15/month, with monthly and multi-month options.', '4 Ultra Unlimited lines for $100/month.', 'International calling to Poland and 90+ destinations.', 'Free SIM card at CellzTech, with eSIM available on supported phones.', 'Bring your account number, transfer PIN, and an unlocked compatible phone.'] },
     infoCards: [
@@ -3838,63 +3866,6 @@ function UltraPlanStoreCard({ plan, lang }: { plan: UltraPlan; lang: LanguageKey
 }
 
 
-function UltraJulyPromoPanel({ onCompare, lang }: { onCompare: () => void; lang: LanguageKey }) {
-  const copy = ultraJulyPromoCopy[lang] || ultraJulyPromoCopy.en;
-
-  return (
-    <section className="section julyUltraLanding" id="july-promos">
-      <div className="wrap julyUltraShell">
-        <div className="julyUltraHero">
-          <span className="julyPill"><Star size={16} /> {copy.pill}</span>
-          <h1>{copy.title}</h1>
-          <p>{copy.text}</p>
-          <div className="julyUltraActions">
-            <a className="primaryBtn" href={`${routes.sim}?request=july-promo&plan=${encodeURIComponent('July Ultra Mobile Promo')}`}>{copy.requestSim} <ArrowRight size={18} /></a>
-            <button className="secondaryBtn" type="button" onClick={onCompare}>{copy.comparePlans}</button>
-            <a className="secondaryBtn ghost" href="tel:7734137489">{copy.callCellzTech}</a>
-          </div>
-          <small>{copy.finePrint}</small>
-
-          <div className="julyHeroDevice" aria-hidden="true">
-            <img src="/july-ultra-phone-flag.png" alt={copy.visualAlt} />
-          </div>
-        </div>
-
-        <div className="julyPromoBoard" aria-label={copy.boardAria}>
-          <div className="julyBoardHeader">
-            <div className="julyBoardHeaderText">
-              <span>{copy.boardBrand}</span>
-              <strong>{copy.boardTitle}</strong>
-            </div>
-          </div>
-          <div className="julyPromoCards">
-            <article>
-              <div className="julyIcon">👨‍👩‍👧‍👦</div>
-              <span>{copy.cards.familyLabel}</span>
-              <h3>{copy.cards.familyTitle}</h3>
-              <p className="julyPrice">{copy.cards.familyPrice.split('/')[0]}<span>/{copy.cards.familyPrice.split('/')[1] || 'mo'}</span></p>
-              <small>{copy.cards.familyText}</small>
-            </article>
-            <article>
-              <div className="julyIcon">🎁</div>
-              <span>{copy.cards.buy3Label}</span>
-              <h3>{copy.cards.buy3Title}</h3>
-              <p>{copy.cards.buy3Text}</p>
-            </article>
-            <article className="featured">
-              <div className="julyIcon">⚡</div>
-              <span>{copy.cards.newLabel}</span>
-              <h3>{copy.cards.newTitle}</h3>
-              <p className="julyPrice">{copy.cards.newPrice.split('/')[0]}<span>/{copy.cards.newPrice.split('/')[1] || 'mo'}</span></p>
-              <small>{copy.cards.newText}</small>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function UltraDetails({ lang }: { lang: LanguageKey }) {
   const copy = ultraCopy[lang] || ultraCopy.en;
   const [savingsOpen, setSavingsOpen] = useState(false);
@@ -3902,7 +3873,6 @@ function UltraDetails({ lang }: { lang: LanguageKey }) {
 
   return (
     <>
-      <UltraJulyPromoPanel lang={lang} onCompare={() => setSavingsOpen(true)} />
       <section className="section ultraStoreHero">
         <div className="wrap ultraHeroStack">
           <div className="ultraHeroGrid">
@@ -4060,7 +4030,7 @@ const simRequestCopy = {
       { key: 'pickup', title: 'Pick up in Chicago', text: 'Reserve a SIM for pickup and activation help at CellzTech.' },
       { key: 'esim', title: 'Ask about eSIM', text: 'Check whether your compatible phone can use Ultra Mobile eSIM.' }
     ],
-    plan: 'Plan you are interested in', choosePlan: 'Choose a plan or select not sure', activation: 'I need help activating or transferring my number', contact: 'Contact details', name: 'Full name', phone: 'Phone number', email: 'Email address', shipping: 'Shipping address', address: 'Street address', city: 'City', state: 'State', zip: 'ZIP code', notes: 'Notes', notesPlaceholder: 'Example: I need a SIM for a family member in another state.', submit: 'Send SIM request', sending: 'Sending request...', success: 'SIM request sent. We will contact you to confirm availability, shipping, activation, and payment details.', error: 'Please check the form and try again.', disclaimer: 'SIM shipping and activation are not confirmed until CellzTech contacts you. Taxes, shipping, plan pricing, promo eligibility, and activation details may vary.', selectedLabel: 'Selected Ultra option', familyLabel: 'Featured family offer', noPlanSelected: 'Choose a plan below', confirmPricing: 'We will confirm pricing', offerNote: 'Submit your request and CellzTech will call you soon to confirm SIM availability, plan details, shipping or pickup, and the next steps to complete the order.', promiseSimTitle: 'SIM', promiseSim: 'Physical SIM shipping, pickup, or eSIM help', promisePickupTitle: 'Pickup', promisePickup: 'Local setup help at CellzTech Chicago', promiseConfirmTitle: 'Confirm', promiseConfirm: 'We contact you before payment or activation', standardPlansTitle: 'Standard Ultra plans', standardPlansText: 'Regular Ultra Mobile plan options. Pick one first, then choose 1, 3, 6, or 12 months.', promoPlansTitle: 'Current promo plans', promoPlansText: 'Monthly specials change often. CellzTech confirms promo eligibility before activation.', regularPrice: 'Regular pricing', promoBadge: 'Current promo', fourthFreeTitle: '4th month free eligible plans', fourthFreeText: 'Choose an eligible 1-month plan and we will confirm the current 4th-month-free promo details.', familyPromoTitle: '4 Ultra Unlimited lines for $100/mo', familyPromoText: 'Featured family promo. We confirm line eligibility before activation.', chooseThisPlan: 'Choose this plan', selectedPlanTitle: 'Selected request', selectedPlanText: 'Use the duration buttons below to preview your request. CellzTech will confirm details by phone.'
+    plan: 'Plan you are interested in', choosePlan: 'Choose a plan or select not sure', activation: 'I need help activating or transferring my number', contact: 'Contact details', name: 'Full name', phone: 'Phone number', email: 'Email address', shipping: 'Shipping address', address: 'Street address', city: 'City', state: 'State', zip: 'ZIP code', notes: 'Notes', notesPlaceholder: 'Example: I need a SIM for a family member in another state.', submit: 'Send SIM request', sending: 'Sending request...', success: 'SIM request sent. We will contact you to confirm availability, shipping, activation, and payment details.', error: 'Please check the form and try again.', disclaimer: 'SIM shipping and activation are not confirmed until CellzTech contacts you. Taxes, shipping, plan pricing, promo eligibility, and activation details may vary.', selectedLabel: 'Selected Ultra option', familyLabel: 'Featured family offer', noPlanSelected: 'Choose a plan below', confirmPricing: 'We will confirm pricing', offerNote: 'Submit your request and CellzTech will call you soon to confirm SIM availability, plan details, shipping or pickup, and the next steps to complete the order.', promiseSimTitle: 'SIM', promiseSim: 'Physical SIM shipping, pickup, or eSIM help', promisePickupTitle: 'Pickup', promisePickup: 'Local setup help at CellzTech Chicago', promiseConfirmTitle: 'Confirm', promiseConfirm: 'We contact you before payment or activation', standardPlansTitle: 'Standard Ultra plans', standardPlansText: 'Regular Ultra Mobile plan options. Pick one first, then choose 1, 3, 6, or 12 months.', promoPlansTitle: 'Current promo plans', promoPlansText: 'Monthly specials change often. CellzTech confirms promo eligibility before activation.', regularPrice: 'Regular pricing', promoBadge: 'Current promo', fourthFreeTitle: '4th month free eligible plans', fourthFreeText: 'Choose an eligible 1-month plan and we will confirm the current 4th-month-free promo details.', familyPromoTitle: '4 Ultra Unlimited lines for $100/mo', familyPromoText: 'Featured family promo. We confirm line eligibility before activation.', unlimited25Title: 'Ultra Unlimited for $25/mo', unlimited25Text: 'New customers can request 6 months for $150 paid upfront. We confirm eligibility before activation.', chooseThisPlan: 'Choose this plan', selectedPlanTitle: 'Selected request', selectedPlanText: 'Use the duration buttons below to preview your request. CellzTech will confirm details by phone.'
   },
   pl: {
     badge: 'Prośba o kartę SIM Ultra Mobile', title: 'Zamów SIM Ultra Mobile.', text: 'Wybierz plan, opcję SIM i dane kontaktowe. CellzTech zadzwoni, aby potwierdzić dostępność, aktywację, wysyłkę lub odbiór oraz dokończenie zamówienia.',
@@ -4069,7 +4039,7 @@ const simRequestCopy = {
       { key: 'pickup', title: 'Odbiór w Chicago', text: 'Zarezerwuj SIM do odbioru i pomocy przy aktywacji w CellzTech.' },
       { key: 'esim', title: 'Zapytaj o eSIM', text: 'Sprawdź, czy Twój zgodny telefon może użyć eSIM Ultra Mobile.' }
     ],
-    plan: 'Plan, który Cię interesuje', choosePlan: 'Wybierz plan albo zaznacz, że nie masz pewności', activation: 'Potrzebuję pomocy z aktywacją lub przeniesieniem numeru', contact: 'Dane kontaktowe', name: 'Imię i nazwisko', phone: 'Numer telefonu', email: 'Adres e-mail', shipping: 'Adres wysyłki', address: 'Ulica i numer', city: 'Miasto', state: 'Stan', zip: 'Kod ZIP', notes: 'Uwagi', notesPlaceholder: 'Przykład: Potrzebuję SIM dla członka rodziny w innym stanie.', submit: 'Wyślij prośbę o SIM', sending: 'Wysyłanie...', success: 'Prośba o SIM została wysłana. Skontaktujemy się, aby potwierdzić dostępność, wysyłkę, aktywację i płatność.', error: 'Sprawdź formularz i spróbuj ponownie.', disclaimer: 'Wysyłka SIM i aktywacja nie są potwierdzone, dopóki CellzTech się z Tobą nie skontaktuje. Podatki, wysyłka, ceny planów, uprawnienia do promocji i szczegóły aktywacji mogą się różnić.', selectedLabel: 'Wybrana opcja Ultra', familyLabel: 'Promocja rodzinna', noPlanSelected: 'Wybierz plan poniżej', confirmPricing: 'Potwierdzimy cenę', offerNote: 'Wyślij formularz, a CellzTech zadzwoni, aby potwierdzić dostępność SIM, szczegóły planu, wysyłkę lub odbiór oraz kolejne kroki.', promiseSimTitle: 'SIM', promiseSim: 'Wysyłka fizycznej SIM, odbiór w sklepie albo pomoc z eSIM', promisePickupTitle: 'Odbiór', promisePickup: 'Pomoc przy konfiguracji w CellzTech w Chicago', promiseConfirmTitle: 'Potwierdzenie', promiseConfirm: 'Kontaktujemy się przed płatnością lub aktywacją', standardPlansTitle: 'Standardowe plany Ultra', standardPlansText: 'Regularne opcje planów Ultra Mobile. Wybierz plan, a potem okres 1, 3, 6 lub 12 miesięcy.', promoPlansTitle: 'Aktualne promocje', promoPlansText: 'Promocje miesięczne często się zmieniają. CellzTech potwierdzi kwalifikację przed aktywacją.', regularPrice: 'Regularna cena', promoBadge: 'Aktualna promocja', fourthFreeTitle: 'Plany z możliwym 4. miesiącem gratis', fourthFreeText: 'Wybierz kwalifikujący się plan miesięczny, a my potwierdzimy szczegóły promocji.', familyPromoTitle: '4 linie Ultra Unlimited za $100/mies.', familyPromoText: 'Wyróżniona promocja rodzinna. Potwierdzimy kwalifikację linii przed aktywacją.', chooseThisPlan: 'Wybierz ten plan', selectedPlanTitle: 'Wybrana prośba', selectedPlanText: 'Użyj przycisków okresu, aby zobaczyć prośbę. CellzTech potwierdzi szczegóły telefonicznie.'
+    plan: 'Plan, który Cię interesuje', choosePlan: 'Wybierz plan albo zaznacz, że nie masz pewności', activation: 'Potrzebuję pomocy z aktywacją lub przeniesieniem numeru', contact: 'Dane kontaktowe', name: 'Imię i nazwisko', phone: 'Numer telefonu', email: 'Adres e-mail', shipping: 'Adres wysyłki', address: 'Ulica i numer', city: 'Miasto', state: 'Stan', zip: 'Kod ZIP', notes: 'Uwagi', notesPlaceholder: 'Przykład: Potrzebuję SIM dla członka rodziny w innym stanie.', submit: 'Wyślij prośbę o SIM', sending: 'Wysyłanie...', success: 'Prośba o SIM została wysłana. Skontaktujemy się, aby potwierdzić dostępność, wysyłkę, aktywację i płatność.', error: 'Sprawdź formularz i spróbuj ponownie.', disclaimer: 'Wysyłka SIM i aktywacja nie są potwierdzone, dopóki CellzTech się z Tobą nie skontaktuje. Podatki, wysyłka, ceny planów, uprawnienia do promocji i szczegóły aktywacji mogą się różnić.', selectedLabel: 'Wybrana opcja Ultra', familyLabel: 'Promocja rodzinna', noPlanSelected: 'Wybierz plan poniżej', confirmPricing: 'Potwierdzimy cenę', offerNote: 'Wyślij formularz, a CellzTech zadzwoni, aby potwierdzić dostępność SIM, szczegóły planu, wysyłkę lub odbiór oraz kolejne kroki.', promiseSimTitle: 'SIM', promiseSim: 'Wysyłka fizycznej SIM, odbiór w sklepie albo pomoc z eSIM', promisePickupTitle: 'Odbiór', promisePickup: 'Pomoc przy konfiguracji w CellzTech w Chicago', promiseConfirmTitle: 'Potwierdzenie', promiseConfirm: 'Kontaktujemy się przed płatnością lub aktywacją', standardPlansTitle: 'Standardowe plany Ultra', standardPlansText: 'Regularne opcje planów Ultra Mobile. Wybierz plan, a potem okres 1, 3, 6 lub 12 miesięcy.', promoPlansTitle: 'Aktualne promocje', promoPlansText: 'Promocje miesięczne często się zmieniają. CellzTech potwierdzi kwalifikację przed aktywacją.', regularPrice: 'Regularna cena', promoBadge: 'Aktualna promocja', fourthFreeTitle: 'Plany z możliwym 4. miesiącem gratis', fourthFreeText: 'Wybierz kwalifikujący się plan miesięczny, a my potwierdzimy szczegóły promocji.', familyPromoTitle: '4 linie Ultra Unlimited za $100/mies.', familyPromoText: 'Wyróżniona promocja rodzinna. Potwierdzimy kwalifikację linii przed aktywacją.', unlimited25Title: 'Ultra Unlimited za $25/mies.', unlimited25Text: 'Nowi klienci mogą zamówić 6 miesięcy za $150 opłacone z góry. Potwierdzimy kwalifikację przed aktywacją.', chooseThisPlan: 'Wybierz ten plan', selectedPlanTitle: 'Wybrana prośba', selectedPlanText: 'Użyj przycisków okresu, aby zobaczyć prośbę. CellzTech potwierdzi szczegóły telefonicznie.'
   },
   es: {
     badge: 'Solicitud de SIM Ultra Mobile', title: 'Solicita una SIM Ultra Mobile.', text: 'Elige un plan, opción de SIM y datos de contacto. CellzTech te llamará para confirmar disponibilidad, activación, envío o recogida y cómo completar el pedido.',
@@ -4078,7 +4048,7 @@ const simRequestCopy = {
       { key: 'pickup', title: 'Recoger en Chicago', text: 'Reserva una SIM para recogerla y recibir ayuda de activación en CellzTech.' },
       { key: 'esim', title: 'Preguntar por eSIM', text: 'Revisa si tu teléfono compatible puede usar eSIM de Ultra Mobile.' }
     ],
-    plan: 'Plan que te interesa', choosePlan: 'Elige un plan o selecciona no estoy seguro', activation: 'Necesito ayuda para activar o transferir mi número', contact: 'Datos de contacto', name: 'Nombre completo', phone: 'Teléfono', email: 'Correo electrónico', shipping: 'Dirección de envío', address: 'Dirección', city: 'Ciudad', state: 'Estado', zip: 'Código postal', notes: 'Notas', notesPlaceholder: 'Ejemplo: Necesito una SIM para un familiar en otro estado.', submit: 'Enviar solicitud de SIM', sending: 'Enviando...', success: 'Solicitud de SIM enviada. Te contactaremos para confirmar disponibilidad, envío, activación y pago.', error: 'Revisa el formulario e inténtalo de nuevo.', disclaimer: 'El envío de SIM y la activación no quedan confirmados hasta que CellzTech te contacte. Impuestos, envío, precio del plan, elegibilidad de promociones y detalles de activación pueden variar.', selectedLabel: 'Opción Ultra seleccionada', familyLabel: 'Oferta familiar destacada', noPlanSelected: 'Elige un plan abajo', confirmPricing: 'Confirmaremos el precio', offerNote: 'Envía la solicitud y CellzTech te llamará para confirmar disponibilidad, detalles del plan, envío o recogida y próximos pasos.', promiseSimTitle: 'SIM', promiseSim: 'Envío de SIM física, recogida o ayuda con eSIM', promisePickupTitle: 'Recogida', promisePickup: 'Ayuda local de configuración en CellzTech Chicago', promiseConfirmTitle: 'Confirmar', promiseConfirm: 'Te contactamos antes del pago o la activación', standardPlansTitle: 'Planes Ultra estándar', standardPlansText: 'Opciones regulares de Ultra Mobile. Elige un plan y luego 1, 3, 6 o 12 meses.', promoPlansTitle: 'Promociones actuales', promoPlansText: 'Las promociones mensuales cambian seguido. CellzTech confirma elegibilidad antes de activar.', regularPrice: 'Precio regular', promoBadge: 'Promoción actual', fourthFreeTitle: 'Planes elegibles para 4.º mes gratis', fourthFreeText: 'Elige un plan mensual elegible y confirmaremos los detalles de la promoción.', familyPromoTitle: '4 líneas Ultra Unlimited por $100/mes', familyPromoText: 'Promoción familiar destacada. Confirmamos elegibilidad antes de activar.', chooseThisPlan: 'Elegir este plan', selectedPlanTitle: 'Solicitud seleccionada', selectedPlanText: 'Usa los botones de duración para revisar tu solicitud. CellzTech confirmará los detalles por teléfono.'
+    plan: 'Plan que te interesa', choosePlan: 'Elige un plan o selecciona no estoy seguro', activation: 'Necesito ayuda para activar o transferir mi número', contact: 'Datos de contacto', name: 'Nombre completo', phone: 'Teléfono', email: 'Correo electrónico', shipping: 'Dirección de envío', address: 'Dirección', city: 'Ciudad', state: 'Estado', zip: 'Código postal', notes: 'Notas', notesPlaceholder: 'Ejemplo: Necesito una SIM para un familiar en otro estado.', submit: 'Enviar solicitud de SIM', sending: 'Enviando...', success: 'Solicitud de SIM enviada. Te contactaremos para confirmar disponibilidad, envío, activación y pago.', error: 'Revisa el formulario e inténtalo de nuevo.', disclaimer: 'El envío de SIM y la activación no quedan confirmados hasta que CellzTech te contacte. Impuestos, envío, precio del plan, elegibilidad de promociones y detalles de activación pueden variar.', selectedLabel: 'Opción Ultra seleccionada', familyLabel: 'Oferta familiar destacada', noPlanSelected: 'Elige un plan abajo', confirmPricing: 'Confirmaremos el precio', offerNote: 'Envía la solicitud y CellzTech te llamará para confirmar disponibilidad, detalles del plan, envío o recogida y próximos pasos.', promiseSimTitle: 'SIM', promiseSim: 'Envío de SIM física, recogida o ayuda con eSIM', promisePickupTitle: 'Recogida', promisePickup: 'Ayuda local de configuración en CellzTech Chicago', promiseConfirmTitle: 'Confirmar', promiseConfirm: 'Te contactamos antes del pago o la activación', standardPlansTitle: 'Planes Ultra estándar', standardPlansText: 'Opciones regulares de Ultra Mobile. Elige un plan y luego 1, 3, 6 o 12 meses.', promoPlansTitle: 'Promociones actuales', promoPlansText: 'Las promociones mensuales cambian seguido. CellzTech confirma elegibilidad antes de activar.', regularPrice: 'Precio regular', promoBadge: 'Promoción actual', fourthFreeTitle: 'Planes elegibles para 4.º mes gratis', fourthFreeText: 'Elige un plan mensual elegible y confirmaremos los detalles de la promoción.', familyPromoTitle: '4 líneas Ultra Unlimited por $100/mes', familyPromoText: 'Promoción familiar destacada. Confirmamos elegibilidad antes de activar.', unlimited25Title: 'Ultra Unlimited por $25/mes', unlimited25Text: 'Los clientes nuevos pueden solicitar 6 meses por $150 pagados por adelantado. Confirmamos elegibilidad antes de activar.', chooseThisPlan: 'Elegir este plan', selectedPlanTitle: 'Solicitud seleccionada', selectedPlanText: 'Usa los botones de duración para revisar tu solicitud. CellzTech confirmará los detalles por teléfono.'
   },
   uk: {
     badge: 'Запит SIM Ultra Mobile', title: 'Замовте SIM Ultra Mobile.', text: 'Виберіть план, варіант SIM і контактні дані. CellzTech зателефонує, щоб підтвердити наявність, активацію, доставку або самовивіз і завершення замовлення.',
@@ -4087,7 +4057,7 @@ const simRequestCopy = {
       { key: 'pickup', title: 'Самовивіз у Чикаго', text: 'Зарезервуйте SIM для самовивозу та допомоги з активацією в CellzTech.' },
       { key: 'esim', title: 'Запитати про eSIM', text: 'Перевірте, чи сумісний телефон може використовувати eSIM Ultra Mobile.' }
     ],
-    plan: 'План, який вас цікавить', choosePlan: 'Виберіть план або позначте, що не впевнені', activation: 'Потрібна допомога з активацією або перенесенням номера', contact: 'Контактні дані', name: 'Повне ім’я', phone: 'Телефон', email: 'Електронна пошта', shipping: 'Адреса доставки', address: 'Вулиця та номер', city: 'Місто', state: 'Штат', zip: 'ZIP-код', notes: 'Примітки', notesPlaceholder: 'Приклад: Потрібна SIM для родича в іншому штаті.', submit: 'Надіслати запит SIM', sending: 'Надсилання...', success: 'Запит SIM надіслано. Ми зв’яжемося, щоб підтвердити наявність, доставку, активацію й оплату.', error: 'Перевірте форму та спробуйте ще раз.', disclaimer: 'Доставка SIM і активація не підтверджені, доки CellzTech не зв’яжеться з вами. Податки, доставка, ціна плану, умови акцій і деталі активації можуть відрізнятися.', selectedLabel: 'Вибрана опція Ultra', familyLabel: 'Сімейна пропозиція', noPlanSelected: 'Виберіть план нижче', confirmPricing: 'Ми підтвердимо ціну', offerNote: 'Надішліть запит, і CellzTech підтвердить наявність SIM, деталі плану, доставку або самовивіз та варіанти оплати до завершення.', promiseSimTitle: 'SIM', promiseSim: 'Доставка фізичної SIM, самовивіз або допомога з eSIM', promisePickupTitle: 'Самовивіз', promisePickup: 'Місцева допомога з налаштуванням у CellzTech Chicago', promiseConfirmTitle: 'Підтвердження', promiseConfirm: 'Ми зв’яжемося перед оплатою або активацією', standardPlansTitle: 'Стандартні плани Ultra', standardPlansText: 'Регулярні варіанти Ultra Mobile. Виберіть план, а потім 1, 3, 6 або 12 місяців.', promoPlansTitle: 'Поточні акції', promoPlansText: 'Місячні акції часто змінюються. CellzTech підтвердить відповідність перед активацією.', regularPrice: 'Регулярна ціна', promoBadge: 'Поточна акція', fourthFreeTitle: 'Плани з можливим 4-м місяцем безкоштовно', fourthFreeText: 'Виберіть відповідний місячний план, і ми підтвердимо деталі акції.', familyPromoTitle: '4 лінії Ultra Unlimited за $100/міс.', familyPromoText: 'Сімейна акція. Ми підтвердимо відповідність ліній перед активацією.', chooseThisPlan: 'Вибрати план', selectedPlanTitle: 'Вибраний запит', selectedPlanText: 'Оберіть тривалість нижче, щоб побачити суму. Онлайн оплата ще не стягується.'
+    plan: 'План, який вас цікавить', choosePlan: 'Виберіть план або позначте, що не впевнені', activation: 'Потрібна допомога з активацією або перенесенням номера', contact: 'Контактні дані', name: 'Повне ім’я', phone: 'Телефон', email: 'Електронна пошта', shipping: 'Адреса доставки', address: 'Вулиця та номер', city: 'Місто', state: 'Штат', zip: 'ZIP-код', notes: 'Примітки', notesPlaceholder: 'Приклад: Потрібна SIM для родича в іншому штаті.', submit: 'Надіслати запит SIM', sending: 'Надсилання...', success: 'Запит SIM надіслано. Ми зв’яжемося, щоб підтвердити наявність, доставку, активацію й оплату.', error: 'Перевірте форму та спробуйте ще раз.', disclaimer: 'Доставка SIM і активація не підтверджені, доки CellzTech не зв’яжеться з вами. Податки, доставка, ціна плану, умови акцій і деталі активації можуть відрізнятися.', selectedLabel: 'Вибрана опція Ultra', familyLabel: 'Сімейна пропозиція', noPlanSelected: 'Виберіть план нижче', confirmPricing: 'Ми підтвердимо ціну', offerNote: 'Надішліть запит, і CellzTech підтвердить наявність SIM, деталі плану, доставку або самовивіз та варіанти оплати до завершення.', promiseSimTitle: 'SIM', promiseSim: 'Доставка фізичної SIM, самовивіз або допомога з eSIM', promisePickupTitle: 'Самовивіз', promisePickup: 'Місцева допомога з налаштуванням у CellzTech Chicago', promiseConfirmTitle: 'Підтвердження', promiseConfirm: 'Ми зв’яжемося перед оплатою або активацією', standardPlansTitle: 'Стандартні плани Ultra', standardPlansText: 'Регулярні варіанти Ultra Mobile. Виберіть план, а потім 1, 3, 6 або 12 місяців.', promoPlansTitle: 'Поточні акції', promoPlansText: 'Місячні акції часто змінюються. CellzTech підтвердить відповідність перед активацією.', regularPrice: 'Регулярна ціна', promoBadge: 'Поточна акція', fourthFreeTitle: 'Плани з можливим 4-м місяцем безкоштовно', fourthFreeText: 'Виберіть відповідний місячний план, і ми підтвердимо деталі акції.', familyPromoTitle: '4 лінії Ultra Unlimited за $100/міс.', familyPromoText: 'Сімейна акція. Ми підтвердимо відповідність ліній перед активацією.', unlimited25Title: 'Ultra Unlimited за $25/міс.', unlimited25Text: 'Нові клієнти можуть подати запит на 6 місяців за $150 наперед. Ми підтвердимо відповідність перед активацією.', chooseThisPlan: 'Вибрати план', selectedPlanTitle: 'Вибраний запит', selectedPlanText: 'Оберіть тривалість нижче, щоб побачити суму. Онлайн оплата ще не стягується.'
   }
 } as const;
 
@@ -4128,6 +4098,11 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
     const plan = ultraPlans.find((item) => item.name === planName);
     const safeDurationKey = plan?.durations[durationKey] ? durationKey : '1';
     const option = plan?.durations[safeDurationKey];
+    const requestNote = request === 'fourth-free'
+      ? 'Interested in the August every-fourth-month-free offer on a qualifying 8GB+ single-month plan.'
+      : request === 'family'
+        ? 'Interested in the Ultra Mobile 4 for $100 family plan promotion.'
+        : '';
     setSelectedOffer({
       plan: planName,
       duration: option?.label || '1 Month',
@@ -4145,22 +4120,44 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
       selectedPrice: option?.monthly || '',
       selectedBilled: option?.billed || '',
       simQuantity: request === 'family' ? '4' : current.simQuantity,
-      notes: request === 'family' && !current.notes ? 'Interested in the Ultra Mobile 4 for $100 family plan promotion.' : current.notes
+      notes: requestNote && !current.notes ? requestNote : current.notes
     }));
   };
 
   const chooseFamilyPromo = () => {
     setSimStep('details');
-    setSelectedOffer({ plan: familyOptionValue, duration: 'Family promo', durationKey: '1', price: '$100/mo', billed: '$100 monthly family offer', request: 'family' });
+    setSelectedOffer({ plan: familyOptionValue, duration: 'Monthly family offer', durationKey: '1', price: '$100/mo', billed: '$100 monthly family offer', request: 'family' });
     setForm((current) => ({
       ...current,
       planInterest: familyOptionValue,
-      selectedDuration: 'Family promo',
+      selectedDuration: 'Monthly family offer',
       selectedDurationKey: '1',
       selectedPrice: '$100/mo',
       selectedBilled: '$100 monthly family offer',
       simQuantity: '4',
       notes: !current.notes ? 'Interested in the Ultra Mobile 4 for $100 family plan promotion.' : current.notes
+    }));
+  };
+
+  const chooseUnlimited25Promo = () => {
+    setSimStep('details');
+    setSelectedOffer({
+      plan: 'Ultra Unlimited Plan',
+      duration: '6 Months',
+      durationKey: '6',
+      price: '$25/mo',
+      billed: '$150 upfront',
+      request: 'august-25-unlimited'
+    });
+    setForm((current) => ({
+      ...current,
+      planInterest: 'Ultra Unlimited Plan',
+      selectedDuration: '6 Months',
+      selectedDurationKey: '6',
+      selectedPrice: '$25/mo',
+      selectedBilled: '$150 upfront',
+      simQuantity: current.simQuantity || '1',
+      notes: !current.notes ? 'Interested in the August new-customer Ultra Unlimited offer: 6 months for $150 paid upfront.' : current.notes
     }));
   };
 
@@ -4189,29 +4186,103 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const plan = params.get('plan') || '';
+    const planParam = params.get('plan') || '';
     const durationKeyParam = (params.get('durationKey') || '1') as DurationKey;
-    const request = params.get('request') || '';
-    const selectedPlan = ultraPlans.find((item) => item.name === plan);
-    const safeDurationKey = selectedPlan?.durations[durationKeyParam] ? durationKeyParam : '1';
-    const durationOption = selectedPlan?.durations[safeDurationKey];
-    const planInterest = request === 'family' ? familyOptionValue : (selectedPlan?.name || plan);
-    const duration = request === 'family' ? 'Family promo' : (durationOption?.label || params.get('duration') || '1 Month');
-    const price = request === 'family' ? '$100/mo' : (durationOption?.monthly || params.get('price') || '');
-    const billed = request === 'family' ? '$100 monthly family offer' : (durationOption?.billed || params.get('billed') || '');
+    const requestParam = params.get('request') || '';
+    const sourceParam = (params.get('source') || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 50);
 
-    setSelectedOffer({ plan: planInterest, duration, durationKey: safeDurationKey, price, billed, request });
+    const isFamily = requestParam === 'family' || requestParam === 'august-family-plan';
+    const isFourthFree = requestParam === 'fourth-free' || requestParam === 'august-fourth-month';
+    const isUnlimited25 = requestParam === 'august-25-unlimited';
+    const isNumberTransfer = requestParam === 'number-transfer';
+    const isBonus = requestParam === 'august-tempered-glass-bonus';
+    const isGeneralAugust = requestParam === 'general-august-inquiry';
+
+    let normalizedRequest = requestParam;
+    let planInterest = planParam;
+    let durationKey: DurationKey = durationKeyParam;
+    let duration = params.get('duration') || '1 Month';
+    let price = params.get('price') || '';
+    let billed = params.get('billed') || '';
+    let simQuantity = '1';
+    let notes = '';
+    let nextStep: 'plans' | 'details' | 'contact' = 'plans';
+
+    if (isFamily) {
+      normalizedRequest = 'family';
+      planInterest = familyOptionValue;
+      durationKey = '1';
+      duration = 'Monthly family offer';
+      price = '$100/mo';
+      billed = '$100 monthly family offer';
+      simQuantity = '4';
+      notes = 'Interested in the August Ultra Mobile 4 Unlimited lines for $100/month family plan offer.';
+      nextStep = 'details';
+    } else if (isFourthFree) {
+      normalizedRequest = 'fourth-free';
+      planInterest = '8GB Plan';
+      durationKey = '1';
+      const option = ultraPlans.find((item) => item.name === planInterest)?.durations['1'];
+      duration = option?.label || '1 Month';
+      price = option?.monthly || '';
+      billed = option?.billed || '';
+      notes = 'Interested in the August every-fourth-month-free offer on a qualifying 8GB+ single-month plan.';
+      nextStep = 'details';
+    } else if (isUnlimited25) {
+      planInterest = 'Ultra Unlimited Plan';
+      durationKey = '6';
+      duration = '6 Months';
+      price = '$25/mo';
+      billed = '$150 upfront';
+      notes = 'Interested in the August new-customer Ultra Unlimited offer: 6 months for $150 paid upfront.';
+      nextStep = 'details';
+    } else if (isNumberTransfer) {
+      planInterest = planParam || 'Ultra Mobile number transfer help';
+      duration = 'Number transfer assistance';
+      price = '';
+      billed = '';
+      notes = 'I would like help transferring my current phone number to Ultra Mobile. I understand I should keep my current service active until the transfer is complete.';
+      nextStep = 'contact';
+    } else if (isBonus) {
+      planInterest = planParam || 'August customer bonus inquiry';
+      duration = 'In-store offer inquiry';
+      price = '';
+      billed = '';
+      notes = 'I would like details about the limited-time free tempered-glass bonus with an Ultra Mobile activation or selected repair.';
+      nextStep = 'contact';
+    } else if (isGeneralAugust) {
+      planInterest = planParam || 'August Ultra Mobile offers';
+      duration = 'Offer consultation';
+      price = '';
+      billed = '';
+      notes = 'I would like help comparing the August Ultra Mobile offers.';
+      nextStep = 'contact';
+    } else {
+      const selectedPlan = ultraPlans.find((item) => item.name === planParam);
+      const safeDurationKey = selectedPlan?.durations[durationKeyParam] ? durationKeyParam : '1';
+      const durationOption = selectedPlan?.durations[safeDurationKey];
+      durationKey = safeDurationKey;
+      planInterest = selectedPlan?.name || planParam;
+      duration = durationOption?.label || duration;
+      price = durationOption?.monthly || price;
+      billed = durationOption?.billed || billed;
+      if (planInterest) nextStep = 'details';
+    }
+
+    const sourceNote = sourceParam ? ` Source: ${sourceParam}.` : '';
+    setSelectedOffer({ plan: planInterest, duration, durationKey, price, billed, request: normalizedRequest });
     setForm((current) => ({
       ...current,
-      requestType: request === 'esim' ? 'esim' : current.requestType,
+      requestType: requestParam === 'esim' ? 'esim' : current.requestType,
       planInterest: planInterest || current.planInterest,
       selectedDuration: duration,
-      selectedDurationKey: safeDurationKey,
+      selectedDurationKey: durationKey,
       selectedPrice: price,
       selectedBilled: billed,
-      simQuantity: request === 'family' ? '4' : current.simQuantity,
-      notes: request === 'family' && !current.notes ? 'Interested in the Ultra Mobile 4 for $100 family plan promotion.' : current.notes
+      simQuantity: isFamily ? '4' : simQuantity,
+      notes: !current.notes && notes ? `${notes}${sourceNote}` : current.notes
     }));
+    setSimStep(nextStep);
   }, []);
 
   const submit = async (event: React.FormEvent) => {
@@ -4317,6 +4388,11 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
                     <strong>{copy.familyPromoTitle}</strong>
                     <small>{copy.familyPromoText}</small>
                   </button>
+                  <button type="button" className={selectedOffer.request === 'august-25-unlimited' ? 'active simPromoWide' : 'simPromoWide'} onClick={chooseUnlimited25Promo}>
+                    <span>$25/mo</span>
+                    <strong>{copy.unlimited25Title}</strong>
+                    <small>{copy.unlimited25Text}</small>
+                  </button>
                 </div>
 
                 <div className="simWizardActions">
@@ -4341,7 +4417,17 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
                   <b>{selectedOffer.request === 'family' ? '$100/mo promo request' : requestedSubtotal}</b>
                 </div>
 
-                {selectedOffer.request !== 'family' && selectedPlanDetails ? (
+                {selectedOffer.request === 'family' ? (
+                  <div className="familyCheckoutBanner wizardFamilyBanner">
+                    <strong>{copy.familyPromoTitle}</strong>
+                    <span>{copy.familyPromoText}</span>
+                  </div>
+                ) : selectedOffer.request === 'august-25-unlimited' ? (
+                  <div className="familyCheckoutBanner wizardFamilyBanner augustUnlimitedCheckoutBanner">
+                    <strong>{copy.unlimited25Title}</strong>
+                    <span>{copy.unlimited25Text}</span>
+                  </div>
+                ) : selectedPlanDetails ? (
                   <div className="wizardDurationBlock">
                     <h3>Choose plan length</h3>
                     <div className="simDurationCheckoutTabs" role="tablist" aria-label="Selected plan duration options">
@@ -4358,16 +4444,18 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
                     </div>
                   </div>
                 ) : (
-                  <div className="familyCheckoutBanner wizardFamilyBanner">
-                    <strong>{copy.familyPromoTitle}</strong>
-                    <span>{copy.familyPromoText}</span>
+                  <div className="familyCheckoutBanner wizardFamilyBanner genericRequestBanner">
+                    <strong>{selectedPlanTitle}</strong>
+                    <span>{copy.offerNote}</span>
                   </div>
                 )}
 
                 <div className="wizardIncludesGrid">
                   {(selectedOffer.request === 'family'
                     ? ['4 Ultra Unlimited lines for $100/mo', 'International calling features included', 'CellzTech confirms eligibility before activation']
-                    : (selectedPlanDetails?.includes || ['Choose a standard or promo plan above.'])
+                    : selectedOffer.request === 'august-25-unlimited'
+                      ? ['6 months for $150 paid upfront', 'Unlimited 5G and 4G LTE data with no fixed data cap', 'International calling plus Mexico and Canada benefits', 'New-customer eligibility confirmed before activation']
+                      : (selectedPlanDetails?.includes || ['CellzTech will confirm the request details before activation.'])
                   ).slice(0, 4).map((item) => <div key={item}><CheckCircle2 size={16} /><span>{item}</span></div>)}
                 </div>
 
@@ -4481,10 +4569,10 @@ function FeatureGrid({ items }: { items: { icon: React.ElementType; title: strin
 
 function Footer({ lang }: { lang: LanguageKey }) {
   const footerText = {
-    en: { desc: 'Phone repair, Ultra Mobile, buyback, phones, and accessories in Chicago.', services: 'Services', visit: 'Visit', websites: 'Websites' },
-    pl: { desc: 'Naprawa telefonów, Ultra Mobile, skup, telefony i akcesoria w Chicago.', services: 'Usługi', visit: 'Odwiedź nas', websites: 'Strony' },
-    es: { desc: 'Reparación de teléfonos, Ultra Mobile, recompra, teléfonos y accesorios en Chicago.', services: 'Servicios', visit: 'Visítanos', websites: 'Sitios web' },
-    uk: { desc: 'Ремонт телефонів, Ultra Mobile, викуп, телефони та аксесуари в Чикаго.', services: 'Послуги', visit: 'Адреса', websites: 'Сайти' }
+    en: { desc: 'Phone repair, Ultra Mobile, buyback, phones, and accessories in Chicago.', services: 'Services', visit: 'Visit', websites: 'Websites', operated: 'CellzTech is operated by Cellz Repairz LLC.', copyright: 'Operated by Cellz Repairz LLC.' },
+    pl: { desc: 'Naprawa telefonów, Ultra Mobile, skup, telefony i akcesoria w Chicago.', services: 'Usługi', visit: 'Odwiedź nas', websites: 'Strony', operated: 'CellzTech jest prowadzony przez Cellz Repairz LLC.', copyright: 'Prowadzony przez Cellz Repairz LLC.' },
+    es: { desc: 'Reparación de teléfonos, Ultra Mobile, recompra, teléfonos y accesorios en Chicago.', services: 'Servicios', visit: 'Visítanos', websites: 'Sitios web', operated: 'CellzTech es operado por Cellz Repairz LLC.', copyright: 'Operado por Cellz Repairz LLC.' },
+    uk: { desc: 'Ремонт телефонів, Ultra Mobile, викуп, телефони та аксесуари в Чикаго.', services: 'Послуги', visit: 'Адреса', websites: 'Сайти', operated: 'CellzTech працює під управлінням Cellz Repairz LLC.', copyright: 'Під управлінням Cellz Repairz LLC.' }
   }[lang];
   return (
     <footer className="footer">
@@ -4492,7 +4580,7 @@ function Footer({ lang }: { lang: LanguageKey }) {
         <div>
           <div className="footerLogo">Cellz<span>Tech</span></div>
           <p>{footerText.desc}</p>
-          <strong>CellzTech is operated by Cellz Repairz LLC.</strong>
+          <strong>{footerText.operated}</strong>
         </div>
         <div>
           <h3>{footerText.services}</h3>
@@ -4510,14 +4598,30 @@ function Footer({ lang }: { lang: LanguageKey }) {
           <a href="https://www.serwiskomorkowy.com">serwiskomorkowy.com</a>
         </div>
       </div>
-      <div className="wrap footerBottom">© 2026 CellzTech. Operated by Cellz Repairz LLC.</div>
+      <div className="wrap footerBottom">© 2026 CellzTech. {footerText.copyright}</div>
     </footer>
   );
 }
 
 function App() {
   const [page, setPage] = useState<PageKey>(() => pathToPage[window.location.pathname] || 'home');
-  const [lang, setLang] = useState<LanguageKey>('en');
+  const [lang, setLangState] = useState<LanguageKey>(() => {
+    try {
+      const saved = window.localStorage.getItem('cellztech-language');
+      return saved === 'pl' || saved === 'es' || saved === 'uk' || saved === 'en' ? saved : 'en';
+    } catch {
+      return 'en';
+    }
+  });
+
+  const setLang = (nextLanguage: LanguageKey) => {
+    setLangState(nextLanguage);
+    try {
+      window.localStorage.setItem('cellztech-language', nextLanguage);
+    } catch {
+      // Language switching should still work when storage is unavailable.
+    }
+  };
 
   React.useEffect(() => {
     const handler = () => setPage(pathToPage[window.location.pathname] || 'home');
@@ -4548,9 +4652,59 @@ function App() {
     return () => controller.abort();
   }, [page, lang]);
 
-  useMemo(() => {
-    document.title = page === 'home' ? 'CellzTech | Phone Repair, Ultra Mobile, Buyback & Phones in Chicago' : `${pageData[page].eyebrow} | CellzTech Chicago`;
-  }, [page]);
+  React.useEffect(() => {
+    document.documentElement.lang = lang;
+
+    const homepageSeo: Record<LanguageKey, { title: string; description: string; ogTitle: string; ogDescription: string }> = {
+      en: {
+        title: 'Ultra Mobile Offers and Phone Repairs | Cellz Repairz Chicago',
+        description: 'Explore August Ultra Mobile offers, including 4 lines for $100, every fourth month free, and Unlimited for $25. Phone repairs, diagnostics, phones, and accessories in Chicago.',
+        ogTitle: 'August Ultra Mobile Offers and Phone Repairs | Cellz Repairz',
+        ogDescription: 'Save with Ultra Mobile, transfer your number, repair your phone, and get local support at Cellz Repairz in Chicago.'
+      },
+      pl: {
+        title: 'Promocje Ultra Mobile i naprawy telefonów | Cellz Repairz Chicago',
+        description: 'Sprawdź sierpniowe promocje Ultra Mobile: 4 linie za $100, co czwarty miesiąc gratis i Unlimited za $25. Naprawy telefonów, diagnostyka i akcesoria w Chicago.',
+        ogTitle: 'Sierpniowe promocje Ultra Mobile i naprawy telefonów | Cellz Repairz',
+        ogDescription: 'Oszczędzaj z Ultra Mobile, przenieś numer, napraw telefon i skorzystaj z lokalnej pomocy Cellz Repairz w Chicago.'
+      },
+      es: {
+        title: 'Ofertas de Ultra Mobile y reparación de teléfonos | Cellz Repairz Chicago',
+        description: 'Conoce las ofertas de agosto de Ultra Mobile: 4 líneas por $100, cada cuarto mes gratis y Unlimited por $25. Reparaciones, diagnóstico y accesorios en Chicago.',
+        ogTitle: 'Ofertas de agosto de Ultra Mobile y reparación de teléfonos | Cellz Repairz',
+        ogDescription: 'Ahorra con Ultra Mobile, transfiere tu número, repara tu teléfono y recibe ayuda local en Cellz Repairz de Chicago.'
+      },
+      uk: {
+        title: 'Пропозиції Ultra Mobile та ремонт телефонів | Cellz Repairz Chicago',
+        description: 'Серпневі пропозиції Ultra Mobile: 4 лінії за $100, кожен четвертий місяць безкоштовно та Unlimited за $25. Ремонт, діагностика й аксесуари в Чикаго.',
+        ogTitle: 'Серпневі пропозиції Ultra Mobile та ремонт телефонів | Cellz Repairz',
+        ogDescription: 'Заощаджуйте з Ultra Mobile, переносьте номер, ремонтуйте телефон і отримуйте місцеву допомогу Cellz Repairz у Чикаго.'
+      }
+    };
+
+    const setMeta = (selector: string, value: string) => {
+      const element = document.querySelector<HTMLMetaElement>(selector);
+      if (element) element.content = value;
+    };
+
+    if (page === 'home') {
+      const seo = homepageSeo[lang];
+      document.title = seo.title;
+      setMeta('meta[name="description"]', seo.description);
+      setMeta('meta[property="og:title"]', seo.ogTitle);
+      setMeta('meta[property="og:description"]', seo.ogDescription);
+      setMeta('meta[name="twitter:title"]', seo.ogTitle);
+      setMeta('meta[name="twitter:description"]', seo.ogDescription);
+    } else {
+      const data = localizedPageData[lang][page];
+      document.title = `${data.eyebrow} | CellzTech Chicago`;
+      setMeta('meta[name="description"]', data.text);
+      setMeta('meta[property="og:title"]', `${data.eyebrow} | CellzTech Chicago`);
+      setMeta('meta[property="og:description"]', data.text);
+      setMeta('meta[name="twitter:title"]', `${data.eyebrow} | CellzTech Chicago`);
+      setMeta('meta[name="twitter:description"]', data.text);
+    }
+  }, [page, lang]);
 
   return (
     <>

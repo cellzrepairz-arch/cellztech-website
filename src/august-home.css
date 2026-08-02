@@ -1,0 +1,1344 @@
+/* August 2026 homepage */
+.augustHome {
+  --august-navy: #071525;
+  --august-navy-2: #0b2744;
+  --august-blue: #1769ff;
+  --august-sky: #39baf3;
+  --august-soft: #f3f7fc;
+  --august-purple: #6f37a6;
+  --august-purple-dark: #3e1c6c;
+  --august-purple-soft: #f3ecfb;
+  --august-orange: #f47a2b;
+  --august-orange-soft: #fff2e8;
+  background: #fff;
+  color: #102039;
+  overflow: clip;
+}
+
+.augustHome button,
+.augustHome a {
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease;
+}
+
+.augustHome button:focus-visible,
+.augustHome a:focus-visible {
+  outline: 3px solid rgba(23, 105, 255, .38);
+  outline-offset: 3px;
+}
+
+.augustHome .primaryBtn:hover,
+.augustHome .secondaryBtn:hover {
+  transform: translateY(-2px);
+}
+
+.augustHero {
+  position: relative;
+  min-height: 690px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  background:
+    radial-gradient(circle at 81% 12%, rgba(129, 78, 191, .40), transparent 31%),
+    radial-gradient(circle at 64% 86%, rgba(51, 179, 244, .23), transparent 34%),
+    linear-gradient(125deg, #061322 0%, #0b2d51 58%, #113f69 100%);
+  isolation: isolate;
+}
+
+.augustHero::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 140px;
+  background: linear-gradient(to bottom, transparent, rgba(2, 13, 25, .24));
+  pointer-events: none;
+}
+
+.augustHero::after {
+  content: '';
+  position: absolute;
+  width: 950px;
+  height: 310px;
+  right: -280px;
+  bottom: -180px;
+  border: 1px solid rgba(179, 226, 255, .15);
+  border-radius: 50%;
+  transform: rotate(-8deg);
+  box-shadow: 0 -70px 0 rgba(71, 178, 240, .035), 0 -140px 0 rgba(71, 178, 240, .025);
+  pointer-events: none;
+}
+
+.augustHeroGlow {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.augustHeroGlowOne {
+  width: 360px;
+  height: 360px;
+  left: -170px;
+  top: 20px;
+  background: rgba(30, 110, 255, .18);
+}
+
+.augustHeroGlowTwo {
+  width: 250px;
+  height: 250px;
+  right: 10%;
+  bottom: 2%;
+  background: rgba(130, 66, 185, .18);
+}
+
+.augustHeroGrid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.03fr) minmax(420px, .97fr);
+  gap: 72px;
+  align-items: center;
+  padding: 76px 0 82px;
+}
+
+.augustHeroCopy {
+  max-width: 680px;
+}
+
+.augustEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  margin-bottom: 20px;
+  padding: 9px 14px;
+  border: 1px solid rgba(179, 220, 255, .26);
+  border-radius: 999px;
+  background: rgba(15, 92, 175, .23);
+  color: #e0f2ff;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .09em;
+}
+
+.augustHero h1 {
+  max-width: 760px;
+  font-size: clamp(48px, 5.8vw, 76px);
+  line-height: .99;
+  letter-spacing: -.062em;
+}
+
+.augustHeroSupporting {
+  margin: 24px 0 0;
+  color: #8ddcff;
+  font-weight: 850;
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+.augustHeroText {
+  max-width: 660px;
+  margin: 16px 0 0;
+  color: #d7e8f9;
+  font-size: 18px;
+  line-height: 1.72;
+}
+
+.augustHeroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.augustHeroActions .secondaryBtn {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .24);
+  background: rgba(255, 255, 255, .08);
+  box-shadow: none;
+  backdrop-filter: blur(12px);
+}
+
+.augustHeroActions .secondaryBtn:hover {
+  border-color: rgba(255, 255, 255, .48);
+  background: rgba(255, 255, 255, .14);
+}
+
+.augustCallBtn svg {
+  color: #8ddcff;
+}
+
+.augustHeroVisual {
+  position: relative;
+  min-height: 550px;
+  perspective: 1200px;
+}
+
+.augustVisualOrb {
+  position: absolute;
+  width: 430px;
+  height: 430px;
+  right: 22px;
+  top: 52px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 28%, rgba(255, 255, 255, .30), transparent 21%),
+    radial-gradient(circle at 70% 62%, rgba(100, 43, 151, .86), transparent 49%),
+    linear-gradient(145deg, rgba(42, 150, 235, .84), rgba(30, 69, 128, .35) 54%, rgba(90, 38, 135, .72));
+  border: 1px solid rgba(205, 230, 255, .24);
+  box-shadow: 0 54px 110px rgba(0, 0, 0, .33), inset 0 1px 0 rgba(255, 255, 255, .32);
+}
+
+.augustVisualOrb::before,
+.augustVisualOrb::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(205, 230, 255, .16);
+}
+
+.augustVisualOrb::before { inset: 29px; }
+.augustVisualOrb::after { inset: 68px; border-style: dashed; }
+
+.augustPhoneStage {
+  position: absolute;
+  width: 270px;
+  height: 510px;
+  right: 102px;
+  top: 8px;
+  transform: rotate(4deg) translateZ(30px);
+  filter: drop-shadow(0 35px 36px rgba(0, 0, 0, .38));
+  z-index: 3;
+}
+
+.augustPhoneStage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.augustPhoneReflection {
+  position: absolute;
+  left: 54px;
+  top: 28px;
+  width: 42px;
+  height: 360px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, .28), rgba(255, 255, 255, 0));
+  filter: blur(8px);
+  transform: rotate(8deg);
+  opacity: .46;
+}
+
+.augustSimCard {
+  position: absolute;
+  width: 158px;
+  height: 104px;
+  right: 18px;
+  top: 62px;
+  z-index: 5;
+  padding: 18px 18px;
+  color: #4f247d;
+  background: linear-gradient(145deg, #fff, #e9ddf7);
+  border: 1px solid rgba(255, 255, 255, .75);
+  border-radius: 22px;
+  box-shadow: 0 24px 45px rgba(1, 8, 19, .28);
+  transform: rotate(9deg);
+}
+
+.augustSimCard span {
+  display: block;
+  font-family: Sora, Inter, sans-serif;
+  font-size: 30px;
+  line-height: .92;
+  font-weight: 900;
+  letter-spacing: -.07em;
+}
+
+.augustSimCard small {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.augustSimCard i {
+  position: absolute;
+  right: 16px;
+  bottom: 13px;
+  width: 34px;
+  height: 26px;
+  border: 2px solid #f47a2b;
+  border-radius: 8px;
+  background: linear-gradient(90deg, transparent 42%, #f47a2b 43%, #f47a2b 51%, transparent 52%);
+}
+
+.augustRepairGlassCard {
+  position: absolute;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  gap: 11px;
+  min-width: 220px;
+  padding: 13px 15px;
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 18px;
+  background: rgba(7, 24, 45, .70);
+  color: #fff;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .28);
+  backdrop-filter: blur(15px);
+}
+
+.augustRepairGlassCard > span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(244, 122, 43, .18);
+  color: #ff9b5b;
+}
+
+.augustRepairGlassCard strong,
+.augustRepairGlassCard small {
+  display: block;
+}
+
+.augustRepairGlassCard strong {
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.augustRepairGlassCard small {
+  margin-top: 4px;
+  color: #a8c4df;
+  font-size: 11px;
+}
+
+.augustRepairCard {
+  left: 2px;
+  top: 122px;
+  transform: rotate(-4deg);
+}
+
+.augustDiagnosticCard {
+  right: 4px;
+  bottom: 96px;
+  transform: rotate(3deg);
+}
+
+.augustOfferChips {
+  position: absolute;
+  left: 16px;
+  bottom: 48px;
+  z-index: 8;
+  display: grid;
+  gap: 8px;
+}
+
+.augustOfferChips span {
+  width: fit-content;
+  padding: 8px 11px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  color: #edf7ff;
+  background: rgba(15, 56, 92, .76);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .20);
+  font-size: 11px;
+  font-weight: 850;
+  backdrop-filter: blur(12px);
+}
+
+.augustOfferChips span:nth-child(2) { margin-left: 20px; }
+.augustOfferChips span:nth-child(3) { margin-left: 6px; }
+
+.augustTrustStrip {
+  position: relative;
+  z-index: 5;
+  border-bottom: 1px solid #dbe8f4;
+  background: #fff;
+  box-shadow: 0 16px 42px rgba(18, 46, 78, .05);
+}
+
+.augustTrustGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  min-height: 92px;
+}
+
+.augustTrustGrid > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  min-width: 0;
+  padding: 18px 22px;
+  border-right: 1px solid #e4edf5;
+  color: #203853;
+  font-size: 13px;
+  font-weight: 850;
+  text-align: center;
+}
+
+.augustTrustGrid > div:last-child { border-right: 0; }
+.augustTrustGrid svg { flex: 0 0 auto; color: var(--august-blue); }
+
+.augustSection {
+  padding: 92px 0;
+}
+
+.augustSectionHeading {
+  max-width: 780px;
+  margin-bottom: 42px;
+}
+
+.augustSectionHeading.centered {
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+.augustSectionHeading > span,
+.augustTransferHeading > span,
+.augustContactMain > span,
+.augustFinalPanel > div:first-child > span,
+.augustDiagnosticCopy > span {
+  display: inline-block;
+  color: var(--august-blue);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+
+.augustSectionHeading h2,
+.augustTransferHeading h2,
+.augustContactMain h2,
+.augustFinalPanel h2 {
+  margin-top: 12px;
+  color: #0e2139;
+  font-size: clamp(36px, 4.4vw, 56px);
+  line-height: 1.04;
+}
+
+.augustSectionHeading p,
+.augustTransferHeading p,
+.augustContactMain > p,
+.augustFinalPanel p {
+  margin: 17px 0 0;
+  color: #5b6d82;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.augustOffersSection {
+  background: linear-gradient(180deg, #f8fbff 0%, #eef5fb 100%);
+  scroll-margin-top: 110px;
+}
+
+.augustOfferGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 20px;
+}
+
+.augustOfferCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 570px;
+  padding: 27px;
+  overflow: hidden;
+  border: 1px solid #dce6f0;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 22px 58px rgba(20, 43, 75, .08);
+}
+
+.augustOfferCard::before {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -85px;
+  top: -92px;
+  border-radius: 50%;
+  background: rgba(99, 50, 151, .08);
+}
+
+.augustOfferCard-1,
+.augustOfferCard-3 {
+  border-color: #d8c9e9;
+}
+
+.augustOfferCard-1::after,
+.augustOfferCard-3::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, var(--august-purple), #9d6dc9);
+}
+
+.augustOfferCard-2::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, #f47a2b, #f4b23d);
+}
+
+.augustOfferTopline {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+}
+
+.augustOfferTopline svg { color: var(--august-purple); }
+.augustOfferCard-2 .augustOfferTopline svg { color: var(--august-orange); }
+
+.augustOfferBadge {
+  width: fit-content;
+  padding: 8px 11px;
+  border-radius: 999px;
+  color: #5b2b86;
+  background: var(--august-purple-soft);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .075em;
+}
+
+.augustOfferCard-2 .augustOfferBadge {
+  color: #a34b16;
+  background: var(--august-orange-soft);
+}
+
+.augustOfferCard h3 {
+  position: relative;
+  z-index: 2;
+  margin-top: 24px;
+  color: #14243a;
+  font-size: 27px;
+  line-height: 1.12;
+}
+
+.augustOfferPrice {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  margin: 17px 0 0;
+  color: var(--august-purple-dark);
+}
+
+.augustOfferPrice strong {
+  font-family: Sora, Inter, sans-serif;
+  font-size: 52px;
+  line-height: .92;
+  letter-spacing: -.06em;
+}
+
+.augustOfferPrice span {
+  padding-bottom: 6px;
+  font-weight: 850;
+}
+
+.augustOfferExplanation {
+  min-height: 78px;
+  margin: 20px 0 0;
+  color: #4f6075;
+  line-height: 1.62;
+}
+
+.augustOfferCard ul {
+  display: grid;
+  gap: 11px;
+  margin: 22px 0 26px;
+  padding: 0;
+  list-style: none;
+}
+
+.augustOfferCard li {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 9px;
+  color: #253a52;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.augustOfferCard li svg {
+  margin-top: 1px;
+  color: var(--august-purple);
+}
+
+.augustOfferCard-2 li svg { color: var(--august-orange); }
+
+.augustOfferCard .primaryBtn {
+  width: 100%;
+  margin-top: auto;
+  padding-right: 16px;
+  padding-left: 16px;
+  background: linear-gradient(135deg, #5d2b8c, #8a55b5);
+  box-shadow: 0 14px 28px rgba(91, 43, 134, .21);
+}
+
+.augustOfferCard-2 .primaryBtn {
+  background: linear-gradient(135deg, #e8671f, #f49b35);
+  box-shadow: 0 14px 28px rgba(232, 103, 31, .20);
+}
+
+.augustOfferDisclaimer {
+  max-width: 940px;
+  margin: 22px auto 0;
+  color: #6c7b8e;
+  font-size: 11px;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.augustBonusSection {
+  padding: 0 0 86px;
+  background: #eef5fb;
+}
+
+.augustBonusPanel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  padding: 26px 30px;
+  border: 1px solid #f4c19e;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 91% 6%, rgba(111, 55, 166, .12), transparent 23%),
+    linear-gradient(135deg, #fff8f2, #fff 55%);
+  box-shadow: 0 20px 52px rgba(83, 50, 25, .07);
+}
+
+.augustBonusIcon {
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  color: #fff;
+  background: linear-gradient(145deg, #f47a2b, #f39c45);
+  box-shadow: 0 14px 28px rgba(244, 122, 43, .22);
+}
+
+.augustBonusPanel > div:nth-child(2) > span {
+  color: #a64d17;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+
+.augustBonusPanel h2 {
+  margin-top: 7px;
+  color: #311c42;
+  font-size: clamp(25px, 3.2vw, 37px);
+}
+
+.augustBonusPanel p {
+  margin: 8px 0 0;
+  color: #66566d;
+  line-height: 1.55;
+}
+
+.augustBonusPanel .secondaryBtn {
+  border-color: #e3c6ee;
+  color: #5b2b86;
+}
+
+.augustRepairsSection {
+  background: #fff;
+}
+
+.augustRepairGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.augustRepairService {
+  min-height: 154px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 18px;
+  border: 1px solid #dce6f0;
+  border-radius: 21px;
+  background: #fff;
+  color: #14263d;
+  text-align: left;
+  box-shadow: 0 12px 30px rgba(18, 43, 71, .045);
+}
+
+.augustRepairService:hover {
+  transform: translateY(-3px);
+  border-color: #f2b78d;
+  box-shadow: 0 18px 42px rgba(23, 48, 78, .09);
+}
+
+.augustRepairServiceIcon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: #db641d;
+  background: var(--august-orange-soft);
+}
+
+.augustRepairService strong {
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.augustRepairService small {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: auto;
+  color: #64768a;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.augustDiagnosticPanel {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 30px;
+  margin-top: 28px;
+  padding: 30px;
+  border: 1px solid #cfe0ef;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 10% 40%, rgba(44, 161, 235, .14), transparent 25%),
+    linear-gradient(135deg, #f4f9fe, #fff);
+}
+
+.augustDiagnosticArt {
+  position: relative;
+  height: 150px;
+}
+
+.augustDiagnosticPhone {
+  position: absolute;
+  width: 82px;
+  height: 144px;
+  left: 38px;
+  top: 2px;
+  border: 5px solid #173653;
+  border-radius: 22px;
+  background: linear-gradient(160deg, #ddecfa, #fff);
+  box-shadow: 0 20px 35px rgba(30, 63, 94, .18);
+}
+
+.augustDiagnosticPhone span {
+  position: absolute;
+  width: 28px;
+  height: 5px;
+  left: 50%;
+  top: 8px;
+  border-radius: 999px;
+  background: #173653;
+  transform: translateX(-50%);
+}
+
+.augustDiagnosticPhone i {
+  position: absolute;
+  inset: 28px 12px 18px;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #7cd2f6, #7850aa);
+  opacity: .75;
+}
+
+.augustDiagnosticScan {
+  position: absolute;
+  width: 74px;
+  height: 74px;
+  right: 22px;
+  bottom: 8px;
+  display: grid;
+  place-items: center;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--august-orange);
+  box-shadow: 0 16px 30px rgba(218, 92, 19, .25);
+}
+
+.augustDiagnosticScan svg { width: 38px; height: 38px; }
+
+.augustDiagnosticCopy h3 {
+  margin-top: 9px;
+  color: #132940;
+  font-size: clamp(27px, 3vw, 40px);
+  line-height: 1.08;
+}
+
+.augustDiagnosticCopy p {
+  margin: 13px 0 0;
+  color: #5e7083;
+  line-height: 1.65;
+}
+
+.augustDiagnosticCopy small {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-top: 13px;
+  color: #5e7083;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.augustDiagnosticCopy small svg { flex: 0 0 auto; margin-top: 1px; color: var(--august-orange); }
+
+.augustDiagnosticActions {
+  display: grid;
+  gap: 10px;
+  min-width: 195px;
+}
+
+.augustShopSection {
+  background: var(--august-soft);
+}
+
+.augustShopLayout {
+  display: grid;
+  grid-template-columns: minmax(300px, .72fr) minmax(0, 1.28fr);
+  align-items: center;
+  gap: 65px;
+}
+
+.augustShopLayout .augustSectionHeading {
+  margin-bottom: 0;
+}
+
+.augustShopLayout .augustSectionHeading .primaryBtn {
+  margin-top: 24px;
+}
+
+.augustShopGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.augustShopGrid > div {
+  min-height: 76px;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #dbe6f1;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(26, 54, 82, .04);
+}
+
+.augustShopGrid > div > span,
+.augustWhyGrid > div > span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: var(--august-blue);
+  background: #eaf3ff;
+}
+
+.augustShopGrid strong {
+  color: #263a52;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.augustTransferSection {
+  color: #fff;
+  background: #fff;
+}
+
+.augustTransferPanel {
+  position: relative;
+  padding: 48px;
+  overflow: hidden;
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 93% 4%, rgba(142, 84, 186, .42), transparent 30%),
+    linear-gradient(135deg, #091b2e, #0d3c65 60%, #193f66);
+  box-shadow: 0 30px 72px rgba(14, 43, 72, .18);
+}
+
+.augustTransferPanel::after {
+  content: '';
+  position: absolute;
+  width: 520px;
+  height: 210px;
+  right: -170px;
+  bottom: -130px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 50%;
+  transform: rotate(-8deg);
+}
+
+.augustTransferHeading {
+  position: relative;
+  z-index: 2;
+  max-width: 780px;
+}
+
+.augustTransferHeading > span { color: #92d9ff; }
+.augustTransferHeading h2 { color: #fff; }
+.augustTransferHeading p { color: #d4e7f7; }
+
+.augustTransferSteps {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.augustTransferSteps > div {
+  min-height: 132px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .07);
+  backdrop-filter: blur(10px);
+}
+
+.augustTransferSteps span {
+  color: #8edcff;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .09em;
+}
+
+.augustTransferSteps strong {
+  display: block;
+  margin-top: 13px;
+  color: #fff;
+  line-height: 1.42;
+}
+
+.augustTransferWarning {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 880px;
+  margin: 22px 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 194, 152, .28);
+  border-radius: 17px;
+  color: #ffe8d9;
+  background: rgba(244, 122, 43, .11);
+}
+
+.augustTransferWarning svg { flex: 0 0 auto; margin-top: 1px; color: #ff9c5a; }
+.augustTransferWarning p { margin: 0; font-size: 12px; line-height: 1.55; }
+.augustTransferPanel > .primaryBtn { position: relative; z-index: 2; }
+
+.augustWhySection {
+  background: var(--august-soft);
+}
+
+.augustWhyGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.augustWhyGrid > div {
+  min-height: 132px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid #dbe6f0;
+  border-radius: 22px;
+  background: #fff;
+}
+
+.augustWhyGrid strong {
+  color: #263b53;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.augustFaqSection {
+  background: #fff;
+}
+
+.augustFaqLayout {
+  display: grid;
+  grid-template-columns: minmax(280px, .7fr) minmax(0, 1.3fr);
+  gap: 70px;
+  align-items: start;
+}
+
+.augustFaqLayout .augustSectionHeading {
+  position: sticky;
+  top: 135px;
+  margin-bottom: 0;
+}
+
+.augustFaq {
+  display: grid;
+  gap: 10px;
+}
+
+.augustFaqItem {
+  border: 1px solid #dce6f0;
+  border-radius: 20px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.augustFaqItem.open {
+  border-color: #bdd5ef;
+  box-shadow: 0 14px 34px rgba(21, 50, 81, .06);
+}
+
+.augustFaqItem h3 { margin: 0; }
+
+.augustFaqItem h3 button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 19px 20px;
+  border: 0;
+  background: transparent;
+  color: #182e47;
+  text-align: left;
+  font-weight: 850;
+}
+
+.augustFaqItem h3 button svg {
+  flex: 0 0 auto;
+  color: var(--august-blue);
+  transition: transform .22s ease;
+}
+
+.augustFaqItem.open h3 button svg { transform: rotate(180deg); }
+
+.augustFaqItem > div p {
+  margin: 0;
+  padding: 0 20px 20px;
+  color: #5a6c81;
+  font-size: 14px;
+  line-height: 1.72;
+}
+
+.augustContactSection {
+  background: linear-gradient(180deg, #eef5fb, #fff);
+}
+
+.augustContactPanel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, .7fr) minmax(210px, .45fr);
+  gap: 26px;
+  align-items: stretch;
+  padding: 34px;
+  border: 1px solid #d7e4f0;
+  border-radius: 32px;
+  background: #fff;
+  box-shadow: 0 24px 65px rgba(19, 51, 83, .08);
+}
+
+.augustContactMain h2 {
+  font-size: clamp(34px, 4vw, 50px);
+}
+
+.augustAddress {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.augustAddress svg { flex: 0 0 auto; margin-top: 3px; color: var(--august-blue); }
+.augustAddress p { margin: 0; color: #475d74; line-height: 1.7; }
+.augustAddress a { color: #135cca; font-weight: 750; }
+
+.augustHoursCard {
+  padding: 22px;
+  border: 1px solid #dce7f2;
+  border-radius: 23px;
+  background: var(--august-soft);
+}
+
+.augustHoursCard > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 17px;
+  color: #1a3552;
+  font-weight: 900;
+}
+
+.augustHoursCard > span svg { color: var(--august-blue); }
+.augustHoursCard p { margin: 10px 0; color: #50647a; font-size: 13px; line-height: 1.55; }
+
+.augustContactActions {
+  display: grid;
+  align-content: center;
+  gap: 9px;
+}
+
+.augustContactActions .primaryBtn,
+.augustContactActions .secondaryBtn {
+  width: 100%;
+  padding: 13px 16px;
+  font-size: 13px;
+}
+
+.augustFinalSection {
+  padding: 0 0 92px;
+  background: #fff;
+}
+
+.augustFinalPanel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 34px;
+  padding: 42px;
+  border-radius: 32px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 88% 15%, rgba(125, 69, 171, .38), transparent 27%),
+    linear-gradient(135deg, #071525, #123d62);
+}
+
+.augustFinalPanel > div:first-child > span { color: #8edcff; }
+.augustFinalPanel h2 { max-width: 760px; color: #fff; font-size: clamp(33px, 4vw, 50px); }
+.augustFinalPanel p { max-width: 720px; color: #d4e6f6; }
+.augustFinalPanel > div:last-child { display: grid; gap: 10px; min-width: 260px; }
+.augustFinalPanel .secondaryBtn { color: #fff; border-color: rgba(255, 255, 255, .25); background: rgba(255, 255, 255, .08); box-shadow: none; }
+
+.augustMobileSticky {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .augustHeroGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(360px, .8fr);
+    gap: 40px;
+  }
+
+  .augustHeroVisual { transform: scale(.92); transform-origin: center right; }
+  .augustOfferGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .augustOfferCard-3 { grid-column: 1 / -1; min-height: 500px; }
+  .augustRepairGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .augustDiagnosticPanel { grid-template-columns: 170px minmax(0, 1fr); }
+  .augustDiagnosticActions { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .augustShopLayout { grid-template-columns: 1fr; gap: 38px; }
+  .augustTransferSteps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .augustWhyGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .augustContactPanel { grid-template-columns: 1fr 1fr; }
+  .augustContactActions { grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 820px) {
+  .augustHero { min-height: auto; }
+  .augustHeroGrid { grid-template-columns: 1fr; padding: 64px 0 70px; }
+  .augustHeroCopy { max-width: 760px; }
+  .augustHeroVisual { width: min(100%, 560px); min-height: 520px; margin: 0 auto; transform: none; }
+  .augustTrustGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .augustTrustGrid > div:nth-child(2) { border-right: 0; }
+  .augustTrustGrid > div:nth-child(-n+2) { border-bottom: 1px solid #e4edf5; }
+  .augustOfferGrid { grid-template-columns: 1fr; }
+  .augustOfferCard-3 { grid-column: auto; }
+  .augustOfferCard { min-height: auto; }
+  .augustOfferExplanation { min-height: 0; }
+  .augustRepairGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .augustFaqLayout { grid-template-columns: 1fr; gap: 26px; }
+  .augustFaqLayout .augustSectionHeading { position: static; }
+  .augustContactPanel { grid-template-columns: 1fr; }
+  .augustContactActions { grid-column: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .augustFinalPanel { flex-direction: column; align-items: flex-start; }
+  .augustFinalPanel > div:last-child { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 720px) {
+  .augustHome { padding-bottom: 74px; }
+  .augustHome ~ .footer { padding-bottom: 92px; }
+  .augustHeroGrid { gap: 28px; padding: 48px 0 54px; }
+  .augustEyebrow { margin-bottom: 16px; font-size: 10px; line-height: 1.4; }
+  .augustHero h1 { font-size: clamp(39px, 12vw, 52px); }
+  .augustHeroSupporting { font-size: 14px; }
+  .augustHeroText { font-size: 16px; }
+  .augustHeroActions { display: grid; grid-template-columns: 1fr; }
+  .augustHeroActions .primaryBtn,
+  .augustHeroActions .secondaryBtn { width: 100%; }
+
+  .augustHeroVisual {
+    min-height: 430px;
+    width: 100%;
+  }
+
+  .augustVisualOrb {
+    width: 330px;
+    height: 330px;
+    right: 50%;
+    top: 50px;
+    transform: translateX(50%);
+  }
+
+  .augustPhoneStage {
+    width: 208px;
+    height: 398px;
+    right: 50%;
+    top: 6px;
+    transform: translateX(50%) rotate(3deg);
+  }
+
+  .augustSimCard {
+    width: 125px;
+    height: 82px;
+    right: 8px;
+    top: 48px;
+    padding: 14px;
+  }
+
+  .augustSimCard span { font-size: 24px; }
+  .augustSimCard small { font-size: 9px; }
+  .augustSimCard i { width: 27px; height: 20px; }
+  .augustRepairGlassCard { min-width: 176px; grid-template-columns: 36px 1fr; padding: 10px 11px; }
+  .augustRepairGlassCard > span { width: 36px; height: 36px; }
+  .augustRepairGlassCard strong { font-size: 11px; }
+  .augustRepairGlassCard small { font-size: 9px; }
+  .augustRepairCard { left: 0; top: 114px; }
+  .augustDiagnosticCard { right: 0; bottom: 58px; }
+  .augustOfferChips { left: 0; bottom: 30px; }
+  .augustOfferChips span { font-size: 9px; }
+
+  .augustTrustGrid > div { min-height: 74px; padding: 13px 10px; font-size: 11px; line-height: 1.4; }
+  .augustSection { padding: 68px 0; }
+  .augustSectionHeading { margin-bottom: 30px; }
+  .augustSectionHeading h2,
+  .augustTransferHeading h2,
+  .augustContactMain h2,
+  .augustFinalPanel h2 { font-size: 36px; }
+  .augustSectionHeading p,
+  .augustTransferHeading p,
+  .augustContactMain > p,
+  .augustFinalPanel p { font-size: 15px; }
+
+  .augustOfferCard { padding: 22px; border-radius: 24px; }
+  .augustOfferCard h3 { font-size: 25px; }
+  .augustOfferPrice strong { font-size: 46px; }
+  .augustOfferCard .primaryBtn { font-size: 13px; }
+  .augustBonusSection { padding-bottom: 62px; }
+  .augustBonusPanel { grid-template-columns: auto 1fr; gap: 15px; padding: 21px; }
+  .augustBonusIcon { width: 52px; height: 52px; border-radius: 17px; }
+  .augustBonusPanel .secondaryBtn { grid-column: 1 / -1; width: 100%; }
+
+  .augustRepairGrid { gap: 10px; }
+  .augustRepairService { min-height: 140px; padding: 15px; }
+  .augustDiagnosticPanel { grid-template-columns: 1fr; padding: 22px; }
+  .augustDiagnosticArt { display: none; }
+  .augustDiagnosticActions { grid-column: auto; grid-template-columns: 1fr; min-width: 0; }
+  .augustDiagnosticActions .primaryBtn,
+  .augustDiagnosticActions .secondaryBtn { width: 100%; }
+
+  .augustShopGrid { grid-template-columns: 1fr; }
+  .augustTransferPanel { padding: 28px 22px; border-radius: 28px; }
+  .augustTransferSteps { grid-template-columns: 1fr; }
+  .augustTransferSteps > div { min-height: auto; }
+  .augustTransferPanel > .primaryBtn { width: 100%; }
+  .augustWhyGrid { grid-template-columns: 1fr; }
+  .augustWhyGrid > div { min-height: auto; flex-direction: row; align-items: center; }
+  .augustFaqItem h3 button { padding: 17px; font-size: 14px; }
+  .augustFaqItem > div p { padding: 0 17px 17px; font-size: 13px; }
+
+  .augustContactPanel { padding: 22px; border-radius: 27px; }
+  .augustContactActions { grid-template-columns: 1fr; }
+  .augustFinalSection { padding-bottom: 68px; }
+  .augustFinalPanel { padding: 28px 22px; border-radius: 28px; }
+  .augustFinalPanel > div:last-child { grid-template-columns: 1fr; min-width: 0; }
+  .augustFinalPanel .primaryBtn,
+  .augustFinalPanel .secondaryBtn { width: 100%; }
+
+  .augustMobileSticky {
+    position: fixed;
+    z-index: 70;
+    left: 12px;
+    right: 12px;
+    bottom: 10px;
+    display: grid;
+    grid-template-columns: .82fr 1.18fr;
+    gap: 7px;
+    padding: 7px;
+    border: 1px solid rgba(170, 198, 224, .72);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, .94);
+    box-shadow: 0 16px 45px rgba(7, 23, 41, .22);
+    backdrop-filter: blur(17px);
+  }
+
+  .augustMobileSticky a,
+  .augustMobileSticky button {
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 0;
+    border-radius: 15px;
+    font-weight: 900;
+  }
+
+  .augustMobileSticky a {
+    color: #173a5d;
+    background: #eaf3fc;
+  }
+
+  .augustMobileSticky button {
+    color: #fff;
+    background: linear-gradient(135deg, #5d2b8c, #8c56b7);
+  }
+}
+
+@media (max-width: 430px) {
+  .augustHeroVisual { min-height: 402px; }
+  .augustVisualOrb { width: 298px; height: 298px; }
+  .augustPhoneStage { width: 190px; height: 365px; }
+  .augustSimCard { right: -4px; }
+  .augustRepairGlassCard { min-width: 158px; }
+  .augustRepairCard { left: -5px; }
+  .augustDiagnosticCard { right: -5px; }
+  .augustOfferChips span:nth-child(2) { margin-left: 8px; }
+  .augustRepairGrid { grid-template-columns: 1fr; }
+  .augustRepairService { min-height: 112px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .augustHome *,
+  .augustHome *::before,
+  .augustHome *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
