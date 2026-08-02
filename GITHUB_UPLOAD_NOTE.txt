@@ -1,12 +1,21 @@
-UPLOAD THESE PROJECT CONTENTS TO THE ROOT OF THE EXISTING GITHUB REPOSITORY.
+CELLZTECH AUGUST 2026 - REALISTIC 3D IPHONE HERO UPDATE
 
-The GitHub root should show package.json, package-lock.json, index.html,
-vite.config.ts, vercel.json, and the folders src, public, api, backend, and supabase.
-Do not upload the outer cellztech-website-main folder as a nested folder.
+Upload everything inside this folder to the root of the existing GitHub repository.
+Do not upload the outer folder as a nested folder.
 
-For this premium hero update, make sure GitHub includes these changed files:
+Main files changed:
 - src/AugustHome.tsx
 - src/august-home.css
-- public/premium-phone-back.svg
+- public/iphone-pro-realistic.png
+- public/iphone-pro-realistic.webp
+- public/og-august-2026.png
+- public/og-august-2026.webp
+- README.md
+- IMAGE_CREDITS.md
 
-After committing to the main branch, Vercel should deploy the update automatically.
+The new hero uses realistic iPhone product media, restrained studio lighting,
+subtle pointer-controlled 3D movement on desktop, and an interactive August offer selector.
+The old illustrated phone, fake SIM card, and floating repair labels are not used.
+
+The existing pages, booking flow, Ultra Mobile form, languages, Supabase configuration,
+and Vercel setup remain intact.

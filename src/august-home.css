@@ -170,265 +170,292 @@
 
 .augustHeroVisual {
   position: relative;
-  min-height: 590px;
+  min-height: 640px;
   display: grid;
   place-items: center;
-  perspective: 1600px;
+  perspective: 1800px;
 }
 
-.augustDeviceShowcase {
+.augustProductScene {
   --hero-rotate-x: 0deg;
   --hero-rotate-y: 0deg;
-  --hero-light-x: 50%;
-  --hero-light-y: 42%;
+  --hero-shift-x: 0px;
+  --hero-shift-y: 0px;
+  --hero-light-x: 56%;
+  --hero-light-y: 40%;
   position: relative;
-  width: min(100%, 620px);
-  min-height: 570px;
-  overflow: hidden;
-  border: 1px solid rgba(197, 225, 250, .18);
-  border-radius: 42px;
-  background:
-    radial-gradient(circle at var(--hero-light-x) var(--hero-light-y), rgba(97, 186, 255, .26), transparent 28%),
-    radial-gradient(circle at 78% 31%, rgba(123, 64, 179, .42), transparent 35%),
-    linear-gradient(145deg, rgba(13, 47, 79, .94), rgba(7, 25, 45, .98) 55%, rgba(10, 34, 59, .98));
-  box-shadow: 0 42px 90px rgba(0, 7, 17, .38), inset 0 1px 0 rgba(255, 255, 255, .18), inset 0 -1px 0 rgba(255, 255, 255, .05);
+  width: min(100%, 650px);
+  min-height: 640px;
   isolation: isolate;
 }
 
-.augustDeviceShowcase::before {
-  content: '';
+.augustStudioLight {
   position: absolute;
-  inset: -28%;
   z-index: -1;
-  background: conic-gradient(from 115deg at var(--hero-light-x) var(--hero-light-y), transparent, rgba(112, 203, 255, .16), transparent 34%, rgba(126, 70, 178, .14), transparent 72%);
-  filter: blur(24px);
-  opacity: .9;
+  width: 540px;
+  height: 540px;
+  right: -18px;
+  top: -14px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at var(--hero-light-x) var(--hero-light-y), rgba(255, 255, 255, .18), transparent 11%),
+    radial-gradient(ellipse at 52% 44%, rgba(64, 153, 229, .34), rgba(98, 63, 165, .22) 43%, rgba(12, 48, 83, 0) 72%);
+  filter: blur(3px);
+  opacity: .96;
   pointer-events: none;
 }
 
-.augustDeviceShowcase::after {
+.augustStudioLight::after {
   content: '';
-  position: absolute;
-  left: 12%;
-  right: 12%;
-  bottom: -1px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(139, 211, 255, .72), transparent);
-  pointer-events: none;
-}
-
-.augustShowcaseAura {
   position: absolute;
   width: 390px;
-  height: 390px;
-  left: 50%;
-  top: 38%;
+  height: 150px;
+  left: 82px;
+  bottom: 16px;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, rgba(255, 255, 255, .24), transparent 18%), radial-gradient(circle at 50% 50%, rgba(46, 156, 226, .47), rgba(81, 45, 139, .31) 48%, transparent 72%);
-  border: 1px solid rgba(205, 232, 255, .13);
-  box-shadow: 0 0 80px rgba(42, 151, 226, .17), inset 0 0 60px rgba(255, 255, 255, .05);
-  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(75, 180, 239, .17), transparent 70%);
+  filter: blur(16px);
+}
+
+.augustDeviceShadow {
+  position: absolute;
+  z-index: 1;
+  width: 395px;
+  height: 78px;
+  right: 2px;
+  bottom: 62px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 4, 10, .78), rgba(0, 7, 18, .34) 48%, transparent 74%);
+  filter: blur(12px);
+  transform: rotate(-3deg);
+  opacity: .88;
   pointer-events: none;
 }
 
-.augustShowcaseAura::before,
-.augustShowcaseAura::after {
-  content: '';
+.augustPhoneProduct {
   position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(207, 233, 255, .13);
-}
-.augustShowcaseAura::before { inset: 34px; }
-.augustShowcaseAura::after { inset: 76px; border-style: dashed; opacity: .72; }
-
-.augustShowcaseGrid {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  opacity: .18;
-  background-image: linear-gradient(rgba(142, 211, 255, .12) 1px, transparent 1px), linear-gradient(90deg, rgba(142, 211, 255, .12) 1px, transparent 1px);
-  background-size: 36px 36px;
-  mask-image: radial-gradient(circle at 58% 42%, #000 0%, transparent 72%);
-  pointer-events: none;
-}
-
-.augustShowcaseStatus {
-  position: absolute;
-  z-index: 8;
-  left: 24px;
-  top: 24px;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  max-width: 230px;
-  padding: 10px 13px;
-  border: 1px solid rgba(210, 235, 255, .17);
-  border-radius: 999px;
-  color: #dceeff;
-  background: rgba(5, 20, 37, .58);
-  box-shadow: 0 14px 30px rgba(0, 8, 18, .16);
-  font-size: 11px;
-  font-weight: 850;
-  letter-spacing: .02em;
-  backdrop-filter: blur(16px);
-}
-
-.augustShowcaseStatus span {
-  width: 8px;
-  height: 8px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  background: #4ee18a;
-  box-shadow: 0 0 0 5px rgba(78, 225, 138, .12), 0 0 16px rgba(78, 225, 138, .54);
-}
-
-.augustDeviceCluster {
-  position: absolute;
-  inset: 28px 18px 112px;
-  z-index: 4;
+  z-index: 3;
+  width: 430px;
+  right: -8px;
+  top: -24px;
+  margin: 0;
   transform-style: preserve-3d;
-  transform: rotateX(var(--hero-rotate-x)) rotateY(var(--hero-rotate-y));
-  transition: transform .22s cubic-bezier(.2, .75, .25, 1);
+  transform: translate3d(var(--hero-shift-x), var(--hero-shift-y), 0) rotateX(var(--hero-rotate-x)) rotateY(var(--hero-rotate-y));
+  transform-origin: 55% 52%;
+  transition: transform .28s cubic-bezier(.2, .72, .25, 1), filter .28s ease;
+  filter: drop-shadow(0 48px 44px rgba(0, 0, 0, .39)) drop-shadow(0 13px 17px rgba(0, 0, 0, .22));
   will-change: transform;
 }
 
-.augustBackPhone {
-  position: absolute;
-  width: 248px;
-  height: auto;
-  left: 86px;
-  top: 86px;
-  z-index: 1;
-  transform: translateZ(-44px) rotate(-12deg) scale(.93);
-  transform-origin: center;
-  filter: drop-shadow(0 32px 34px rgba(0, 0, 0, .35));
-  animation: augustBackPhoneFloat 8.5s ease-in-out infinite;
-}
-
-.augustFrontPhone {
-  position: absolute;
-  width: 254px;
-  height: 490px;
-  right: 75px;
-  top: 12px;
-  z-index: 3;
-  transform: translateZ(70px) rotate(4deg);
-  transform-style: preserve-3d;
-  filter: drop-shadow(0 42px 39px rgba(0, 0, 0, .42));
-  animation: augustFrontPhoneFloat 7s ease-in-out infinite;
-}
-
-.augustFrontPhone > img {
-  position: relative;
-  z-index: 1;
+.augustPhoneProduct picture,
+.augustPhoneProduct img {
   width: 100%;
-  height: 100%;
+  height: auto;
   display: block;
-  object-fit: contain;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
-.augustPhoneShine {
+.augustHeroOfferPanel {
   position: absolute;
-  z-index: 3;
-  width: 44px;
-  height: 330px;
-  left: 47px;
-  top: 48px;
-  border-radius: 50%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, .34), rgba(255, 255, 255, 0));
-  filter: blur(8px);
-  opacity: .52;
-  transform: rotate(8deg) translateZ(4px);
-  pointer-events: none;
-}
-
-.augustPhoneOfferPreview {
-  position: absolute;
-  z-index: 5;
-  left: 31px;
-  right: 22px;
-  bottom: 47px;
-  display: grid;
-  gap: 5px;
-  padding: 14px 15px 13px;
-  border: 1px solid rgba(255, 255, 255, .22);
-  border-radius: 18px;
-  color: #fff;
-  background: linear-gradient(145deg, rgba(7, 20, 39, .78), rgba(28, 19, 62, .64));
-  box-shadow: 0 18px 35px rgba(0, 0, 0, .27), inset 0 1px 0 rgba(255, 255, 255, .13);
-  backdrop-filter: blur(16px);
-  transform: translateZ(16px);
-  animation: augustOfferReveal .42s cubic-bezier(.2, .8, .2, 1);
-}
-
-.augustPhoneOfferPreview > span:first-child {
-  color: #9fdfff;
-  font-size: 8px;
-  font-weight: 900;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-}
-.augustPhoneOfferPreview strong { max-width: 170px; font-size: 15px; line-height: 1.2; letter-spacing: -.025em; }
-.augustPhoneOfferPreview .augustPreviewAction { display: inline-flex; align-items: center; gap: 5px; margin-top: 2px; color: #ffd1af; font-size: 9px; font-weight: 850; }
-
-.augustStageShadow {
-  position: absolute;
-  z-index: 2;
-  width: 370px;
-  height: 58px;
-  left: 50%;
-  bottom: 112px;
-  border-radius: 50%;
-  background: rgba(0, 5, 13, .72);
-  filter: blur(22px);
-  transform: translateX(-50%) rotate(-3deg);
-  opacity: .72;
-  pointer-events: none;
-}
-
-.augustHeroOfferSelector {
-  position: absolute;
-  z-index: 10;
-  left: 22px;
-  right: 22px;
-  bottom: 21px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 7px;
-  padding: 7px;
-  border: 1px solid rgba(207, 233, 255, .17);
-  border-radius: 22px;
-  background: rgba(4, 18, 34, .72);
-  box-shadow: 0 18px 45px rgba(0, 6, 15, .3), inset 0 1px 0 rgba(255, 255, 255, .08);
+  z-index: 7;
+  width: min(386px, 66%);
+  left: -10px;
+  bottom: 18px;
+  padding: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .88);
+  border-radius: 24px;
+  color: #12243b;
+  background: rgba(255, 255, 255, .97);
+  box-shadow: 0 28px 62px rgba(0, 8, 20, .33), 0 1px 0 rgba(255, 255, 255, .96) inset;
   backdrop-filter: blur(18px);
 }
 
-.augustHeroOfferSelector button {
-  min-width: 0;
-  min-height: 63px;
-  display: grid;
-  grid-template-columns: 23px minmax(0, 1fr);
+.augustHeroOfferPanel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, #5f2d8d, #8c59b4 62%, #f47a2b);
+}
+
+.augustHeroOfferHeader {
+  display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 9px;
-  border: 1px solid transparent;
-  border-radius: 16px;
-  color: #a9c4dc;
-  background: transparent;
-  text-align: left;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 3px 3px 10px;
+}
+
+.augustHeroOfferHeader > div {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.augustHeroOfferHeader strong {
+  color: #60318a;
+  font-size: 13px;
+  font-weight: 950;
+  letter-spacing: -.02em;
+}
+
+.augustHeroOfferHeader span,
+.augustHeroOfferHeader small {
+  color: #708095;
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.augustHeroOfferHeader small {
+  max-width: 125px;
+  text-align: right;
+}
+
+.augustHeroOfferTabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.augustHeroOfferTabs button {
+  min-width: 0;
+  min-height: 43px;
+  display: grid;
+  place-items: center;
+  padding: 7px 6px;
+  border: 1px solid #e1e8ef;
+  border-radius: 13px;
+  color: #627287;
+  background: #f4f7fa;
+  font-size: 8.5px;
+  font-weight: 900;
+  line-height: 1.18;
+  text-align: center;
   cursor: pointer;
 }
-.augustHeroOfferSelector button:hover { color: #fff; background: rgba(255, 255, 255, .06); }
-.augustHeroOfferSelector button.active { color: #132842; border-color: rgba(255, 255, 255, .72); background: linear-gradient(145deg, #fff, #e9f4fc); box-shadow: 0 10px 24px rgba(0, 8, 18, .24), inset 0 1px 0 #fff; }
-.augustHeroOfferSelector button > span { display: grid; place-items: center; width: 23px; height: 23px; border-radius: 8px; color: #8fcbed; background: rgba(80, 164, 219, .12); font-size: 9px; font-weight: 900; }
-.augustHeroOfferSelector button.active > span { color: #fff; background: linear-gradient(145deg, #6a36a0, #8551b4); box-shadow: 0 6px 14px rgba(95, 45, 142, .25); }
-.augustHeroOfferSelector strong { min-width: 0; font-size: 10px; line-height: 1.25; letter-spacing: -.01em; }
 
-.augustHeroVisualHint { position: absolute; z-index: 8; right: 25px; top: 27px; max-width: 180px; margin: 0; color: #86a7c2; font-size: 9px; font-weight: 750; text-align: right; }
+.augustHeroOfferTabs button:hover {
+  color: #24384f;
+  border-color: #cbd8e4;
+  background: #eef4f9;
+}
 
-@keyframes augustFrontPhoneFloat { 0%, 100% { transform: translateZ(70px) translateY(0) rotate(4deg); } 50% { transform: translateZ(70px) translateY(-8px) rotate(3.2deg); } }
-@keyframes augustBackPhoneFloat { 0%, 100% { transform: translateZ(-44px) translateY(0) rotate(-12deg) scale(.93); } 50% { transform: translateZ(-44px) translateY(6px) rotate(-11.2deg) scale(.93); } }
-@keyframes augustOfferReveal { from { opacity: 0; transform: translateY(8px) translateZ(16px); } to { opacity: 1; transform: translateY(0) translateZ(16px); } }
+.augustHeroOfferTabs button:focus-visible,
+.augustHeroOfferBody > button:focus-visible {
+  outline: 3px solid rgba(139, 214, 255, .9);
+  outline-offset: 3px;
+}
+
+.augustHeroOfferTabs button.active {
+  color: #fff;
+  border-color: #4b236f;
+  background: #60318a;
+  box-shadow: 0 8px 17px rgba(72, 34, 112, .21), inset 0 1px 0 rgba(255, 255, 255, .14);
+  transform: translateY(-1px);
+}
+
+.augustHeroOfferBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 14px;
+  padding: 15px 4px 3px;
+  animation: augustOfferTextReveal .28s ease both;
+}
+
+.augustHeroOfferCopy {
+  min-width: 0;
+}
+
+.augustHeroOfferBadge {
+  display: inline-flex;
+  width: fit-content;
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: #60318a;
+  background: #f0e9f8;
+  font-size: 7.5px;
+  font-weight: 950;
+  letter-spacing: .06em;
+}
+
+.augustHeroOfferTitleRow {
+  display: grid;
+  align-items: start;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.augustHeroOfferBody h2 {
+  min-width: 0;
+  margin: 0;
+  color: #10233b;
+  font-size: 17px;
+  line-height: 1.08;
+  letter-spacing: -.03em;
+}
+
+.augustHeroOfferPrice {
+  justify-self: start;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  margin: 0 !important;
+  color: #54257e !important;
+}
+
+.augustHeroOfferPrice strong {
+  font-family: Sora, Inter, sans-serif;
+  font-size: 29px;
+  line-height: .86;
+  letter-spacing: -.065em;
+}
+
+.augustHeroOfferPrice span {
+  padding-bottom: 2px;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.augustHeroOfferCopy > p {
+  margin: 8px 0 0;
+  color: #5c6d80;
+  font-size: 10.5px;
+  line-height: 1.45;
+}
+
+.augustHeroOfferBody > button {
+  min-width: 138px;
+  min-height: 43px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 13px;
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  background: #102b48;
+  box-shadow: 0 9px 18px rgba(11, 39, 68, .18);
+  font-size: 9.5px;
+  font-weight: 900;
+  line-height: 1.15;
+  cursor: pointer;
+}
+
+.augustHeroOfferBody > button:hover {
+  background: #17476f;
+  transform: translateY(-1px);
+}
+
+@keyframes augustOfferTextReveal {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 .augustTrustStrip {
   position: relative;
@@ -1220,10 +1247,16 @@
     gap: 40px;
   }
 
-  .augustHeroVisual { min-height: 550px; }
-  .augustDeviceShowcase { min-height: 540px; }
-  .augustBackPhone { left: 62px; }
-  .augustFrontPhone { right: 54px; }
+  .augustHeroVisual { min-height: 600px; }
+  .augustProductScene { min-height: 600px; }
+  .augustStudioLight { width: 500px; height: 500px; right: -56px; top: -2px; }
+  .augustPhoneProduct { width: 392px; right: -30px; top: -4px; }
+  .augustDeviceShadow { width: 360px; right: -22px; bottom: 56px; }
+  .augustHeroOfferPanel { width: 338px; left: -12px; bottom: 12px; }
+  .augustHeroOfferHeader small { max-width: 108px; }
+  .augustHeroOfferTabs button { min-height: 41px; padding: 6px 5px; font-size: 7.8px; }
+  .augustHeroOfferBody { gap: 10px; }
+  .augustHeroOfferBody > button { min-width: 118px; padding-inline: 10px; }
   .augustOfferGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .augustOfferCard-3 { grid-column: 1 / -1; min-height: 500px; }
   .augustRepairGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1240,8 +1273,12 @@
   .augustHero { min-height: auto; }
   .augustHeroGrid { grid-template-columns: 1fr; padding: 64px 0 70px; }
   .augustHeroCopy { max-width: 760px; }
-  .augustHeroVisual { width: min(100%, 620px); min-height: 570px; margin: 0 auto; }
-  .augustDeviceShowcase { min-height: 560px; }
+  .augustHeroVisual { width: min(100%, 650px); min-height: 650px; margin: 0 auto; }
+  .augustProductScene { min-height: 650px; }
+  .augustStudioLight { width: 525px; height: 525px; right: -4px; top: -12px; }
+  .augustPhoneProduct { width: 440px; right: 2px; top: -24px; }
+  .augustDeviceShadow { width: 400px; right: -2px; bottom: 64px; }
+  .augustHeroOfferPanel { width: 380px; left: 2px; bottom: 16px; }
   .augustTrustGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .augustTrustGrid > div:nth-child(2) { border-right: 0; }
   .augustTrustGrid > div:nth-child(-n+2) { border-bottom: 1px solid #e4edf5; }
@@ -1270,24 +1307,27 @@
   .augustHeroActions .primaryBtn,
   .augustHeroActions .secondaryBtn { width: 100%; }
 
-  .augustHeroVisual { min-height: 520px; width: 100%; }
-  .augustDeviceShowcase { min-height: 500px; border-radius: 30px; }
-  .augustShowcaseStatus { left: 15px; top: 15px; max-width: 190px; padding: 8px 10px; font-size: 9px; }
-  .augustHeroVisualHint { display: none; }
-  .augustShowcaseAura { width: 310px; height: 310px; top: 39%; }
-  .augustDeviceCluster { inset: 34px 6px 105px; }
-  .augustBackPhone { width: 190px; left: calc(50% - 142px); top: 86px; }
-  .augustFrontPhone { width: 202px; height: 390px; right: calc(50% - 144px); top: 28px; }
-  .augustPhoneOfferPreview { left: 25px; right: 17px; bottom: 38px; padding: 11px 12px; border-radius: 15px; }
-  .augustPhoneOfferPreview strong { font-size: 12px; }
-  .augustPhoneOfferPreview > span:first-child { font-size: 6.5px; }
-  .augustPhoneOfferPreview .augustPreviewAction { font-size: 7px; }
-  .augustStageShadow { width: 270px; bottom: 100px; }
-  .augustHeroOfferSelector { left: 12px; right: 12px; bottom: 12px; gap: 4px; padding: 5px; border-radius: 17px; }
-  .augustHeroOfferSelector button { min-height: 68px; grid-template-columns: 1fr; align-content: center; gap: 5px; padding: 7px 5px; text-align: center; }
-  .augustHeroOfferSelector button > span { width: 20px; height: 20px; margin: 0 auto; }
-  .augustHeroOfferSelector strong { font-size: 8.5px; line-height: 1.2; }
-
+  .augustHeroVisual { min-height: 620px; width: 100%; }
+  .augustProductScene { min-height: 612px; width: 100%; }
+  .augustStudioLight { width: 400px; height: 400px; right: 50%; top: -3px; transform: translateX(50%); }
+  .augustStudioLight::after { width: 300px; left: 50px; bottom: 8px; }
+  .augustPhoneProduct {
+    width: 320px;
+    left: 50%;
+    right: auto;
+    top: -10px;
+    transform: translate3d(calc(-50% + var(--hero-shift-x)), var(--hero-shift-y), 0) rotateX(var(--hero-rotate-x)) rotateY(var(--hero-rotate-y));
+  }
+  .augustDeviceShadow { width: 305px; height: 62px; left: 50%; right: auto; bottom: 190px; transform: translateX(-50%) rotate(-3deg); }
+  .augustHeroOfferPanel { width: 100%; left: 0; bottom: 0; padding: 10px; border-radius: 22px; }
+  .augustHeroOfferHeader { padding-bottom: 8px; }
+  .augustHeroOfferTabs { gap: 5px; }
+  .augustHeroOfferTabs button { min-height: 46px; padding: 6px 5px; border-radius: 12px; font-size: 8px; }
+  .augustHeroOfferBody { gap: 10px; padding: 13px 3px 2px; }
+  .augustHeroOfferBody h2 { font-size: 17px; }
+  .augustHeroOfferPrice strong { font-size: 28px; }
+  .augustHeroOfferCopy > p { font-size: 10px; }
+  .augustHeroOfferBody > button { min-width: 128px; min-height: 41px; padding: 9px 10px; }
   .augustTrustGrid > div { min-height: 74px; padding: 13px 10px; font-size: 11px; line-height: 1.4; }
   .augustSection { padding: 68px 0; }
   .augustSectionHeading { margin-bottom: 30px; }
@@ -1376,22 +1416,27 @@
 }
 
 @media (max-width: 430px) {
-  .augustHeroVisual { min-height: 500px; }
-  .augustDeviceShowcase { min-height: 486px; }
-  .augustShowcaseAura { width: 282px; height: 282px; }
-  .augustBackPhone { width: 174px; left: calc(50% - 132px); top: 91px; }
-  .augustFrontPhone { width: 188px; height: 365px; right: calc(50% - 134px); top: 36px; }
-  .augustPhoneOfferPreview { left: 23px; right: 16px; bottom: 36px; }
-  .augustStageShadow { width: 245px; }
-  .augustHeroOfferSelector strong { font-size: 8px; }
+  .augustHeroVisual { min-height: 630px; }
+  .augustProductScene { min-height: 620px; }
+  .augustStudioLight { width: 350px; height: 350px; top: 7px; }
+  .augustPhoneProduct { width: 286px; top: -1px; }
+  .augustDeviceShadow { width: 270px; bottom: 214px; }
+  .augustHeroOfferHeader { align-items: flex-start; }
+  .augustHeroOfferHeader > div { display: grid; gap: 1px; }
+  .augustHeroOfferHeader span { display: none; }
+  .augustHeroOfferHeader small { max-width: 150px; }
+  .augustHeroOfferTabs button { min-height: 48px; font-size: 7.5px; }
+  .augustHeroOfferBody { grid-template-columns: 1fr; align-items: stretch; }
+  .augustHeroOfferBody > button { width: 100%; min-width: 0; }
+  .augustHeroOfferTitleRow { display: grid; gap: 6px; align-items: start; }
+  .augustHeroOfferPrice { justify-self: start; }
+  .augustHeroOfferBody h2 { font-size: 18px; }
   .augustRepairGrid { grid-template-columns: 1fr; }
   .augustRepairService { min-height: 112px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .augustDeviceCluster { transform: none !important; }
-  .augustFrontPhone,
-  .augustBackPhone { animation: none !important; }
+  .augustPhoneProduct { transform: none !important; transition: none !important; }
   .augustHome *,
   .augustHome *::before,
   .augustHome *::after {
