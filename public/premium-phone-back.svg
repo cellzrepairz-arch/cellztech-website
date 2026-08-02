@@ -1,0 +1,44 @@
+<svg width="360" height="720" viewBox="0 0 360 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="body" x1="42" y1="18" x2="328" y2="694" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D5DAE0"/><stop offset="0.16" stop-color="#7C8792"/><stop offset="0.44" stop-color="#3D4855"/><stop offset="0.76" stop-color="#1C2631"/><stop offset="1" stop-color="#77828E"/>
+    </linearGradient>
+    <linearGradient id="inner" x1="64" y1="42" x2="300" y2="678" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#56616C"/><stop offset="0.45" stop-color="#27323D"/><stop offset="1" stop-color="#111B25"/>
+    </linearGradient>
+    <linearGradient id="cameraPlate" x1="58" y1="63" x2="210" y2="218" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8995A1"/><stop offset="0.4" stop-color="#4A5662"/><stop offset="1" stop-color="#242F3A"/>
+    </linearGradient>
+    <radialGradient id="lens" cx="0" cy="0" r="1" gradientUnits="objectBoundingBox" gradientTransform="translate(0.45 0.36) rotate(48) scale(0.78)">
+      <stop stop-color="#4F7FC1"/><stop offset="0.18" stop-color="#132943"/><stop offset="0.48" stop-color="#070C12"/><stop offset="0.77" stop-color="#1B242E"/><stop offset="1"/>
+    </radialGradient>
+    <linearGradient id="edgeLight" x1="42" y1="18" x2="319" y2="696" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white" stop-opacity="0.9"/><stop offset="0.23" stop-color="white" stop-opacity="0.12"/><stop offset="0.72" stop-color="#72B9F6" stop-opacity="0.02"/><stop offset="1" stop-color="white" stop-opacity="0.42"/>
+    </linearGradient>
+    <filter id="shadow" x="-24" y="-20" width="408" height="776" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="16"/><feOffset dy="24"/><feColorMatrix values="0 0 0 0 0.01 0 0 0 0 0.04 0 0 0 0 0.07 0 0 0 .44 0"/><feBlend in="SourceGraphic"/></filter>
+    <filter id="cameraShadow" x="36" y="42" width="206" height="210" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="9"/><feOffset dy="10"/><feColorMatrix values="0 0 0 0 0.01 0 0 0 0 0.03 0 0 0 0 0.05 0 0 0 .55 0"/><feBlend in="SourceGraphic"/></filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <rect x="28" y="13" width="304" height="694" rx="72" fill="url(#body)"/>
+    <rect x="34" y="19" width="292" height="682" rx="67" fill="url(#inner)"/>
+    <rect x="36" y="21" width="288" height="678" rx="65" stroke="url(#edgeLight)" stroke-width="2"/>
+    <path d="M48 102C58 58 82 34 124 27" stroke="white" stroke-opacity="0.28" stroke-width="3" stroke-linecap="round"/>
+    <path d="M306 595C300 647 282 677 242 693" stroke="#9FCAEE" stroke-opacity="0.17" stroke-width="3" stroke-linecap="round"/>
+    <path d="M31 161H25C21.7 161 19 163.7 19 167V232C19 235.3 21.7 238 25 238H31" fill="#4D5965"/>
+    <path d="M329 196H335C338.3 196 341 198.7 341 202V282C341 285.3 338.3 288 335 288H329" fill="#303B45"/>
+    <path d="M31 268H25C21.7 268 19 270.7 19 274V334C19 337.3 21.7 340 25 340H31" fill="#4D5965"/>
+    <g filter="url(#cameraShadow)">
+      <rect x="54" y="58" width="174" height="176" rx="44" fill="url(#cameraPlate)"/>
+      <rect x="58" y="62" width="166" height="168" rx="40" stroke="white" stroke-opacity="0.18"/>
+      <g transform="translate(68 70)"><circle cx="47" cy="47" r="42" fill="#18222C" stroke="#9EA8B2" stroke-width="5"/><circle cx="47" cy="47" r="34" fill="url(#lens)" stroke="#02060A" stroke-width="5"/><circle cx="38" cy="35" r="7" fill="white" fill-opacity="0.42"/><circle cx="49" cy="50" r="15" stroke="#598CC8" stroke-opacity="0.17" stroke-width="2"/></g>
+      <g transform="translate(133 126)"><circle cx="47" cy="47" r="42" fill="#18222C" stroke="#9EA8B2" stroke-width="5"/><circle cx="47" cy="47" r="34" fill="url(#lens)" stroke="#02060A" stroke-width="5"/><circle cx="37" cy="35" r="7" fill="white" fill-opacity="0.4"/><circle cx="49" cy="50" r="15" stroke="#598CC8" stroke-opacity="0.17" stroke-width="2"/></g>
+      <g transform="translate(68 142)"><circle cx="40" cy="40" r="35" fill="#18222C" stroke="#9EA8B2" stroke-width="5"/><circle cx="40" cy="40" r="28" fill="url(#lens)" stroke="#02060A" stroke-width="5"/><circle cx="32" cy="30" r="6" fill="white" fill-opacity="0.39"/></g>
+      <circle cx="188" cy="92" r="15" fill="#F2E9CD" stroke="#D6D0BE" stroke-width="3"/>
+      <circle cx="190" cy="219" r="12" fill="#101820" stroke="#71808D" stroke-width="3"/><circle cx="190" cy="219" r="4" fill="#45627C"/>
+    </g>
+    <ellipse cx="180" cy="398" rx="57" ry="56" fill="#0A121A" fill-opacity="0.12"/>
+    <path d="M180 363C160 363 144 379 144 399C144 419 160 435 180 435C200 435 216 419 216 399C216 379 200 363 180 363ZM180 374C194 374 205 385 205 399C205 413 194 424 180 424C166 424 155 413 155 399C155 385 166 374 180 374Z" fill="#86929D" fill-opacity="0.22"/>
+    <path d="M61 61C84 38 110 28 149 24" stroke="white" stroke-opacity="0.16" stroke-width="9" stroke-linecap="round"/>
+    <path d="M307 574C297 626 278 666 236 689" stroke="white" stroke-opacity="0.08" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>

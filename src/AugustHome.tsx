@@ -53,9 +53,10 @@ type AugustCopy = {
     repair: string;
     call: string;
     visualLabel: string;
-    visualRepair: string;
-    visualDiagnostic: string;
-    visualSupport: string;
+    visualFeatured: string;
+    visualAction: string;
+    visualHint: string;
+    visualLocal: string;
     visualOffers: [string, string, string];
   };
   trust: [string, string, string, string];
@@ -138,13 +139,14 @@ const augustCopy: Record<LanguageKey, AugustCopy> = {
       offers: 'View Ultra Mobile Offers',
       repair: 'Book a Repair',
       call: 'Call: 773-413-7489',
-      visualLabel: 'Local wireless and repair help',
-      visualRepair: 'Professional phone repair',
-      visualDiagnostic: 'Clear diagnostics',
-      visualSupport: 'In-store support',
-      visualOffers: ['$25/mo Unlimited', '4 lines for $100', 'Every 4th month free']
+      visualLabel: 'Interactive Ultra Mobile offer preview on premium smartphones',
+      visualFeatured: 'Featured August offer',
+      visualAction: 'View offer details',
+      visualHint: 'Choose an offer to preview',
+      visualLocal: 'Local setup and support',
+      visualOffers: ['4 lines for $100', 'Every 4th month free', '$25/mo Unlimited']
     },
-    trust: ['Free Ultra Mobile activation', 'Help transferring your number', 'Service in English and Polish', 'Local in-store support'],
+    trust: ['Free Ultra Mobile activation', 'Help transferring your number', 'Lifetime warranty available on select repairs', 'Local in-store support'],
     offers: {
       eyebrow: 'AUGUST SAVINGS',
       title: 'August Ultra Mobile Offers',
@@ -272,13 +274,14 @@ const augustCopy: Record<LanguageKey, AugustCopy> = {
       offers: 'Sprawdź promocje Ultra Mobile',
       repair: 'Umów naprawę',
       call: 'Zadzwoń: 773-413-7489',
-      visualLabel: 'Lokalna pomoc z usługą i naprawą',
-      visualRepair: 'Profesjonalna naprawa telefonu',
-      visualDiagnostic: 'Jasna diagnostyka',
-      visualSupport: 'Pomoc na miejscu',
-      visualOffers: ['$25/mies. Unlimited', '4 linie za $100', 'Co 4. miesiąc gratis']
+      visualLabel: 'Interaktywny podgląd ofert Ultra Mobile na nowoczesnych smartfonach',
+      visualFeatured: 'Wyróżniona oferta sierpniowa',
+      visualAction: 'Zobacz szczegóły oferty',
+      visualHint: 'Wybierz ofertę, aby zobaczyć podgląd',
+      visualLocal: 'Lokalna konfiguracja i pomoc',
+      visualOffers: ['4 linie za $100', 'Co 4. miesiąc gratis', '$25/mies. Unlimited']
     },
-    trust: ['Darmowa aktywacja Ultra Mobile', 'Pomoc przy przeniesieniu numeru', 'Obsługa po polsku i po angielsku', 'Lokalna pomoc w sklepie'],
+    trust: ['Darmowa aktywacja Ultra Mobile', 'Pomoc przy przeniesieniu numeru', 'Dożywotnia gwarancja przy wybranych naprawach', 'Lokalna pomoc w sklepie'],
     offers: {
       eyebrow: 'SIERPNIOWE OSZCZĘDNOŚCI',
       title: 'Sierpniowe oferty Ultra Mobile',
@@ -406,13 +409,14 @@ const augustCopy: Record<LanguageKey, AugustCopy> = {
       offers: 'Ver ofertas de Ultra Mobile',
       repair: 'Solicitar reparación',
       call: 'Llamar: 773-413-7489',
-      visualLabel: 'Ayuda local con servicio y reparación',
-      visualRepair: 'Reparación profesional',
-      visualDiagnostic: 'Diagnóstico claro',
-      visualSupport: 'Soporte en la tienda',
-      visualOffers: ['$25/mes Unlimited', '4 líneas por $100', 'Cada 4.º mes gratis']
+      visualLabel: 'Vista interactiva de ofertas de Ultra Mobile en teléfonos premium',
+      visualFeatured: 'Oferta destacada de agosto',
+      visualAction: 'Ver detalles de la oferta',
+      visualHint: 'Elige una oferta para verla',
+      visualLocal: 'Configuración y ayuda local',
+      visualOffers: ['4 líneas por $100', 'Cada 4.º mes gratis', '$25/mes Unlimited']
     },
-    trust: ['Activación gratis de Ultra Mobile', 'Ayuda para transferir tu número', 'Atención en inglés y polaco', 'Soporte local en la tienda'],
+    trust: ['Activación gratis de Ultra Mobile', 'Ayuda para transferir tu número', 'Garantía de por vida en reparaciones seleccionadas', 'Soporte local en la tienda'],
     offers: {
       eyebrow: 'AHORROS DE AGOSTO',
       title: 'Ofertas de Ultra Mobile para agosto',
@@ -540,13 +544,14 @@ const augustCopy: Record<LanguageKey, AugustCopy> = {
       offers: 'Переглянути пропозиції Ultra Mobile',
       repair: 'Подати заявку на ремонт',
       call: 'Зателефонувати: 773-413-7489',
-      visualLabel: 'Місцева допомога зі зв’язком і ремонтом',
-      visualRepair: 'Професійний ремонт телефону',
-      visualDiagnostic: 'Зрозуміла діагностика',
-      visualSupport: 'Допомога в магазині',
-      visualOffers: ['$25/міс. Unlimited', '4 лінії за $100', 'Кожен 4-й місяць безкоштовно']
+      visualLabel: 'Інтерактивний перегляд пропозицій Ultra Mobile на преміальних смартфонах',
+      visualFeatured: 'Головна пропозиція серпня',
+      visualAction: 'Переглянути деталі',
+      visualHint: 'Оберіть пропозицію для перегляду',
+      visualLocal: 'Місцеве налаштування та підтримка',
+      visualOffers: ['4 лінії за $100', 'Кожен 4-й місяць безкоштовно', '$25/міс. Unlimited']
     },
-    trust: ['Безкоштовна активація Ultra Mobile', 'Допомога з перенесенням номера', 'Обслуговування англійською та польською', 'Місцева підтримка в магазині'],
+    trust: ['Безкоштовна активація Ultra Mobile', 'Допомога з перенесенням номера', 'Довічна гарантія на окремі ремонти', 'Місцева підтримка в магазині'],
     offers: {
       eyebrow: 'СЕРПНЕВІ ЗАОЩАДЖЕННЯ',
       title: 'Серпневі пропозиції Ultra Mobile',
@@ -740,6 +745,25 @@ export function AugustHome({
 }) {
   const copy = augustCopy[lang] || augustCopy.en;
   const directionsUrl = 'https://maps.google.com/?q=3412+N+Harlem+Ave+STE+A+Chicago+IL+60634';
+  const [activeHeroOffer, setActiveHeroOffer] = useState(2);
+
+  const handleHeroPointerMove = (event: any) => {
+    if (event.pointerType === 'touch') return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const horizontal = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const vertical = (event.clientY - bounds.top) / bounds.height - 0.5;
+    event.currentTarget.style.setProperty('--hero-rotate-y', `${horizontal * 9}deg`);
+    event.currentTarget.style.setProperty('--hero-rotate-x', `${vertical * -7}deg`);
+    event.currentTarget.style.setProperty('--hero-light-x', `${50 + horizontal * 28}%`);
+    event.currentTarget.style.setProperty('--hero-light-y', `${42 + vertical * 22}%`);
+  };
+
+  const resetHeroPointer = (event: any) => {
+    event.currentTarget.style.setProperty('--hero-rotate-y', '0deg');
+    event.currentTarget.style.setProperty('--hero-rotate-x', '0deg');
+    event.currentTarget.style.setProperty('--hero-light-x', '50%');
+    event.currentTarget.style.setProperty('--hero-light-y', '42%');
+  };
 
   const scrollToOffers = () => {
     trackHomepageAction('homepage_august_ultra_inquiry_click');
@@ -776,26 +800,31 @@ export function AugustHome({
           </div>
 
           <div className="augustHeroVisual" aria-label={copy.hero.visualLabel}>
-            <div className="augustVisualOrb" aria-hidden="true" />
-            <div className="augustPhoneStage" aria-hidden="true">
-              <img src="/august-ultra-phone.png" alt="" />
-              <div className="augustPhoneReflection" />
-            </div>
-            <div className="augustSimCard" aria-hidden="true">
-              <span>ultra</span>
-              <small>mobile</small>
-              <i />
-            </div>
-            <div className="augustRepairGlassCard augustRepairCard" aria-hidden="true">
-              <span><Wrench size={20} /></span>
-              <div><strong>{copy.hero.visualRepair}</strong><small>Cellz Repairz</small></div>
-            </div>
-            <div className="augustRepairGlassCard augustDiagnosticCard" aria-hidden="true">
-              <span><CircleHelp size={20} /></span>
-              <div><strong>{copy.hero.visualDiagnostic}</strong><small>{copy.hero.visualSupport}</small></div>
-            </div>
-            <div className="augustOfferChips" aria-hidden="true">
-              {copy.hero.visualOffers.map((offer) => <span key={offer}>{offer}</span>)}
+            <div className="augustDeviceShowcase" onPointerMove={handleHeroPointerMove} onPointerLeave={resetHeroPointer}>
+              <div className="augustShowcaseAura" aria-hidden="true" />
+              <div className="augustShowcaseGrid" aria-hidden="true" />
+              <div className="augustShowcaseStatus" aria-hidden="true"><span />{copy.hero.visualLocal}</div>
+              <div className="augustDeviceCluster" aria-hidden="true">
+                <img className="augustBackPhone" src="/premium-phone-back.svg" alt="" />
+                <div className="augustFrontPhone">
+                  <img src="/august-ultra-phone.png" alt="" />
+                  <div className="augustPhoneShine" />
+                  <div className="augustPhoneOfferPreview" key={`${lang}-${activeHeroOffer}`}>
+                    <span>{copy.hero.visualFeatured}</span>
+                    <strong>{copy.hero.visualOffers[activeHeroOffer]}</strong>
+                    <span className="augustPreviewAction">{copy.hero.visualAction} <ArrowRight size={14} /></span>
+                  </div>
+                </div>
+              </div>
+              <div className="augustStageShadow" aria-hidden="true" />
+              <div className="augustHeroOfferSelector" role="tablist" aria-label={copy.hero.visualHint}>
+                {copy.hero.visualOffers.map((offer, index) => (
+                  <button key={offer} type="button" role="tab" aria-selected={activeHeroOffer === index} className={activeHeroOffer === index ? 'active' : ''} onClick={() => setActiveHeroOffer(index)}>
+                    <span>{String(index + 1).padStart(2, '0')}</span><strong>{offer}</strong>
+                  </button>
+                ))}
+              </div>
+              <p className="augustHeroVisualHint">{copy.hero.visualHint}</p>
             </div>
           </div>
         </div>
@@ -803,7 +832,7 @@ export function AugustHome({
 
       <section className="augustTrustStrip">
         <div className="wrap augustTrustGrid">
-          {[Wifi, Users, Globe2, Store].map((Icon, index) => (
+          {[Wifi, Users, ShieldCheck, Store].map((Icon, index) => (
             <div key={copy.trust[index]}><Icon size={21} /><span>{copy.trust[index]}</span></div>
           ))}
         </div>

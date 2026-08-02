@@ -33,7 +33,7 @@
 
 .augustHero {
   position: relative;
-  min-height: 690px;
+  min-height: 720px;
   display: flex;
   align-items: center;
   color: #fff;
@@ -95,10 +95,10 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1.03fr) minmax(420px, .97fr);
-  gap: 72px;
+  grid-template-columns: minmax(0, 1.08fr) minmax(500px, .92fr);
+  gap: 46px;
   align-items: center;
-  padding: 76px 0 82px;
+  padding: 72px 0 78px;
 }
 
 .augustHeroCopy {
@@ -122,10 +122,10 @@
 }
 
 .augustHero h1 {
-  max-width: 760px;
-  font-size: clamp(48px, 5.8vw, 76px);
-  line-height: .99;
-  letter-spacing: -.062em;
+  max-width: 690px;
+  font-size: clamp(48px, 4.8vw, 68px);
+  line-height: 1.01;
+  letter-spacing: -.052em;
 }
 
 .augustHeroSupporting {
@@ -170,190 +170,265 @@
 
 .augustHeroVisual {
   position: relative;
-  min-height: 550px;
-  perspective: 1200px;
+  min-height: 590px;
+  display: grid;
+  place-items: center;
+  perspective: 1600px;
 }
 
-.augustVisualOrb {
-  position: absolute;
-  width: 430px;
-  height: 430px;
-  right: 22px;
-  top: 52px;
-  border-radius: 50%;
+.augustDeviceShowcase {
+  --hero-rotate-x: 0deg;
+  --hero-rotate-y: 0deg;
+  --hero-light-x: 50%;
+  --hero-light-y: 42%;
+  position: relative;
+  width: min(100%, 620px);
+  min-height: 570px;
+  overflow: hidden;
+  border: 1px solid rgba(197, 225, 250, .18);
+  border-radius: 42px;
   background:
-    radial-gradient(circle at 38% 28%, rgba(255, 255, 255, .30), transparent 21%),
-    radial-gradient(circle at 70% 62%, rgba(100, 43, 151, .86), transparent 49%),
-    linear-gradient(145deg, rgba(42, 150, 235, .84), rgba(30, 69, 128, .35) 54%, rgba(90, 38, 135, .72));
-  border: 1px solid rgba(205, 230, 255, .24);
-  box-shadow: 0 54px 110px rgba(0, 0, 0, .33), inset 0 1px 0 rgba(255, 255, 255, .32);
+    radial-gradient(circle at var(--hero-light-x) var(--hero-light-y), rgba(97, 186, 255, .26), transparent 28%),
+    radial-gradient(circle at 78% 31%, rgba(123, 64, 179, .42), transparent 35%),
+    linear-gradient(145deg, rgba(13, 47, 79, .94), rgba(7, 25, 45, .98) 55%, rgba(10, 34, 59, .98));
+  box-shadow: 0 42px 90px rgba(0, 7, 17, .38), inset 0 1px 0 rgba(255, 255, 255, .18), inset 0 -1px 0 rgba(255, 255, 255, .05);
+  isolation: isolate;
 }
 
-.augustVisualOrb::before,
-.augustVisualOrb::after {
+.augustDeviceShowcase::before {
+  content: '';
+  position: absolute;
+  inset: -28%;
+  z-index: -1;
+  background: conic-gradient(from 115deg at var(--hero-light-x) var(--hero-light-y), transparent, rgba(112, 203, 255, .16), transparent 34%, rgba(126, 70, 178, .14), transparent 72%);
+  filter: blur(24px);
+  opacity: .9;
+  pointer-events: none;
+}
+
+.augustDeviceShowcase::after {
+  content: '';
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139, 211, 255, .72), transparent);
+  pointer-events: none;
+}
+
+.augustShowcaseAura {
+  position: absolute;
+  width: 390px;
+  height: 390px;
+  left: 50%;
+  top: 38%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(255, 255, 255, .24), transparent 18%), radial-gradient(circle at 50% 50%, rgba(46, 156, 226, .47), rgba(81, 45, 139, .31) 48%, transparent 72%);
+  border: 1px solid rgba(205, 232, 255, .13);
+  box-shadow: 0 0 80px rgba(42, 151, 226, .17), inset 0 0 60px rgba(255, 255, 255, .05);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.augustShowcaseAura::before,
+.augustShowcaseAura::after {
   content: '';
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(205, 230, 255, .16);
+  border: 1px solid rgba(207, 233, 255, .13);
 }
+.augustShowcaseAura::before { inset: 34px; }
+.augustShowcaseAura::after { inset: 76px; border-style: dashed; opacity: .72; }
 
-.augustVisualOrb::before { inset: 29px; }
-.augustVisualOrb::after { inset: 68px; border-style: dashed; }
-
-.augustPhoneStage {
+.augustShowcaseGrid {
   position: absolute;
-  width: 270px;
-  height: 510px;
-  right: 102px;
-  top: 8px;
-  transform: rotate(4deg) translateZ(30px);
-  filter: drop-shadow(0 35px 36px rgba(0, 0, 0, .38));
-  z-index: 3;
+  inset: 0;
+  z-index: -1;
+  opacity: .18;
+  background-image: linear-gradient(rgba(142, 211, 255, .12) 1px, transparent 1px), linear-gradient(90deg, rgba(142, 211, 255, .12) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(circle at 58% 42%, #000 0%, transparent 72%);
+  pointer-events: none;
 }
 
-.augustPhoneStage img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-.augustPhoneReflection {
+.augustShowcaseStatus {
   position: absolute;
-  left: 54px;
-  top: 28px;
-  width: 42px;
-  height: 360px;
-  border-radius: 50%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, .28), rgba(255, 255, 255, 0));
-  filter: blur(8px);
-  transform: rotate(8deg);
-  opacity: .46;
-}
-
-.augustSimCard {
-  position: absolute;
-  width: 158px;
-  height: 104px;
-  right: 18px;
-  top: 62px;
-  z-index: 5;
-  padding: 18px 18px;
-  color: #4f247d;
-  background: linear-gradient(145deg, #fff, #e9ddf7);
-  border: 1px solid rgba(255, 255, 255, .75);
-  border-radius: 22px;
-  box-shadow: 0 24px 45px rgba(1, 8, 19, .28);
-  transform: rotate(9deg);
-}
-
-.augustSimCard span {
-  display: block;
-  font-family: Sora, Inter, sans-serif;
-  font-size: 30px;
-  line-height: .92;
-  font-weight: 900;
-  letter-spacing: -.07em;
-}
-
-.augustSimCard small {
-  display: block;
-  margin-top: 2px;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: .12em;
-}
-
-.augustSimCard i {
-  position: absolute;
-  right: 16px;
-  bottom: 13px;
-  width: 34px;
-  height: 26px;
-  border: 2px solid #f47a2b;
-  border-radius: 8px;
-  background: linear-gradient(90deg, transparent 42%, #f47a2b 43%, #f47a2b 51%, transparent 52%);
-}
-
-.augustRepairGlassCard {
-  position: absolute;
-  z-index: 6;
-  display: grid;
-  grid-template-columns: 42px 1fr;
-  align-items: center;
-  gap: 11px;
-  min-width: 220px;
-  padding: 13px 15px;
-  border: 1px solid rgba(255, 255, 255, .25);
-  border-radius: 18px;
-  background: rgba(7, 24, 45, .70);
-  color: #fff;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, .28);
-  backdrop-filter: blur(15px);
-}
-
-.augustRepairGlassCard > span {
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  background: rgba(244, 122, 43, .18);
-  color: #ff9b5b;
-}
-
-.augustRepairGlassCard strong,
-.augustRepairGlassCard small {
-  display: block;
-}
-
-.augustRepairGlassCard strong {
-  font-size: 13px;
-  line-height: 1.3;
-}
-
-.augustRepairGlassCard small {
-  margin-top: 4px;
-  color: #a8c4df;
-  font-size: 11px;
-}
-
-.augustRepairCard {
-  left: 2px;
-  top: 122px;
-  transform: rotate(-4deg);
-}
-
-.augustDiagnosticCard {
-  right: 4px;
-  bottom: 96px;
-  transform: rotate(3deg);
-}
-
-.augustOfferChips {
-  position: absolute;
-  left: 16px;
-  bottom: 48px;
   z-index: 8;
-  display: grid;
-  gap: 8px;
-}
-
-.augustOfferChips span {
-  width: fit-content;
-  padding: 8px 11px;
-  border: 1px solid rgba(255, 255, 255, .22);
+  left: 24px;
+  top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  max-width: 230px;
+  padding: 10px 13px;
+  border: 1px solid rgba(210, 235, 255, .17);
   border-radius: 999px;
-  color: #edf7ff;
-  background: rgba(15, 56, 92, .76);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, .20);
+  color: #dceeff;
+  background: rgba(5, 20, 37, .58);
+  box-shadow: 0 14px 30px rgba(0, 8, 18, .16);
   font-size: 11px;
   font-weight: 850;
-  backdrop-filter: blur(12px);
+  letter-spacing: .02em;
+  backdrop-filter: blur(16px);
 }
 
-.augustOfferChips span:nth-child(2) { margin-left: 20px; }
-.augustOfferChips span:nth-child(3) { margin-left: 6px; }
+.augustShowcaseStatus span {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #4ee18a;
+  box-shadow: 0 0 0 5px rgba(78, 225, 138, .12), 0 0 16px rgba(78, 225, 138, .54);
+}
+
+.augustDeviceCluster {
+  position: absolute;
+  inset: 28px 18px 112px;
+  z-index: 4;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--hero-rotate-x)) rotateY(var(--hero-rotate-y));
+  transition: transform .22s cubic-bezier(.2, .75, .25, 1);
+  will-change: transform;
+}
+
+.augustBackPhone {
+  position: absolute;
+  width: 248px;
+  height: auto;
+  left: 86px;
+  top: 86px;
+  z-index: 1;
+  transform: translateZ(-44px) rotate(-12deg) scale(.93);
+  transform-origin: center;
+  filter: drop-shadow(0 32px 34px rgba(0, 0, 0, .35));
+  animation: augustBackPhoneFloat 8.5s ease-in-out infinite;
+}
+
+.augustFrontPhone {
+  position: absolute;
+  width: 254px;
+  height: 490px;
+  right: 75px;
+  top: 12px;
+  z-index: 3;
+  transform: translateZ(70px) rotate(4deg);
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 42px 39px rgba(0, 0, 0, .42));
+  animation: augustFrontPhoneFloat 7s ease-in-out infinite;
+}
+
+.augustFrontPhone > img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+.augustPhoneShine {
+  position: absolute;
+  z-index: 3;
+  width: 44px;
+  height: 330px;
+  left: 47px;
+  top: 48px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, .34), rgba(255, 255, 255, 0));
+  filter: blur(8px);
+  opacity: .52;
+  transform: rotate(8deg) translateZ(4px);
+  pointer-events: none;
+}
+
+.augustPhoneOfferPreview {
+  position: absolute;
+  z-index: 5;
+  left: 31px;
+  right: 22px;
+  bottom: 47px;
+  display: grid;
+  gap: 5px;
+  padding: 14px 15px 13px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 18px;
+  color: #fff;
+  background: linear-gradient(145deg, rgba(7, 20, 39, .78), rgba(28, 19, 62, .64));
+  box-shadow: 0 18px 35px rgba(0, 0, 0, .27), inset 0 1px 0 rgba(255, 255, 255, .13);
+  backdrop-filter: blur(16px);
+  transform: translateZ(16px);
+  animation: augustOfferReveal .42s cubic-bezier(.2, .8, .2, 1);
+}
+
+.augustPhoneOfferPreview > span:first-child {
+  color: #9fdfff;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.augustPhoneOfferPreview strong { max-width: 170px; font-size: 15px; line-height: 1.2; letter-spacing: -.025em; }
+.augustPhoneOfferPreview .augustPreviewAction { display: inline-flex; align-items: center; gap: 5px; margin-top: 2px; color: #ffd1af; font-size: 9px; font-weight: 850; }
+
+.augustStageShadow {
+  position: absolute;
+  z-index: 2;
+  width: 370px;
+  height: 58px;
+  left: 50%;
+  bottom: 112px;
+  border-radius: 50%;
+  background: rgba(0, 5, 13, .72);
+  filter: blur(22px);
+  transform: translateX(-50%) rotate(-3deg);
+  opacity: .72;
+  pointer-events: none;
+}
+
+.augustHeroOfferSelector {
+  position: absolute;
+  z-index: 10;
+  left: 22px;
+  right: 22px;
+  bottom: 21px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  padding: 7px;
+  border: 1px solid rgba(207, 233, 255, .17);
+  border-radius: 22px;
+  background: rgba(4, 18, 34, .72);
+  box-shadow: 0 18px 45px rgba(0, 6, 15, .3), inset 0 1px 0 rgba(255, 255, 255, .08);
+  backdrop-filter: blur(18px);
+}
+
+.augustHeroOfferSelector button {
+  min-width: 0;
+  min-height: 63px;
+  display: grid;
+  grid-template-columns: 23px minmax(0, 1fr);
+  align-items: center;
+  gap: 7px;
+  padding: 9px;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  color: #a9c4dc;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.augustHeroOfferSelector button:hover { color: #fff; background: rgba(255, 255, 255, .06); }
+.augustHeroOfferSelector button.active { color: #132842; border-color: rgba(255, 255, 255, .72); background: linear-gradient(145deg, #fff, #e9f4fc); box-shadow: 0 10px 24px rgba(0, 8, 18, .24), inset 0 1px 0 #fff; }
+.augustHeroOfferSelector button > span { display: grid; place-items: center; width: 23px; height: 23px; border-radius: 8px; color: #8fcbed; background: rgba(80, 164, 219, .12); font-size: 9px; font-weight: 900; }
+.augustHeroOfferSelector button.active > span { color: #fff; background: linear-gradient(145deg, #6a36a0, #8551b4); box-shadow: 0 6px 14px rgba(95, 45, 142, .25); }
+.augustHeroOfferSelector strong { min-width: 0; font-size: 10px; line-height: 1.25; letter-spacing: -.01em; }
+
+.augustHeroVisualHint { position: absolute; z-index: 8; right: 25px; top: 27px; max-width: 180px; margin: 0; color: #86a7c2; font-size: 9px; font-weight: 750; text-align: right; }
+
+@keyframes augustFrontPhoneFloat { 0%, 100% { transform: translateZ(70px) translateY(0) rotate(4deg); } 50% { transform: translateZ(70px) translateY(-8px) rotate(3.2deg); } }
+@keyframes augustBackPhoneFloat { 0%, 100% { transform: translateZ(-44px) translateY(0) rotate(-12deg) scale(.93); } 50% { transform: translateZ(-44px) translateY(6px) rotate(-11.2deg) scale(.93); } }
+@keyframes augustOfferReveal { from { opacity: 0; transform: translateY(8px) translateZ(16px); } to { opacity: 1; transform: translateY(0) translateZ(16px); } }
 
 .augustTrustStrip {
   position: relative;
@@ -1145,7 +1220,10 @@
     gap: 40px;
   }
 
-  .augustHeroVisual { transform: scale(.92); transform-origin: center right; }
+  .augustHeroVisual { min-height: 550px; }
+  .augustDeviceShowcase { min-height: 540px; }
+  .augustBackPhone { left: 62px; }
+  .augustFrontPhone { right: 54px; }
   .augustOfferGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .augustOfferCard-3 { grid-column: 1 / -1; min-height: 500px; }
   .augustRepairGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1162,7 +1240,8 @@
   .augustHero { min-height: auto; }
   .augustHeroGrid { grid-template-columns: 1fr; padding: 64px 0 70px; }
   .augustHeroCopy { max-width: 760px; }
-  .augustHeroVisual { width: min(100%, 560px); min-height: 520px; margin: 0 auto; transform: none; }
+  .augustHeroVisual { width: min(100%, 620px); min-height: 570px; margin: 0 auto; }
+  .augustDeviceShowcase { min-height: 560px; }
   .augustTrustGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .augustTrustGrid > div:nth-child(2) { border-right: 0; }
   .augustTrustGrid > div:nth-child(-n+2) { border-bottom: 1px solid #e4edf5; }
@@ -1191,46 +1270,23 @@
   .augustHeroActions .primaryBtn,
   .augustHeroActions .secondaryBtn { width: 100%; }
 
-  .augustHeroVisual {
-    min-height: 430px;
-    width: 100%;
-  }
-
-  .augustVisualOrb {
-    width: 330px;
-    height: 330px;
-    right: 50%;
-    top: 50px;
-    transform: translateX(50%);
-  }
-
-  .augustPhoneStage {
-    width: 208px;
-    height: 398px;
-    right: 50%;
-    top: 6px;
-    transform: translateX(50%) rotate(3deg);
-  }
-
-  .augustSimCard {
-    width: 125px;
-    height: 82px;
-    right: 8px;
-    top: 48px;
-    padding: 14px;
-  }
-
-  .augustSimCard span { font-size: 24px; }
-  .augustSimCard small { font-size: 9px; }
-  .augustSimCard i { width: 27px; height: 20px; }
-  .augustRepairGlassCard { min-width: 176px; grid-template-columns: 36px 1fr; padding: 10px 11px; }
-  .augustRepairGlassCard > span { width: 36px; height: 36px; }
-  .augustRepairGlassCard strong { font-size: 11px; }
-  .augustRepairGlassCard small { font-size: 9px; }
-  .augustRepairCard { left: 0; top: 114px; }
-  .augustDiagnosticCard { right: 0; bottom: 58px; }
-  .augustOfferChips { left: 0; bottom: 30px; }
-  .augustOfferChips span { font-size: 9px; }
+  .augustHeroVisual { min-height: 520px; width: 100%; }
+  .augustDeviceShowcase { min-height: 500px; border-radius: 30px; }
+  .augustShowcaseStatus { left: 15px; top: 15px; max-width: 190px; padding: 8px 10px; font-size: 9px; }
+  .augustHeroVisualHint { display: none; }
+  .augustShowcaseAura { width: 310px; height: 310px; top: 39%; }
+  .augustDeviceCluster { inset: 34px 6px 105px; }
+  .augustBackPhone { width: 190px; left: calc(50% - 142px); top: 86px; }
+  .augustFrontPhone { width: 202px; height: 390px; right: calc(50% - 144px); top: 28px; }
+  .augustPhoneOfferPreview { left: 25px; right: 17px; bottom: 38px; padding: 11px 12px; border-radius: 15px; }
+  .augustPhoneOfferPreview strong { font-size: 12px; }
+  .augustPhoneOfferPreview > span:first-child { font-size: 6.5px; }
+  .augustPhoneOfferPreview .augustPreviewAction { font-size: 7px; }
+  .augustStageShadow { width: 270px; bottom: 100px; }
+  .augustHeroOfferSelector { left: 12px; right: 12px; bottom: 12px; gap: 4px; padding: 5px; border-radius: 17px; }
+  .augustHeroOfferSelector button { min-height: 68px; grid-template-columns: 1fr; align-content: center; gap: 5px; padding: 7px 5px; text-align: center; }
+  .augustHeroOfferSelector button > span { width: 20px; height: 20px; margin: 0 auto; }
+  .augustHeroOfferSelector strong { font-size: 8.5px; line-height: 1.2; }
 
   .augustTrustGrid > div { min-height: 74px; padding: 13px 10px; font-size: 11px; line-height: 1.4; }
   .augustSection { padding: 68px 0; }
@@ -1320,19 +1376,22 @@
 }
 
 @media (max-width: 430px) {
-  .augustHeroVisual { min-height: 402px; }
-  .augustVisualOrb { width: 298px; height: 298px; }
-  .augustPhoneStage { width: 190px; height: 365px; }
-  .augustSimCard { right: -4px; }
-  .augustRepairGlassCard { min-width: 158px; }
-  .augustRepairCard { left: -5px; }
-  .augustDiagnosticCard { right: -5px; }
-  .augustOfferChips span:nth-child(2) { margin-left: 8px; }
+  .augustHeroVisual { min-height: 500px; }
+  .augustDeviceShowcase { min-height: 486px; }
+  .augustShowcaseAura { width: 282px; height: 282px; }
+  .augustBackPhone { width: 174px; left: calc(50% - 132px); top: 91px; }
+  .augustFrontPhone { width: 188px; height: 365px; right: calc(50% - 134px); top: 36px; }
+  .augustPhoneOfferPreview { left: 23px; right: 16px; bottom: 36px; }
+  .augustStageShadow { width: 245px; }
+  .augustHeroOfferSelector strong { font-size: 8px; }
   .augustRepairGrid { grid-template-columns: 1fr; }
   .augustRepairService { min-height: 112px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .augustDeviceCluster { transform: none !important; }
+  .augustFrontPhone,
+  .augustBackPhone { animation: none !important; }
   .augustHome *,
   .augustHome *::before,
   .augustHome *::after {
