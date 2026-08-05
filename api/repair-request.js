@@ -1196,7 +1196,7 @@ function buildSupabaseRecord(body, status, repairDeskCustomerResult, repairDeskL
     issue: body.issue,
     customer_name: body.name,
     customer_phone: body.phone,
-    ...(shouldSendCustomerEmailToRepairDesk() ? { customer_email: body.email } : {}),
+    customer_email: body.email,
     requested_date: body.requestedDate,
     requested_time: preferredTimeText(body),
     notes: body.notes,

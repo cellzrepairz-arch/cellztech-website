@@ -12493,3 +12493,342 @@ canvas {
     font-size: 13px;
   }
 }
+
+/* Admin dashboard live-sync and traffic intelligence expansion */
+.adminSyncStrip {
+  display: flex;
+  align-items: center;
+  gap: 10px 18px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 255, 255, .13);
+  border-radius: 16px;
+  background: rgba(3, 15, 30, .34);
+  backdrop-filter: blur(12px);
+  color: rgba(255, 255, 255, .76);
+  font-size: .78rem;
+  font-weight: 800;
+}
+.adminSyncStrip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.adminSyncStrip i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, .14);
+}
+.adminSyncStrip .healthy i {
+  background: #34d399;
+  box-shadow: 0 0 0 4px rgba(52, 211, 153, .14);
+}
+.expandedAdminMetrics {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.expandedAdminMetrics article {
+  min-height: 146px;
+}
+.expandedAdminMetrics strong {
+  font-size: clamp(2rem, 3vw, 2.65rem);
+}
+.metricPositive {
+  color: #047857 !important;
+  -webkit-text-fill-color: #047857 !important;
+}
+.metricNegative {
+  color: #b91c1c !important;
+  -webkit-text-fill-color: #b91c1c !important;
+}
+.adminAnalyticsSection {
+  display: grid;
+  gap: 16px;
+  margin: 2px 0 18px;
+}
+.adminAnalyticsHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 8px 2px 2px;
+}
+.adminAnalyticsHeading > div:first-child {
+  max-width: 790px;
+}
+.adminAnalyticsHeading span {
+  display: block;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  font-size: .73rem;
+  font-weight: 950;
+}
+.adminAnalyticsHeading h2 {
+  margin: 5px 0 7px;
+  color: #07172b;
+  font-size: clamp(1.55rem, 2.5vw, 2.25rem);
+  letter-spacing: -.045em;
+}
+.adminAnalyticsHeading p {
+  margin: 0;
+  color: #64748b;
+  font-weight: 700;
+  line-height: 1.55;
+}
+.adminRangePicker {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid #d9e8fb;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, .05);
+}
+.adminRangePicker button {
+  min-height: 38px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #55708f;
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+.adminRangePicker button.active {
+  background: #0f5fe8;
+  color: #fff;
+  box-shadow: 0 7px 16px rgba(37, 99, 235, .2);
+}
+.adminAnalyticsPrimary {
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, .75fr);
+}
+.adminTrafficCard {
+  min-height: 360px;
+}
+.adminLineChartWrap {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.adminLineChart {
+  display: block;
+  width: 100%;
+  min-width: 590px;
+  height: auto;
+}
+.adminChartGridLine {
+  stroke: #dbe8f6;
+  stroke-width: 1;
+  stroke-dasharray: 4 6;
+}
+.adminChartAxisLabel,
+.adminChartDateLabel {
+  fill: #71849a;
+  font-size: 11px;
+  font-weight: 800;
+}
+.adminChartPoint {
+  fill: #fff;
+  stroke: #2563eb;
+  stroke-width: 3;
+}
+.adminTrafficHighlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+.adminTrafficHighlights div {
+  padding: 12px 14px;
+  border: 1px solid #e0ebf8;
+  border-radius: 15px;
+  background: #f8fbff;
+}
+.adminTrafficHighlights span,
+.adminConversionGrid span {
+  display: block;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .66rem;
+  font-weight: 950;
+}
+.adminTrafficHighlights strong {
+  display: block;
+  margin-top: 5px;
+  color: #07172b;
+  font-size: 1.15rem;
+}
+.adminTrafficHighlights small {
+  display: block;
+  margin-top: 3px;
+  color: #64748b;
+  font-weight: 750;
+}
+.adminInsightGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.compactInsightCard {
+  min-height: 255px;
+}
+.adminBreakdownBars {
+  display: grid;
+  gap: 12px;
+}
+.adminBreakdownRow {
+  display: grid;
+  gap: 6px;
+}
+.adminBreakdownRow > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+}
+.adminBreakdownRow strong {
+  color: #0f172a;
+  font-size: .86rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.adminBreakdownRow div span {
+  color: #526b88;
+  font-size: .76rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+.adminBreakdownRow i {
+  display: block;
+  height: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #eaf2fc;
+}
+.adminBreakdownRow i span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0891b2 0%, #2563eb 58%, #6d28d9 100%);
+}
+.adminBehaviorGrid {
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+}
+.adminTimeCharts {
+  display: grid;
+  grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr);
+  gap: 22px;
+}
+.adminTimeCharts h3,
+.adminActionList h3 {
+  margin: 0 0 12px;
+  color: #233750;
+  font-size: .86rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+.adminTimeCharts > div:last-child .adminBreakdownBars {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 16px;
+}
+.adminConversionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.adminConversionGrid article {
+  padding: 14px;
+  border: 1px solid #dce9f7;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #f8fbff 0%, #f3f7ff 100%);
+}
+.adminConversionGrid strong {
+  display: block;
+  margin-top: 7px;
+  color: #0f5fe8;
+  font-size: 1.75rem;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+.adminConversionGrid small {
+  display: block;
+  margin-top: 8px;
+  color: #60748c;
+  font-weight: 750;
+  line-height: 1.4;
+}
+.adminActionList {
+  margin-top: 18px;
+  padding-top: 17px;
+  border-top: 1px solid #e5eef9;
+}
+.adminRecentTrafficCard {
+  min-height: auto;
+}
+.adminRecentTrafficTable {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid #e0eaf6;
+  border-radius: 17px;
+}
+.adminRecentTrafficHead,
+.adminRecentTrafficRow {
+  display: grid;
+  grid-template-columns: 155px minmax(130px, .75fr) minmax(130px, 1fr) minmax(170px, 1fr) 78px;
+  gap: 12px;
+  align-items: center;
+  padding: 11px 14px;
+}
+.adminRecentTrafficHead {
+  background: #eff5fc;
+  color: #55708f;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .68rem;
+  font-weight: 950;
+}
+.adminRecentTrafficRow {
+  color: #526b88;
+  font-size: .82rem;
+  font-weight: 750;
+  border-top: 1px solid #e8eff8;
+}
+.adminRecentTrafficRow strong {
+  color: #0f172a;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.adminRecentTrafficRow:nth-child(odd) {
+  background: #fbfdff;
+}
+@media (max-width: 1280px) {
+  .expandedAdminMetrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .adminInsightGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 980px) {
+  .adminAnalyticsPrimary,
+  .adminBehaviorGrid,
+  .adminTimeCharts { grid-template-columns: 1fr; }
+  .adminRecentTrafficTable { overflow-x: auto; }
+  .adminRecentTrafficHead,
+  .adminRecentTrafficRow { min-width: 820px; }
+}
+@media (max-width: 760px) {
+  .adminSyncStrip { align-items: flex-start; flex-direction: column; }
+  .expandedAdminMetrics,
+  .adminInsightGrid,
+  .adminTrafficHighlights,
+  .adminConversionGrid { grid-template-columns: 1fr; }
+  .adminAnalyticsHeading { align-items: stretch; flex-direction: column; }
+  .adminRangePicker { align-self: flex-start; }
+  .adminTrafficCard { min-height: auto; }
+  .adminTimeCharts > div:last-child .adminBreakdownBars { grid-template-columns: 1fr; }
+}

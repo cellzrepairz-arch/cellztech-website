@@ -489,13 +489,99 @@ type AdminRepairRequest = {
   integration_errors?: unknown;
 };
 
+type AdminBreakdownItem = {
+  label: string;
+  count: number;
+  share?: number;
+};
+
 type AdminVisitStats = {
+  generatedAt?: string;
+  timeZone?: string;
   today: number;
   last7Days: number;
+  previous7Days?: number;
   last30Days: number;
-  topPages: { path: string; count: number }[];
+  previous30Days?: number;
+  trend7Days?: number;
+  trend30Days?: number;
+  estimatedSessionsToday?: number;
+  estimatedSessions7Days?: number;
+  estimatedSessions30Days?: number;
+  topPages: { path: string; count: number; share?: number }[];
   dailyVisits?: { date: string; count: number }[];
+  hourlyTraffic?: AdminBreakdownItem[];
+  weekdayTraffic?: AdminBreakdownItem[];
+  devices?: AdminBreakdownItem[];
+  browsers?: AdminBreakdownItem[];
+  languages?: AdminBreakdownItem[];
+  sources?: AdminBreakdownItem[];
+  actions?: AdminBreakdownItem[];
+  actionCount30Days?: number;
+  recent?: {
+    path: string;
+    createdAt?: string;
+    language?: string;
+    source?: string;
+    device?: string;
+    browser?: string;
+  }[];
+  conversion?: {
+    repairRequests30Days: number;
+    repairDeskLeads30Days: number;
+    bookPageViews30Days: number;
+    repairRequestRate: number;
+    simRequests30Days: number;
+    ultraRequestPageViews30Days: number;
+    simRequestRate: number;
+  };
+  latestVisitAt?: string | null;
 };
+
+type AdminDataHealth = {
+  repairBackupConnected?: boolean;
+  simBackupConnected?: boolean;
+  analyticsConnected?: boolean;
+  latestRepairRequestAt?: string | null;
+  latestSimRequestAt?: string | null;
+  latestVisitAt?: string | null;
+};
+
+function makeEmptyAdminVisitStats(): AdminVisitStats {
+  return {
+    today: 0,
+    last7Days: 0,
+    previous7Days: 0,
+    last30Days: 0,
+    previous30Days: 0,
+    trend7Days: 0,
+    trend30Days: 0,
+    estimatedSessionsToday: 0,
+    estimatedSessions7Days: 0,
+    estimatedSessions30Days: 0,
+    topPages: [],
+    dailyVisits: [],
+    hourlyTraffic: [],
+    weekdayTraffic: [],
+    devices: [],
+    browsers: [],
+    languages: [],
+    sources: [],
+    actions: [],
+    actionCount30Days: 0,
+    recent: [],
+    conversion: {
+      repairRequests30Days: 0,
+      repairDeskLeads30Days: 0,
+      bookPageViews30Days: 0,
+      repairRequestRate: 0,
+      simRequests30Days: 0,
+      ultraRequestPageViews30Days: 0,
+      simRequestRate: 0
+    },
+    latestVisitAt: null
+  };
+}
 
 type AdminSimRequest = {
   id: string;
@@ -834,50 +920,175 @@ function LabelCreatorTool() {
   );
 }
 
+function formatAdminCompactNumber(value: number) {
+  return new Intl.NumberFormat(undefined, { notation: value >= 1000 ? 'compact' : 'standard', maximumFractionDigits: 1 }).format(value || 0);
+}
+
+function formatAdminTime(value?: string | null) {
+  if (!value) return 'Not available';
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return value;
+  return parsed.toLocaleString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit'
+  });
+}
+
+function formatChartDate(value: string) {
+  const parsed = new Date(`${value}T12:00:00`);
+  if (Number.isNaN(parsed.getTime())) return value.slice(5);
+  return parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+}
+
+function AdminTrafficLineChart({ data }: { data: { date: string; count: number }[] }) {
+  const width = 760;
+  const height = 250;
+  const paddingX = 36;
+  const paddingTop = 18;
+  const paddingBottom = 42;
+  const plotHeight = height - paddingTop - paddingBottom;
+  const plotWidth = width - (paddingX * 2);
+  const maxValue = Math.max(1, ...data.map((item) => item.count));
+  const points = data.map((item, index) => {
+    const x = data.length <= 1 ? width / 2 : paddingX + ((index / (data.length - 1)) * plotWidth);
+    const y = paddingTop + plotHeight - ((item.count / maxValue) * plotHeight);
+    return { ...item, x, y };
+  });
+  const linePath = points.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`).join(' ');
+  const areaPath = points.length
+    ? `${linePath} L ${points[points.length - 1].x.toFixed(2)} ${(paddingTop + plotHeight).toFixed(2)} L ${points[0].x.toFixed(2)} ${(paddingTop + plotHeight).toFixed(2)} Z`
+    : '';
+  const labelEvery = data.length > 20 ? 5 : data.length > 10 ? 2 : 1;
+
+  if (!data.length) return <p className="adminMutedText">No daily traffic data yet.</p>;
+
+  return (
+    <div className="adminLineChartWrap">
+      <svg className="adminLineChart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Daily page views trend">
+        <defs>
+          <linearGradient id="adminTrafficArea" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0%" stopColor="#2563eb" stopOpacity="0.32" />
+            <stop offset="100%" stopColor="#2563eb" stopOpacity="0.02" />
+          </linearGradient>
+          <linearGradient id="adminTrafficLine" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0%" stopColor="#0891b2" />
+            <stop offset="55%" stopColor="#2563eb" />
+            <stop offset="100%" stopColor="#6d28d9" />
+          </linearGradient>
+        </defs>
+        {[0, 1, 2, 3, 4].map((step) => {
+          const y = paddingTop + ((plotHeight / 4) * step);
+          const value = Math.round(maxValue - ((maxValue / 4) * step));
+          return (
+            <g key={step}>
+              <line x1={paddingX} x2={width - paddingX} y1={y} y2={y} className="adminChartGridLine" />
+              <text x={paddingX - 10} y={y + 4} textAnchor="end" className="adminChartAxisLabel">{value}</text>
+            </g>
+          );
+        })}
+        <path d={areaPath} fill="url(#adminTrafficArea)" />
+        <path d={linePath} fill="none" stroke="url(#adminTrafficLine)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        {points.map((point, index) => (
+          <g key={point.date}>
+            <circle cx={point.x} cy={point.y} r="4.5" className="adminChartPoint">
+              <title>{formatChartDate(point.date)}: {point.count} page views</title>
+            </circle>
+            {(index % labelEvery === 0 || index === points.length - 1) && (
+              <text x={point.x} y={height - 12} textAnchor="middle" className="adminChartDateLabel">{formatChartDate(point.date)}</text>
+            )}
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+function AdminBreakdownBars({ items, emptyText = 'No data yet.', showShare = true }: { items: AdminBreakdownItem[]; emptyText?: string; showShare?: boolean }) {
+  const max = Math.max(1, ...items.map((item) => item.count));
+  if (!items.length) return <p className="adminMutedText">{emptyText}</p>;
+  return (
+    <div className="adminBreakdownBars">
+      {items.map((item) => (
+        <div className="adminBreakdownRow" key={item.label}>
+          <div><strong>{item.label}</strong><span>{item.count}{showShare && item.share !== undefined ? ` · ${item.share}%` : ''}</span></div>
+          <i><span style={{ width: `${Math.max(4, Math.round((item.count / max) * 100))}%` }} /></i>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function AdminDashboard() {
   const [adminKey, setAdminKey] = useState('');
   const [inputKey, setInputKey] = useState('');
   const [requests, setRequests] = useState<AdminRepairRequest[]>([]);
   const [simRequests, setSimRequests] = useState<AdminSimRequest[]>([]);
-  const [visitorStats, setVisitorStats] = useState<AdminVisitStats>({ today: 0, last7Days: 0, last30Days: 0, topPages: [], dailyVisits: [] });
+  const [visitorStats, setVisitorStats] = useState<AdminVisitStats>(() => makeEmptyAdminVisitStats());
+  const [dataHealth, setDataHealth] = useState<AdminDataHealth>({});
   const [adminView, setAdminView] = useState<'repairs' | 'sim'>('repairs');
   const [adminTool, setAdminTool] = useState<'dashboard' | 'labels'>('dashboard');
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
   const [query, setQuery] = useState('');
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+  const [trafficRange, setTrafficRange] = useState<7 | 14 | 30>(30);
 
-  const loadRequests = React.useCallback(async (key: string) => {
+  const loadRequests = React.useCallback(async (key: string, options: { silent?: boolean } = {}) => {
     if (!key.trim()) {
       setError('Enter the CellzTech admin access key to continue.');
       return;
     }
 
-    setLoading(true);
+    if (options.silent) setRefreshing(true);
+    else setLoading(true);
     setError('');
 
     try {
-      const response = await fetch('/api/admin/repair-requests', {
-        headers: { 'x-cellztech-admin-key': key.trim() }
+      const response = await fetch(`/api/admin/repair-requests?limit=250&_=${Date.now()}`, {
+        headers: { 'x-cellztech-admin-key': key.trim() },
+        cache: 'no-store'
       });
       const data = await response.json();
-      if (!response.ok || !data.ok) {
-        throw new Error(data.message || 'Access denied. Check the admin key and try again.');
-      }
+      if (!response.ok || !data.ok) throw new Error(data.message || 'Access denied. Check the admin key and try again.');
       setAdminKey(key.trim());
       setInputKey('');
       setRequests(data.requests || []);
       setSimRequests(data.simRequests || []);
-      setVisitorStats(data.visitorStats || { today: 0, last7Days: 0, last30Days: 0, topPages: [], dailyVisits: [] });
+      setVisitorStats(data.visitorStats || makeEmptyAdminVisitStats());
+      setDataHealth(data.dataHealth || {});
+      setLastUpdated(data.generatedAt || new Date().toISOString());
     } catch (err) {
-      setAdminKey('');
-      setRequests([]);
-      setSimRequests([]);
-      setVisitorStats({ today: 0, last7Days: 0, last30Days: 0, topPages: [], dailyVisits: [] });
-      setError(err instanceof Error ? err.message : 'Access denied. Check the admin key and try again.');
+      if (!options.silent) {
+        setAdminKey('');
+        setRequests([]);
+        setSimRequests([]);
+        setVisitorStats(makeEmptyAdminVisitStats());
+        setDataHealth({});
+      }
+      setError(err instanceof Error ? err.message : 'Could not refresh the admin dashboard.');
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }, []);
+
+  React.useEffect(() => {
+    if (!adminKey || adminTool !== 'dashboard') return undefined;
+    const refresh = () => {
+      if (document.visibilityState === 'visible') void loadRequests(adminKey, { silent: true });
+    };
+    const interval = window.setInterval(refresh, 60_000);
+    window.addEventListener('focus', refresh);
+    document.addEventListener('visibilitychange', refresh);
+    return () => {
+      window.clearInterval(interval);
+      window.removeEventListener('focus', refresh);
+      document.removeEventListener('visibilitychange', refresh);
+    };
+  }, [adminKey, adminTool, loadRequests]);
 
   const filteredRequests = useMemo(() => {
     const term = query.trim().toLowerCase();
@@ -889,6 +1100,7 @@ function AdminDashboard() {
       request.model,
       request.issue,
       request.repairdesk_lead_order_id,
+      request.repairdesk_lead_id,
       request.status
     ].some((value) => String(value || '').toLowerCase().includes(term)));
   }, [requests, query]);
@@ -908,22 +1120,20 @@ function AdminDashboard() {
     ].some((value) => String(value || '').toLowerCase().includes(term)));
   }, [simRequests, query]);
 
-  const leadCount = requests.filter((request) => request.repairdesk_lead_id || request.repairdesk_lead_order_id).length;
+  const leadCount = requests.filter((request) => request.repairdesk_lead_id || request.repairdesk_lead_order_id || request.repairdesk_ticket_id).length;
   const failedCount = requests.filter((request) => request.integration_errors).length;
   const activeRequests = requests.filter((request) => request.status !== 'completed' && request.status !== 'closed').length;
-  const dailyVisits = visitorStats.dailyVisits || [];
-  const maxDailyVisits = Math.max(1, ...dailyVisits.map((item) => item.count));
+  const conversion = visitorStats.conversion || makeEmptyAdminVisitStats().conversion!;
+  const leadRate30 = conversion.repairRequests30Days ? Math.round((conversion.repairDeskLeads30Days / conversion.repairRequests30Days) * 100) : 0;
+  const dailyVisits = (visitorStats.dailyVisits || []).slice(-trafficRange);
   const topPages = visitorStats.topPages || [];
-  const maxTopPageViews = Math.max(1, ...topPages.map((item) => item.count));
-  const formatVisitDay = (value: string) => {
-    const parsed = new Date(`${value}T12:00:00`);
-    if (Number.isNaN(parsed.getTime())) return value.slice(5);
-    return parsed.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-  };
+  const busiestHour = (visitorStats.hourlyTraffic || []).reduce<AdminBreakdownItem | null>((best, item) => !best || item.count > best.count ? item : best, null);
+  const busiestDay = (visitorStats.weekdayTraffic || []).reduce<AdminBreakdownItem | null>((best, item) => !best || item.count > best.count ? item : best, null);
+  const latestRequest = dataHealth.latestRepairRequestAt || requests[0]?.submitted_at || null;
 
   const submitKey = (event: React.FormEvent) => {
     event.preventDefault();
-    loadRequests(inputKey);
+    void loadRequests(inputKey);
   };
 
   const signOut = () => {
@@ -931,8 +1141,11 @@ function AdminDashboard() {
     setInputKey('');
     setRequests([]);
     setSimRequests([]);
+    setVisitorStats(makeEmptyAdminVisitStats());
+    setDataHealth({});
     setQuery('');
     setError('');
+    setLastUpdated(null);
   };
 
   if (!adminKey) {
@@ -941,63 +1154,23 @@ function AdminDashboard() {
         <section className="adminAccessPanel" aria-label="CellzTech admin login">
           <div className="adminMatrixGlow" aria-hidden="true" />
           <div className="adminTerminalCard">
-            <div className="terminalTopBar">
-              <span />
-              <span />
-              <span />
-              <strong>classified.cellztech.local</strong>
-            </div>
-
+            <div className="terminalTopBar"><span /><span /><span /><strong>classified.cellztech.local</strong></div>
             <div className="terminalScreen">
-              <div className="spyLoginHeader">
-                <span className="terminalEyebrow"><ShieldCheck size={16} /> Secure staff access</span>
-                <span className="classifiedStamp">CLASSIFIED</span>
-              </div>
+              <div className="spyLoginHeader"><span className="terminalEyebrow"><ShieldCheck size={16} /> Secure staff access</span><span className="classifiedStamp">CLASSIFIED</span></div>
               <h1>Agent Console</h1>
               <p className="terminalCopy">Private CellzTech repair intelligence terminal. Authorized staff only.</p>
-
               <div className="spyConsoleGrid" aria-hidden="true">
                 <div className="terminalLines pixelPanel">
-                  <code>&gt; BOOTING CELLZTECH OS/1987...</code>
-                  <code>&gt; REPAIRDESK LINK: ARMED</code>
-                  <code>&gt; SUPABASE VAULT: SEALED</code>
-                  <code>&gt; CUSTOMER DATA: HIDDEN</code>
-                  <code>&gt; AGENT KEY REQUIRED<span className="terminalCursor">_</span></code>
+                  <code>&gt; BOOTING CELLZTECH OS/1987...</code><code>&gt; REPAIRDESK LINK: ARMED</code><code>&gt; SUPABASE VAULT: SEALED</code><code>&gt; CUSTOMER DATA: HIDDEN</code><code>&gt; AGENT KEY REQUIRED<span className="terminalCursor">_</span></code>
                 </div>
-                <div className="radarPanel pixelPanel">
-                  <div className="radarScope">
-                    <span className="radarSweep" />
-                    <i className="radarDot one" />
-                    <i className="radarDot two" />
-                    <i className="radarDot three" />
-                  </div>
-                  <small>SCAN MODE</small>
-                </div>
+                <div className="radarPanel pixelPanel"><div className="radarScope"><span className="radarSweep" /><i className="radarDot one" /><i className="radarDot two" /><i className="radarDot three" /></div><small>SCAN MODE</small></div>
               </div>
-
-              <div className="missionStrip" aria-hidden="true">
-                <span>MISSION: LEADS</span>
-                <span>CHANNEL: SECURE</span>
-                <span>TRACE: OFF</span>
-              </div>
-
+              <div className="missionStrip" aria-hidden="true"><span>MISSION: LEADS</span><span>CHANNEL: SECURE</span><span>TRACE: OFF</span></div>
               <form className="terminalLoginForm" onSubmit={submitKey}>
                 <label htmlFor="adminKey">Enter agent access key</label>
-                <div className="terminalInputWrap pixelInput">
-                  <span>KEY</span>
-                  <input
-                    id="adminKey"
-                    type="password"
-                    value={inputKey}
-                    onChange={(event) => setInputKey(event.target.value)}
-                    placeholder="••••••••••••••"
-                    autoComplete="current-password"
-                    autoFocus
-                  />
-                </div>
+                <div className="terminalInputWrap pixelInput"><span>KEY</span><input id="adminKey" type="password" value={inputKey} onChange={(event) => setInputKey(event.target.value)} placeholder="••••••••••••••" autoComplete="current-password" autoFocus /></div>
                 <button className="terminalButton pixelButton" type="submit" disabled={loading}>{loading ? 'Decrypting…' : 'Authenticate agent'}</button>
               </form>
-
               {error && <div className="terminalError">{error}</div>}
               <p className="terminalFootnote">This route reveals no repair data until the private key is verified.</p>
             </div>
@@ -1014,13 +1187,19 @@ function AdminDashboard() {
           <div>
             <span className="adminEyebrow">CellzTech private admin</span>
             <h1>Admin dashboard</h1>
-            <p>Repair requests, RepairDesk leads, SIM requests, and website traffic in one compact view.</p>
+            <p>Live repair backups, RepairDesk lead health, SIM requests, and customer traffic analytics.</p>
           </div>
           <div className="adminHeaderActions">
             <button className="secondaryBtn compact" onClick={() => setAdminTool(adminTool === 'labels' ? 'dashboard' : 'labels')}>{adminTool === 'labels' ? 'Dashboard' : 'Label Creator'}</button>
-            <button className="secondaryBtn compact" onClick={() => loadRequests(adminKey)} disabled={loading}>{loading ? 'Loading…' : 'Refresh data'}</button>
+            <button className="secondaryBtn compact" onClick={() => void loadRequests(adminKey, { silent: true })} disabled={refreshing}>{refreshing ? 'Refreshing…' : 'Refresh data'}</button>
             <button className="secondaryBtn compact dark" onClick={signOut}>Lock console</button>
           </div>
+        </div>
+        <div className="wrap adminSyncStrip" aria-label="Admin data status">
+          <span className={dataHealth.repairBackupConnected ? 'healthy' : 'warning'}><i /> Repair backup {dataHealth.repairBackupConnected ? 'connected' : 'needs attention'}</span>
+          <span className={dataHealth.analyticsConnected ? 'healthy' : 'warning'}><i /> Analytics {dataHealth.analyticsConnected ? 'connected' : 'needs attention'}</span>
+          <span>Auto-refresh: every 60 seconds</span>
+          <span>Last refreshed: {formatAdminTime(lastUpdated)}</span>
         </div>
       </section>
 
@@ -1029,159 +1208,154 @@ function AdminDashboard() {
           {error && <div className="adminNotice error">{error}</div>}
 
           {adminTool === 'labels' ? <LabelCreatorTool /> : <>
-          <div className="adminMetricGrid" aria-label="Admin summary metrics">
-            <article><span>Total requests</span><strong>{requests.length}</strong><small>{activeRequests} active / open</small></article>
-            <article><span>RepairDesk leads</span><strong>{leadCount}</strong><small>{requests.length ? Math.round((leadCount / requests.length) * 100) : 0}% connected</small></article>
-            <article><span>Needs review</span><strong>{failedCount}</strong><small>{failedCount ? 'Check integration errors' : 'No integration errors'}</small></article>
-            <article><span>Visitors today</span><strong>{visitorStats.today}</strong><small>{visitorStats.last7Days} visits in 7 days</small></article>
-            <article><span>Last 30 days</span><strong>{visitorStats.last30Days}</strong><small>Tracked page visits</small></article>
-          </div>
+            <div className="adminMetricGrid expandedAdminMetrics" aria-label="Admin summary metrics">
+              <article><span>Saved repair requests</span><strong>{requests.length}</strong><small>{activeRequests} active / open · newest {formatAdminTime(latestRequest)}</small></article>
+              <article><span>Requests in 30 days</span><strong>{conversion.repairRequests30Days}</strong><small>{conversion.bookPageViews30Days} booking-page views</small></article>
+              <article><span>RepairDesk lead success</span><strong>{leadRate30}%</strong><small>{conversion.repairDeskLeads30Days} of {conversion.repairRequests30Days} requests connected</small></article>
+              <article><span>Page views today</span><strong>{visitorStats.today}</strong><small>{visitorStats.estimatedSessionsToday || 0} estimated sessions</small></article>
+              <article><span>Last 7 days</span><strong>{visitorStats.last7Days}</strong><small className={(visitorStats.trend7Days || 0) >= 0 ? 'metricPositive' : 'metricNegative'}>{(visitorStats.trend7Days || 0) >= 0 ? '+' : ''}{visitorStats.trend7Days || 0}% vs previous 7 days</small></article>
+              <article><span>Last 30 days</span><strong>{visitorStats.last30Days}</strong><small>{visitorStats.estimatedSessions30Days || 0} estimated sessions · {visitorStats.actionCount30Days || 0} tracked actions</small></article>
+            </div>
 
-          <div className="adminAnalyticsGrid">
-            <section className="adminChartCard">
-              <div className="adminCardHeader">
-                <div>
-                  <span>Traffic analytics</span>
-                  <h2>Daily visits</h2>
+            <section className="adminAnalyticsSection">
+              <div className="adminAnalyticsHeading">
+                <div><span>Customer traffic intelligence</span><h2>How people use CellzTech.com</h2><p>Anonymous page activity summarized in Chicago time. Session counts are estimates because the site does not store customer identities for analytics.</p></div>
+                <div className="adminRangePicker" aria-label="Traffic chart date range">
+                  {([7, 14, 30] as const).map((range) => <button key={range} className={trafficRange === range ? 'active' : ''} onClick={() => setTrafficRange(range)}>{range} days</button>)}
                 </div>
-                <strong>Last 14 days</strong>
               </div>
-              {dailyVisits.length ? (
-                <div className="adminDailyChart" aria-label="Daily visits bar chart">
-                  {dailyVisits.map((item) => (
-                    <div className="adminDailyBarItem" key={item.date}>
-                      <b>{item.count}</b>
-                      <span style={{ height: `${Math.max(8, Math.round((item.count / maxDailyVisits) * 120))}px` }} />
-                      <em>{formatVisitDay(item.date)}</em>
+
+              <div className="adminAnalyticsGrid adminAnalyticsPrimary">
+                <section className="adminChartCard adminTrafficCard">
+                  <div className="adminCardHeader">
+                    <div><span>Page-view trend</span><h2>Daily traffic</h2></div>
+                    <strong>{formatAdminCompactNumber(dailyVisits.reduce((sum, item) => sum + item.count, 0))} views</strong>
+                  </div>
+                  <AdminTrafficLineChart data={dailyVisits} />
+                  <div className="adminTrafficHighlights">
+                    <div><span>Busiest day</span><strong>{busiestDay?.label || '—'}</strong><small>{busiestDay?.count || 0} views in 30 days</small></div>
+                    <div><span>Busiest time block</span><strong>{busiestHour?.label || '—'}</strong><small>{busiestHour?.count || 0} views</small></div>
+                    <div><span>30-day trend</span><strong className={(visitorStats.trend30Days || 0) >= 0 ? 'metricPositive' : 'metricNegative'}>{(visitorStats.trend30Days || 0) >= 0 ? '+' : ''}{visitorStats.trend30Days || 0}%</strong><small>versus prior 30 days</small></div>
+                  </div>
+                </section>
+
+                <section className="adminChartCard">
+                  <div className="adminCardHeader"><div><span>Top pages</span><h2>Most viewed pages</h2></div><strong>{visitorStats.last30Days} views</strong></div>
+                  <div className="adminPageBars" aria-label="Top pages viewed bar chart">
+                    {topPages.map((item) => (
+                      <div className="adminPageBarRow" key={item.path}>
+                        <div><b>{item.path}</b><span>{item.count} · {item.share || 0}%</span></div>
+                        <i><span style={{ width: `${Math.max(4, item.share || 0)}%` }} /></i>
+                      </div>
+                    ))}
+                    {!topPages.length && <p className="adminMutedText">No page view data yet.</p>}
+                  </div>
+                </section>
+              </div>
+
+              <div className="adminInsightGrid">
+                <section className="adminChartCard compactInsightCard"><div className="adminCardHeader"><div><span>Acquisition</span><h2>Traffic sources</h2></div></div><AdminBreakdownBars items={visitorStats.sources || []} /></section>
+                <section className="adminChartCard compactInsightCard"><div className="adminCardHeader"><div><span>Audience</span><h2>Device mix</h2></div></div><AdminBreakdownBars items={visitorStats.devices || []} /></section>
+                <section className="adminChartCard compactInsightCard"><div className="adminCardHeader"><div><span>Audience</span><h2>Languages</h2></div></div><AdminBreakdownBars items={visitorStats.languages || []} /></section>
+                <section className="adminChartCard compactInsightCard"><div className="adminCardHeader"><div><span>Technology</span><h2>Browsers</h2></div></div><AdminBreakdownBars items={visitorStats.browsers || []} /></section>
+              </div>
+
+              <div className="adminAnalyticsGrid adminBehaviorGrid">
+                <section className="adminChartCard">
+                  <div className="adminCardHeader"><div><span>Timing</span><h2>Traffic by day and time</h2></div><strong>Chicago time</strong></div>
+                  <div className="adminTimeCharts">
+                    <div><h3>Day of week</h3><AdminBreakdownBars items={visitorStats.weekdayTraffic || []} showShare={false} /></div>
+                    <div><h3>Two-hour blocks</h3><AdminBreakdownBars items={visitorStats.hourlyTraffic || []} showShare={false} /></div>
+                  </div>
+                </section>
+
+                <section className="adminChartCard adminConversionCard">
+                  <div className="adminCardHeader"><div><span>Conversion</span><h2>Traffic that becomes a request</h2></div><strong>Last 30 days</strong></div>
+                  <div className="adminConversionGrid">
+                    <article><span>Repair booking rate</span><strong>{conversion.repairRequestRate}%</strong><small>{conversion.repairRequests30Days} requests from {conversion.bookPageViews30Days} booking-page views</small></article>
+                    <article><span>Ultra SIM request rate</span><strong>{conversion.simRequestRate}%</strong><small>{conversion.simRequests30Days} requests from {conversion.ultraRequestPageViews30Days} SIM-page views</small></article>
+                    <article><span>RepairDesk connection</span><strong>{leadRate30}%</strong><small>{conversion.repairDeskLeads30Days} leads created</small></article>
+                  </div>
+                  <div className="adminActionList"><h3>Tracked customer actions</h3><AdminBreakdownBars items={visitorStats.actions || []} showShare={false} emptyText="No tracked CTA clicks in the last 30 days." /></div>
+                </section>
+              </div>
+
+              <section className="adminChartCard adminRecentTrafficCard">
+                <div className="adminCardHeader"><div><span>Recent activity</span><h2>Latest anonymous page visits</h2></div><strong>{visitorStats.timeZone || 'America/Chicago'}</strong></div>
+                <div className="adminRecentTrafficTable" role="table" aria-label="Recent website traffic">
+                  <div className="adminRecentTrafficHead" role="row"><span>Time</span><span>Page</span><span>Source</span><span>Device</span><span>Language</span></div>
+                  {(visitorStats.recent || []).map((visit, index) => (
+                    <div className="adminRecentTrafficRow" role="row" key={`${visit.createdAt}-${visit.path}-${index}`}>
+                      <span>{formatAdminTime(visit.createdAt)}</span><strong>{visit.path}</strong><span>{visit.source || 'Unknown'}</span><span>{visit.device || 'Unknown'} · {visit.browser || 'Other'}</span><span>{String(visit.language || '—').toUpperCase()}</span>
                     </div>
                   ))}
+                  {!(visitorStats.recent || []).length && <p className="adminMutedText">No recent page activity yet.</p>}
                 </div>
-              ) : <p className="adminMutedText">No daily traffic data yet.</p>}
+              </section>
             </section>
 
-            <section className="adminChartCard">
-              <div className="adminCardHeader">
-                <div>
-                  <span>Top pages</span>
-                  <h2>Most viewed pages</h2>
-                </div>
-                <strong>{topPages.reduce((sum, item) => sum + item.count, 0)} views</strong>
+            <section className="adminWorkPanel">
+              <div className="adminWorkHeader">
+                <div><span>Request management</span><h2>Customer submissions</h2></div>
+                <p>New database backups refresh automatically every minute. Search by customer, device, issue, or RepairDesk lead ID.</p>
               </div>
-              {topPages.length ? (
-                <div className="adminPageBars" aria-label="Top pages viewed bar chart">
-                  {topPages.map((item) => (
-                    <div className="adminPageBarRow" key={item.path}>
-                      <div><b>{item.path}</b><span>{item.count}</span></div>
-                      <i><span style={{ width: `${Math.max(6, Math.round((item.count / maxTopPageViews) * 100))}%` }} /></i>
-                    </div>
-                  ))}
+              <div className="adminToolbar">
+                <div className="adminTabs" aria-label="Admin request type">
+                  <button className={adminView === 'repairs' ? 'active' : ''} onClick={() => setAdminView('repairs')}>Repair requests ({requests.length})</button>
+                  <button className={adminView === 'sim' ? 'active' : ''} onClick={() => setAdminView('sim')}>Ultra SIM requests ({simRequests.length})</button>
                 </div>
-              ) : <p className="adminMutedText">No page view data yet.</p>}
+                <div className="adminSearch"><Search size={18} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by name, phone, email, model, issue, or lead ID" /></div>
+              </div>
+
+              {adminView === 'repairs' ? (
+                <div className="adminRequestGrid">
+                  {filteredRequests.map((request) => {
+                    const hasLead = Boolean(request.repairdesk_lead_order_id || request.repairdesk_lead_id || request.repairdesk_ticket_id);
+                    const needsReview = Boolean(request.integration_errors);
+                    return (
+                      <article className="adminRequestCard" key={request.id}>
+                        <div className="adminRequestTop">
+                          <div><span className="adminTimestamp">{formatAdminDate(request.submitted_at)}</span><h3>{request.customer_name || 'Unnamed customer'}</h3><p>{request.customer_phone || 'No phone'} • {request.customer_email || 'No email'}</p></div>
+                          <span className={needsReview ? 'adminStatus warning' : hasLead ? 'adminStatus success' : 'adminStatus'}>{needsReview ? 'Needs review' : hasLead ? 'Lead created' : 'Saved'}</span>
+                        </div>
+                        <div className="adminDeviceLine"><strong>{request.model || 'Unknown model'}</strong><span>{request.issue || 'No issue listed'}</span></div>
+                        <div className="adminMetaGrid">
+                          <div><span>Requested</span><strong>{request.requested_date || 'Not set'} {request.requested_time || ''}</strong></div>
+                          <div><span>RepairDesk lead</span><strong>{request.repairdesk_lead_order_id || request.repairdesk_lead_id || request.repairdesk_ticket_id || 'Not created'}</strong></div>
+                          <div><span>Customer ID</span><strong>{request.repairdesk_customer_id || 'Not created'}</strong></div>
+                          <div><span>Status</span><strong>{request.status || 'Saved'}</strong></div>
+                        </div>
+                        {request.notes && <p className="adminNotes">{request.notes}</p>}
+                        {needsReview && <p className="adminErrorText">Integration warning saved. Check Supabase for the full JSON response.</p>}
+                      </article>
+                    );
+                  })}
+                  {!filteredRequests.length && <div className="adminEmptyState"><h3>No repair requests found</h3><p>Try another search or submit a test repair request from the booking page.</p></div>}
+                </div>
+              ) : (
+                <div className="adminRequestGrid">
+                  {filteredSimRequests.map((request) => {
+                    const typeLabel = request.request_type === 'shipping' ? 'Ship SIM' : request.request_type === 'pickup' ? 'Pickup SIM' : 'eSIM help';
+                    const address = [request.shipping_address, request.shipping_city, request.shipping_state, request.shipping_zip].filter(Boolean).join(', ');
+                    return (
+                      <article className="adminRequestCard simAdminCard" key={request.id}>
+                        <div className="adminRequestTop"><div><span className="adminTimestamp">{formatAdminDate(request.submitted_at)}</span><h3>{request.customer_name || 'Unnamed customer'}</h3><p>{request.customer_phone || 'No phone'} • {request.customer_email || 'No email'}</p></div><span className="adminStatus success">SIM request</span></div>
+                        <div className="adminDeviceLine"><strong>{typeLabel}</strong><span>{request.plan_interest || 'No plan selected'}</span></div>
+                        <div className="adminMetaGrid"><div><span>Activation help</span><strong>{request.needs_activation_help ? 'Yes' : 'No / not sure'}</strong></div><div><span>Status</span><strong>{request.status || 'Saved'}</strong></div><div className="wide"><span>Shipping</span><strong>{address || 'Not needed / not provided'}</strong></div></div>
+                        {request.notes && <p className="adminNotes">{request.notes}</p>}
+                      </article>
+                    );
+                  })}
+                  {!filteredSimRequests.length && <div className="adminEmptyState"><h3>No SIM requests found</h3><p>Try another search or submit a test Ultra SIM request.</p></div>}
+                </div>
+              )}
             </section>
-          </div>
-
-          <section className="adminWorkPanel">
-            <div className="adminWorkHeader">
-              <div>
-                <span>Request management</span>
-                <h2>Customer submissions</h2>
-              </div>
-              <p>Use search, tabs, and status badges to review requests before the customer arrives.</p>
-            </div>
-          <div className="adminToolbar">
-            <div className="adminTabs" aria-label="Admin request type">
-              <button className={adminView === 'repairs' ? 'active' : ''} onClick={() => setAdminView('repairs')}>Repair requests ({requests.length})</button>
-              <button className={adminView === 'sim' ? 'active' : ''} onClick={() => setAdminView('sim')}>Ultra SIM requests ({simRequests.length})</button>
-            </div>
-            <div className="adminSearch">
-              <Search size={18} />
-              <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by name, phone, email, model, issue, or lead ID" />
-            </div>
-          </div>
-
-          {adminView === 'repairs' ? (
-            <div className="adminRequestGrid">
-              {filteredRequests.map((request) => {
-                const hasLead = Boolean(request.repairdesk_lead_order_id || request.repairdesk_lead_id);
-                const needsReview = Boolean(request.integration_errors);
-                return (
-                  <article className="adminRequestCard" key={request.id}>
-                    <div className="adminRequestTop">
-                      <div>
-                        <span className="adminTimestamp">{formatAdminDate(request.submitted_at)}</span>
-                        <h3>{request.customer_name || 'Unnamed customer'}</h3>
-                        <p>{request.customer_phone || 'No phone'} • {request.customer_email || 'No email'}</p>
-                      </div>
-                      <span className={needsReview ? 'adminStatus warning' : hasLead ? 'adminStatus success' : 'adminStatus'}>
-                        {needsReview ? 'Needs review' : hasLead ? 'Lead created' : 'Saved'}
-                      </span>
-                    </div>
-                    <div className="adminDeviceLine">
-                      <strong>{request.model || 'Unknown model'}</strong>
-                      <span>{request.issue || 'No issue listed'}</span>
-                    </div>
-                    <div className="adminMetaGrid">
-                      <div><span>Requested</span><strong>{request.requested_date || 'Not set'} {request.requested_time || ''}</strong></div>
-                      <div><span>RepairDesk lead</span><strong>{request.repairdesk_lead_order_id || request.repairdesk_lead_id || 'Not created'}</strong></div>
-                      <div><span>Customer ID</span><strong>{request.repairdesk_customer_id || 'Not created'}</strong></div>
-                      <div><span>Status</span><strong>{request.status || 'Saved'}</strong></div>
-                    </div>
-                    {request.notes && <p className="adminNotes">{request.notes}</p>}
-                    {needsReview && <p className="adminErrorText">Integration warning saved. Check Supabase for the full JSON response.</p>}
-                  </article>
-                );
-              })}
-              {!filteredRequests.length && (
-                <div className="adminEmptyState">
-                  <h3>No repair requests found</h3>
-                  <p>Try another search or submit a test repair request from the booking page.</p>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="adminRequestGrid">
-              {filteredSimRequests.map((request) => {
-                const typeLabel = request.request_type === 'shipping' ? 'Ship SIM' : request.request_type === 'pickup' ? 'Pickup SIM' : 'eSIM help';
-                const address = [request.shipping_address, request.shipping_city, request.shipping_state, request.shipping_zip].filter(Boolean).join(', ');
-                return (
-                  <article className="adminRequestCard simAdminCard" key={request.id}>
-                    <div className="adminRequestTop">
-                      <div>
-                        <span className="adminTimestamp">{formatAdminDate(request.submitted_at)}</span>
-                        <h3>{request.customer_name || 'Unnamed customer'}</h3>
-                        <p>{request.customer_phone || 'No phone'} • {request.customer_email || 'No email'}</p>
-                      </div>
-                      <span className="adminStatus success">SIM request</span>
-                    </div>
-                    <div className="adminDeviceLine">
-                      <strong>{typeLabel}</strong>
-                      <span>{request.plan_interest || 'No plan selected'}</span>
-                    </div>
-                    <div className="adminMetaGrid">
-                      <div><span>Activation help</span><strong>{request.needs_activation_help ? 'Yes' : 'No / not sure'}</strong></div>
-                      <div><span>Status</span><strong>{request.status || 'Saved'}</strong></div>
-                      <div className="wide"><span>Shipping</span><strong>{address || 'Not needed / not provided'}</strong></div>
-                    </div>
-                    {request.notes && <p className="adminNotes">{request.notes}</p>}
-                  </article>
-                );
-              })}
-              {!filteredSimRequests.length && (
-                <div className="adminEmptyState">
-                  <h3>No SIM requests found</h3>
-                  <p>Try another search or submit a test Ultra SIM request.</p>
-                </div>
-              )}
-            </div>
-          )}
-          </section>
           </>}
         </div>
       </section>
     </main>
   );
 }
-
 
 
 
