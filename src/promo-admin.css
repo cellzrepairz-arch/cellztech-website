@@ -1,0 +1,20 @@
+.promoAdmin { margin: 22px 0; border: 1px solid #d5e4f8; border-radius: 22px; background: #fff; color: #142842; overflow: hidden; }
+.promoAdmin > summary { padding: 22px; cursor: pointer; font-size: 20px; font-weight: 750; }
+.promoAdmin > summary small { display: inline-block; font-size: 12px; font-weight: 500; margin-left: 16px; color: #637793; }
+.promoAdminContent { padding: 0 22px 22px; }
+.promoAdminContent p { color: #536984; font-size: 13px; line-height: 1.7; }
+.promoAdminActions { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0; }
+.promoAdmin button { background: #eef5ff; color: #174da7; border: 1px solid #bed3f2; border-radius: 9px; padding: 11px 14px; font: inherit; font-size: 12px; font-weight: 650; cursor: pointer; min-height: 40px; }
+.promoAdmin button:disabled { opacity: .5; cursor: wait; }
+.promoAdmin input { border: 1px solid #c8d9ef; border-radius: 9px; padding: 10px; font: inherit; font-size: 14px; min-width: 180px; flex: 1; }
+.promoAdminTableWrap { max-width: 100%; overflow-x: auto; }
+.promoAdmin table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
+.promoAdmin th, .promoAdmin td { padding: 13px 8px; border-bottom: 1px solid #e5edf7; }
+.promoAdmin th { background: #f4f8ff; color: #4c668a; font-size: 11px; }
+.promoAdmin td strong { display: block; overflow-wrap: anywhere; }
+.promoAdmin td small { color: #617793; }
+.promoAdmin code { white-space: nowrap; }
+.promoAdminContent .promoAdminWarning { background: #fff6ed; color: #8d4b14; padding: 12px; border-radius: 9px; }
+.promoAdminContent .promoAdminNote { font-size: 11px; }
+.promoAdmin :is(button,input,summary):focus-visible { outline: 3px solid #226bea; outline-offset: 3px; }
+@media(max-width: 600px) { .promoAdmin > summary small { display: block; margin: 8px 0 0; } .promoAdminContent { padding: 0 16px 16px; } }

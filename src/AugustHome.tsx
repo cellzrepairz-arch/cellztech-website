@@ -27,6 +27,7 @@ import {
   Wrench
 } from 'lucide-react';
 import './august-home.css';
+import { SeptemberCoupon } from './SeptemberCoupon';
 
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk';
 type HomePageKey = 'repairs' | 'ultra' | 'phones' | 'accessories' | 'contact' | 'book' | 'sim';
@@ -43,7 +44,7 @@ type Promotion = {
 
 type FaqItem = { question: string; answer: string };
 
-type AugustCopy = {
+type SeptemberCopy = {
   hero: {
     eyebrow: string;
     title: string;
@@ -129,545 +130,897 @@ type AugustCopy = {
   };
 };
 
-const augustCopy: Record<LanguageKey, AugustCopy> = {
-  en: {
-    hero: {
-      eyebrow: 'AUGUST 2026 • ULTRA MOBILE + PHONE REPAIRS',
-      title: 'August savings. Professional repairs. Local help.',
-      supporting: 'Ultra Mobile • Phone Repairs • Phones • Accessories',
-      text: 'Switch carriers, keep your number, or repair your phone in one trusted local store. We will help you choose a plan, transfer your number, set up your service, and understand your repair options.',
-      offers: 'View Ultra Mobile Offers',
-      repair: 'Book a Repair',
-      call: 'Call: 773-413-7489',
-      visualLabel: 'Realistic iPhone product display with interactive Ultra Mobile offers',
-      visualFeatured: 'Featured August offer',
-      visualAction: 'Ask about this offer',
-      visualHint: 'Explore August offers',
-      visualLocal: 'Activation and setup in store',
-      visualOffers: ['4 lines for $100', 'Every 4th month free', '$25/mo Unlimited']
-    },
-    trust: ['Free Ultra Mobile activation', 'Help transferring your number', 'Lifetime warranty available on select repairs', 'Local in-store support'],
-    offers: {
-      eyebrow: 'AUGUST SAVINGS',
-      title: 'August Ultra Mobile Offers',
-      intro: 'Three simple ways to save — for families, new customers, and customers using qualifying monthly plans.',
-      cards: [
-        {
-          badge: 'FAMILY PLAN',
-          title: '4 Unlimited Lines',
-          price: '$100',
-          priceSuffix: '/mo',
-          explanation: 'Combine four Unlimited lines on one plan for a total of $100 per month.',
-          bullets: ['Great for families, roommates, and friends', 'Four lines under one plan', 'Tablets may qualify as part of the four-line bundle', 'Powered by the T-Mobile network'],
-          cta: 'Ask About the Family Plan'
-        },
-        {
-          badge: 'EVERY 4TH MONTH FREE',
-          title: 'Buy 3 Months, Get the 4th Month FREE',
-          explanation: 'Renew a qualifying single-month 8GB or higher plan for three consecutive months and receive the fourth month free.',
-          bullets: ['Available on qualifying 8GB+ single-month plans', 'Pay for three consecutive months', 'Receive the fourth month free', 'The benefit repeats while the account and plan remain eligible'],
-          cta: 'View Qualifying Plans'
-        },
-        {
-          badge: 'NEW CUSTOMERS',
-          title: 'Ultra Unlimited',
-          price: '$25',
-          priceSuffix: '/mo',
-          explanation: 'Get 6 months for $150 paid upfront.',
-          bullets: ['Unlimited 5G and 4G LTE data with no fixed data cap', 'Unlimited talk and global text', 'Calling to more than 90 international destinations', 'Unlimited talk and text plus 5GB of data in Mexico and Canada'],
-          cta: 'Ask About Unlimited for $25'
-        }
-      ],
-      disclaimer: 'Limited-time offer. Eligibility, plan availability, data speeds, taxes, fees, account status, device compatibility, and other restrictions may apply. We will confirm the details before activation.'
-    },
-    bonus: {
-      badge: 'AUGUST CUSTOMER BONUS',
-      title: 'Free Tempered Glass for iPhone',
-      text: 'With an Ultra Mobile activation or select repairs. Limited-time offer. Ask in store for details.',
-      cta: 'Ask About the Bonus'
-    },
-    repairs: {
-      eyebrow: 'CELLZ REPAIRZ',
-      title: 'We Repair Phones and Tablets',
-      intro: 'From straightforward replacements to more involved diagnostics, we will explain the problem and present the available repair options.',
-      services: ['Screen replacement', 'Battery replacement', 'Charging problems', 'Charging ports', 'Back glass', 'Cameras', 'Speakers', 'Microphones', 'Phone diagnostics', 'Data recovery, where possible'],
-      serviceCta: 'Start this repair',
-      diagnosticEyebrow: 'DIAGNOSTICS',
-      diagnosticTitle: 'Not Sure What Is Wrong With Your Phone?',
-      diagnosticText: 'Bring it to Cellz Repairz. We will inspect the device, explain the problem, and outline the repair options that may be available.',
-      ask: 'Ask About a Repair',
-      book: 'Book a Repair',
-      bookingNote: 'Online bookings are repair requests. We confirm timing, pricing, and parts availability before the appointment.'
-    },
-    shop: {
-      eyebrow: 'IN-STORE SELECTION',
-      title: 'Phones and Accessories',
-      text: 'Ask about available phones, protective cases, tempered glass, chargers, and other accessories for popular models.',
-      categories: ['Unlocked phones', 'Used and new phones, based on current inventory', 'Protective cases', 'Tempered glass', 'Chargers and cables', 'Headphones', 'Power banks', 'iPhone accessories', 'Samsung accessories', 'Motorola and Google Pixel accessories'],
-      cta: 'Ask About Availability'
-    },
-    transfer: {
-      eyebrow: 'KEEP YOUR NUMBER',
-      title: 'Want to Transfer Your Number?',
-      intro: 'We will help check your phone, transfer your number, and set up your Ultra Mobile service.',
-      steps: ['Unlocked phone', 'Account number from your current carrier', 'Transfer PIN', 'Keep the old service active until the transfer is complete'],
-      stepLabel: 'Step',
-      warning: 'Do not cancel your old service before the number transfer is complete. Closing the account too early may prevent you from keeping your number.',
-      cta: 'Start Your Number Transfer'
-    },
-    why: {
-      eyebrow: 'LOCAL HELP THAT STAYS SIMPLE',
-      title: 'Why Choose Cellz Repairz?',
-      items: ['Free Ultra Mobile activation', 'Help transferring your number', 'Keep your current number', 'Help in English and Polish', 'In-store support', 'Fast, professional service', 'Honest explanation of your options', 'Local Chicago business']
-    },
-    faq: {
-      eyebrow: 'HELPFUL ANSWERS',
-      title: 'Frequently Asked Questions',
-      items: [
-        { question: 'Can I keep my current phone number?', answer: 'Yes, in most cases. Keep your current service active and bring the correct account number and transfer PIN. We can help submit the transfer and verify the information before the old service is canceled.' },
-        { question: 'Does my phone need to be unlocked?', answer: 'Usually, yes. The phone should be unlocked and compatible with the network before activation. We can help check the device in store.' },
-        { question: 'What do I need to transfer my number?', answer: 'Bring the phone, the account number from your current carrier, the transfer PIN, and any requested account information. Keep the existing line active until the transfer finishes.' },
-        { question: 'Is Ultra Mobile activation free?', answer: 'Cellz Repairz provides free Ultra Mobile activation help in store. Taxes, plan costs, and any other applicable charges are separate.' },
-        { question: 'Who can get Ultra Unlimited for $25?', answer: 'The August offer is for qualifying new customers who purchase six months of Ultra Unlimited for $150 upfront. We will confirm eligibility before activation.' },
-        { question: 'How does the free fourth month offer work?', answer: 'Use a qualifying 8GB-or-higher single-month plan and complete three consecutive paid renewals. The fourth month is free, and the benefit can repeat while the account and plan remain eligible.' },
-        { question: 'Do you repair Samsung and Motorola phones?', answer: 'Yes. We work on iPhone, Samsung, Motorola, Google Pixel, iPad, and many other phones and tablets. Parts and repair options depend on the exact model and issue.' },
-        { question: 'Can I come in for diagnostics without an appointment?', answer: 'Walk-ins are welcome during business hours. A repair request can still help us prepare, confirm parts, and contact you about the best drop-off time.' }
+const augustCopy: Record<LanguageKey, SeptemberCopy> = {
+  "en": {
+    "hero": {
+      "eyebrow": "SEPTEMBER 2026 • ULTRA MOBILE + PHONE REPAIRS",
+      "title": "September savings. Professional repairs. Local help.",
+      "supporting": "Ultra Mobile • Phone Repairs • Phones • Accessories",
+      "text": "Switch carriers, keep your number, or repair your phone in one trusted local store. We will help you choose a plan, transfer your number, set up your service, and understand your repair options.",
+      "offers": "View Ultra Mobile Offers",
+      "repair": "Book a Repair",
+      "call": "Call: 773-413-7489",
+      "visualLabel": "Realistic iPhone product display with interactive Ultra Mobile offers",
+      "visualFeatured": "Featured September offer",
+      "visualAction": "Ask about this offer",
+      "visualHint": "Explore September offers",
+      "visualLocal": "Activation and setup in store",
+      "visualOffers": [
+        "4 lines for $100",
+        "Every 4th month free",
+        "$25/mo Unlimited"
       ]
     },
-    contact: {
-      eyebrow: 'VISIT THE STORE',
-      title: 'Visit Cellz Repairz',
-      text: 'Local help for Ultra Mobile, phone repairs, diagnostics, phones, and accessories.',
-      hoursTitle: 'Store hours',
-      weekdays: 'Monday–Friday: 11:00 AM–7:00 PM',
-      saturday: 'Saturday: 11:00 AM–3:00 PM',
-      sunday: 'Sunday: Closed',
-      closed: 'Closed',
-      call: 'Call Now',
-      directions: 'Directions',
-      book: 'Book a Repair',
-      ultra: 'Ask About Ultra Mobile'
+    "trust": [
+      "Free Ultra Mobile activation",
+      "Help transferring your number",
+      "Lifetime warranty available on select repairs",
+      "Local in-store support"
+    ],
+    "offers": {
+      "eyebrow": "SEPTEMBER SAVINGS",
+      "title": "September Ultra Mobile Offers",
+      "intro": "Your favorite Ultra Mobile offers are extended for September. Three ways to save for families, new customers, and qualifying monthly plans.",
+      "cards": [
+        {
+          "badge": "FAMILY PLAN",
+          "title": "4 Unlimited Lines",
+          "price": "$100",
+          "priceSuffix": "/mo",
+          "explanation": "Combine four Unlimited lines on one plan for a total of $100 per month.",
+          "bullets": [
+            "Great for families, roommates, and friends",
+            "Four lines under one plan",
+            "Tablets may qualify as part of the four-line bundle",
+            "Powered by the T-Mobile network"
+          ],
+          "cta": "Ask About the Family Plan"
+        },
+        {
+          "badge": "EVERY 4TH MONTH FREE",
+          "title": "Buy 3 Months, Get the 4th Month FREE",
+          "explanation": "Renew a qualifying single-month 8GB or higher plan for three consecutive months and receive the fourth month free. The 25GB plan is excluded. Service must remain uninterrupted.",
+          "bullets": [
+            "Available on qualifying 8GB+ single-month plans",
+            "Pay for three consecutive months",
+            "Receive the fourth month free",
+            "The benefit repeats while the account and plan remain eligible"
+          ],
+          "cta": "View Qualifying Plans"
+        },
+        {
+          "badge": "NEW CUSTOMERS",
+          "title": "Ultra Unlimited",
+          "price": "$25",
+          "priceSuffix": "/mo",
+          "explanation": "Get 6 months for $150 paid upfront. Available through September 30, 2026.",
+          "bullets": [
+            "Unlimited 5G and 4G LTE data with no fixed data cap",
+            "Unlimited talk and global text",
+            "Calling to more than 90 international destinations",
+            "Unlimited talk and text plus 5GB of data in Mexico and Canada"
+          ],
+          "cta": "Ask About Unlimited for $25"
+        }
+      ],
+      "disclaimer": "Limited-time offer. Eligibility, plan availability, data speeds, taxes, fees, account status, device compatibility, and other restrictions may apply. We will confirm the details before activation."
     },
-    final: {
-      eyebrow: 'ONE LOCAL STORE',
-      title: 'Ready to Switch or Repair Your Phone?',
-      text: 'Start an Ultra Mobile request, book a repair, call the store, or stop in for help.',
-      ultra: 'Start an Ultra Mobile Request',
-      repair: 'Book a Repair'
+    "bonus": {
+      "badge": "SEPTEMBER CUSTOMER BONUS",
+      "title": "Free Tempered Glass for iPhone",
+      "text": "With an Ultra Mobile activation or select repairs. Limited-time offer. Ask in store for details.",
+      "cta": "Ask About the Bonus"
     },
-    sticky: { call: 'Call', ultra: 'Ultra Mobile', aria: 'Quick homepage actions' },
-    accessibility: {
-      offers: 'August Ultra Mobile promotion cards',
-      services: 'Phone and tablet repair services',
-      categories: 'Phone and accessory categories',
-      transfer: 'Number transfer steps',
-      why: 'Reasons to choose Cellz Repairz',
-      faq: 'Frequently asked questions'
+    "repairs": {
+      "eyebrow": "CELLZ REPAIRZ",
+      "title": "We Repair Phones and Tablets",
+      "intro": "From straightforward replacements to more involved diagnostics, we will explain the problem and present the available repair options.",
+      "services": [
+        "Screen replacement",
+        "Battery replacement",
+        "Charging problems",
+        "Charging ports",
+        "Back glass",
+        "Cameras",
+        "Speakers",
+        "Microphones",
+        "Phone diagnostics",
+        "Data recovery, where possible"
+      ],
+      "serviceCta": "Start this repair",
+      "diagnosticEyebrow": "DIAGNOSTICS",
+      "diagnosticTitle": "Not Sure What Is Wrong With Your Phone?",
+      "diagnosticText": "Bring it to Cellz Repairz. We will inspect the device, explain the problem, and outline the repair options that may be available.",
+      "ask": "Ask About a Repair",
+      "book": "Book a Repair",
+      "bookingNote": "Online bookings are repair requests. We confirm timing, pricing, and parts availability before the appointment."
+    },
+    "shop": {
+      "eyebrow": "IN-STORE SELECTION",
+      "title": "Phones and Accessories",
+      "text": "Ask about available phones, protective cases, tempered glass, chargers, and other accessories for popular models.",
+      "categories": [
+        "Unlocked phones",
+        "Used and new phones, based on current inventory",
+        "Protective cases",
+        "Tempered glass",
+        "Chargers and cables",
+        "Headphones",
+        "Power banks",
+        "iPhone accessories",
+        "Samsung accessories",
+        "Motorola and Google Pixel accessories"
+      ],
+      "cta": "Ask About Availability"
+    },
+    "transfer": {
+      "eyebrow": "KEEP YOUR NUMBER",
+      "title": "Want to Transfer Your Number?",
+      "intro": "We will help check your phone, transfer your number, and set up your Ultra Mobile service.",
+      "steps": [
+        "Unlocked phone",
+        "Account number from your current carrier",
+        "Transfer PIN",
+        "Keep the old service active until the transfer is complete"
+      ],
+      "stepLabel": "Step",
+      "warning": "Do not cancel your old service before the number transfer is complete. Closing the account too early may prevent you from keeping your number.",
+      "cta": "Start Your Number Transfer"
+    },
+    "why": {
+      "eyebrow": "LOCAL HELP THAT STAYS SIMPLE",
+      "title": "Why Choose Cellz Repairz?",
+      "items": [
+        "Free Ultra Mobile activation",
+        "Help transferring your number",
+        "Keep your current number",
+        "Help in English and Polish",
+        "In-store support",
+        "Fast, professional service",
+        "Honest explanation of your options",
+        "Local Chicago business"
+      ]
+    },
+    "faq": {
+      "eyebrow": "HELPFUL ANSWERS",
+      "title": "Frequently Asked Questions",
+      "items": [
+        {
+          "question": "Can I keep my current phone number?",
+          "answer": "Yes, in most cases. Keep your current service active and bring the correct account number and transfer PIN. We can help submit the transfer and verify the information before the old service is canceled."
+        },
+        {
+          "question": "Does my phone need to be unlocked?",
+          "answer": "Usually, yes. The phone should be unlocked and compatible with the network before activation. We can help check the device in store."
+        },
+        {
+          "question": "What do I need to transfer my number?",
+          "answer": "Bring the phone, the account number from your current carrier, the transfer PIN, and any requested account information. Keep the existing line active until the transfer finishes."
+        },
+        {
+          "question": "Is Ultra Mobile activation free?",
+          "answer": "Cellz Repairz provides free Ultra Mobile activation help in store. Taxes, plan costs, and any other applicable charges are separate."
+        },
+        {
+          "question": "Who can get Ultra Unlimited for $25?",
+          "answer": "The September offer is for qualifying new customers who purchase six months of Ultra Unlimited for $150 upfront. We will confirm eligibility before activation. Available through September 30, 2026."
+        },
+        {
+          "question": "How does the free fourth month offer work?",
+          "answer": "Use a qualifying 8GB-or-higher single-month plan and complete three consecutive paid renewals. The fourth month is free, and the benefit can repeat while the account and plan remain eligible. The 25GB plan is excluded. Service must remain uninterrupted."
+        },
+        {
+          "question": "Do you repair Samsung and Motorola phones?",
+          "answer": "Yes. We work on iPhone, Samsung, Motorola, Google Pixel, iPad, and many other phones and tablets. Parts and repair options depend on the exact model and issue."
+        },
+        {
+          "question": "Can I come in for diagnostics without an appointment?",
+          "answer": "Walk-ins are welcome during business hours. A repair request can still help us prepare, confirm parts, and contact you about the best drop-off time."
+        }
+      ]
+    },
+    "contact": {
+      "eyebrow": "VISIT THE STORE",
+      "title": "Visit Cellz Repairz",
+      "text": "Local help for Ultra Mobile, phone repairs, diagnostics, phones, and accessories.",
+      "hoursTitle": "Store hours",
+      "weekdays": "Monday–Friday: 11:00 AM–7:00 PM",
+      "saturday": "Saturday: 11:00 AM–3:00 PM",
+      "sunday": "Sunday: Closed",
+      "closed": "Closed",
+      "call": "Call Now",
+      "directions": "Directions",
+      "book": "Book a Repair",
+      "ultra": "Ask About Ultra Mobile"
+    },
+    "final": {
+      "eyebrow": "ONE LOCAL STORE",
+      "title": "Ready to Switch or Repair Your Phone?",
+      "text": "Start an Ultra Mobile request, book a repair, call the store, or stop in for help.",
+      "ultra": "Start an Ultra Mobile Request",
+      "repair": "Book a Repair"
+    },
+    "sticky": {
+      "call": "Call",
+      "ultra": "Ultra Mobile",
+      "aria": "Quick homepage actions"
+    },
+    "accessibility": {
+      "offers": "September Ultra Mobile promotion cards",
+      "services": "Phone and tablet repair services",
+      "categories": "Phone and accessory categories",
+      "transfer": "Number transfer steps",
+      "why": "Reasons to choose Cellz Repairz",
+      "faq": "Frequently asked questions"
     }
   },
-  pl: {
-    hero: {
-      eyebrow: 'SIERPIEŃ 2026 • ULTRA MOBILE + NAPRAWY TELEFONÓW',
-      title: 'Sierpniowe promocje. Profesjonalne naprawy. Lokalna pomoc.',
-      supporting: 'Ultra Mobile • Naprawy telefonów • Telefony • Akcesoria',
-      text: 'Zmień operatora, zachowaj swój numer lub napraw telefon w jednym zaufanym, lokalnym miejscu. Pomożemy Ci wybrać plan, przenieść numer, skonfigurować usługę i zrozumieć dostępne opcje naprawy.',
-      offers: 'Sprawdź promocje Ultra Mobile',
-      repair: 'Umów naprawę',
-      call: 'Zadzwoń: 773-413-7489',
-      visualLabel: 'Realistyczna prezentacja iPhone’a z interaktywnymi ofertami Ultra Mobile',
-      visualFeatured: 'Wyróżniona oferta sierpniowa',
-      visualAction: 'Zapytaj o tę ofertę',
-      visualHint: 'Sprawdź sierpniowe oferty',
-      visualLocal: 'Aktywacja i konfiguracja w sklepie',
-      visualOffers: ['4 linie za $100', 'Co 4. miesiąc gratis', '$25/mies. Unlimited']
-    },
-    trust: ['Darmowa aktywacja Ultra Mobile', 'Pomoc przy przeniesieniu numeru', 'Dożywotnia gwarancja przy wybranych naprawach', 'Lokalna pomoc w sklepie'],
-    offers: {
-      eyebrow: 'SIERPNIOWE OSZCZĘDNOŚCI',
-      title: 'Sierpniowe oferty Ultra Mobile',
-      intro: 'Trzy proste sposoby na oszczędzanie — dla rodzin, nowych klientów i osób korzystających z kwalifikujących się planów miesięcznych.',
-      cards: [
-        {
-          badge: 'PLAN RODZINNY',
-          title: '4 linie Unlimited',
-          price: '$100',
-          priceSuffix: '/mies.',
-          explanation: 'Połącz cztery linie Unlimited w jednym planie za łącznie $100 miesięcznie.',
-          bullets: ['Dla rodzin, znajomych i współlokatorów', 'Cztery linie w jednym planie', 'Tablety mogą kwalifikować się jako część pakietu czterech linii', 'Usługa działa w sieci T-Mobile'],
-          cta: 'Zapytaj o plan rodzinny'
-        },
-        {
-          badge: 'CO 4. MIESIĄC GRATIS',
-          title: 'Kup 3 miesiące, 4. miesiąc GRATIS',
-          explanation: 'Korzystaj z kwalifikującego się planu miesięcznego 8GB lub wyższego przez trzy kolejne miesiące, a czwarty miesiąc otrzymasz bezpłatnie.',
-          bullets: ['Dotyczy kwalifikujących się planów miesięcznych 8GB lub wyższych', 'Opłać trzy kolejne miesiące', 'Czwarty miesiąc otrzymujesz gratis', 'Korzyść powtarza się, jeśli konto i plan nadal spełniają warunki'],
-          cta: 'Sprawdź kwalifikujące się plany'
-        },
-        {
-          badge: 'DLA NOWYCH KLIENTÓW',
-          title: 'Ultra Unlimited',
-          price: '$25',
-          priceSuffix: '/mies.',
-          explanation: '6 miesięcy za $150 opłacone z góry.',
-          bullets: ['Nielimitowane dane 5G i 4G LTE bez stałego limitu danych', 'Nielimitowane rozmowy i globalne wiadomości tekstowe', 'Rozmowy do ponad 90 międzynarodowych kierunków', 'Rozmowy, SMS-y i 5GB danych w Meksyku i Kanadzie'],
-          cta: 'Zapytaj o Unlimited za $25'
-        }
-      ],
-      disclaimer: 'Oferta ograniczona czasowo. Kwalifikacja, dostępność planu, prędkości transmisji, podatki, opłaty, status konta, zgodność urządzenia i inne ograniczenia mogą mieć zastosowanie. Szczegóły potwierdzimy przed aktywacją.'
-    },
-    bonus: {
-      badge: 'SIERPNIOWY BONUS DLA KLIENTA',
-      title: 'Darmowe szkło hartowane do iPhone',
-      text: 'Przy aktywacji Ultra Mobile lub wybranych naprawach. Oferta ograniczona czasowo. Szczegóły w sklepie.',
-      cta: 'Zapytaj o bonus'
-    },
-    repairs: {
-      eyebrow: 'CELLZ REPAIRZ',
-      title: 'Naprawiamy telefony i tablety',
-      intro: 'Od prostych wymian po bardziej złożoną diagnostykę — wyjaśnimy problem i przedstawimy dostępne opcje naprawy.',
-      services: ['Wymiana ekranów', 'Wymiana baterii', 'Problemy z ładowaniem', 'Porty ładowania', 'Tylne szkło', 'Aparaty', 'Głośniki', 'Mikrofony', 'Diagnostyka telefonu', 'Odzyskiwanie danych, tam gdzie jest to możliwe'],
-      serviceCta: 'Rozpocznij zgłoszenie',
-      diagnosticEyebrow: 'DIAGNOSTYKA',
-      diagnosticTitle: 'Nie wiesz, co jest nie tak z telefonem?',
-      diagnosticText: 'Przynieś go do Cellz Repairz. Sprawdzimy urządzenie, wyjaśnimy problem i przedstawimy dostępne opcje naprawy.',
-      ask: 'Zapytaj o naprawę',
-      book: 'Umów naprawę',
-      bookingNote: 'Rezerwacja online jest zgłoszeniem naprawy. Przed wizytą potwierdzamy termin, cenę i dostępność części.'
-    },
-    shop: {
-      eyebrow: 'OFERTA W SKLEPIE',
-      title: 'Telefony i akcesoria',
-      text: 'Sprawdź dostępne telefony, etui, szkła ochronne, ładowarki i inne akcesoria do popularnych modeli.',
-      categories: ['Telefony odblokowane', 'Telefony używane i nowe — zależnie od aktualnego stanu magazynowego', 'Etui ochronne', 'Szkła hartowane', 'Ładowarki i kable', 'Słuchawki', 'Powerbanki', 'Akcesoria do iPhone', 'Akcesoria do Samsung', 'Akcesoria do Motorola i Google Pixel'],
-      cta: 'Zapytaj o dostępność'
-    },
-    transfer: {
-      eyebrow: 'ZACHOWAJ SWÓJ NUMER',
-      title: 'Chcesz przenieść swój numer?',
-      intro: 'Pomożemy Ci sprawdzić telefon, przenieść numer i skonfigurować usługę Ultra Mobile.',
-      steps: ['Odblokowany telefon', 'Numer konta u obecnego operatora', 'Transfer PIN', 'Aktywna usługa do zakończenia transferu'],
-      stepLabel: 'Krok',
-      warning: 'Nie anuluj starej usługi przed zakończeniem przenoszenia numeru. Zbyt wczesne zamknięcie konta może uniemożliwić zachowanie numeru.',
-      cta: 'Rozpocznij przenoszenie numeru'
-    },
-    why: {
-      eyebrow: 'PROSTA LOKALNA POMOC',
-      title: 'Dlaczego Cellz Repairz?',
-      items: ['Darmowa aktywacja Ultra Mobile', 'Pomoc przy przeniesieniu numeru', 'Zachowujesz swój obecny numer', 'Pomoc po polsku i po angielsku', 'Wsparcie na miejscu w sklepie', 'Szybka i profesjonalna obsługa', 'Uczciwe wyjaśnienie dostępnych opcji', 'Lokalny biznes w Chicago']
-    },
-    faq: {
-      eyebrow: 'POMOCNE ODPOWIEDZI',
-      title: 'Najczęściej zadawane pytania',
-      items: [
-        { question: 'Czy mogę zachować swój obecny numer?', answer: 'W większości przypadków tak. Nie wyłączaj obecnej usługi i przynieś prawidłowy numer konta oraz Transfer PIN. Pomożemy przesłać transfer i sprawdzić dane przed zamknięciem starej usługi.' },
-        { question: 'Czy mój telefon musi być odblokowany?', answer: 'Zazwyczaj tak. Telefon powinien być odblokowany i zgodny z siecią przed aktywacją. Możemy pomóc sprawdzić urządzenie w sklepie.' },
-        { question: 'Co jest potrzebne do przeniesienia numeru?', answer: 'Przynieś telefon, numer konta u obecnego operatora, Transfer PIN oraz wymagane dane konta. Stara linia musi pozostać aktywna do zakończenia transferu.' },
-        { question: 'Czy aktywacja Ultra Mobile jest darmowa?', answer: 'Cellz Repairz zapewnia darmową pomoc przy aktywacji Ultra Mobile w sklepie. Koszt planu, podatki i inne ewentualne opłaty są oddzielne.' },
-        { question: 'Kto może skorzystać z planu Unlimited za $25?', answer: 'Sierpniowa oferta jest przeznaczona dla kwalifikujących się nowych klientów, którzy opłacą sześć miesięcy Ultra Unlimited z góry za $150. Kwalifikację potwierdzimy przed aktywacją.' },
-        { question: 'Jak działa oferta czwartego miesiąca gratis?', answer: 'Korzystaj z kwalifikującego się miesięcznego planu 8GB lub wyższego i wykonaj trzy kolejne płatne odnowienia. Czwarty miesiąc jest bezpłatny, a korzyść może się powtarzać, jeśli konto i plan nadal spełniają warunki.' },
-        { question: 'Czy naprawiacie telefony Samsung i Motorola?', answer: 'Tak. Naprawiamy iPhone, Samsung, Motorola, Google Pixel, iPad oraz wiele innych telefonów i tabletów. Dostępne części i opcje zależą od dokładnego modelu i usterki.' },
-        { question: 'Czy mogę przyjść na diagnostykę bez umówionej wizyty?', answer: 'Tak, przyjmujemy klientów bez wcześniejszej wizyty w godzinach pracy. Zgłoszenie online może jednak pomóc nam przygotować się, sprawdzić części i skontaktować się w sprawie najlepszego terminu.' }
+  "pl": {
+    "hero": {
+      "eyebrow": "WRZESIEŃ 2026 • ULTRA MOBILE + NAPRAWY TELEFONÓW",
+      "title": "Wrześniowe promocje. Profesjonalne naprawy. Lokalna pomoc.",
+      "supporting": "Ultra Mobile • Naprawy telefonów • Telefony • Akcesoria",
+      "text": "Zmień operatora, zachowaj swój numer lub napraw telefon w jednym zaufanym, lokalnym miejscu. Pomożemy Ci wybrać plan, przenieść numer, skonfigurować usługę i zrozumieć dostępne opcje naprawy.",
+      "offers": "Sprawdź promocje Ultra Mobile",
+      "repair": "Umów naprawę",
+      "call": "Zadzwoń: 773-413-7489",
+      "visualLabel": "Realistyczna prezentacja iPhone’a z interaktywnymi ofertami Ultra Mobile",
+      "visualFeatured": "Wyróżniona oferta wrześniowa",
+      "visualAction": "Zapytaj o tę ofertę",
+      "visualHint": "Sprawdź wrześniowe oferty",
+      "visualLocal": "Aktywacja i konfiguracja w sklepie",
+      "visualOffers": [
+        "4 linie za $100",
+        "Co 4. miesiąc gratis",
+        "$25/mies. Unlimited"
       ]
     },
-    contact: {
-      eyebrow: 'ODWIEDŹ SKLEP',
-      title: 'Odwiedź Cellz Repairz',
-      text: 'Lokalna pomoc z Ultra Mobile, naprawami telefonów, diagnostyką, telefonami i akcesoriami.',
-      hoursTitle: 'Godziny otwarcia',
-      weekdays: 'Poniedziałek–piątek: 11:00 AM–7:00 PM',
-      saturday: 'Sobota: 11:00 AM–3:00 PM',
-      sunday: 'Niedziela: zamknięte',
-      closed: 'Zamknięte',
-      call: 'Zadzwoń teraz',
-      directions: 'Dojazd',
-      book: 'Umów naprawę',
-      ultra: 'Zapytaj o Ultra Mobile'
+    "trust": [
+      "Darmowa aktywacja Ultra Mobile",
+      "Pomoc przy przeniesieniu numeru",
+      "Dożywotnia gwarancja przy wybranych naprawach",
+      "Lokalna pomoc w sklepie"
+    ],
+    "offers": {
+      "eyebrow": "WRZEŚNIOWE OSZCZĘDNOŚCI",
+      "title": "Wrześniowe oferty Ultra Mobile",
+      "intro": "Twoje ulubione promocje Ultra Mobile zostały przedłużone na wrzesień. Trzy sposoby na oszczędzanie dla rodzin, nowych klientów i osób z kwalifikującymi się planami miesięcznymi.",
+      "cards": [
+        {
+          "badge": "PLAN RODZINNY",
+          "title": "4 linie Unlimited",
+          "price": "$100",
+          "priceSuffix": "/mies.",
+          "explanation": "Połącz cztery linie Unlimited w jednym planie za łącznie $100 miesięcznie.",
+          "bullets": [
+            "Dla rodzin, znajomych i współlokatorów",
+            "Cztery linie w jednym planie",
+            "Tablety mogą kwalifikować się jako część pakietu czterech linii",
+            "Usługa działa w sieci T-Mobile"
+          ],
+          "cta": "Zapytaj o plan rodzinny"
+        },
+        {
+          "badge": "CO 4. MIESIĄC GRATIS",
+          "title": "Kup 3 miesiące, 4. miesiąc GRATIS",
+          "explanation": "Korzystaj z kwalifikującego się planu miesięcznego 8GB lub wyższego przez trzy kolejne miesiące, a czwarty miesiąc otrzymasz bezpłatnie. Plan 25GB jest wyłączony z promocji. Usługa musi pozostać aktywna bez przerw.",
+          "bullets": [
+            "Dotyczy kwalifikujących się planów miesięcznych 8GB lub wyższych",
+            "Opłać trzy kolejne miesiące",
+            "Czwarty miesiąc otrzymujesz gratis",
+            "Korzyść powtarza się, jeśli konto i plan nadal spełniają warunki"
+          ],
+          "cta": "Sprawdź kwalifikujące się plany"
+        },
+        {
+          "badge": "DLA NOWYCH KLIENTÓW",
+          "title": "Ultra Unlimited",
+          "price": "$25",
+          "priceSuffix": "/mies.",
+          "explanation": "6 miesięcy za $150 opłacone z góry. Oferta dostępna do 30 września 2026.",
+          "bullets": [
+            "Nielimitowane dane 5G i 4G LTE bez stałego limitu danych",
+            "Nielimitowane rozmowy i globalne wiadomości tekstowe",
+            "Rozmowy do ponad 90 międzynarodowych kierunków",
+            "Rozmowy, SMS-y i 5GB danych w Meksyku i Kanadzie"
+          ],
+          "cta": "Zapytaj o Unlimited za $25"
+        }
+      ],
+      "disclaimer": "Oferta ograniczona czasowo. Kwalifikacja, dostępność planu, prędkości transmisji, podatki, opłaty, status konta, zgodność urządzenia i inne ograniczenia mogą mieć zastosowanie. Szczegóły potwierdzimy przed aktywacją."
     },
-    final: {
-      eyebrow: 'JEDEN LOKALNY SKLEP',
-      title: 'Gotowy zmienić operatora lub naprawić telefon?',
-      text: 'Rozpocznij zgłoszenie Ultra Mobile, umów naprawę, zadzwoń albo odwiedź sklep.',
-      ultra: 'Rozpocznij zgłoszenie Ultra Mobile',
-      repair: 'Umów naprawę'
+    "bonus": {
+      "badge": "WRZEŚNIOWY BONUS DLA KLIENTA",
+      "title": "Darmowe szkło hartowane do iPhone",
+      "text": "Przy aktywacji Ultra Mobile lub wybranych naprawach. Oferta ograniczona czasowo. Szczegóły w sklepie.",
+      "cta": "Zapytaj o bonus"
     },
-    sticky: { call: 'Zadzwoń', ultra: 'Ultra Mobile', aria: 'Szybkie działania na stronie głównej' },
-    accessibility: {
-      offers: 'Karty sierpniowych promocji Ultra Mobile',
-      services: 'Usługi naprawy telefonów i tabletów',
-      categories: 'Kategorie telefonów i akcesoriów',
-      transfer: 'Kroki przeniesienia numeru',
-      why: 'Powody, aby wybrać Cellz Repairz',
-      faq: 'Najczęściej zadawane pytania'
+    "repairs": {
+      "eyebrow": "CELLZ REPAIRZ",
+      "title": "Naprawiamy telefony i tablety",
+      "intro": "Od prostych wymian po bardziej złożoną diagnostykę — wyjaśnimy problem i przedstawimy dostępne opcje naprawy.",
+      "services": [
+        "Wymiana ekranów",
+        "Wymiana baterii",
+        "Problemy z ładowaniem",
+        "Porty ładowania",
+        "Tylne szkło",
+        "Aparaty",
+        "Głośniki",
+        "Mikrofony",
+        "Diagnostyka telefonu",
+        "Odzyskiwanie danych, tam gdzie jest to możliwe"
+      ],
+      "serviceCta": "Rozpocznij zgłoszenie",
+      "diagnosticEyebrow": "DIAGNOSTYKA",
+      "diagnosticTitle": "Nie wiesz, co jest nie tak z telefonem?",
+      "diagnosticText": "Przynieś go do Cellz Repairz. Sprawdzimy urządzenie, wyjaśnimy problem i przedstawimy dostępne opcje naprawy.",
+      "ask": "Zapytaj o naprawę",
+      "book": "Umów naprawę",
+      "bookingNote": "Rezerwacja online jest zgłoszeniem naprawy. Przed wizytą potwierdzamy termin, cenę i dostępność części."
+    },
+    "shop": {
+      "eyebrow": "OFERTA W SKLEPIE",
+      "title": "Telefony i akcesoria",
+      "text": "Sprawdź dostępne telefony, etui, szkła ochronne, ładowarki i inne akcesoria do popularnych modeli.",
+      "categories": [
+        "Telefony odblokowane",
+        "Telefony używane i nowe — zależnie od aktualnego stanu magazynowego",
+        "Etui ochronne",
+        "Szkła hartowane",
+        "Ładowarki i kable",
+        "Słuchawki",
+        "Powerbanki",
+        "Akcesoria do iPhone",
+        "Akcesoria do Samsung",
+        "Akcesoria do Motorola i Google Pixel"
+      ],
+      "cta": "Zapytaj o dostępność"
+    },
+    "transfer": {
+      "eyebrow": "ZACHOWAJ SWÓJ NUMER",
+      "title": "Chcesz przenieść swój numer?",
+      "intro": "Pomożemy Ci sprawdzić telefon, przenieść numer i skonfigurować usługę Ultra Mobile.",
+      "steps": [
+        "Odblokowany telefon",
+        "Numer konta u obecnego operatora",
+        "Transfer PIN",
+        "Aktywna usługa do zakończenia transferu"
+      ],
+      "stepLabel": "Krok",
+      "warning": "Nie anuluj starej usługi przed zakończeniem przenoszenia numeru. Zbyt wczesne zamknięcie konta może uniemożliwić zachowanie numeru.",
+      "cta": "Rozpocznij przenoszenie numeru"
+    },
+    "why": {
+      "eyebrow": "PROSTA LOKALNA POMOC",
+      "title": "Dlaczego Cellz Repairz?",
+      "items": [
+        "Darmowa aktywacja Ultra Mobile",
+        "Pomoc przy przeniesieniu numeru",
+        "Zachowujesz swój obecny numer",
+        "Pomoc po polsku i po angielsku",
+        "Wsparcie na miejscu w sklepie",
+        "Szybka i profesjonalna obsługa",
+        "Uczciwe wyjaśnienie dostępnych opcji",
+        "Lokalny biznes w Chicago"
+      ]
+    },
+    "faq": {
+      "eyebrow": "POMOCNE ODPOWIEDZI",
+      "title": "Najczęściej zadawane pytania",
+      "items": [
+        {
+          "question": "Czy mogę zachować swój obecny numer?",
+          "answer": "W większości przypadków tak. Nie wyłączaj obecnej usługi i przynieś prawidłowy numer konta oraz Transfer PIN. Pomożemy przesłać transfer i sprawdzić dane przed zamknięciem starej usługi."
+        },
+        {
+          "question": "Czy mój telefon musi być odblokowany?",
+          "answer": "Zazwyczaj tak. Telefon powinien być odblokowany i zgodny z siecią przed aktywacją. Możemy pomóc sprawdzić urządzenie w sklepie."
+        },
+        {
+          "question": "Co jest potrzebne do przeniesienia numeru?",
+          "answer": "Przynieś telefon, numer konta u obecnego operatora, Transfer PIN oraz wymagane dane konta. Stara linia musi pozostać aktywna do zakończenia transferu."
+        },
+        {
+          "question": "Czy aktywacja Ultra Mobile jest darmowa?",
+          "answer": "Cellz Repairz zapewnia darmową pomoc przy aktywacji Ultra Mobile w sklepie. Koszt planu, podatki i inne ewentualne opłaty są oddzielne."
+        },
+        {
+          "question": "Kto może skorzystać z planu Unlimited za $25?",
+          "answer": "Wrześniowa oferta jest przeznaczona dla kwalifikujących się nowych klientów, którzy opłacą sześć miesięcy Ultra Unlimited z góry za $150. Kwalifikację potwierdzimy przed aktywacją. Oferta dostępna do 30 września 2026."
+        },
+        {
+          "question": "Jak działa oferta czwartego miesiąca gratis?",
+          "answer": "Korzystaj z kwalifikującego się miesięcznego planu 8GB lub wyższego i wykonaj trzy kolejne płatne odnowienia. Czwarty miesiąc jest bezpłatny, a korzyść może się powtarzać, jeśli konto i plan nadal spełniają warunki. Plan 25GB jest wyłączony z promocji. Usługa musi pozostać aktywna bez przerw."
+        },
+        {
+          "question": "Czy naprawiacie telefony Samsung i Motorola?",
+          "answer": "Tak. Naprawiamy iPhone, Samsung, Motorola, Google Pixel, iPad oraz wiele innych telefonów i tabletów. Dostępne części i opcje zależą od dokładnego modelu i usterki."
+        },
+        {
+          "question": "Czy mogę przyjść na diagnostykę bez umówionej wizyty?",
+          "answer": "Tak, przyjmujemy klientów bez wcześniejszej wizyty w godzinach pracy. Zgłoszenie online może jednak pomóc nam przygotować się, sprawdzić części i skontaktować się w sprawie najlepszego terminu."
+        }
+      ]
+    },
+    "contact": {
+      "eyebrow": "ODWIEDŹ SKLEP",
+      "title": "Odwiedź Cellz Repairz",
+      "text": "Lokalna pomoc z Ultra Mobile, naprawami telefonów, diagnostyką, telefonami i akcesoriami.",
+      "hoursTitle": "Godziny otwarcia",
+      "weekdays": "Poniedziałek–piątek: 11:00 AM–7:00 PM",
+      "saturday": "Sobota: 11:00 AM–3:00 PM",
+      "sunday": "Niedziela: zamknięte",
+      "closed": "Zamknięte",
+      "call": "Zadzwoń teraz",
+      "directions": "Dojazd",
+      "book": "Umów naprawę",
+      "ultra": "Zapytaj o Ultra Mobile"
+    },
+    "final": {
+      "eyebrow": "JEDEN LOKALNY SKLEP",
+      "title": "Gotowy zmienić operatora lub naprawić telefon?",
+      "text": "Rozpocznij zgłoszenie Ultra Mobile, umów naprawę, zadzwoń albo odwiedź sklep.",
+      "ultra": "Rozpocznij zgłoszenie Ultra Mobile",
+      "repair": "Umów naprawę"
+    },
+    "sticky": {
+      "call": "Zadzwoń",
+      "ultra": "Ultra Mobile",
+      "aria": "Szybkie działania na stronie głównej"
+    },
+    "accessibility": {
+      "offers": "Karty wrześniowych promocji Ultra Mobile",
+      "services": "Usługi naprawy telefonów i tabletów",
+      "categories": "Kategorie telefonów i akcesoriów",
+      "transfer": "Kroki przeniesienia numeru",
+      "why": "Powody, aby wybrać Cellz Repairz",
+      "faq": "Najczęściej zadawane pytania"
     }
   },
-  es: {
-    hero: {
-      eyebrow: 'AGOSTO 2026 • ULTRA MOBILE + REPARACIÓN DE TELÉFONOS',
-      title: 'Ahorros de agosto. Reparaciones profesionales. Ayuda local.',
-      supporting: 'Ultra Mobile • Reparación de teléfonos • Teléfonos • Accesorios',
-      text: 'Cambia de compañía, conserva tu número o repara tu teléfono en una tienda local de confianza. Te ayudaremos a elegir un plan, transferir tu número, configurar el servicio y entender tus opciones de reparación.',
-      offers: 'Ver ofertas de Ultra Mobile',
-      repair: 'Solicitar reparación',
-      call: 'Llamar: 773-413-7489',
-      visualLabel: 'Presentación realista de iPhone con ofertas interactivas de Ultra Mobile',
-      visualFeatured: 'Oferta destacada de agosto',
-      visualAction: 'Preguntar por esta oferta',
-      visualHint: 'Explora las ofertas de agosto',
-      visualLocal: 'Activación y configuración en tienda',
-      visualOffers: ['4 líneas por $100', 'Cada 4.º mes gratis', '$25/mes Unlimited']
-    },
-    trust: ['Activación gratis de Ultra Mobile', 'Ayuda para transferir tu número', 'Garantía de por vida en reparaciones seleccionadas', 'Soporte local en la tienda'],
-    offers: {
-      eyebrow: 'AHORROS DE AGOSTO',
-      title: 'Ofertas de Ultra Mobile para agosto',
-      intro: 'Tres maneras sencillas de ahorrar: para familias, clientes nuevos y clientes con planes mensuales elegibles.',
-      cards: [
-        {
-          badge: 'PLAN FAMILIAR',
-          title: '4 líneas Unlimited',
-          price: '$100',
-          priceSuffix: '/mes',
-          explanation: 'Combina cuatro líneas Unlimited en un solo plan por un total de $100 al mes.',
-          bullets: ['Ideal para familias, compañeros de casa y amigos', 'Cuatro líneas bajo un solo plan', 'Las tabletas pueden calificar dentro del paquete de cuatro líneas', 'Servicio en la red de T-Mobile'],
-          cta: 'Preguntar por el plan familiar'
-        },
-        {
-          badge: 'CADA 4.º MES GRATIS',
-          title: 'Compra 3 meses y recibe el 4.º GRATIS',
-          explanation: 'Renueva un plan mensual elegible de 8GB o más durante tres meses consecutivos y recibe el cuarto mes gratis.',
-          bullets: ['Disponible en planes mensuales elegibles de 8GB o más', 'Paga tres meses consecutivos', 'Recibe el cuarto mes gratis', 'El beneficio se repite mientras la cuenta y el plan sigan siendo elegibles'],
-          cta: 'Ver planes elegibles'
-        },
-        {
-          badge: 'CLIENTES NUEVOS',
-          title: 'Ultra Unlimited',
-          price: '$25',
-          priceSuffix: '/mes',
-          explanation: 'Obtén 6 meses por $150 pagados por adelantado.',
-          bullets: ['Datos 5G y 4G LTE ilimitados sin un límite fijo de datos', 'Llamadas ilimitadas y textos globales', 'Llamadas a más de 90 destinos internacionales', 'Llamadas y textos ilimitados más 5GB de datos en México y Canadá'],
-          cta: 'Preguntar por Unlimited a $25'
-        }
-      ],
-      disclaimer: 'Oferta por tiempo limitado. Pueden aplicarse requisitos de elegibilidad, disponibilidad del plan, velocidades de datos, impuestos, cargos, estado de la cuenta, compatibilidad del dispositivo y otras restricciones. Confirmaremos los detalles antes de la activación.'
-    },
-    bonus: {
-      badge: 'BONO DE AGOSTO',
-      title: 'Vidrio templado gratis para iPhone',
-      text: 'Con una activación de Ultra Mobile o reparaciones seleccionadas. Oferta por tiempo limitado. Pregunta en la tienda.',
-      cta: 'Preguntar por el bono'
-    },
-    repairs: {
-      eyebrow: 'CELLZ REPAIRZ',
-      title: 'Reparamos teléfonos y tabletas',
-      intro: 'Desde reemplazos sencillos hasta diagnósticos más complejos, explicaremos el problema y las opciones de reparación disponibles.',
-      services: ['Cambio de pantalla', 'Cambio de batería', 'Problemas de carga', 'Puertos de carga', 'Cristal trasero', 'Cámaras', 'Altavoces', 'Micrófonos', 'Diagnóstico del teléfono', 'Recuperación de datos, cuando sea posible'],
-      serviceCta: 'Iniciar esta reparación',
-      diagnosticEyebrow: 'DIAGNÓSTICO',
-      diagnosticTitle: '¿No sabes qué le pasa a tu teléfono?',
-      diagnosticText: 'Tráelo a Cellz Repairz. Revisaremos el equipo, explicaremos el problema y te mostraremos las opciones de reparación disponibles.',
-      ask: 'Preguntar por una reparación',
-      book: 'Solicitar reparación',
-      bookingNote: 'Las reservas en línea son solicitudes de reparación. Confirmamos el horario, el precio y la disponibilidad de piezas antes de la cita.'
-    },
-    shop: {
-      eyebrow: 'SELECCIÓN EN TIENDA',
-      title: 'Teléfonos y accesorios',
-      text: 'Pregunta por teléfonos, fundas protectoras, vidrio templado, cargadores y otros accesorios para modelos populares.',
-      categories: ['Teléfonos desbloqueados', 'Teléfonos usados y nuevos, según el inventario actual', 'Fundas protectoras', 'Vidrio templado', 'Cargadores y cables', 'Audífonos', 'Baterías portátiles', 'Accesorios para iPhone', 'Accesorios para Samsung', 'Accesorios para Motorola y Google Pixel'],
-      cta: 'Preguntar por disponibilidad'
-    },
-    transfer: {
-      eyebrow: 'CONSERVA TU NÚMERO',
-      title: '¿Quieres transferir tu número?',
-      intro: 'Te ayudaremos a revisar tu teléfono, transferir tu número y configurar el servicio de Ultra Mobile.',
-      steps: ['Teléfono desbloqueado', 'Número de cuenta de tu compañía actual', 'PIN de transferencia', 'Mantén activo el servicio anterior hasta completar la transferencia'],
-      stepLabel: 'Paso',
-      warning: 'No canceles el servicio anterior antes de completar la transferencia. Cerrar la cuenta demasiado pronto puede impedir que conserves tu número.',
-      cta: 'Iniciar la transferencia de número'
-    },
-    why: {
-      eyebrow: 'AYUDA LOCAL Y SENCILLA',
-      title: '¿Por qué elegir Cellz Repairz?',
-      items: ['Activación gratis de Ultra Mobile', 'Ayuda para transferir tu número', 'Conservas tu número actual', 'Ayuda en inglés y polaco', 'Soporte en la tienda', 'Servicio rápido y profesional', 'Explicación honesta de tus opciones', 'Negocio local de Chicago']
-    },
-    faq: {
-      eyebrow: 'RESPUESTAS ÚTILES',
-      title: 'Preguntas frecuentes',
-      items: [
-        { question: '¿Puedo conservar mi número actual?', answer: 'Sí, en la mayoría de los casos. Mantén activo el servicio actual y trae el número de cuenta y el PIN de transferencia correctos. Podemos ayudarte a enviar la transferencia antes de cancelar el servicio anterior.' },
-        { question: '¿Mi teléfono debe estar desbloqueado?', answer: 'Por lo general, sí. El teléfono debe estar desbloqueado y ser compatible con la red antes de la activación. Podemos ayudarte a revisarlo en la tienda.' },
-        { question: '¿Qué necesito para transferir mi número?', answer: 'Trae el teléfono, el número de cuenta de tu compañía actual, el PIN de transferencia y la información de cuenta solicitada. Mantén activa la línea anterior hasta que finalice la transferencia.' },
-        { question: '¿La activación de Ultra Mobile es gratis?', answer: 'Cellz Repairz ofrece ayuda gratis con la activación de Ultra Mobile en la tienda. El costo del plan, los impuestos y otros cargos aplicables son separados.' },
-        { question: '¿Quién puede obtener Ultra Unlimited por $25?', answer: 'La oferta de agosto es para clientes nuevos elegibles que compren seis meses de Ultra Unlimited por $150 por adelantado. Confirmaremos la elegibilidad antes de la activación.' },
-        { question: '¿Cómo funciona el cuarto mes gratis?', answer: 'Usa un plan mensual elegible de 8GB o más y completa tres renovaciones pagadas consecutivas. El cuarto mes es gratis y el beneficio puede repetirse mientras la cuenta y el plan sigan siendo elegibles.' },
-        { question: '¿Reparan teléfonos Samsung y Motorola?', answer: 'Sí. Trabajamos con iPhone, Samsung, Motorola, Google Pixel, iPad y muchos otros teléfonos y tabletas. Las piezas y opciones dependen del modelo y el problema.' },
-        { question: '¿Puedo ir a diagnóstico sin cita?', answer: 'Aceptamos visitas sin cita durante el horario de la tienda. Una solicitud en línea puede ayudarnos a prepararnos, revisar piezas y contactarte sobre el mejor horario.' }
+  "es": {
+    "hero": {
+      "eyebrow": "SEPTIEMBRE 2026 • ULTRA MOBILE + REPARACIÓN DE TELÉFONOS",
+      "title": "Ahorros de septiembre. Reparaciones profesionales. Ayuda local.",
+      "supporting": "Ultra Mobile • Reparación de teléfonos • Teléfonos • Accesorios",
+      "text": "Cambia de compañía, conserva tu número o repara tu teléfono en una tienda local de confianza. Te ayudaremos a elegir un plan, transferir tu número, configurar el servicio y entender tus opciones de reparación.",
+      "offers": "Ver ofertas de Ultra Mobile",
+      "repair": "Solicitar reparación",
+      "call": "Llamar: 773-413-7489",
+      "visualLabel": "Presentación realista de iPhone con ofertas interactivas de Ultra Mobile",
+      "visualFeatured": "Oferta destacada de septiembre",
+      "visualAction": "Preguntar por esta oferta",
+      "visualHint": "Explora las ofertas de septiembre",
+      "visualLocal": "Activación y configuración en tienda",
+      "visualOffers": [
+        "4 líneas por $100",
+        "Cada 4.º mes gratis",
+        "$25/mes Unlimited"
       ]
     },
-    contact: {
-      eyebrow: 'VISITA LA TIENDA',
-      title: 'Visita Cellz Repairz',
-      text: 'Ayuda local con Ultra Mobile, reparaciones, diagnóstico, teléfonos y accesorios.',
-      hoursTitle: 'Horario',
-      weekdays: 'Lunes–viernes: 11:00 AM–7:00 PM',
-      saturday: 'Sábado: 11:00 AM–3:00 PM',
-      sunday: 'Domingo: cerrado',
-      closed: 'Cerrado',
-      call: 'Llamar ahora',
-      directions: 'Cómo llegar',
-      book: 'Solicitar reparación',
-      ultra: 'Preguntar por Ultra Mobile'
+    "trust": [
+      "Activación gratis de Ultra Mobile",
+      "Ayuda para transferir tu número",
+      "Garantía de por vida en reparaciones seleccionadas",
+      "Soporte local en la tienda"
+    ],
+    "offers": {
+      "eyebrow": "AHORROS DE SEPTIEMBRE",
+      "title": "Ofertas de Ultra Mobile para septiembre",
+      "intro": "Tus ofertas favoritas de Ultra Mobile se extienden a septiembre. Tres formas de ahorrar para familias, clientes nuevos y planes mensuales elegibles.",
+      "cards": [
+        {
+          "badge": "PLAN FAMILIAR",
+          "title": "4 líneas Unlimited",
+          "price": "$100",
+          "priceSuffix": "/mes",
+          "explanation": "Combina cuatro líneas Unlimited en un solo plan por un total de $100 al mes.",
+          "bullets": [
+            "Ideal para familias, compañeros de casa y amigos",
+            "Cuatro líneas bajo un solo plan",
+            "Las tabletas pueden calificar dentro del paquete de cuatro líneas",
+            "Servicio en la red de T-Mobile"
+          ],
+          "cta": "Preguntar por el plan familiar"
+        },
+        {
+          "badge": "CADA 4.º MES GRATIS",
+          "title": "Compra 3 meses y recibe el 4.º GRATIS",
+          "explanation": "Renueva un plan mensual elegible de 8GB o más durante tres meses consecutivos y recibe el cuarto mes gratis. El plan de 25GB no participa. El servicio debe mantenerse sin interrupciones.",
+          "bullets": [
+            "Disponible en planes mensuales elegibles de 8GB o más",
+            "Paga tres meses consecutivos",
+            "Recibe el cuarto mes gratis",
+            "El beneficio se repite mientras la cuenta y el plan sigan siendo elegibles"
+          ],
+          "cta": "Ver planes elegibles"
+        },
+        {
+          "badge": "CLIENTES NUEVOS",
+          "title": "Ultra Unlimited",
+          "price": "$25",
+          "priceSuffix": "/mes",
+          "explanation": "Obtén 6 meses por $150 pagados por adelantado. Disponible hasta el 30 de septiembre de 2026.",
+          "bullets": [
+            "Datos 5G y 4G LTE ilimitados sin un límite fijo de datos",
+            "Llamadas ilimitadas y textos globales",
+            "Llamadas a más de 90 destinos internacionales",
+            "Llamadas y textos ilimitados más 5GB de datos en México y Canadá"
+          ],
+          "cta": "Preguntar por Unlimited a $25"
+        }
+      ],
+      "disclaimer": "Oferta por tiempo limitado. Pueden aplicarse requisitos de elegibilidad, disponibilidad del plan, velocidades de datos, impuestos, cargos, estado de la cuenta, compatibilidad del dispositivo y otras restricciones. Confirmaremos los detalles antes de la activación."
     },
-    final: {
-      eyebrow: 'UNA TIENDA LOCAL',
-      title: '¿Listo para cambiar de compañía o reparar tu teléfono?',
-      text: 'Inicia una solicitud de Ultra Mobile, solicita una reparación, llama o visítanos.',
-      ultra: 'Iniciar solicitud de Ultra Mobile',
-      repair: 'Solicitar reparación'
+    "bonus": {
+      "badge": "BONO DE SEPTIEMBRE",
+      "title": "Vidrio templado gratis para iPhone",
+      "text": "Con una activación de Ultra Mobile o reparaciones seleccionadas. Oferta por tiempo limitado. Pregunta en la tienda.",
+      "cta": "Preguntar por el bono"
     },
-    sticky: { call: 'Llamar', ultra: 'Ultra Mobile', aria: 'Acciones rápidas de la página principal' },
-    accessibility: {
-      offers: 'Tarjetas de ofertas de Ultra Mobile para agosto',
-      services: 'Servicios de reparación de teléfonos y tabletas',
-      categories: 'Categorías de teléfonos y accesorios',
-      transfer: 'Pasos para transferir el número',
-      why: 'Razones para elegir Cellz Repairz',
-      faq: 'Preguntas frecuentes'
+    "repairs": {
+      "eyebrow": "CELLZ REPAIRZ",
+      "title": "Reparamos teléfonos y tabletas",
+      "intro": "Desde reemplazos sencillos hasta diagnósticos más complejos, explicaremos el problema y las opciones de reparación disponibles.",
+      "services": [
+        "Cambio de pantalla",
+        "Cambio de batería",
+        "Problemas de carga",
+        "Puertos de carga",
+        "Cristal trasero",
+        "Cámaras",
+        "Altavoces",
+        "Micrófonos",
+        "Diagnóstico del teléfono",
+        "Recuperación de datos, cuando sea posible"
+      ],
+      "serviceCta": "Iniciar esta reparación",
+      "diagnosticEyebrow": "DIAGNÓSTICO",
+      "diagnosticTitle": "¿No sabes qué le pasa a tu teléfono?",
+      "diagnosticText": "Tráelo a Cellz Repairz. Revisaremos el equipo, explicaremos el problema y te mostraremos las opciones de reparación disponibles.",
+      "ask": "Preguntar por una reparación",
+      "book": "Solicitar reparación",
+      "bookingNote": "Las reservas en línea son solicitudes de reparación. Confirmamos el horario, el precio y la disponibilidad de piezas antes de la cita."
+    },
+    "shop": {
+      "eyebrow": "SELECCIÓN EN TIENDA",
+      "title": "Teléfonos y accesorios",
+      "text": "Pregunta por teléfonos, fundas protectoras, vidrio templado, cargadores y otros accesorios para modelos populares.",
+      "categories": [
+        "Teléfonos desbloqueados",
+        "Teléfonos usados y nuevos, según el inventario actual",
+        "Fundas protectoras",
+        "Vidrio templado",
+        "Cargadores y cables",
+        "Audífonos",
+        "Baterías portátiles",
+        "Accesorios para iPhone",
+        "Accesorios para Samsung",
+        "Accesorios para Motorola y Google Pixel"
+      ],
+      "cta": "Preguntar por disponibilidad"
+    },
+    "transfer": {
+      "eyebrow": "CONSERVA TU NÚMERO",
+      "title": "¿Quieres transferir tu número?",
+      "intro": "Te ayudaremos a revisar tu teléfono, transferir tu número y configurar el servicio de Ultra Mobile.",
+      "steps": [
+        "Teléfono desbloqueado",
+        "Número de cuenta de tu compañía actual",
+        "PIN de transferencia",
+        "Mantén activo el servicio anterior hasta completar la transferencia"
+      ],
+      "stepLabel": "Paso",
+      "warning": "No canceles el servicio anterior antes de completar la transferencia. Cerrar la cuenta demasiado pronto puede impedir que conserves tu número.",
+      "cta": "Iniciar la transferencia de número"
+    },
+    "why": {
+      "eyebrow": "AYUDA LOCAL Y SENCILLA",
+      "title": "¿Por qué elegir Cellz Repairz?",
+      "items": [
+        "Activación gratis de Ultra Mobile",
+        "Ayuda para transferir tu número",
+        "Conservas tu número actual",
+        "Ayuda en inglés y polaco",
+        "Soporte en la tienda",
+        "Servicio rápido y profesional",
+        "Explicación honesta de tus opciones",
+        "Negocio local de Chicago"
+      ]
+    },
+    "faq": {
+      "eyebrow": "RESPUESTAS ÚTILES",
+      "title": "Preguntas frecuentes",
+      "items": [
+        {
+          "question": "¿Puedo conservar mi número actual?",
+          "answer": "Sí, en la mayoría de los casos. Mantén activo el servicio actual y trae el número de cuenta y el PIN de transferencia correctos. Podemos ayudarte a enviar la transferencia antes de cancelar el servicio anterior."
+        },
+        {
+          "question": "¿Mi teléfono debe estar desbloqueado?",
+          "answer": "Por lo general, sí. El teléfono debe estar desbloqueado y ser compatible con la red antes de la activación. Podemos ayudarte a revisarlo en la tienda."
+        },
+        {
+          "question": "¿Qué necesito para transferir mi número?",
+          "answer": "Trae el teléfono, el número de cuenta de tu compañía actual, el PIN de transferencia y la información de cuenta solicitada. Mantén activa la línea anterior hasta que finalice la transferencia."
+        },
+        {
+          "question": "¿La activación de Ultra Mobile es gratis?",
+          "answer": "Cellz Repairz ofrece ayuda gratis con la activación de Ultra Mobile en la tienda. El costo del plan, los impuestos y otros cargos aplicables son separados."
+        },
+        {
+          "question": "¿Quién puede obtener Ultra Unlimited por $25?",
+          "answer": "La oferta de septiembre es para clientes nuevos elegibles que compren seis meses de Ultra Unlimited por $150 por adelantado. Confirmaremos la elegibilidad antes de la activación. Disponible hasta el 30 de septiembre de 2026."
+        },
+        {
+          "question": "¿Cómo funciona el cuarto mes gratis?",
+          "answer": "Usa un plan mensual elegible de 8GB o más y completa tres renovaciones pagadas consecutivas. El cuarto mes es gratis y el beneficio puede repetirse mientras la cuenta y el plan sigan siendo elegibles. El plan de 25GB no participa. El servicio debe mantenerse sin interrupciones."
+        },
+        {
+          "question": "¿Reparan teléfonos Samsung y Motorola?",
+          "answer": "Sí. Trabajamos con iPhone, Samsung, Motorola, Google Pixel, iPad y muchos otros teléfonos y tabletas. Las piezas y opciones dependen del modelo y el problema."
+        },
+        {
+          "question": "¿Puedo ir a diagnóstico sin cita?",
+          "answer": "Aceptamos visitas sin cita durante el horario de la tienda. Una solicitud en línea puede ayudarnos a prepararnos, revisar piezas y contactarte sobre el mejor horario."
+        }
+      ]
+    },
+    "contact": {
+      "eyebrow": "VISITA LA TIENDA",
+      "title": "Visita Cellz Repairz",
+      "text": "Ayuda local con Ultra Mobile, reparaciones, diagnóstico, teléfonos y accesorios.",
+      "hoursTitle": "Horario",
+      "weekdays": "Lunes–viernes: 11:00 AM–7:00 PM",
+      "saturday": "Sábado: 11:00 AM–3:00 PM",
+      "sunday": "Domingo: cerrado",
+      "closed": "Cerrado",
+      "call": "Llamar ahora",
+      "directions": "Cómo llegar",
+      "book": "Solicitar reparación",
+      "ultra": "Preguntar por Ultra Mobile"
+    },
+    "final": {
+      "eyebrow": "UNA TIENDA LOCAL",
+      "title": "¿Listo para cambiar de compañía o reparar tu teléfono?",
+      "text": "Inicia una solicitud de Ultra Mobile, solicita una reparación, llama o visítanos.",
+      "ultra": "Iniciar solicitud de Ultra Mobile",
+      "repair": "Solicitar reparación"
+    },
+    "sticky": {
+      "call": "Llamar",
+      "ultra": "Ultra Mobile",
+      "aria": "Acciones rápidas de la página principal"
+    },
+    "accessibility": {
+      "offers": "Tarjetas de ofertas de Ultra Mobile para septiembre",
+      "services": "Servicios de reparación de teléfonos y tabletas",
+      "categories": "Categorías de teléfonos y accesorios",
+      "transfer": "Pasos para transferir el número",
+      "why": "Razones para elegir Cellz Repairz",
+      "faq": "Preguntas frecuentes"
     }
   },
-  uk: {
-    hero: {
-      eyebrow: 'СЕРПЕНЬ 2026 • ULTRA MOBILE + РЕМОНТ ТЕЛЕФОНІВ',
-      title: 'Серпневі заощадження. Професійний ремонт. Місцева допомога.',
-      supporting: 'Ultra Mobile • Ремонт телефонів • Телефони • Аксесуари',
-      text: 'Змініть оператора, збережіть свій номер або відремонтуйте телефон в одному надійному місцевому магазині. Ми допоможемо вибрати план, перенести номер, налаштувати послугу та зрозуміти варіанти ремонту.',
-      offers: 'Переглянути пропозиції Ultra Mobile',
-      repair: 'Подати заявку на ремонт',
-      call: 'Зателефонувати: 773-413-7489',
-      visualLabel: 'Реалістична презентація iPhone з інтерактивними пропозиціями Ultra Mobile',
-      visualFeatured: 'Головна пропозиція серпня',
-      visualAction: 'Запитати про цю пропозицію',
-      visualHint: 'Перегляньте серпневі пропозиції',
-      visualLocal: 'Активація та налаштування в магазині',
-      visualOffers: ['4 лінії за $100', 'Кожен 4-й місяць безкоштовно', '$25/міс. Unlimited']
-    },
-    trust: ['Безкоштовна активація Ultra Mobile', 'Допомога з перенесенням номера', 'Довічна гарантія на окремі ремонти', 'Місцева підтримка в магазині'],
-    offers: {
-      eyebrow: 'СЕРПНЕВІ ЗАОЩАДЖЕННЯ',
-      title: 'Серпневі пропозиції Ultra Mobile',
-      intro: 'Три прості способи заощадити — для родин, нових клієнтів і користувачів відповідних місячних планів.',
-      cards: [
-        {
-          badge: 'СІМЕЙНИЙ ПЛАН',
-          title: '4 лінії Unlimited',
-          price: '$100',
-          priceSuffix: '/міс.',
-          explanation: 'Об’єднайте чотири лінії Unlimited в одному плані за загальну ціну $100 на місяць.',
-          bullets: ['Для родин, друзів і сусідів по житлу', 'Чотири лінії в одному плані', 'Планшети можуть відповідати умовам пакета з чотирьох ліній', 'Послуга працює в мережі T-Mobile'],
-          cta: 'Запитати про сімейний план'
-        },
-        {
-          badge: 'КОЖЕН 4-Й МІСЯЦЬ БЕЗКОШТОВНО',
-          title: 'Купіть 3 місяці — 4-й БЕЗКОШТОВНО',
-          explanation: 'Поновлюйте відповідний місячний план 8GB або вище протягом трьох місяців поспіль і отримайте четвертий місяць безкоштовно.',
-          bullets: ['Для відповідних місячних планів 8GB або вище', 'Сплатіть три місяці поспіль', 'Отримайте четвертий місяць безкоштовно', 'Перевага повторюється, поки акаунт і план відповідають умовам'],
-          cta: 'Переглянути відповідні плани'
-        },
-        {
-          badge: 'ДЛЯ НОВИХ КЛІЄНТІВ',
-          title: 'Ultra Unlimited',
-          price: '$25',
-          priceSuffix: '/міс.',
-          explanation: '6 місяців за $150 з передоплатою.',
-          bullets: ['Безлімітні дані 5G і 4G LTE без фіксованого ліміту', 'Безлімітні дзвінки та глобальні SMS', 'Дзвінки до понад 90 міжнародних напрямків', 'Безлімітні дзвінки й SMS плюс 5GB даних у Мексиці та Канаді'],
-          cta: 'Запитати про Unlimited за $25'
-        }
-      ],
-      disclaimer: 'Пропозиція обмежена в часі. Можуть діяти вимоги щодо участі, доступності плану, швидкості даних, податків, зборів, статусу акаунта, сумісності пристрою та інші обмеження. Деталі підтвердимо перед активацією.'
-    },
-    bonus: {
-      badge: 'СЕРПНЕВИЙ БОНУС',
-      title: 'Безкоштовне загартоване скло для iPhone',
-      text: 'З активацією Ultra Mobile або окремими ремонтами. Пропозиція обмежена в часі. Деталі в магазині.',
-      cta: 'Запитати про бонус'
-    },
-    repairs: {
-      eyebrow: 'CELLZ REPAIRZ',
-      title: 'Ремонтуємо телефони та планшети',
-      intro: 'Від простих замін до складнішої діагностики — ми пояснимо проблему та доступні варіанти ремонту.',
-      services: ['Заміна екрана', 'Заміна батареї', 'Проблеми із заряджанням', 'Порти заряджання', 'Заднє скло', 'Камери', 'Динаміки', 'Мікрофони', 'Діагностика телефону', 'Відновлення даних, коли це можливо'],
-      serviceCta: 'Почати заявку',
-      diagnosticEyebrow: 'ДІАГНОСТИКА',
-      diagnosticTitle: 'Не знаєте, що не так із телефоном?',
-      diagnosticText: 'Принесіть його до Cellz Repairz. Ми перевіримо пристрій, пояснимо проблему та доступні варіанти ремонту.',
-      ask: 'Запитати про ремонт',
-      book: 'Подати заявку на ремонт',
-      bookingNote: 'Онлайн-запис є заявкою на ремонт. Перед візитом ми підтверджуємо час, ціну та наявність деталей.'
-    },
-    shop: {
-      eyebrow: 'ВИБІР У МАГАЗИНІ',
-      title: 'Телефони та аксесуари',
-      text: 'Запитайте про наявні телефони, захисні чохли, загартоване скло, зарядні пристрої та інші аксесуари для популярних моделей.',
-      categories: ['Розблоковані телефони', 'Вживані й нові телефони залежно від наявності', 'Захисні чохли', 'Загартоване скло', 'Зарядні пристрої та кабелі', 'Навушники', 'Повербанки', 'Аксесуари для iPhone', 'Аксесуари для Samsung', 'Аксесуари для Motorola та Google Pixel'],
-      cta: 'Запитати про наявність'
-    },
-    transfer: {
-      eyebrow: 'ЗБЕРЕЖІТЬ СВІЙ НОМЕР',
-      title: 'Хочете перенести свій номер?',
-      intro: 'Ми допоможемо перевірити телефон, перенести номер і налаштувати Ultra Mobile.',
-      steps: ['Розблокований телефон', 'Номер акаунта у поточного оператора', 'Transfer PIN', 'Залиште стару послугу активною до завершення перенесення'],
-      stepLabel: 'Крок',
-      warning: 'Не скасовуйте стару послугу до завершення перенесення номера. Надто раннє закриття акаунта може завадити зберегти номер.',
-      cta: 'Почати перенесення номера'
-    },
-    why: {
-      eyebrow: 'ПРОСТА МІСЦЕВА ДОПОМОГА',
-      title: 'Чому обирають Cellz Repairz?',
-      items: ['Безкоштовна активація Ultra Mobile', 'Допомога з перенесенням номера', 'Ви зберігаєте свій номер', 'Допомога англійською та польською', 'Підтримка в магазині', 'Швидке професійне обслуговування', 'Чесне пояснення доступних варіантів', 'Місцевий бізнес у Чикаго']
-    },
-    faq: {
-      eyebrow: 'КОРИСНІ ВІДПОВІДІ',
-      title: 'Поширені запитання',
-      items: [
-        { question: 'Чи можу я зберегти свій номер?', answer: 'У більшості випадків так. Залиште поточну послугу активною та принесіть правильний номер акаунта й Transfer PIN. Ми допоможемо подати запит до скасування старої послуги.' },
-        { question: 'Чи має телефон бути розблокованим?', answer: 'Зазвичай так. Перед активацією телефон має бути розблокованим і сумісним із мережею. Ми можемо допомогти перевірити пристрій у магазині.' },
-        { question: 'Що потрібно для перенесення номера?', answer: 'Принесіть телефон, номер акаунта у поточного оператора, Transfer PIN та потрібні дані акаунта. Стара лінія має залишатися активною до завершення перенесення.' },
-        { question: 'Чи безкоштовна активація Ultra Mobile?', answer: 'Cellz Repairz надає безкоштовну допомогу з активацією Ultra Mobile у магазині. Вартість плану, податки та інші можливі збори оплачуються окремо.' },
-        { question: 'Хто може отримати Ultra Unlimited за $25?', answer: 'Серпнева пропозиція діє для відповідних нових клієнтів, які сплачують $150 наперед за шість місяців Ultra Unlimited. Участь підтвердимо перед активацією.' },
-        { question: 'Як працює безкоштовний четвертий місяць?', answer: 'Використовуйте відповідний місячний план 8GB або вище та здійсніть три послідовні платні поновлення. Четвертий місяць безкоштовний, і перевага може повторюватися, поки акаунт і план відповідають умовам.' },
-        { question: 'Чи ремонтуєте Samsung і Motorola?', answer: 'Так. Ми працюємо з iPhone, Samsung, Motorola, Google Pixel, iPad та багатьма іншими телефонами й планшетами. Деталі та варіанти залежать від моделі й несправності.' },
-        { question: 'Чи можна прийти на діагностику без запису?', answer: 'Так, можна прийти без запису в робочі години. Онлайн-заявка може допомогти нам підготуватися, перевірити деталі та зв’язатися щодо найкращого часу.' }
+  "uk": {
+    "hero": {
+      "eyebrow": "ВЕРЕСЕНЬ 2026 • ULTRA MOBILE + РЕМОНТ ТЕЛЕФОНІВ",
+      "title": "Вересневі заощадження. Професійний ремонт. Місцева допомога.",
+      "supporting": "Ultra Mobile • Ремонт телефонів • Телефони • Аксесуари",
+      "text": "Змініть оператора, збережіть свій номер або відремонтуйте телефон в одному надійному місцевому магазині. Ми допоможемо вибрати план, перенести номер, налаштувати послугу та зрозуміти варіанти ремонту.",
+      "offers": "Переглянути пропозиції Ultra Mobile",
+      "repair": "Подати заявку на ремонт",
+      "call": "Зателефонувати: 773-413-7489",
+      "visualLabel": "Реалістична презентація iPhone з інтерактивними пропозиціями Ultra Mobile",
+      "visualFeatured": "Головна пропозиція вересня",
+      "visualAction": "Запитати про цю пропозицію",
+      "visualHint": "Перегляньте вересневі пропозиції",
+      "visualLocal": "Активація та налаштування в магазині",
+      "visualOffers": [
+        "4 лінії за $100",
+        "Кожен 4-й місяць безкоштовно",
+        "$25/міс. Unlimited"
       ]
     },
-    contact: {
-      eyebrow: 'ВІДВІДАЙТЕ МАГАЗИН',
-      title: 'Відвідайте Cellz Repairz',
-      text: 'Місцева допомога з Ultra Mobile, ремонтом, діагностикою, телефонами й аксесуарами.',
-      hoursTitle: 'Години роботи',
-      weekdays: 'Понеділок–п’ятниця: 11:00 AM–7:00 PM',
-      saturday: 'Субота: 11:00 AM–3:00 PM',
-      sunday: 'Неділя: зачинено',
-      closed: 'Зачинено',
-      call: 'Зателефонувати',
-      directions: 'Маршрут',
-      book: 'Подати заявку на ремонт',
-      ultra: 'Запитати про Ultra Mobile'
+    "trust": [
+      "Безкоштовна активація Ultra Mobile",
+      "Допомога з перенесенням номера",
+      "Довічна гарантія на окремі ремонти",
+      "Місцева підтримка в магазині"
+    ],
+    "offers": {
+      "eyebrow": "ВЕРЕСНЕВІ ЗАОЩАДЖЕННЯ",
+      "title": "Вересневі пропозиції Ultra Mobile",
+      "intro": "Улюблені пропозиції Ultra Mobile продовжено на вересень. Три способи заощадити для родин, нових клієнтів і користувачів відповідних місячних планів.",
+      "cards": [
+        {
+          "badge": "СІМЕЙНИЙ ПЛАН",
+          "title": "4 лінії Unlimited",
+          "price": "$100",
+          "priceSuffix": "/міс.",
+          "explanation": "Об’єднайте чотири лінії Unlimited в одному плані за загальну ціну $100 на місяць.",
+          "bullets": [
+            "Для родин, друзів і сусідів по житлу",
+            "Чотири лінії в одному плані",
+            "Планшети можуть відповідати умовам пакета з чотирьох ліній",
+            "Послуга працює в мережі T-Mobile"
+          ],
+          "cta": "Запитати про сімейний план"
+        },
+        {
+          "badge": "КОЖЕН 4-Й МІСЯЦЬ БЕЗКОШТОВНО",
+          "title": "Купіть 3 місяці — 4-й БЕЗКОШТОВНО",
+          "explanation": "Поновлюйте відповідний місячний план 8GB або вище протягом трьох місяців поспіль і отримайте четвертий місяць безкоштовно. План 25GB не бере участі. Послуга має діяти без перерв.",
+          "bullets": [
+            "Для відповідних місячних планів 8GB або вище",
+            "Сплатіть три місяці поспіль",
+            "Отримайте четвертий місяць безкоштовно",
+            "Перевага повторюється, поки акаунт і план відповідають умовам"
+          ],
+          "cta": "Переглянути відповідні плани"
+        },
+        {
+          "badge": "ДЛЯ НОВИХ КЛІЄНТІВ",
+          "title": "Ultra Unlimited",
+          "price": "$25",
+          "priceSuffix": "/міс.",
+          "explanation": "6 місяців за $150 з передоплатою. Пропозиція діє до 30 вересня 2026 року.",
+          "bullets": [
+            "Безлімітні дані 5G і 4G LTE без фіксованого ліміту",
+            "Безлімітні дзвінки та глобальні SMS",
+            "Дзвінки до понад 90 міжнародних напрямків",
+            "Безлімітні дзвінки й SMS плюс 5GB даних у Мексиці та Канаді"
+          ],
+          "cta": "Запитати про Unlimited за $25"
+        }
+      ],
+      "disclaimer": "Пропозиція обмежена в часі. Можуть діяти вимоги щодо участі, доступності плану, швидкості даних, податків, зборів, статусу акаунта, сумісності пристрою та інші обмеження. Деталі підтвердимо перед активацією."
     },
-    final: {
-      eyebrow: 'ОДИН МІСЦЕВИЙ МАГАЗИН',
-      title: 'Готові змінити оператора або відремонтувати телефон?',
-      text: 'Почніть заявку Ultra Mobile, подайте заявку на ремонт, зателефонуйте або завітайте до магазину.',
-      ultra: 'Почати заявку Ultra Mobile',
-      repair: 'Подати заявку на ремонт'
+    "bonus": {
+      "badge": "ВЕРЕСНЕВИЙ БОНУС",
+      "title": "Безкоштовне загартоване скло для iPhone",
+      "text": "З активацією Ultra Mobile або окремими ремонтами. Пропозиція обмежена в часі. Деталі в магазині.",
+      "cta": "Запитати про бонус"
     },
-    sticky: { call: 'Дзвінок', ultra: 'Ultra Mobile', aria: 'Швидкі дії на головній сторінці' },
-    accessibility: {
-      offers: 'Картки серпневих пропозицій Ultra Mobile',
-      services: 'Послуги ремонту телефонів і планшетів',
-      categories: 'Категорії телефонів і аксесуарів',
-      transfer: 'Кроки перенесення номера',
-      why: 'Причини обрати Cellz Repairz',
-      faq: 'Поширені запитання'
+    "repairs": {
+      "eyebrow": "CELLZ REPAIRZ",
+      "title": "Ремонтуємо телефони та планшети",
+      "intro": "Від простих замін до складнішої діагностики — ми пояснимо проблему та доступні варіанти ремонту.",
+      "services": [
+        "Заміна екрана",
+        "Заміна батареї",
+        "Проблеми із заряджанням",
+        "Порти заряджання",
+        "Заднє скло",
+        "Камери",
+        "Динаміки",
+        "Мікрофони",
+        "Діагностика телефону",
+        "Відновлення даних, коли це можливо"
+      ],
+      "serviceCta": "Почати заявку",
+      "diagnosticEyebrow": "ДІАГНОСТИКА",
+      "diagnosticTitle": "Не знаєте, що не так із телефоном?",
+      "diagnosticText": "Принесіть його до Cellz Repairz. Ми перевіримо пристрій, пояснимо проблему та доступні варіанти ремонту.",
+      "ask": "Запитати про ремонт",
+      "book": "Подати заявку на ремонт",
+      "bookingNote": "Онлайн-запис є заявкою на ремонт. Перед візитом ми підтверджуємо час, ціну та наявність деталей."
+    },
+    "shop": {
+      "eyebrow": "ВИБІР У МАГАЗИНІ",
+      "title": "Телефони та аксесуари",
+      "text": "Запитайте про наявні телефони, захисні чохли, загартоване скло, зарядні пристрої та інші аксесуари для популярних моделей.",
+      "categories": [
+        "Розблоковані телефони",
+        "Вживані й нові телефони залежно від наявності",
+        "Захисні чохли",
+        "Загартоване скло",
+        "Зарядні пристрої та кабелі",
+        "Навушники",
+        "Повербанки",
+        "Аксесуари для iPhone",
+        "Аксесуари для Samsung",
+        "Аксесуари для Motorola та Google Pixel"
+      ],
+      "cta": "Запитати про наявність"
+    },
+    "transfer": {
+      "eyebrow": "ЗБЕРЕЖІТЬ СВІЙ НОМЕР",
+      "title": "Хочете перенести свій номер?",
+      "intro": "Ми допоможемо перевірити телефон, перенести номер і налаштувати Ultra Mobile.",
+      "steps": [
+        "Розблокований телефон",
+        "Номер акаунта у поточного оператора",
+        "Transfer PIN",
+        "Залиште стару послугу активною до завершення перенесення"
+      ],
+      "stepLabel": "Крок",
+      "warning": "Не скасовуйте стару послугу до завершення перенесення номера. Надто раннє закриття акаунта може завадити зберегти номер.",
+      "cta": "Почати перенесення номера"
+    },
+    "why": {
+      "eyebrow": "ПРОСТА МІСЦЕВА ДОПОМОГА",
+      "title": "Чому обирають Cellz Repairz?",
+      "items": [
+        "Безкоштовна активація Ultra Mobile",
+        "Допомога з перенесенням номера",
+        "Ви зберігаєте свій номер",
+        "Допомога англійською та польською",
+        "Підтримка в магазині",
+        "Швидке професійне обслуговування",
+        "Чесне пояснення доступних варіантів",
+        "Місцевий бізнес у Чикаго"
+      ]
+    },
+    "faq": {
+      "eyebrow": "КОРИСНІ ВІДПОВІДІ",
+      "title": "Поширені запитання",
+      "items": [
+        {
+          "question": "Чи можу я зберегти свій номер?",
+          "answer": "У більшості випадків так. Залиште поточну послугу активною та принесіть правильний номер акаунта й Transfer PIN. Ми допоможемо подати запит до скасування старої послуги."
+        },
+        {
+          "question": "Чи має телефон бути розблокованим?",
+          "answer": "Зазвичай так. Перед активацією телефон має бути розблокованим і сумісним із мережею. Ми можемо допомогти перевірити пристрій у магазині."
+        },
+        {
+          "question": "Що потрібно для перенесення номера?",
+          "answer": "Принесіть телефон, номер акаунта у поточного оператора, Transfer PIN та потрібні дані акаунта. Стара лінія має залишатися активною до завершення перенесення."
+        },
+        {
+          "question": "Чи безкоштовна активація Ultra Mobile?",
+          "answer": "Cellz Repairz надає безкоштовну допомогу з активацією Ultra Mobile у магазині. Вартість плану, податки та інші можливі збори оплачуються окремо."
+        },
+        {
+          "question": "Хто може отримати Ultra Unlimited за $25?",
+          "answer": "Вереснева пропозиція діє для відповідних нових клієнтів, які сплачують $150 наперед за шість місяців Ultra Unlimited. Участь підтвердимо перед активацією. Пропозиція діє до 30 вересня 2026 року."
+        },
+        {
+          "question": "Як працює безкоштовний четвертий місяць?",
+          "answer": "Використовуйте відповідний місячний план 8GB або вище та здійсніть три послідовні платні поновлення. Четвертий місяць безкоштовний, і перевага може повторюватися, поки акаунт і план відповідають умовам. План 25GB не бере участі. Послуга має діяти без перерв."
+        },
+        {
+          "question": "Чи ремонтуєте Samsung і Motorola?",
+          "answer": "Так. Ми працюємо з iPhone, Samsung, Motorola, Google Pixel, iPad та багатьма іншими телефонами й планшетами. Деталі та варіанти залежать від моделі й несправності."
+        },
+        {
+          "question": "Чи можна прийти на діагностику без запису?",
+          "answer": "Так, можна прийти без запису в робочі години. Онлайн-заявка може допомогти нам підготуватися, перевірити деталі та зв’язатися щодо найкращого часу."
+        }
+      ]
+    },
+    "contact": {
+      "eyebrow": "ВІДВІДАЙТЕ МАГАЗИН",
+      "title": "Відвідайте Cellz Repairz",
+      "text": "Місцева допомога з Ultra Mobile, ремонтом, діагностикою, телефонами й аксесуарами.",
+      "hoursTitle": "Години роботи",
+      "weekdays": "Понеділок–п’ятниця: 11:00 AM–7:00 PM",
+      "saturday": "Субота: 11:00 AM–3:00 PM",
+      "sunday": "Неділя: зачинено",
+      "closed": "Зачинено",
+      "call": "Зателефонувати",
+      "directions": "Маршрут",
+      "book": "Подати заявку на ремонт",
+      "ultra": "Запитати про Ultra Mobile"
+    },
+    "final": {
+      "eyebrow": "ОДИН МІСЦЕВИЙ МАГАЗИН",
+      "title": "Готові змінити оператора або відремонтувати телефон?",
+      "text": "Почніть заявку Ultra Mobile, подайте заявку на ремонт, зателефонуйте або завітайте до магазину.",
+      "ultra": "Почати заявку Ultra Mobile",
+      "repair": "Подати заявку на ремонт"
+    },
+    "sticky": {
+      "call": "Дзвінок",
+      "ultra": "Ultra Mobile",
+      "aria": "Швидкі дії на головній сторінці"
+    },
+    "accessibility": {
+      "offers": "Картки вересневих пропозицій Ultra Mobile",
+      "services": "Послуги ремонту телефонів і планшетів",
+      "categories": "Категорії телефонів і аксесуарів",
+      "transfer": "Кроки перенесення номера",
+      "why": "Причини обрати Cellz Repairz",
+      "faq": "Поширені запитання"
     }
   }
 };
@@ -702,7 +1055,7 @@ function trackHomepageAction(eventName: string) {
   }).catch(() => undefined);
 }
 
-function AugustFaq({ items, ariaLabel }: { items: FaqItem[]; ariaLabel: string }) {
+function SeptemberFaq({ items, ariaLabel }: { items: FaqItem[]; ariaLabel: string }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   return (
     <div className="augustFaq" aria-label={ariaLabel}>
@@ -734,7 +1087,7 @@ function AugustFaq({ items, ariaLabel }: { items: FaqItem[]; ariaLabel: string }
   );
 }
 
-export function AugustHome({
+export function SeptemberHome({
   lang,
   navigate,
   navigatePath
@@ -776,13 +1129,13 @@ export function AugustHome({
 
   const startRepair = (issue?: string) => {
     trackHomepageAction('homepage_august_repair_booking_click');
-    const query = issue ? `?issue=${encodeURIComponent(issue)}&source=homepage-august` : '?source=homepage-august';
+    const query = issue ? `?issue=${encodeURIComponent(issue)}&source=homepage-september` : '?source=homepage-september';
     navigatePath(`/book-repair${query}`);
   };
 
   const startUltra = (request: string, plan: string, eventName: string) => {
     trackHomepageAction(eventName);
-    navigatePath(`/ultra-sim?request=${encodeURIComponent(request)}&plan=${encodeURIComponent(plan)}&source=homepage-august`);
+    navigatePath(`/ultra-sim?request=${encodeURIComponent(request)}&plan=${encodeURIComponent(plan)}&source=homepage-september`);
   };
 
   const openSelectedHeroOffer = () => {
@@ -851,6 +1204,15 @@ export function AugustHome({
                       role="tab"
                       aria-selected={activeHeroOffer === index}
                       aria-controls="august-hero-offer-panel"
+                      tabIndex={activeHeroOffer === index ? 0 : -1}
+                      onKeyDown={(event) => {
+                        const keys: Record<string, number> = { ArrowRight: (index + 1) % 3, ArrowLeft: (index + 2) % 3, Home: 0, End: 2 };
+                        const next = keys[event.key];
+                        if (next === undefined) return;
+                        event.preventDefault();
+                        setActiveHeroOffer(next);
+                        document.getElementById(`august-hero-offer-tab-${next}`)?.focus();
+                      }}
                       className={activeHeroOffer === index ? 'active' : ''}
                       onClick={() => setActiveHeroOffer(index)}
                     >
@@ -897,6 +1259,8 @@ export function AugustHome({
           ))}
         </div>
       </section>
+
+      <SeptemberCoupon lang={lang} navigatePath={navigatePath} />
 
       <section className="augustSection augustOffersSection" id="august-offers">
         <div className="wrap">
@@ -1051,7 +1415,7 @@ export function AugustHome({
             <span>{copy.faq.eyebrow}</span>
             <h2>{copy.faq.title}</h2>
           </div>
-          <AugustFaq items={copy.faq.items} ariaLabel={copy.accessibility.faq} />
+          <SeptemberFaq items={copy.faq.items} ariaLabel={copy.accessibility.faq} />
         </div>
       </section>
 
@@ -1073,7 +1437,7 @@ export function AugustHome({
             <a className="primaryBtn" href="tel:7734137489" onClick={() => trackHomepageAction('homepage_august_call_click')}><Phone size={17} /> {copy.contact.call}</a>
             <a className="secondaryBtn" href={directionsUrl} target="_blank" rel="noreferrer" onClick={() => trackHomepageAction('homepage_august_directions_click')}><Navigation size={17} /> {copy.contact.directions}</a>
             <button className="secondaryBtn" type="button" onClick={() => startRepair()}>{copy.contact.book}</button>
-            <button className="secondaryBtn" type="button" onClick={() => startUltra('general-august-inquiry', 'August Ultra Mobile Offers', 'homepage_august_ultra_inquiry_click')}>{copy.contact.ultra}</button>
+            <button className="secondaryBtn" type="button" onClick={() => startUltra('general-august-inquiry', 'September Ultra Mobile Offers', 'homepage_august_ultra_inquiry_click')}>{copy.contact.ultra}</button>
           </div>
         </div>
       </section>
@@ -1086,7 +1450,7 @@ export function AugustHome({
             <p>{copy.final.text}</p>
           </div>
           <div>
-            <button className="primaryBtn" type="button" onClick={() => startUltra('general-august-inquiry', 'August Ultra Mobile Offers', 'homepage_august_ultra_inquiry_click')}>{copy.final.ultra} <ArrowRight size={17} /></button>
+            <button className="primaryBtn" type="button" onClick={() => startUltra('general-august-inquiry', 'September Ultra Mobile Offers', 'homepage_august_ultra_inquiry_click')}>{copy.final.ultra} <ArrowRight size={17} /></button>
             <button className="secondaryBtn" type="button" onClick={() => startRepair()}>{copy.final.repair}</button>
           </div>
         </div>
@@ -1094,7 +1458,7 @@ export function AugustHome({
 
       <nav className="augustMobileSticky" aria-label={copy.sticky.aria}>
         <a href="tel:7734137489" onClick={() => trackHomepageAction('homepage_august_call_click')}><Phone size={19} /><span>{copy.sticky.call}</span></a>
-        <button type="button" onClick={() => startUltra('general-august-inquiry', 'August Ultra Mobile Offers', 'homepage_august_ultra_inquiry_click')}><Wifi size={19} /><span>{copy.sticky.ultra}</span></button>
+        <button type="button" onClick={() => startUltra('general-august-inquiry', 'September Ultra Mobile Offers', 'homepage_august_ultra_inquiry_click')}><Wifi size={19} /><span>{copy.sticky.ultra}</span></button>
       </nav>
     </main>
   );

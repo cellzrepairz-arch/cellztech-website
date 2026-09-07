@@ -28,7 +28,8 @@ import {
 } from 'lucide-react';
 import './styles.css';
 import { deviceCatalog, getBrandTotalModels } from './deviceCatalog';
-import { AugustHome } from './AugustHome';
+import { SeptemberHome } from './AugustHome';
+import { PromoAdmin } from './PromoAdmin';
 
 type PageKey = 'home' | 'repairs' | 'ultra' | 'xfinity' | 'buyback' | 'phones' | 'accessories' | 'about' | 'contact' | 'book' | 'sim' | 'admin';
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk';
@@ -1294,6 +1295,8 @@ function AdminDashboard() {
               </section>
             </section>
 
+            <PromoAdmin adminKey={adminKey} />
+
             <section className="adminWorkPanel">
               <div className="adminWorkHeader">
                 <div><span>Request management</span><h2>Customer submissions</h2></div>
@@ -1364,7 +1367,7 @@ function PageDetail({ page, lang }: { page: PageKey; lang: LanguageKey }) {
   const isHome = page === 'home';
 
   if (isHome) {
-    return <AugustHome lang={lang} navigate={goTo} navigatePath={goToPath} />;
+    return <SeptemberHome lang={lang} navigate={goTo} navigatePath={goToPath} />;
   }
 
   if (page === 'repairs') return <RepairsPage lang={lang} />;
@@ -4273,7 +4276,7 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
     const safeDurationKey = plan?.durations[durationKey] ? durationKey : '1';
     const option = plan?.durations[safeDurationKey];
     const requestNote = request === 'fourth-free'
-      ? 'Interested in the August every-fourth-month-free offer on a qualifying 8GB+ single-month plan.'
+      ? 'Interested in the September every-fourth-month-free offer on a qualifying 8GB+ single-month plan.'
       : request === 'family'
         ? 'Interested in the Ultra Mobile 4 for $100 family plan promotion.'
         : '';
@@ -4331,7 +4334,7 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
       selectedPrice: '$25/mo',
       selectedBilled: '$150 upfront',
       simQuantity: current.simQuantity || '1',
-      notes: !current.notes ? 'Interested in the August new-customer Ultra Unlimited offer: 6 months for $150 paid upfront.' : current.notes
+      notes: !current.notes ? 'Interested in the September new-customer Ultra Unlimited offer: 6 months for $150 paid upfront.' : current.notes
     }));
   };
 
@@ -4390,7 +4393,7 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
       price = '$100/mo';
       billed = '$100 monthly family offer';
       simQuantity = '4';
-      notes = 'Interested in the August Ultra Mobile 4 Unlimited lines for $100/month family plan offer.';
+      notes = 'Interested in the September Ultra Mobile 4 Unlimited lines for $100/month family plan offer.';
       nextStep = 'details';
     } else if (isFourthFree) {
       normalizedRequest = 'fourth-free';
@@ -4400,7 +4403,7 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
       duration = option?.label || '1 Month';
       price = option?.monthly || '';
       billed = option?.billed || '';
-      notes = 'Interested in the August every-fourth-month-free offer on a qualifying 8GB+ single-month plan.';
+      notes = 'Interested in the September every-fourth-month-free offer on a qualifying 8GB+ single-month plan.';
       nextStep = 'details';
     } else if (isUnlimited25) {
       planInterest = 'Ultra Unlimited Plan';
@@ -4408,7 +4411,7 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
       duration = '6 Months';
       price = '$25/mo';
       billed = '$150 upfront';
-      notes = 'Interested in the August new-customer Ultra Unlimited offer: 6 months for $150 paid upfront.';
+      notes = 'Interested in the September new-customer Ultra Unlimited offer: 6 months for $150 paid upfront.';
       nextStep = 'details';
     } else if (isNumberTransfer) {
       planInterest = planParam || 'Ultra Mobile number transfer help';
@@ -4429,7 +4432,7 @@ function UltraSimRequestPage({ lang }: { lang: LanguageKey }) {
       duration = 'Offer consultation';
       price = '';
       billed = '';
-      notes = 'I would like help comparing the August Ultra Mobile offers.';
+      notes = 'I would like help comparing the September Ultra Mobile offers.';
       nextStep = 'contact';
     } else {
       const selectedPlan = ultraPlans.find((item) => item.name === planParam);
@@ -4832,26 +4835,26 @@ function App() {
     const homepageSeo: Record<LanguageKey, { title: string; description: string; ogTitle: string; ogDescription: string }> = {
       en: {
         title: 'Ultra Mobile Offers and Phone Repairs | Cellz Repairz Chicago',
-        description: 'Explore August Ultra Mobile offers, including 4 lines for $100, every fourth month free, and Unlimited for $25. Phone repairs, diagnostics, phones, and accessories in Chicago.',
-        ogTitle: 'August Ultra Mobile Offers and Phone Repairs | Cellz Repairz',
+        description: 'Explore September Ultra Mobile offers, including 4 lines for $100, every fourth month free, and Unlimited for $25. Phone repairs, diagnostics, phones, and accessories in Chicago.',
+        ogTitle: 'September Ultra Mobile Offers and Phone Repairs | Cellz Repairz',
         ogDescription: 'Save with Ultra Mobile, transfer your number, repair your phone, and get local support at Cellz Repairz in Chicago.'
       },
       pl: {
         title: 'Promocje Ultra Mobile i naprawy telefonów | Cellz Repairz Chicago',
-        description: 'Sprawdź sierpniowe promocje Ultra Mobile: 4 linie za $100, co czwarty miesiąc gratis i Unlimited za $25. Naprawy telefonów, diagnostyka i akcesoria w Chicago.',
-        ogTitle: 'Sierpniowe promocje Ultra Mobile i naprawy telefonów | Cellz Repairz',
+        description: 'Sprawdź wrześniowe promocje Ultra Mobile: 4 linie za $100, co czwarty miesiąc gratis i Unlimited za $25. Naprawy telefonów, diagnostyka i akcesoria w Chicago.',
+        ogTitle: 'Wrześniowe promocje Ultra Mobile i naprawy telefonów | Cellz Repairz',
         ogDescription: 'Oszczędzaj z Ultra Mobile, przenieś numer, napraw telefon i skorzystaj z lokalnej pomocy Cellz Repairz w Chicago.'
       },
       es: {
         title: 'Ofertas de Ultra Mobile y reparación de teléfonos | Cellz Repairz Chicago',
-        description: 'Conoce las ofertas de agosto de Ultra Mobile: 4 líneas por $100, cada cuarto mes gratis y Unlimited por $25. Reparaciones, diagnóstico y accesorios en Chicago.',
-        ogTitle: 'Ofertas de agosto de Ultra Mobile y reparación de teléfonos | Cellz Repairz',
+        description: 'Conoce las ofertas de septiembre de Ultra Mobile: 4 líneas por $100, cada cuarto mes gratis y Unlimited por $25. Reparaciones, diagnóstico y accesorios en Chicago.',
+        ogTitle: 'Ofertas de septiembre de Ultra Mobile y reparación de teléfonos | Cellz Repairz',
         ogDescription: 'Ahorra con Ultra Mobile, transfiere tu número, repara tu teléfono y recibe ayuda local en Cellz Repairz de Chicago.'
       },
       uk: {
         title: 'Пропозиції Ultra Mobile та ремонт телефонів | Cellz Repairz Chicago',
-        description: 'Серпневі пропозиції Ultra Mobile: 4 лінії за $100, кожен четвертий місяць безкоштовно та Unlimited за $25. Ремонт, діагностика й аксесуари в Чикаго.',
-        ogTitle: 'Серпневі пропозиції Ultra Mobile та ремонт телефонів | Cellz Repairz',
+        description: 'Вересневі пропозиції Ultra Mobile: 4 лінії за $100, кожен четвертий місяць безкоштовно та Unlimited за $25. Ремонт, діагностика й аксесуари в Чикаго.',
+        ogTitle: 'Вересневі пропозиції Ultra Mobile та ремонт телефонів | Cellz Repairz',
         ogDescription: 'Заощаджуйте з Ultra Mobile, переносьте номер, ремонтуйте телефон і отримуйте місцеву допомогу Cellz Repairz у Чикаго.'
       }
     };
