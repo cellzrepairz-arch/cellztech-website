@@ -72,3 +72,7 @@
   .septCouponNudgeAction { font-size: 11px; flex: 1; padding: 8px; }
   .septCouponNudge .septCouponClose { right: 0; top: 8px; width: 42px; }
 }
+
+/* An initial check is not an outage. Recovery controls are coupon-only. */
+.septCouponTicketAction button:disabled { opacity: .7; cursor: wait; }
+.septCouponTicketAction a.septCouponCallFallback { background: transparent; color: #194c87; min-height: 40px; padding: 9px; margin-top: 3px; font-weight: 650; }

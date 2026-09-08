@@ -18,3 +18,11 @@
 .promoAdminContent .promoAdminNote { font-size: 11px; }
 .promoAdmin :is(button,input,summary):focus-visible { outline: 3px solid #226bea; outline-offset: 3px; }
 @media(max-width: 600px) { .promoAdmin > summary small { display: block; margin: 8px 0 0; } .promoAdminContent { padding: 0 16px 16px; } }
+
+.promoAdminHealth { border: 1px solid #b5deca; border-radius: 12px; background: #f0fbf5; padding: 15px; margin: 16px 0; }
+.promoAdminHealth > strong { font-size: 14px; color: #166344; }
+.promoAdminHealth p { margin: 7px 0; }
+.promoAdminHealth small { font-size: 11px; color: #536984; }
+.promoAdminHealth code { white-space: normal; overflow-wrap: anywhere; }
+.promoAdminHealthIssue { border-color: #ebd0b5; background: #fff8f0; }
+.promoAdminHealthIssue > strong { color: #864912; }

@@ -34,7 +34,9 @@ export function SeptemberCoupon({ lang, navigatePath }: { lang: CouponLanguage; 
   const requestRef = React.useRef('');
   const sendingRef = React.useRef(false);
   const controllerRef = React.useRef<AbortController | null>(null);
-  const [ready, setReady] = React.useState(false);
+  const statusControllerRef = React.useRef<AbortController | null>(null);
+  const [ready, setReady] = React.useState<boolean | null>(null);
+  const [checking, setChecking] = React.useState(true);
   const [active, setActive] = React.useState(() => Date.now() >= START && Date.now() < END);
   const [nudge, setNudge] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -50,22 +52,56 @@ export function SeptemberCoupon({ lang, navigatePath }: { lang: CouponLanguage; 
     return /^BTS10-[A-F0-9]{12}$/.test(code) ? { ok: true, code, emailStatus: 'saved' } : null;
   });
 
-  React.useEffect(() => {
+  const checkAvailability = React.useCallback(async () => {
+    if (statusControllerRef.current) return;
     const controller = new AbortController();
-    void fetch('/api/promo?action=status', { signal: controller.signal, cache: 'no-store' })
-      .then(async (response) => {
-        if (!response.ok) return;
-        const data = await response.json();
-        if (!controller.signal.aborted) {
-          setReady(data.ready === true);
-          setActive(data.active === true);
-        }
-      }).catch(() => { /* Booking and browsing remain available if signup is offline. */ });
-    const expiryTimer = window.setInterval(() => {
-      if (Date.now() >= END) setActive(false);
-    }, 60000);
-    return () => { controller.abort(); controllerRef.current?.abort(); window.clearInterval(expiryTimer); };
+    statusControllerRef.current = controller;
+    setChecking(true);
+    const timeout = window.setTimeout(() => controller.abort(), 8000);
+    try {
+      const response = await fetch('/api/promo?action=status', { signal: controller.signal, cache: 'no-store' });
+      if (!response.ok) throw new Error('coupon_status_unavailable');
+      const data = await response.json();
+      if (data.ok !== true || typeof data.ready !== 'boolean' || typeof data.active !== 'boolean') throw new Error('invalid_coupon_status');
+      if (statusControllerRef.current === controller) {
+        setReady(data.ready);
+        setActive(data.active);
+      }
+    } catch {
+      // A timed-out check can be retried. Never substitute a fake coupon/save.
+      if (statusControllerRef.current === controller) setReady(false);
+    } finally {
+      window.clearTimeout(timeout);
+      if (statusControllerRef.current === controller) {
+        statusControllerRef.current = null;
+        setChecking(false);
+      }
+    }
   }, []);
+
+  React.useEffect(() => {
+    void checkAvailability();
+    const refreshWhenVisible = () => {
+      if (document.visibilityState === 'visible') void checkAvailability();
+    };
+    const timer = window.setInterval(() => {
+      if (Date.now() >= END) setActive(false);
+      else refreshWhenVisible();
+    }, 60000);
+    window.addEventListener('focus', refreshWhenVisible);
+    window.addEventListener('online', refreshWhenVisible);
+    document.addEventListener('visibilitychange', refreshWhenVisible);
+    return () => {
+      const pending = statusControllerRef.current;
+      statusControllerRef.current = null;
+      pending?.abort();
+      controllerRef.current?.abort();
+      window.clearInterval(timer);
+      window.removeEventListener('focus', refreshWhenVisible);
+      window.removeEventListener('online', refreshWhenVisible);
+      document.removeEventListener('visibilitychange', refreshWhenVisible);
+    };
+  }, [checkAvailability]);
 
   React.useEffect(() => {
     if (!ready || !active || result || readLocal(CLAIM_KEY)) return;
@@ -181,7 +217,8 @@ export function SeptemberCoupon({ lang, navigatePath }: { lang: CouponLanguage; 
           <div className="septCouponTicketCopy"><span>{t.eyebrow}</span><h2 id="sept-coupon-heading">{t.title}</h2><p>{t.intro}</p></div>
           <div className="septCouponTicketAction">
             {ready || result ? <button type="button" onClick={openCoupon}>{result?.code ? t.codeLabel : t.cta}<ArrowRight size={18} aria-hidden="true" /></button>
-              : <><p>{t.unavailable}</p><a href="tel:7734137489">{t.call}<ArrowRight size={18} aria-hidden="true" /></a></>}
+              : checking ? <button type="button" disabled aria-busy="true">{t.checking}</button>
+              : <><p role="status">{t.unavailable}</p><button type="button" onClick={() => void checkAvailability()}>{t.retry}</button><a className="septCouponCallFallback" href="tel:7734137489">{t.call}<ArrowRight size={18} aria-hidden="true" /></a></>}
             <span><ShieldCheck size={14} aria-hidden="true" />{t.termsTitle}</span>
           </div>
         </div>

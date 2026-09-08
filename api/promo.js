@@ -1,6 +1,6 @@
 import {
   copy, VERSION, UUID, activeCampaign, language, configured, isAdmin, safeOrigin,
-  rateKey, database, rpc, readToken, preferenceUrl, pageHtml, preferenceForm, sendCouponEmail
+  rateKey, database, rpc, couponHealth, readToken, preferenceUrl, pageHtml, preferenceForm, sendCouponEmail
 } from '../lib/promo-core.js';
 
 // Limits only this new coupon function; existing routes/configuration are unchanged.
@@ -44,24 +44,22 @@ export default async function handler(req, res) {
   res.setHeader('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'");
   const action = typeof req.query?.action === 'string' ? req.query.action : 'status';
   const method = req.method || 'GET';
-  const allowed = { status: ['GET'], signup: ['POST'], confirm: ['GET', 'POST'], unsubscribe: ['GET', 'POST'], admin: ['GET'], export: ['GET'], redeem: ['POST'] };
+  const allowed = { status: ['GET'], diagnostics: ['GET'], signup: ['POST'], confirm: ['GET', 'POST'], unsubscribe: ['GET', 'POST'], admin: ['GET'], export: ['GET'], redeem: ['POST'] };
   if (!Object.hasOwn(allowed, action)) return json(res, 404, { ok: false, error: 'not_found' });
   if (!allowed[action].includes(method)) { res.setHeader('Allow', allowed[action].join(', ')); return json(res, 405, { ok: false, error: 'method_not_allowed' }); }
   if (!safeOrigin(req)) return json(res, 403, { ok: false, error: 'origin_not_allowed' });
-  if (['admin', 'export', 'redeem'].includes(action) && !isAdmin(req)) return json(res, 401, { ok: false, error: 'unauthorized' });
+  if (['admin', 'export', 'redeem', 'diagnostics'].includes(action) && !isAdmin(req)) return json(res, 401, { ok: false, error: 'unauthorized' });
   let body = {};
   if (method === 'POST') {
     try { body = parseBody(req); } catch { return json(res, 400, { ok: false, error: 'invalid_body' }); }
   }
   let lang = language(body.language || req.query?.lang);
   try {
-    if (action === 'status') {
-      let ready = false;
-      if (configured()) {
-        try { const health = await rpc('cellztech_promo_ready'); ready = health?.ready === true && health?.schemaVersion === VERSION; }
-        catch { /* Signup stays unavailable until its isolated migration is applied. */ }
-      }
-      return json(res, 200, { ok: true, ready, active: activeCampaign() });
+    if (action === 'status' || action === 'diagnostics') {
+      const health = await couponHealth();
+      if (!health.ready) console.warn('cellztech_coupon_not_ready', { reason: health.status });
+      if (action === 'diagnostics') return json(res, 200, { ok: true, ...health, active: activeCampaign() });
+      return json(res, 200, { ok: true, ready: health.ready, active: activeCampaign() });
     }
     if (action === 'signup') {
       if (!activeCampaign()) return json(res, 410, { ok: false, error: 'campaign_closed' });
@@ -137,7 +135,7 @@ export default async function handler(req, res) {
       const t = copy[lang];
       return html(res, 503, pageHtml(lang, t.serviceErrorTitle, t.serviceErrorText));
     }
-    return json(res, 503, { ok: false, error: ['admin', 'export', 'redeem'].includes(action) ? 'coupon_storage_unavailable_check_migration' : 'temporarily_unavailable' });
+    return json(res, 503, { ok: false, error: ['admin', 'export', 'redeem', 'diagnostics'].includes(action) ? 'coupon_storage_unavailable_check_migration' : 'temporarily_unavailable' });
   }
   return json(res, 404, { ok: false, error: 'not_found' });
 }

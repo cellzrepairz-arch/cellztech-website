@@ -21,7 +21,7 @@
     "privacy": "We save your email, selected language, coupon and consent record in our private signup list. Our email provider sends the coupon and confirmation message. This signup is separate from repair bookings; we do not add existing repair customers to the list automatically. Use the unsubscribe link in our emails to stop promotions. For questions, call 773-413-7489.",
     "termsTitle": "Coupon details",
     "terms": "10% off the price of your next repair before tax. One use per customer; cannot be combined with another discount. Not valid for phones, accessories or wireless service. Show your code before payment. Sign up during September 2026; the issued coupon has no expiry date.",
-    "unavailable": "Online signup is temporarily unavailable. Please ask us in store.",
+    "unavailable": "Online signup is temporarily unavailable. Try again or ask us in store.",
     "call": "Call the store",
     "error": "We could not save your signup. Please try again or call the store.",
     "rateError": "Too many attempts. Please wait a while before trying again.",
@@ -59,7 +59,9 @@
     "serviceErrorTitle": "Please try again.",
     "serviceErrorText": "We could not update your email preference. Please retry or call 773-413-7489.",
     "pendingTitle": "Your signup is saved.",
-    "percentLabel": "10% off your next repair"
+    "percentLabel": "10% off your next repair",
+    "checking": "Checking coupon availability…",
+    "retry": "Try again"
   },
   "pl": {
     "eyebrow": "WRZESIEŃ / OSZCZĘDNOŚCI NA POWRÓT DO SZKOŁY",
@@ -83,7 +85,7 @@
     "privacy": "Na prywatnej liście zapisujemy e-mail, wybrany język, kupon i zgodę. Dostawca poczty wysyła kupon i wiadomość potwierdzającą. Ten zapis jest niezależny od zgłoszeń napraw; dotychczasowi klienci nie są dodawani automatycznie. Z promocji możesz zrezygnować przez link w e-mailu. Pytania: 773-413-7489.",
     "termsTitle": "Warunki kuponu",
     "terms": "10% rabatu od ceny następnej naprawy przed podatkiem. Jednorazowo dla jednego klienta; nie łączy się z innym rabatem. Nie dotyczy telefonów, akcesoriów ani usług operatorów. Pokaż kod przed zapłatą. Zapis we wrześniu 2026; wydany kupon nie ma terminu ważności.",
-    "unavailable": "Zapis online jest chwilowo niedostępny. Zapytaj w sklepie.",
+    "unavailable": "Zapisy online są chwilowo niedostępne. Spróbuj ponownie lub zapytaj w sklepie.",
     "call": "Zadzwoń do sklepu",
     "error": "Nie udało się zapisać zgłoszenia. Spróbuj ponownie lub zadzwoń.",
     "rateError": "Zbyt wiele prób. Odczekaj przed ponowną próbą.",
@@ -121,7 +123,9 @@
     "serviceErrorTitle": "Spróbuj ponownie.",
     "serviceErrorText": "Nie udało się zmienić preferencji. Spróbuj ponownie lub zadzwoń: 773-413-7489.",
     "pendingTitle": "Twój zapis został zachowany.",
-    "percentLabel": "10% rabatu na następną naprawę"
+    "percentLabel": "10% rabatu na następną naprawę",
+    "checking": "Sprawdzamy dostępność kuponu…",
+    "retry": "Spróbuj ponownie"
   },
   "es": {
     "eyebrow": "SEPTIEMBRE / AHORROS DE REGRESO A CLASES",
@@ -145,7 +149,7 @@
     "privacy": "Guardamos tu correo, idioma, cupón y consentimiento en nuestra lista privada. Nuestro proveedor de correo envía el cupón y la confirmación. Esta suscripción es independiente de las solicitudes de reparación; no agregamos automáticamente a los clientes existentes. Usa el enlace de cancelación en nuestros correos para dejar de recibir promociones. Preguntas: 773-413-7489.",
     "termsTitle": "Detalles del cupón",
     "terms": "10% de descuento en el precio de tu próxima reparación antes de impuestos. Un uso por cliente; no se combina con otro descuento. No aplica a teléfonos, accesorios ni servicio móvil. Muestra el código antes de pagar. Suscríbete durante septiembre de 2026; el cupón emitido no tiene fecha de vencimiento.",
-    "unavailable": "La suscripción en línea no está disponible temporalmente. Pregunta en la tienda.",
+    "unavailable": "El registro en línea no está disponible temporalmente. Inténtalo de nuevo o pregunta en la tienda.",
     "call": "Llamar a la tienda",
     "error": "No pudimos guardar tu suscripción. Inténtalo de nuevo o llama a la tienda.",
     "rateError": "Demasiados intentos. Espera un poco antes de volver a intentarlo.",
@@ -183,7 +187,9 @@
     "serviceErrorTitle": "Inténtalo de nuevo.",
     "serviceErrorText": "No pudimos actualizar tu preferencia. Inténtalo de nuevo o llama al 773-413-7489.",
     "pendingTitle": "Tu suscripción está guardada.",
-    "percentLabel": "10% de descuento en tu próxima reparación"
+    "percentLabel": "10% de descuento en tu próxima reparación",
+    "checking": "Consultando la disponibilidad del cupón…",
+    "retry": "Intentar de nuevo"
   },
   "uk": {
     "eyebrow": "ВЕРЕСЕНЬ / ЗНИЖКИ ДО ШКОЛИ",
@@ -207,7 +213,7 @@
     "privacy": "Ми зберігаємо email, мову, купон і згоду в приватному списку. Поштовий сервіс надсилає купон і підтвердження. Підписка не пов’язана із заявками на ремонт; наявних клієнтів не додаємо автоматично. Відписатися можна через посилання в листі. Запитання: 773-413-7489.",
     "termsTitle": "Умови купона",
     "terms": "10% знижки на ціну наступного ремонту до податку. Одне використання на клієнта; не поєднується з іншою знижкою. Не діє на телефони, аксесуари та послуги зв’язку. Покажіть код до оплати. Підпишіться у вересні 2026; виданий купон без строку дії.",
-    "unavailable": "Онлайн-підписка тимчасово недоступна. Запитайте в магазині.",
+    "unavailable": "Онлайн-реєстрація тимчасово недоступна. Спробуйте знову або запитайте в магазині.",
     "call": "Зателефонувати",
     "error": "Не вдалося зберегти підписку. Спробуйте ще раз або зателефонуйте.",
     "rateError": "Забагато спроб. Зачекайте перед повтором.",
@@ -245,6 +251,8 @@
     "serviceErrorTitle": "Спробуйте ще раз.",
     "serviceErrorText": "Не вдалося оновити налаштування. Спробуйте ще раз або телефонуйте: 773-413-7489.",
     "pendingTitle": "Підписку збережено.",
-    "percentLabel": "10% знижки на наступний ремонт"
+    "percentLabel": "10% знижки на наступний ремонт",
+    "checking": "Перевіряємо доступність купона…",
+    "retry": "Спробувати знову"
   }
 }

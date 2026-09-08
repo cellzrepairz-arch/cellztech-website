@@ -1,5 +1,7 @@
 # CellzTech September 2026 update
 
+**Correction revision:** start with `SEPTEMBER_CORRECTIONS.md` for the two issues reported after the first September package. The full setup below still applies.
+
 **Start here. This update uses the GitHub ZIP supplied for the September build.**
 
 The existing homepage styling and realistic iPhone media are retained. The landing-page copy, offer details and social-sharing image now say September. A separate coupon signup feature has been added. No changes have been deployed to your live accounts.

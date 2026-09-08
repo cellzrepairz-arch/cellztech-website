@@ -158,3 +158,6 @@ grant execute on function public.cellztech_promo_preference(uuid,text,uuid) to s
 grant execute on function public.cellztech_promo_redeem(uuid) to service_role;
 notify pgrst,'reload schema';
 commit;
+
+-- Read-only confirmation: the SQL Editor should display ready=true.
+select public.cellztech_promo_ready() as coupon_setup;

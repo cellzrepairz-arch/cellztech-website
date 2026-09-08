@@ -108,3 +108,65 @@ test('non-string request ID is rejected, not coerced',async()=>{const r=await in
 
 test('preview emails target the trusted preview endpoint',()=>{process.env.VERCEL_ENV='preview';process.env.VERCEL_URL='cellztech-preview.vercel.app';assert(core.preferenceUrl(record(),'confirm').startsWith('https://cellztech-preview.vercel.app/api/promo?'));});
 test('production and untrusted preview origins use CellzTech',()=>{process.env.VERCEL_ENV='production';process.env.VERCEL_URL='cellztech-preview.vercel.app';assert.equal(core.publicOrigin(),core.ORIGIN);process.env.VERCEL_ENV='preview';process.env.VERCEL_URL='attacker.invalid';assert.equal(core.publicOrigin(),core.ORIGIN);});
+
+test('diagnostics requires the existing private admin key', async () => {
+  const r = await invoke(request('diagnostics'));
+  assert.equal(r.statusCode, 401);
+  assert.equal(calls.length, 0);
+});
+test('authenticated diagnostics confirms coupon readiness without leaking secrets', async () => {
+  const r = await invoke(admin('diagnostics'));
+  assert.equal(r.body.ready, true);
+  assert.equal(r.body.status, 'ready');
+  assert.equal(r.body.emailConfigured, true);
+  const text = JSON.stringify(r.body);
+  for (const value of [ADMIN, 'test-database-key', 'test-email-key', 'owner@example.com']) assert(!text.includes(value));
+  assert.equal(emailCalls.length, 0);
+});
+test('missing server setting is identified privately; public status is only booleans', async () => {
+  delete process.env.SUPABASE_URL;
+  let r = await invoke(admin('diagnostics'));
+  assert.equal(r.body.status, 'configuration_missing');
+  assert.deepEqual(r.body.missing, ['SUPABASE_URL']);
+  r = await invoke(request('status'));
+  assert.deepEqual(r.body, { ok: true, ready: false, active: true });
+  assert.equal(calls.length, 0);
+});
+for (const [status, code, expected] of [[404, 'PGRST202', 'setup_required'], [401, 'PGRST301', 'access_denied'], [403, '42501', 'access_denied'], [503, 'PGRST002', 'database_unavailable']]) {
+  test(`diagnostics maps ${status}/${code} to a safe ${expected} reason`, async () => {
+    globalThis.fetch = async () => response({ code, message: 'DO_NOT_EXPOSE_customer@example.com' }, status);
+    const r = await invoke(admin('diagnostics'));
+    assert.equal(r.body.ready, false);
+    assert.equal(r.body.status, expected);
+    assert(!JSON.stringify(r.body).includes('DO_NOT_EXPOSE'));
+  });
+}
+test('diagnostics rejects an incomplete or outdated coupon schema', async () => {
+  globalThis.fetch = async () => response({ ready: true, schemaVersion: 'outdated' });
+  const r = await invoke(admin('diagnostics'));
+  assert.equal(r.body.status, 'setup_required');
+});
+test('a timeout gives a retryable diagnostic, not a database-ready claim', async () => {
+  globalThis.fetch = async () => { throw new DOMException('Timeout', 'TimeoutError'); };
+  const r = await invoke(admin('diagnostics'));
+  assert.equal(r.body.status, 'database_unavailable');
+  assert.equal(r.body.ready, false);
+});
+test('the next status request recovers after the setup becomes available', async () => {
+  const workingFetch = globalThis.fetch;
+  globalThis.fetch = async () => response({code:'PGRST202'},404);
+  assert.equal((await invoke(request('status'))).body.ready, false);
+  globalThis.fetch = workingFetch;
+  assert.equal((await invoke(request('status'))).body.ready, true);
+});
+test('a missing mail setting does not disable database-backed coupon signup', async () => {
+  delete process.env.CELLZTECH_FROM_EMAIL;
+  const r = await invoke(admin('diagnostics'));
+  assert.equal(r.body.ready, true);
+  assert.equal(r.body.emailConfigured, false);
+});
+test('untrusted origins cannot access diagnostics even with an admin header', async () => {
+  const r = await invoke(admin('diagnostics', {headers:{origin:'https://attacker.invalid'}}));
+  assert.equal(r.statusCode,403);
+  assert.equal(calls.length,0);
+});
