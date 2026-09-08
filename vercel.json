@@ -1,6 +1,11 @@
 {
   "installCommand": "npm ci --registry=https://registry.npmjs.org/ --no-audit --no-fund --prefer-online",
   "buildCommand": "npm run build",
+  "functions": {
+    "api/promo.js": {
+      "includeFiles": "shared/coupon-copy.json"
+    }
+  },
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/" }
   ]
