@@ -1,21 +1,2 @@
-CELLZTECH AUGUST 2026 - REALISTIC 3D IPHONE HERO UPDATE
-
-Upload everything inside this folder to the root of the existing GitHub repository.
-Do not upload the outer folder as a nested folder.
-
-Main files changed:
-- src/AugustHome.tsx
-- src/august-home.css
-- public/iphone-pro-realistic.png
-- public/iphone-pro-realistic.webp
-- public/og-august-2026.png
-- public/og-august-2026.webp
-- README.md
-- IMAGE_CREDITS.md
-
-The new hero uses realistic iPhone product media, restrained studio lighting,
-subtle pointer-controlled 3D movement on desktop, and an interactive August offer selector.
-The old illustrated phone, fake SIM card, and floating repair labels are not used.
-
-The existing pages, booking flow, Ultra Mobile form, languages, Supabase configuration,
-and Vercel setup remain intact.
+OCTOBER 2026: Start with OCTOBER_RELEASE.md.
+Upload the contents of this folder to the root of an october-preview branch in the EXISTING repository. Do not nest this folder. Confirm Vercel builds successfully before merging to main. No new SQL or environment variables are needed. Keep api, lib, shared, public and src together.

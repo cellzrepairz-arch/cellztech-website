@@ -7,6 +7,92 @@
     }
   },
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/" }
-  ]
+    {
+      "source": "/repairs",
+      "destination": "/repairs/index.html"
+    },
+    {
+      "source": "/ultra-mobile",
+      "destination": "/ultra-mobile/index.html"
+    },
+    {
+      "source": "/xfinity-prepaid",
+      "destination": "/xfinity-prepaid/index.html"
+    },
+    {
+      "source": "/buyback",
+      "destination": "/buyback/index.html"
+    },
+    {
+      "source": "/phones",
+      "destination": "/phones/index.html"
+    },
+    {
+      "source": "/accessories",
+      "destination": "/accessories/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/about/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact/index.html"
+    },
+    {
+      "source": "/book-repair",
+      "destination": "/book-repair/index.html"
+    },
+    {
+      "source": "/ultra-sim",
+      "destination": "/ultra-sim/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/index.html"
+    }
+  ],
+  "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/contact-us",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/book-your-repair",
+      "destination": "/book-repair",
+      "permanent": true
+    },
+    {
+      "source": "/activate-july",
+      "destination": "/ultra-mobile",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/admin",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        }
+      ]
+    },
+    {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ],
+  "trailingSlash": false
 }

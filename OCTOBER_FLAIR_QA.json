@@ -1,0 +1,34 @@
+{
+  "base": "cellztech-october-2026-website-preview.zip",
+  "type": "visual-only autumn accents",
+  "productionBuildVerified": false,
+  "buildLimitation": "npm registry DNS resolution EAI_AGAIN; npm ci could not complete; no dependency changes made",
+  "browserMethod": "Offline actual app source, React runtime and SVG adapter; no live network or submissions",
+  "browserLayoutChecks": 32,
+  "languages": [
+    "en",
+    "pl",
+    "es",
+    "uk"
+  ],
+  "viewportWidths": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "selectorChecks": 13,
+  "mockedApiTests": 84,
+  "typescriptSyntaxTranspilationFiles": 13,
+  "cssParsePassed": true,
+  "javascriptErrors": [],
+  "existingFilesUnchanged": 81,
+  "changedExistingFiles": [
+    "src/OctoberPages.tsx",
+    "src/october-pages.css"
+  ],
+  "newCodeFiles": [
+    "src/OctoberSeason.tsx"
+  ],
+  "liveSubmissionsPerformed": false
+}

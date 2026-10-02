@@ -1,0 +1,137 @@
+{
+  "release": "CellzTech October 2026",
+  "input": "cellztech-website-main (2)(1).zip",
+  "production_build_verified": false,
+  "production_build_limitation": "npm registry DNS/package download failures (EAI_AGAIN); missing packages prevent npm ci and full npm run build verification.",
+  "local_checks": {
+    "coupon_api_mocked": 74,
+    "sim_api_mocked": 10,
+    "price_translation_config": 29,
+    "browser_page_language_viewport": 48,
+    "browser_interactions_mocked": 21,
+    "protected_functions_unchanged": 9,
+    "protected_files_unchanged": 15
+  },
+  "browser_method": "Actual edited components rendered in an in-memory Chromium preview with an available React runtime and simulated URL/storage/network adapter. Not the pinned Vite production dependency build.",
+  "live_mutations_performed": false,
+  "new_supabase_sql_required": false,
+  "new_environment_variables_required": false,
+  "changed_files": [
+    {
+      "path": "GITHUB_UPLOAD_NOTE.txt",
+      "change": "updated"
+    },
+    {
+      "path": "IMAGE_CREDITS.md",
+      "change": "updated"
+    },
+    {
+      "path": "OCTOBER_RELEASE.md",
+      "change": "added"
+    },
+    {
+      "path": "README.md",
+      "change": "updated"
+    },
+    {
+      "path": "api/sim-request.js",
+      "change": "updated"
+    },
+    {
+      "path": "index.html",
+      "change": "updated"
+    },
+    {
+      "path": "public/404.html",
+      "change": "added"
+    },
+    {
+      "path": "public/october/family-devices.webp",
+      "change": "added"
+    },
+    {
+      "path": "public/october/iphone-480.webp",
+      "change": "added"
+    },
+    {
+      "path": "public/october/iphone-800.webp",
+      "change": "added"
+    },
+    {
+      "path": "public/october/og-cellztech-october.png",
+      "change": "added"
+    },
+    {
+      "path": "public/october/roam-globe.webp",
+      "change": "added"
+    },
+    {
+      "path": "public/october/ultra-logo-white.png",
+      "change": "added"
+    },
+    {
+      "path": "public/robots.txt",
+      "change": "updated"
+    },
+    {
+      "path": "public/sitemap.xml",
+      "change": "updated"
+    },
+    {
+      "path": "robots.txt",
+      "change": "updated"
+    },
+    {
+      "path": "sitemap.xml",
+      "change": "updated"
+    },
+    {
+      "path": "src/OctoberInquiry.tsx",
+      "change": "added"
+    },
+    {
+      "path": "src/OctoberPages.tsx",
+      "change": "added"
+    },
+    {
+      "path": "src/StaticShell.tsx",
+      "change": "added"
+    },
+    {
+      "path": "src/main.tsx",
+      "change": "updated"
+    },
+    {
+      "path": "src/october-copy.ts",
+      "change": "added"
+    },
+    {
+      "path": "src/october-offers.ts",
+      "change": "added"
+    },
+    {
+      "path": "src/october-pages.css",
+      "change": "added"
+    },
+    {
+      "path": "src/october-seo.ts",
+      "change": "added"
+    },
+    {
+      "path": "src/sim-copy.ts",
+      "change": "added"
+    },
+    {
+      "path": "tests/october-sim.test.mjs",
+      "change": "added"
+    },
+    {
+      "path": "vercel.json",
+      "change": "updated"
+    },
+    {
+      "path": "vite.config.ts",
+      "change": "updated"
+    }
+  ]
+}

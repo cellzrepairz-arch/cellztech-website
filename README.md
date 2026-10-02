@@ -1,3 +1,9 @@
+# October 2026 update
+
+**Read [OCTOBER_RELEASE.md](OCTOBER_RELEASE.md) first. Preview deployment is required; the complete npm/Vite production build could not be verified in the preparation environment. No new Supabase setup is required.**
+
+---
+
 # CellzTech Website — August 2026
 
 Production source for CellzTech / Cellz Repairz.

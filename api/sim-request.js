@@ -247,11 +247,15 @@ export default async function handler(req, res) {
       warnings.push({ step: 'email', message: error instanceof Error ? error.message : String(error) });
     }
 
-    if (saveResult?.skipped && emailResult?.skipped) {
-      return res.status(503).json({ ok: false, message: 'SIM request backend is not configured yet.' });
+    // Null results mean a provider threw, not that delivery succeeded.
+    const saved = Boolean(saveResult && saveResult.skipped === false);
+    const notified = Boolean(emailResult && emailResult.skipped === false);
+    if (!saved && !notified) {
+      console.error('Ultra request was not recorded or accepted by the mail provider', warnings);
+      return res.status(503).json({ ok: false, message: 'We could not confirm receipt. Please retry or call the store.' });
     }
-
-    return res.status(200).json({ ok: true, message: 'SIM request sent.', id: saveResult?.id || '', warnings, notification: emailResult });
+    if (warnings.length) console.warn('Ultra request partial delivery', warnings);
+    return res.status(200).json({ ok: true, message: 'SIM request received.', id: saveResult?.id || '', saved, notified });
   } catch (error) {
     return res.status(500).json({ ok: false, message: error instanceof Error ? error.message : 'SIM request failed.' });
   }

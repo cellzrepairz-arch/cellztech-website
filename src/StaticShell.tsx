@@ -1,0 +1,11 @@
+import React from 'react';
+import { MapPin, Phone } from 'lucide-react';
+const links=[['/','Home'],['/repairs','Repairs'],['/ultra-mobile','Ultra Mobile'],['/xfinity-prepaid','Xfinity'],['/buyback','Buyback'],['/phones','Phones'],['/accessories','Accessories'],['/about','About'],['/contact','Contact']];
+// English fallback for crawlers and the time before the application starts.
+// The interactive app retains the saved four-language selector.
+export function StaticHeader({ path }: { path:string }) {
+  return <><div className="topbar"><div className="wrap topbarInner"><span><MapPin size={14}/>3412 N Harlem Ave STE A, Chicago IL 60634</span><a href="tel:7734137489"><Phone size={14}/>773-413-7489</a></div></div><header className="header"><div className="wrap headerInner"><a className="logoWordmark" href="/"><span className="logoText">Cellz<span>Tech</span></span><small>Operated by Cellz Repairz LLC</small></a><nav className="desktopNav">{links.map(([href,label])=><a key={href} href={href} className={path===href?'active':''}>{label}</a>)}</nav><div className="headerActions"><div className="languageSelect"><select defaultValue="en" aria-label="Language"><option value="en">EN</option><option value="pl">PL</option><option value="es">ES</option><option value="uk">UK</option></select></div><a className="bookHeaderButton" href="/book-repair">Book Repair</a><a className="callButton" href="tel:7734137489">Call</a></div></div></header></>;
+}
+export function StaticFooter() {
+  return <footer className="footer"><div className="wrap footerGrid"><div><div className="footerLogo">Cellz<span>Tech</span></div><p>Phone repair, Ultra Mobile, buyback, phones, and accessories in Chicago.</p><strong>CellzTech is operated by Cellz Repairz LLC.</strong></div><div><h3>Services</h3>{links.slice(1,7).map(([href,label])=><a key={href} className="footer-route" href={href}>{label}</a>)}</div><div><h3>Visit</h3><p>3412 N Harlem Ave STE A<br/>Chicago, IL 60634</p><a href="tel:7734137489">773-413-7489</a></div><div><h3>Websites</h3><a href="https://cellztech.com">cellztech.com</a><a href="https://www.apextechexchange.com">apextechexchange.com</a><a href="https://www.serwiskomorkowy.com">serwiskomorkowy.com</a></div></div><div className="wrap footerBottom">&#169; 2026 CellzTech. Operated by Cellz Repairz LLC.</div></footer>;
+}
