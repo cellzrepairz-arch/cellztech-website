@@ -27,7 +27,7 @@ import {
   Wrench
 } from 'lucide-react';
 import './august-home.css';
-import { SeptemberCoupon } from './SeptemberCoupon';
+import { RepairCoupon } from './RepairCoupon';
 
 type LanguageKey = 'en' | 'es' | 'pl' | 'uk';
 type HomePageKey = 'repairs' | 'ultra' | 'phones' | 'accessories' | 'contact' | 'book' | 'sim';
@@ -1260,7 +1260,7 @@ export function SeptemberHome({
         </div>
       </section>
 
-      <SeptemberCoupon lang={lang} navigatePath={navigatePath} />
+      <RepairCoupon lang={lang} navigatePath={navigatePath} />
 
       <section className="augustSection augustOffersSection" id="august-offers">
         <div className="wrap">

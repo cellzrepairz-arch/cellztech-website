@@ -1,0 +1,14 @@
+{
+  "id": "november-2026",
+  "month": "November 2026",
+  "ultraActivationEnd": "2027-01-01T00:00:00-06:00",
+  "ultraRenewalEnd": "2027-02-01T00:00:00-06:00",
+  "repairCoupon": {
+    "id": "repair-email-2026-11",
+    "consentVersion": "2026-11-v2",
+    "signupStart": "2026-11-01T00:00:00-05:00",
+    "signupEnd": "2026-12-01T00:00:00-06:00",
+    "codePrefix": "NOV10",
+    "hasCouponExpiry": false
+  }
+}

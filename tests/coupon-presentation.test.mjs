@@ -1,0 +1,17 @@
+import { test, after } from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { DISMISS_KEY, CLAIM_KEY, CODE_KEY, OFFER_DELAY_MS, DISMISS_FOR_MS, eligibleOfferPath, recentlyDismissed, validCouponCode, readPreference, writePreference } from '../shared/coupon-presentation.js';
+const oldWindow=globalThis.window;
+after(()=>{if(oldWindow===undefined)delete globalThis.window;else globalThis.window=oldWindow;});
+for(const path of ['/','/repairs','/repairs/'])test(`passive offer allowed on ${path}`,()=>assert.equal(eligibleOfferPath(path),true));
+for(const path of ['/book-repair','/ultra-mobile','/xfinity-prepaid','/ultra-sim','/phones','/admin','/repairs/other'])test(`no automatic offer on ${path}`,()=>assert.equal(eligibleOfferPath(path),false));
+test('offer delay is 18 seconds; dismissal is exactly seven days',()=>{assert.equal(OFFER_DELAY_MS,18000);assert.equal(DISMISS_FOR_MS,604800000);});
+test('dismissal persists until seven-day boundary',()=>{const now=1800000000000;assert(recentlyDismissed(String(now-1),now));assert(recentlyDismissed(String(now-DISMISS_FOR_MS+1),now));assert(!recentlyDismissed(String(now-DISMISS_FOR_MS),now));});
+for(const value of ['','0','NaN','Infinity','-4','banana'])test(`invalid dismissal ${JSON.stringify(value)} does not hide indefinitely`,()=>assert(!recentlyDismissed(value,1800000000000)));
+test('future timestamp is not a valid dismissal',()=>assert(!recentlyDismissed('1800000000001',1800000000000)));
+test('only known coupon formats are restored',()=>{assert(validCouponCode('NOV10-ABCDEF123456'));assert(validCouponCode('BTS10-ABCDEF123456'));for(const value of ['DEMO-NOT-VALID','NOV10-123',undefined,null,'<script>'])assert(!validCouponCode(value));});
+test('blocked browser storage uses a safe in-memory dismissal for this page',()=>{const events=[];globalThis.window={get localStorage(){throw Error('blocked');},dispatchEvent:event=>events.push(event.type)};writePreference(DISMISS_KEY,'1800000000000');assert.equal(readPreference(DISMISS_KEY),'1800000000000');assert.deepEqual(events,['cellztech:coupon-preference']);});
+test('storage helpers persist UI preferences without an email field',()=>{const data={};globalThis.window={localStorage:{getItem:key=>data[key]||null,setItem:(key,value)=>{data[key]=value;}},dispatchEvent:()=>{}};writePreference(CLAIM_KEY,'1');writePreference(CODE_KEY,'NOV10-ABCDEF123456');assert.equal(readPreference(CLAIM_KEY),'1');assert(!Object.keys(data).some(key=>/email/i.test(key)));});
+test('form offers an unchecked optional marketing checkbox without a required attribute',()=>{const form=readFileSync(new URL('../src/RepairCouponForm.tsx',import.meta.url),'utf8');const checkbox=form.match(/<input type="checkbox"[^>]*>/)?.[0];assert(checkbox);assert(!checkbox.includes('required'));assert(form.includes('type="email"'));});
+test('schema guards confirmation with explicit marketing opt-in',()=>{const sql=readFileSync(new URL('../supabase/november_coupon.sql',import.meta.url),'utf8');assert(sql.includes('if not r.marketing_opt_in or'));assert(sql.includes('p_marketing_opt_in boolean default false'));assert(sql.includes("marketing_opt_in=false,unsubscribed_at"));assert(sql.includes("'schemaVersion','2026-11-v2'"));});

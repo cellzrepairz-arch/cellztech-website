@@ -1,7 +1,7 @@
 import React from 'react';
 import './promo-admin.css';
 
-type PromoRecord = { id: string; email: string; language: string; status: string; coupon_code: string; coupon_redeemed_at: string | null; email_status: string; created_at: string; confirmed_at: string | null };
+type PromoRecord = { id: string; email: string; language: string; status: string; marketing_opt_in?: boolean; coupon_code: string; coupon_redeemed_at: string | null; email_status: string; created_at: string; confirmed_at: string | null };
 type PromoHealth = { ready: boolean; active: boolean; status: string; message: string; missing?: string[]; emailConfigured: boolean; checkedAt: string };
 export function PromoAdmin({ adminKey }: { adminKey: string }) {
   const [open, setOpen] = React.useState(false);
@@ -64,7 +64,7 @@ export function PromoAdmin({ adminKey }: { adminKey: string }) {
   }
   const filtered = records.filter((row) => `${row.email} ${row.coupon_code}`.toLowerCase().includes(search.trim().toLowerCase()));
   return <details className="promoAdmin" onToggle={(event) => setOpen(event.currentTarget.open)}>
-    <summary><span>September repair coupons</span><small>Email signups, consent and coupon use</small></summary>
+    <summary><span>Repair email coupons</span><small>Email signups, consent and coupon use</small></summary>
     {open && <div className="promoAdminContent">
       <p>This is separate from RepairDesk and your repair backups. Only confirmed subscribers appear in the marketing export. No bulk emails are sent by this panel.</p>
       {health && <div className={health.ready ? 'promoAdminHealth' : 'promoAdminHealth promoAdminHealthIssue'} role="status">
@@ -72,14 +72,14 @@ export function PromoAdmin({ adminKey }: { adminKey: string }) {
         <p>{health.message}</p>
         {health.missing?.length ? <p>Missing settings: <code>{health.missing.join(', ')}</code></p> : null}
         <small>Check: {health.status} / {new Date(health.checkedAt).toLocaleString('en-US', { timeZone: 'America/Chicago' })} Chicago time</small>
-        {!health.active && <p>September signups are closed. Existing coupons and unsubscribe links are unaffected.</p>}
+        {!health.active && <p>Coupon signups are closed. Existing coupons and unsubscribe links are unaffected.</p>}
       </div>}
       <div className="promoAdminActions"><button type="button" onClick={() => void load()} disabled={loading}>{loading ? 'Loading...' : 'Refresh signups'}</button><button type="button" onClick={() => void download()} disabled={loading || !health?.ready}>Export confirmed emails</button><input aria-label="Search coupon signups" placeholder="Search email or coupon code" value={search} onChange={(event) => setSearch(event.target.value)} /></div>
       {health?.ready && !emailConfigured && <p className="promoAdminWarning">Coupon storage is available, but RESEND_API_KEY or CELLZTECH_FROM_EMAIL is missing. Customers can save an on-screen coupon; email confirmation needs a verified sender.</p>}
       <p className="promoAdminNote">Email status &quot;accepted&quot; means the provider accepted the message, not that it reached the inbox. Pending is not subscribed. Export a fresh list before every campaign and include its unsubscribe link and the store address in every promotional email.</p>
       {error && <p className="promoAdminWarning" role="alert">{error}</p>}
       <div className="promoAdminTableWrap"><table><thead><tr><th>Email / language</th><th>Consent</th><th>Coupon</th><th>Email</th><th>Use</th></tr></thead><tbody>{filtered.map((row) => <tr key={row.id}>
-        <td><strong>{row.email}</strong><small>{row.language.toUpperCase()} / {new Date(row.created_at).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</small></td><td>{row.status}</td><td><code>{row.coupon_code}</code></td><td>{row.email_status.replace(/_/g, ' ')}</td><td>{row.coupon_redeemed_at ? 'Used' : <button type="button" disabled={loading} onClick={() => void redeem(row)}>Mark used</button>}</td>
+        <td><strong>{row.email}</strong><small>{row.language.toUpperCase()} / {new Date(row.created_at).toLocaleDateString('en-US', { timeZone: 'America/Chicago' })}</small></td><td>{row.marketing_opt_in === false && row.status === 'pending' ? 'Coupon only' : row.status}</td><td><code>{row.coupon_code}</code></td><td>{row.email_status.replace(/_/g, ' ')}</td><td>{row.coupon_redeemed_at ? 'Used' : <button type="button" disabled={loading} onClick={() => void redeem(row)}>Mark used</button>}</td>
       </tr>)}</tbody></table></div>
       {health?.ready && !filtered.length && !loading && !error && <p>No matching coupon signups yet.</p>}
       {hasMore && <button type="button" onClick={() => void load(records.length)} disabled={loading}>Load more signups</button>}

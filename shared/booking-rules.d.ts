@@ -1,0 +1,12 @@
+export const STORE_TIME_ZONE: string;
+export const MIN_NOTICE_MINUTES: number;
+export const MAX_BOOKING_DAYS: number;
+export function chicagoNow(now?: number): {date: string; minutes: number};
+export function parseCalendarDate(value: string): Date | null;
+export function lastBookingDate(now?: number): string;
+export function timeLabel(value: string): string;
+export function windowLabel(value: string): string;
+export function bookingSlots(value: string, now?: number): {value: string; label: string}[];
+export function validPhone(value: string): boolean;
+export function validEmail(value: string): boolean;
+export function validateRepairRequest(body: unknown, now?: number): {code: string; message: string} | null;

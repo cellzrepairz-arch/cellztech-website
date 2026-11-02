@@ -1,0 +1,45 @@
+/* Repair invitation: deliberately separate from seasonal campaign styling. */
+.repairOfferCard{position:fixed;right:24px;bottom:24px;z-index:66;width:350px;max-width:calc(100vw - 32px);max-height:calc(100dvh - 120px);overflow:auto;background:#fff;border:1px solid #dfe3e9;border-radius:24px;box-shadow:0 16px 56px #182d4624,0 2px 8px #182d4608;color:#1d1d1f;font:14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;animation:repairOfferArrive .28s ease-out}
+.repairOfferCard *{box-sizing:border-box}
+.repairOfferDesktop{padding:23px 24px 16px}
+.repairOfferTop{display:flex;align-items:center;gap:9px;padding-right:26px;color:#65656c;font-size:9px;font-weight:700;letter-spacing:.065em;line-height:1.4}
+.repairOfferIcon{display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0071e3;background:#edf5ff;border:1px solid #e0edff;border-radius:12px;width:37px;height:37px}
+.repairOfferCard h2{font-size:21px;line-height:1.2;font-weight:650;letter-spacing:-.035em;margin:16px 0 0;max-width:250px;color:#1d1d1f}
+.repairOfferCard .repairOfferValue{display:flex;align-items:baseline;gap:10px;margin:10px 0 3px!important;color:#0071e3!important}
+.repairOfferValue>strong{font-size:58px;font-weight:700;letter-spacing:-3px;line-height:1}
+.repairOfferValue>strong>span{font-size:36px;letter-spacing:-1px}
+.repairOfferValue>span{font-size:15px;font-weight:650;letter-spacing:-.02em}
+.repairOfferIntro{margin:8px 0 15px!important;font-size:13px!important;line-height:1.5;color:#65656c}
+.repairCouponForm{margin:0}
+.repairCouponForm input[type=email]{display:block;width:100%;height:47px;min-height:47px;padding:11px 13px;border:1px solid #cdd3dc;border-radius:12px;background:white;color:#1d1d1f;font:16px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;box-sizing:border-box;transition:border-color .15s}
+.repairCouponForm input[type=email]:hover{border-color:#8795a8}
+.repairCouponForm .septCouponEmailLabel{display:block;font-size:12px;font-weight:600;margin:0 0 6px;color:#494952}
+.repairCouponForm .septCouponConsent{display:flex;align-items:flex-start;gap:9px;margin:12px 0 14px;font-size:11px;line-height:1.5!important;color:#62626a;font-weight:400;cursor:pointer}
+.repairCouponForm .septCouponConsent input{width:17px;height:17px;min-width:17px;flex-shrink:0;margin:2px 0 0;accent-color:#0071e3}
+.repairCouponForm .septCouponSubmit{border-radius:12px!important;background:#0071e3!important;min-height:46px;font-size:13px;font-weight:650;letter-spacing:-.01em;transition:background .15s,box-shadow .15s}
+.repairCouponForm .septCouponSubmit:hover:not(:disabled){background:#0064c9!important;box-shadow:0 4px 12px #0071e324}
+.repairCouponForm .septCouponSubmit:disabled{background:#8da2be!important}
+.repairCouponRequestNote{margin:9px 0 0!important;font-size:10px!important;line-height:1.5!important;color:#707078!important}
+.repairOfferTerms{display:flex;align-items:center;justify-content:center;gap:6px;background:none;border:0;color:#466484;font:inherit;font-size:11px;min-height:34px;margin:3px auto -6px;padding:6px;cursor:pointer}
+.repairOfferCard .septCouponClose{position:absolute;top:8px;right:8px;width:44px;height:44px;min-height:44px;min-width:44px;padding:0;border:0;background:transparent;color:#676a73;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer}
+.repairOfferCard .septCouponClose:hover{background:#f0f2f6;color:#1d1d1f}
+.repairOfferMobile{display:none}
+.repairOfferCard :is(button,a,input):focus-visible{outline:3px solid #0071e3;outline-offset:3px}
+.repairOfferCard .septCouponError{color:#a41d28;background:#fff2f2;border:1px solid #ecc8ca;border-radius:8px;padding:10px;font-size:12px}
+.repairOfferCard .septCouponHoney{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+@keyframes repairOfferArrive{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* Phones/tablets and short landscape screens get only a single-row invitation.
+   The full signup opens exclusively on a deliberate tap. */
+@media(max-width:767px),(max-height:650px){
+ .repairOfferDesktop{display:none}
+ .repairOfferCard{right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:380px;max-width:calc(100vw - 32px);border-radius:18px;overflow:visible;max-height:none}
+ .repairOfferMobile{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:transparent;color:#1d1d1f;padding:13px 50px 13px 14px;min-height:74px;cursor:pointer;border-radius:18px;font:inherit}
+ .repairOfferMobile>span:nth-child(2){display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+ .repairOfferMobile strong{font-size:13px;font-weight:650;line-height:1.3;letter-spacing:-.015em}
+ .repairOfferMobile>span:nth-child(2)>span{font-size:10px;color:#66666e;line-height:1.3}
+ .repairOfferMobile>svg{color:#0071e3;flex-shrink:0;width:16px}
+ .repairOfferCard .septCouponClose{top:calc(50% - 22px);right:6px}
+}
+@media(max-width:767px){.repairOfferCard{left:16px;right:16px;width:auto}}
+@media(prefers-reduced-motion:reduce){.repairOfferCard{animation:none}.repairCouponForm input,.repairCouponForm button{transition:none}}
+@media print{.repairOfferCard{display:none!important}}

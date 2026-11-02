@@ -1,3 +1,4 @@
+import { validateRepairRequest, windowLabel } from '../shared/booking-rules.js';
 import { repairDeskFetch } from './repairdesk-oauth-utils.js';
 
 const REQUIRED_FIELDS = ['device', 'model', 'issue', 'name', 'phone', 'email', 'requestedDate', 'requestedTime'];
@@ -408,12 +409,16 @@ async function sendEmail(body) {
 
     if (!response.ok) {
       const text = await response.text();
+      if (results.length) {
+        console.error('Customer repair receipt unavailable');
+        return { skipped: false, sent: results, receiptSent: false };
+      }
       throw new Error(`Email service error: ${text}`);
     }
     results.push({ to: message.to, subject: message.subject });
   }
 
-  return { skipped: false, sent: results };
+  return { skipped: false, sent: results, receiptSent: true };
 }
 
 async function sendCalendarWebhook(body) {
@@ -1220,15 +1225,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ ok: false, message: 'Method not allowed' });
   }
 
-  const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-  const missing = REQUIRED_FIELDS.filter((field) => !String(body[field] || '').trim());
-
-  if (missing.length || !isEmail(body.email)) {
-    return res.status(400).json({
-      ok: false,
-      message: 'Please complete name, phone, email, requested date, and requested time before submitting.'
-    });
+  res.setHeader('Cache-Control', 'no-store');
+  let body;
+  try {
+    if (typeof req.body === 'string' && Buffer.byteLength(req.body) > 12000) throw new Error('body_too_large');
+    body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+    if (Buffer.byteLength(JSON.stringify(body)) > 12000) throw new Error('body_too_large');
+  } catch {
+    return res.status(400).json({ok:false, error:'invalid_body', message:'Please submit a valid repair request.'});
   }
+  const validation = validateRepairRequest(body);
+  if (validation) return res.status(400).json({ok:false, error:validation.code, message:validation.message});
 
   const normalized = {
     device: String(body.device).trim(),
@@ -1239,14 +1246,14 @@ export default async function handler(req, res) {
     phone: String(body.phone).trim(),
     email: String(body.email).trim().toLowerCase(),
     requestedDate: String(body.requestedDate).trim(),
-    requestedTime: normalizeStoreTime(String(body.requestedDate).trim(), String(body.requestedTime).trim()),
+    requestedTime: String(body.requestedTime).trim(),
     requestedTimeLabel: '',
     requestedDateTime: String(body.requestedDateTime || '').trim(),
     notes: String(body.notes || '').trim(),
     source: String(body.source || 'CellzTech website').trim(),
     submittedAt: new Date().toISOString()
   };
-  normalized.requestedTimeLabel = String(body.requestedTimeLabel || '').trim() || formatTimeWindow(normalized.requestedTime);
+  normalized.requestedTimeLabel = windowLabel(normalized.requestedTime);
   normalized.requestedDateTime = normalized.requestedDate && normalized.requestedTimeLabel
     ? `${normalized.requestedDate} at ${normalized.requestedTimeLabel}`
     : normalized.requestedDateTime;
@@ -1296,20 +1303,18 @@ export default async function handler(req, res) {
       integrationErrors.push(error instanceof Error ? error.message : 'Supabase backup failed');
     }
 
-    try {
-      [emailResult, calendarResult] = await Promise.all([
-        sendEmail(enriched),
-        sendCalendarWebhook(enriched)
-      ]);
-    } catch (error) {
-      console.error(error);
-      integrationErrors.push(error instanceof Error ? error.message : 'Notification failed');
-    }
+    // Preserve a successful notification even when the other provider fails.
+    const notifications = await Promise.allSettled([sendEmail(enriched), sendCalendarWebhook(enriched)]);
+    if (notifications[0].status === 'fulfilled') emailResult = notifications[0].value;
+    else { console.error('Repair email unavailable'); integrationErrors.push('Email notification failed'); }
+    if (notifications[1].status === 'fulfilled') calendarResult = notifications[1].value;
+    else { console.error('Repair calendar unavailable'); integrationErrors.push('Calendar notification failed'); }
+
+    if (!emailResult?.skipped && emailResult.receiptSent === false) integrationErrors.push('Customer email receipt unavailable');
 
     const anyIntegrationWorked = !!(
       repairDeskLeadResult?.id ||
       repairDeskTicketResult?.id ||
-      repairDeskCustomerResult?.id ||
       !supabaseResult?.skipped ||
       !emailResult?.skipped ||
       !calendarResult?.skipped
@@ -1318,15 +1323,7 @@ export default async function handler(req, res) {
     if (!anyIntegrationWorked) {
       return res.status(503).json({
         ok: false,
-        message: 'The online backend is installed, but RepairDesk/Supabase is not fully connected yet. Please text or call the store for now.',
-        integrations: {
-          repairDeskCustomer: repairDeskCustomerResult,
-          repairDeskLead: repairDeskLeadResult,
-          repairDeskTicket: repairDeskTicketResult,
-          supabase: supabaseResult,
-          email: emailResult,
-          calendar: calendarResult
-        }
+        message: 'We could not confirm that your request was received. Please text or call 773-413-7489.'
       });
     }
 
@@ -1342,7 +1339,7 @@ export default async function handler(req, res) {
       backupSaved: !supabaseResult?.skipped,
       emailSent: !emailResult?.skipped,
       calendarSent: !calendarResult?.skipped,
-      warnings: integrationErrors
+      warnings: integrationErrors.length ? ['Some secondary notifications were unavailable.'] : []
     });
   } catch (error) {
     console.error(error);

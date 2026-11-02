@@ -1,0 +1,10 @@
+export const DISMISS_KEY: string;
+export const CLAIM_KEY: string;
+export const CODE_KEY: string;
+export const OFFER_DELAY_MS: number;
+export const DISMISS_FOR_MS: number;
+export function readPreference(key: string): string;
+export function writePreference(key: string, value: string): void;
+export function eligibleOfferPath(pathname: string): boolean;
+export function recentlyDismissed(value: string, now?: number): boolean;
+export function validCouponCode(value: unknown): boolean;

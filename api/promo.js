@@ -6,7 +6,7 @@ import {
 // Limits only this new coupon function; existing routes/configuration are unchanged.
 export const config = { maxDuration: 30 };
 
-const PUBLIC_COLUMNS = 'id,email,language,status,campaign_id,coupon_code,coupon_redeemed_at,email_status,consent_at,confirmed_at,unsubscribed_at,created_at';
+const PUBLIC_COLUMNS = 'id,email,language,status,marketing_opt_in,campaign_id,coupon_code,coupon_redeemed_at,email_status,consent_at,confirmed_at,unsubscribed_at,created_at';
 function json(res, status, body) { return res.status(status).json(body); }
 function html(res, status, body) { res.setHeader('Content-Type', 'text/html; charset=utf-8'); return res.status(status).send(body); }
 function parseBody(req) {
@@ -64,18 +64,19 @@ export default async function handler(req, res) {
     if (action === 'signup') {
       if (!activeCampaign()) return json(res, 410, { ok: false, error: 'campaign_closed' });
       const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
-      if (!validEmail(email) || body.consent !== true || body.consentVersion !== VERSION || typeof body.requestId !== 'string' || !UUID.test(body.requestId)
+      if (!validEmail(email) || body.consent !== true || (body.marketingOptIn !== undefined && typeof body.marketingOptIn !== 'boolean') || body.consentVersion !== VERSION || typeof body.requestId !== 'string' || !UUID.test(body.requestId)
         || (body.website !== undefined && body.website !== '') || typeof body.language !== 'string' || !Object.hasOwn(copy, body.language)) {
         return json(res, 400, { ok: false, error: 'invalid_signup' });
       }
       if (!configured()) return json(res, 503, { ok: false, error: 'temporarily_unavailable' });
       if (!await rateLimit(req, email)) { res.setHeader('Retry-After', '3600'); return json(res, 429, { ok: false, error: 'rate_limited' }); }
-      const saved = await rpc('cellztech_promo_signup', {
+      const saved = await rpc('cellztech_promo_signup_v2', {
         p_email: email, p_language: lang, p_request_id: body.requestId,
-        p_consent_version: VERSION, p_consent_text: copy[lang].consent
+        p_consent_version: VERSION, p_consent_text: copy[lang].couponConsent + (body.marketingOptIn === true ? '\n' + copy[lang].consent : ''),
+        p_marketing_opt_in: body.marketingOptIn === true
       });
       const row = saved?.record;
-      if (!row?.id || !/^BTS10-[A-F0-9]{12}$/.test(row.coupon_code || '')) throw new Error('invalid_save_response');
+      if (!row?.id || !/^(?:BTS10|NOV10)-[A-F0-9]{12}$/.test(row.coupon_code || '')) throw new Error('invalid_save_response');
       let emailStatus = row.email_status;
       if (saved.shouldSend === true) {
         emailStatus = await sendCouponEmail(row);
@@ -113,7 +114,7 @@ export default async function handler(req, res) {
     if (action === 'export') {
       const all = [];
       for (let offset = 0; offset <= 10000; offset += 1000) {
-        const rows = await database(`website_promo_subscribers?select=id,email,language,confirmed_at&status=eq.subscribed&order=created_at.asc,id.asc&limit=1000&offset=${offset}`);
+        const rows = await database(`website_promo_subscribers?select=id,email,language,confirmed_at&status=eq.subscribed&marketing_opt_in=eq.true&order=created_at.asc,id.asc&limit=1000&offset=${offset}`);
         if (offset === 10000 && rows.length) return json(res, 413, { ok: false, error: 'export_too_large' });
         all.push(...rows);
         if (rows.length < 1000) break;
