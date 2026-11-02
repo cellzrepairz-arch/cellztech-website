@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { AutumnLeaf } from './SeasonDetails';
 import { HOLIDAY_END } from './ultra-offers';
 import type { SiteLanguage } from './site-copy';
 const text = {
@@ -11,5 +12,5 @@ const text = {
 export function NovemberNotice({lang}:{lang:SiteLanguage}) {
   if(Date.now() >= Date.parse(HOLIDAY_END)) return null;
   const t=text[lang];
-  return <div className="novNotice"><div className="oct-container"><strong>{t[0]}</strong><span>{t[1]}</span><a href="/ultra-mobile#holiday">{t[2]}<ArrowRight size={14}/></a></div></div>;
+  return <div className="novNotice"><div className="oct-container"><strong><AutumnLeaf />{t[0]}</strong><span>{t[1]}</span><a href="/ultra-mobile#holiday">{t[2]}<ArrowRight size={14}/></a></div></div>;
 }

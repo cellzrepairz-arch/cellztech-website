@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, CheckCircle2, Gift, ShieldCheck, X } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Gift, Phone, ShieldCheck, X } from 'lucide-react';
 import campaign from '../shared/campaign.json';
 import couponCopy from '../shared/coupon-copy.json';
 import { RepairCouponForm } from './RepairCouponForm';
@@ -17,6 +17,17 @@ function couponEvent(name: string, language: CouponLanguage) {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
     body: JSON.stringify({ path: `/event/${name}`, page: name, language, referrer: window.location.origin + '/' })
   }).catch(() => undefined);
+}
+
+function CouponSupport({ t, checking, onRetry, onBook }: {
+  t: typeof couponCopy.en; checking: boolean; onRetry: () => void; onBook: () => void;
+}) {
+  return <div className="couponSupport">
+    <div role="status" aria-live="polite"><strong>{t.unavailableTitle}</strong><p>{t.unavailable}</p></div>
+    <a className="couponSupportCall" href="tel:7734137489"><Phone size={16} aria-hidden="true" />{t.call}</a>
+    <button className="couponSupportRetry" type="button" onClick={onRetry} disabled={checking} aria-busy={checking}>{checking ? t.checking : t.retry}</button>
+    <button className="couponSupportBook" type="button" onClick={onBook}>{t.bookingFallback}<ArrowRight size={14} aria-hidden="true" /></button>
+  </div>;
 }
 
 export function RepairCoupon({ lang, navigatePath, compact = false, initialEmail = '' }: { lang: CouponLanguage; navigatePath: (path: string) => void; compact?: boolean; initialEmail?: string }) {
@@ -163,6 +174,7 @@ export function RepairCoupon({ lang, navigatePath, compact = false, initialEmail
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (sendingRef.current || result?.ok) return;
+    if (ready !== true) { setError(t.unavailable); return; }
     if (!event.currentTarget.checkValidity() || !email.trim()) { setError(t.validation); return; }
     const fromCard = event.currentTarget.dataset.couponSurface === 'card';
     if (fromCard) openerRef.current = event.currentTarget.querySelector('button[type=submit]');
@@ -182,7 +194,13 @@ export function RepairCoupon({ lang, navigatePath, compact = false, initialEmail
         if (response.status === 429) setError(t.rateError);
         else if (response.status === 410) setError(t.closed);
         else if (response.status === 400) setError(t.validation);
-        else setError(t.error);
+        else if (response.status === 503) {
+          // Keep the entered email and request ID in memory for a safe retry.
+          // A stopped service must never turn into a generated/fake coupon.
+          if (fromCard) { dialogRef.current?.showModal(); setOpen(true); }
+          setReady(false);
+          setError(t.error);
+        } else setError(t.error);
         return;
       }
       if (fromCard) { dialogRef.current?.showModal(); setOpen(true); }
@@ -211,14 +229,14 @@ export function RepairCoupon({ lang, navigatePath, compact = false, initialEmail
   return (
     <section id="repair-offer" className={`septCouponSection${compact ? ' couponCompact' : ''}`} aria-labelledby={`${id}-heading`}>
       <div className="wrap">
-        <div className="septCouponTicket">
+        <div className={`septCouponTicket${ready === false && !result ? ' couponNeedsHelp' : ''}`}>
           <div className="septCouponAmount" aria-label={t.percentLabel}><strong>10<span>%</span></strong><span>{t.off}</span></div>
           <div className="septCouponTicketCopy"><span>{t.eyebrow}</span><h2 id={`${id}-heading`}>{t.title}</h2><p>{t.intro}</p></div>
           <div className="septCouponTicketAction">
             {ready || result ? <button ref={ticketRef} type="button" onClick={openCoupon}>{result?.code ? t.codeLabel : t.cta}<ArrowRight size={18} aria-hidden="true" /></button>
-              : checking ? <button type="button" disabled aria-busy="true">{t.checking}</button>
-              : <><p role="status">{t.unavailable}</p><button type="button" onClick={() => void checkAvailability()}>{t.retry}</button><a className="septCouponCallFallback" href="tel:7734137489">{t.call}<ArrowRight size={18} aria-hidden="true" /></a></>}
-            <span><ShieldCheck size={14} aria-hidden="true" />{t.termsTitle}</span>
+              : checking && ready === null ? <button type="button" disabled aria-busy="true">{t.checking}</button>
+              : <CouponSupport t={t} checking={checking} onRetry={() => void checkAvailability()} onBook={() => navigatePath('/book-repair?source=coupon-help')} />}
+            <details className="couponInlineTerms"><summary><ShieldCheck size={14} aria-hidden="true" />{t.termsTitle}</summary><p>{t.terms}</p></details>
           </div>
         </div>
       </div>
@@ -250,8 +268,9 @@ export function RepairCoupon({ lang, navigatePath, compact = false, initialEmail
             <button type="button" className="septCouponTextButton" onClick={closeCoupon}>{t.done}</button>
           </div> : <>
             <h2 id={`${id}-title`}>{t.modalTitle}</h2><p>{t.modalIntro}</p><p className="septCouponScope">{t.scope}</p>
-            <RepairCouponForm t={t} id={`${id}-dialog`} surface="dialog" emailRef={emailRef} email={email} consent={consent} website={website} saving={saving} error={error}
+            {ready === true ? <RepairCouponForm t={t} id={`${id}-dialog`} surface="dialog" emailRef={emailRef} email={email} consent={consent} website={website} saving={saving} error={error}
               onEmail={(value)=>{setEmail(value);setError('');requestRef.current='';}} onConsent={(value)=>{setConsent(value);requestRef.current='';}} onWebsite={setWebsite} onSubmit={event=>void submit(event)} />
+              : <CouponSupport t={t} checking={checking} onRetry={() => { setError(''); void checkAvailability(); }} onBook={() => { closeCoupon(); navigatePath('/book-repair?source=coupon-help'); }} />}
             <button type="button" className="septCouponTextButton" onClick={closeCoupon}>{t.notNow}</button>
             <details className="septCouponDetails"><summary>{t.termsTitle}</summary><p>{t.terms}</p></details>
             <details className="septCouponDetails"><summary>{t.privacyTitle}</summary><p>{t.privacy}</p></details>

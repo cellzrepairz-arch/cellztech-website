@@ -43,3 +43,9 @@
 @media(max-width:767px){.repairOfferCard{left:16px;right:16px;width:auto}}
 @media(prefers-reduced-motion:reduce){.repairOfferCard{animation:none}.repairCouponForm input,.repairCouponForm button{transition:none}}
 @media print{.repairOfferCard{display:none!important}}
+
+/* Option C: a quiet autumn edge; blue remains the action/offer color. */
+.repairOfferCard { border-top: 3px solid #d2aa6b; }
+.repairOfferTop { color: #77501e; }
+.repairOfferIcon { background: #fbf4e8; border-color: #eadbc4; color: #0868d4; }
+.repairOfferCard .repairOfferValue { color: #0868d4 !important; }
