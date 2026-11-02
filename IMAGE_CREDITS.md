@@ -14,3 +14,6 @@ Apple, iPhone, and related product names and marks are trademarks of Apple Inc. 
 - Customer-facing offer text is HTML and translated separately; internal retailer PDFs, payout tables, and dashboard screenshots are not published.
 
 Ultra Mobile, T-Mobile and product marks belong to their respective owners. The provided artwork does not establish new endorsement or certification claims for CellzTech.
+
+## November 2026 additions
+The three official Ultra Mobile social graphics in `public/november/` were supplied by the site owner in the November Drive-download ZIP. They are retained as customer-facing artwork, not dealer explainers. Existing licensed phone imagery remains unchanged. The November Open Graph card is an original CellzTech layout using that existing phone image. No Apple logos or Apple endorsement claims were added.

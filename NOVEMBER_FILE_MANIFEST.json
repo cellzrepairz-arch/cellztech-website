@@ -1,0 +1,632 @@
+[
+  {
+    "path": ".gitignore",
+    "status": "unchanged",
+    "sha256": "8c282696d212efd852474015a6b2116e64d55b8349f4b66464c2a99f2fa96370"
+  },
+  {
+    "path": ".npmrc",
+    "status": "unchanged",
+    "sha256": "392bb7db5818eda931783984537cc74315e259c3caad5831bba4941765caa90c"
+  },
+  {
+    "path": "BACKEND_SETUP.md",
+    "status": "unchanged",
+    "sha256": "dfb603389ce441ed0c4b258873b4b2de9f8147f9673103740424dfc9dca90015"
+  },
+  {
+    "path": "GITHUB_UPLOAD_NOTE.txt",
+    "status": "modified",
+    "sha256": "59a62393d2040ea2b0c04c9b288e1f1e466daf84984e105b87f15f488c482dd6"
+  },
+  {
+    "path": "IMAGE_CREDITS.md",
+    "status": "modified",
+    "sha256": "24707f86fa84506d7fa96fcd304f20a45370276a4612e26e60f2cf764337f807"
+  },
+  {
+    "path": "NOVEMBER_RELEASE.md",
+    "status": "new",
+    "sha256": "08031d52a755d34eea506f96ed6eab323ee3ea5ce1d6785e2b4de85783aa9854"
+  },
+  {
+    "path": "NOVEMBER_SOURCE_NOTES.md",
+    "status": "new",
+    "sha256": "cc4867ad330d124863f798892d6959d6a8a2205d82a4bb8502d866a78ea8964a"
+  },
+  {
+    "path": "NOVEMBER_TEST_RESULTS.md",
+    "status": "new",
+    "sha256": "8b5ec800f122e392d2881cd4e6a3b0b12b1f0824c2dd9f953aa2bffe81687d7f"
+  },
+  {
+    "path": "OCTOBER_FLAIR.md",
+    "status": "unchanged",
+    "sha256": "64691f960aa64fa3a980242c806821aa5c65690f9f8c5ec31e1d9ae866935d0a"
+  },
+  {
+    "path": "OCTOBER_FLAIR_QA.json",
+    "status": "unchanged",
+    "sha256": "398dddd64da842b716265267ebc7d4bd3d6e9f2569dfe736a63ae2b5b449ea3f"
+  },
+  {
+    "path": "OCTOBER_QA.json",
+    "status": "unchanged",
+    "sha256": "26515050f4ab54702fe817ee2469be0f07b8ed7fd66c07b831fa30d62f183cb6"
+  },
+  {
+    "path": "OCTOBER_RELEASE.md",
+    "status": "unchanged",
+    "sha256": "9931144a3617c223995ede528fc5606f97605b74db1e16807d78a2c3c1e4f8ec"
+  },
+  {
+    "path": "README.md",
+    "status": "modified",
+    "sha256": "443e6a196d275085a4edefa5d14c581cddee6a18eb03501ae09763a94e961c57"
+  },
+  {
+    "path": "SEPTEMBER_CORRECTIONS.md",
+    "status": "unchanged",
+    "sha256": "7d411cced5e46ba9f86b4835f6f964b33852d45ec1c48f99dd89471413c53973"
+  },
+  {
+    "path": "SEPTEMBER_QA.md",
+    "status": "unchanged",
+    "sha256": "98fb2fbbd90d88f2c2ea3597a3bc35912041c3f146d828030740735a182739fb"
+  },
+  {
+    "path": "SEPTEMBER_SETUP.md",
+    "status": "unchanged",
+    "sha256": "c5ee4bf00b4f9adf8246a5012dc6be5e55849a4236bf72cd82a79238d2a9706c"
+  },
+  {
+    "path": "api/admin/repair-requests.js",
+    "status": "unchanged",
+    "sha256": "797a0473cf42e356fbfebd195c441b9aadc8234ce34cbcae3c19da0b4e780888"
+  },
+  {
+    "path": "api/api/visit.js",
+    "status": "unchanged",
+    "sha256": "59d8fc1f9222b1b419643f8d439eae023b5d60f7b48c4aaf4ceaa5bde6f26714"
+  },
+  {
+    "path": "api/promo.js",
+    "status": "modified",
+    "sha256": "26d2f717a0c8a9ec9aa58c7fd3264afe7ceb10d53b1356dd0f1f186fcab0c2ad"
+  },
+  {
+    "path": "api/repair-request.js",
+    "status": "modified",
+    "sha256": "e9399567f8969e2cc8b726980f4f2e83fd8c7e4f0e986c4cf3a9876a37833e7f"
+  },
+  {
+    "path": "api/repairdesk/oauth/callback.js",
+    "status": "unchanged",
+    "sha256": "0458249f7fd8e359419cce3359196abb735377736aeee1be6b0fae9e9bc78a7f"
+  },
+  {
+    "path": "api/repairdesk/oauth/start.js",
+    "status": "unchanged",
+    "sha256": "c175fc70ff06ac20e9b47a477087373d5be90e31b76638152b852f5f0773b933"
+  },
+  {
+    "path": "api/repairdesk/oauth/status.js",
+    "status": "unchanged",
+    "sha256": "d80e4bc3a0f23cfb32b65886e5b8656ae4366994d1350df428d4ffec444a4b1d"
+  },
+  {
+    "path": "api/repairdesk-oauth-utils.js",
+    "status": "unchanged",
+    "sha256": "aa553164f3d3cabbdc8048b9bd048bba8e836159aed3915a0e670b38e6d6a282"
+  },
+  {
+    "path": "api/sim-request.js",
+    "status": "unchanged",
+    "sha256": "c2d3477b88c4660f9436ea0c4274822df2ff49413c41615693ab80c5811f8a0f"
+  },
+  {
+    "path": "api/track-visit.js",
+    "status": "unchanged",
+    "sha256": "65b9406b5084daa889b2e17cde02304c4f5d50838d5d9663fd86b6a9c4a6bfc9"
+  },
+  {
+    "path": "api/visit.js",
+    "status": "unchanged",
+    "sha256": "767823f34176a5ccccced0263cbe58871660f7a8a198928fadfd5e57a14cd67b"
+  },
+  {
+    "path": "backend/google-apps-script-calendar.js",
+    "status": "unchanged",
+    "sha256": "61dcd12177e5a15d5b213ded70024e034fa9096cacaaa1bb3ee053a8406e1275"
+  },
+  {
+    "path": "index.html",
+    "status": "modified",
+    "sha256": "b4a5a1cbc26b81397330ca8d807a54b1c85367c7d297d5df6c17552b16add08c"
+  },
+  {
+    "path": "lib/promo-core.js",
+    "status": "modified",
+    "sha256": "7e8a41c0e67058666331fd0c49ef683f8324b8f0e7e10850208e77ca967f20ff"
+  },
+  {
+    "path": "package-lock.json",
+    "status": "unchanged",
+    "sha256": "ae51029025ed2f1794e198b00533277e990277c4d25377107761462149c434fe"
+  },
+  {
+    "path": "package.json",
+    "status": "modified",
+    "sha256": "4919296c814e6e0f70afd97dc005cc1cb9de622eef1c45390ac46b179777557c"
+  },
+  {
+    "path": "public/404.html",
+    "status": "unchanged",
+    "sha256": "a98a2445b260ba083e6fe527a8d366bb2e0f900fe7242404d61e1eac34eef134"
+  },
+  {
+    "path": "public/august-ultra-phone.png",
+    "status": "unchanged",
+    "sha256": "5931197d4cbae9c35921d5e44b2e3b59c4adf89f781449625b5ac522b881615b"
+  },
+  {
+    "path": "public/brand/cellztech-ct-bot.svg",
+    "status": "unchanged",
+    "sha256": "9a0ee01ee838fbd551fe931c38f5614a3adf38f492e895ee2f223f511969a6a7"
+  },
+  {
+    "path": "public/brand/cellztech-ct-logo.svg",
+    "status": "unchanged",
+    "sha256": "301c589a5725abf670d12b5ae43a35f74b411c7b000bb2adef8e0d9d17ccac6e"
+  },
+  {
+    "path": "public/brand/iphone-shatter-card.svg",
+    "status": "unchanged",
+    "sha256": "3fecd132aa0adfb7c57b036c5a7306535300e9e4b7ae86a0b44ed3bb9d2de253"
+  },
+  {
+    "path": "public/brand/iphone-shatter.svg",
+    "status": "unchanged",
+    "sha256": "639cfa342a90479c17e8f864eb295e276eea0c530ed2312c3a995822861a44af"
+  },
+  {
+    "path": "public/homepage-july-banner.png",
+    "status": "unchanged",
+    "sha256": "a70c0110df1598677d62bcbacb5c45761ccf7ea4b0fe5896afc55496a7ae2b0d"
+  },
+  {
+    "path": "public/iphone-pro-realistic.png",
+    "status": "unchanged",
+    "sha256": "a8df95fdb46ea34dcef229bbeaa0ae7fc69f640fa4c26bfb203d759655ae7862"
+  },
+  {
+    "path": "public/iphone-pro-realistic.webp",
+    "status": "unchanged",
+    "sha256": "7661cbcc86c567573e5099f161b6e3b0f15e40f32cc9649233aa8ceb7cf8d28f"
+  },
+  {
+    "path": "public/july-hero-visual.png",
+    "status": "unchanged",
+    "sha256": "6b1564b6090e87a7f89b4bf54118554ef1f63698b2df128973c9fee722e9db55"
+  },
+  {
+    "path": "public/july-ultra-phone-flag.png",
+    "status": "unchanged",
+    "sha256": "02cdf62165ba54497477d0623b822d9aea62f68a36bbce5656444ba4fcbca2e7"
+  },
+  {
+    "path": "public/november/25gb.webp",
+    "status": "new",
+    "sha256": "14794c2b476b6673261e91f380faba3c9ffcf1a80765be9a670fea349057d515"
+  },
+  {
+    "path": "public/november/family.webp",
+    "status": "new",
+    "sha256": "90fbeb604abe24e171d99cf99076f4e9ec08f02732451bd2b927b8c9cba91945"
+  },
+  {
+    "path": "public/november/holiday.webp",
+    "status": "new",
+    "sha256": "65ef3be9740908d7fad98b7a6ca9481c87a26c9e76ad5d8745faa4c8838d572f"
+  },
+  {
+    "path": "public/november/og-cellztech-november.png",
+    "status": "new",
+    "sha256": "798c57eb0f3d70f53336eba260977cfcbff2c593838110c1ed037d00b192e778"
+  },
+  {
+    "path": "public/october/family-devices.webp",
+    "status": "unchanged",
+    "sha256": "0f698cd4d0e6469deca28f740e38f821950ea94093424aa5a8a0c3cddfb9424e"
+  },
+  {
+    "path": "public/october/iphone-480.webp",
+    "status": "unchanged",
+    "sha256": "9701a0cee6c3310290b02552b3758ac19f8d4eb9edb3acdc0b55178ed2016cb0"
+  },
+  {
+    "path": "public/october/iphone-800.webp",
+    "status": "unchanged",
+    "sha256": "a4c92b7bcc759b22b7be2cfbf1b8743aafede3888eee36d10631eea0b536257a"
+  },
+  {
+    "path": "public/october/og-cellztech-october.png",
+    "status": "unchanged",
+    "sha256": "bd8271c6de5551d1f29357341ec572884fb3512aedc4b04af9741f5452421adf"
+  },
+  {
+    "path": "public/october/roam-globe.webp",
+    "status": "unchanged",
+    "sha256": "000333ab4cd5ffcd5eea1936bcdb83c0bd8873df4a04f77edb8c2193c6b57ee1"
+  },
+  {
+    "path": "public/october/ultra-logo-white.png",
+    "status": "unchanged",
+    "sha256": "8dc1e379217b5ac8e83fa1a67aafcee0d55a55dae14507a309602e2fa2c5b49f"
+  },
+  {
+    "path": "public/og-august-2026.png",
+    "status": "unchanged",
+    "sha256": "f1e799c1a7d02aeb2633a5b4809791109f9b25b0a2704b2332f376fb3139d3ff"
+  },
+  {
+    "path": "public/og-august-2026.webp",
+    "status": "unchanged",
+    "sha256": "6987a44fff046117b4b3483daec26438a1aba1fd4ad070c32dc61d08cb20e7df"
+  },
+  {
+    "path": "public/og-cellztech.png",
+    "status": "unchanged",
+    "sha256": "2042ec66a1f36482756bd3242025d8d583367e006d40ed18d26a7fe184c7e3a7"
+  },
+  {
+    "path": "public/og-september-2026.png",
+    "status": "unchanged",
+    "sha256": "a8837549c3200bd6a6442b3d8112e4c69d3be0a663c0a4380b0cbf64a68df090"
+  },
+  {
+    "path": "public/og-september-2026.webp",
+    "status": "unchanged",
+    "sha256": "78bc4d3428a4840574ff50c43f8ca44d872613618f978a370f0de50b0de72379"
+  },
+  {
+    "path": "public/premium-phone-back.svg",
+    "status": "unchanged",
+    "sha256": "a1213efd4c2dbaac863c89ddd7b3eec560252203e896cbc5e897875bb8c6346b"
+  },
+  {
+    "path": "public/robots.txt",
+    "status": "unchanged",
+    "sha256": "0afb8897a82aa83d1d0f31448a9e2fe81127463cbca1e4bc45924e4e2a6fe9a8"
+  },
+  {
+    "path": "public/sitemap.xml",
+    "status": "unchanged",
+    "sha256": "a9379c2302075d799bf43b617746f55e7f68b8fb5199dd3b3de6cd95f72d7de0"
+  },
+  {
+    "path": "public/ultra-phone-device.png",
+    "status": "unchanged",
+    "sha256": "b6cf8f849e52e57ef05cc0ed9d8a575bcd964ec8372557997639469ecac6695b"
+  },
+  {
+    "path": "public/xfinity-prepaid-modem-kit.png",
+    "status": "unchanged",
+    "sha256": "b6f627a6a601c0591bcdb8820a3ac8ae528e1cc52021e0a766608063a436cfc6"
+  },
+  {
+    "path": "public-placeholder.txt",
+    "status": "unchanged",
+    "sha256": "ef8314225dcba9c7e827b02d5a51e77205ba059ebfefdb31b56547b664b1ca8d"
+  },
+  {
+    "path": "qa/november-api-tests.log",
+    "status": "new",
+    "sha256": "ee6d71adc6c7a00ef1fd76aaa723ed735f3e9ba09a06d95961f24663a309b95c"
+  },
+  {
+    "path": "qa/november-browser-results.json",
+    "status": "new",
+    "sha256": "f515bd7f535afcda27924e537cc6d4255640604cdf3b747356bd7aaf97b71b6b"
+  },
+  {
+    "path": "qa/november-syntax-results.json",
+    "status": "new",
+    "sha256": "9d105af192e2a2dd5c28c09e9771072fac6fb2e4e84263c44aae9a5434b7f17b"
+  },
+  {
+    "path": "qa/repair-offer-browser-results.json",
+    "status": "new",
+    "sha256": "6dee63e5b9ca6bd6b570d2869d681391b99ecd9385070dca54bfffc65b205cec"
+  },
+  {
+    "path": "qa/repair-offer-syntax-results.json",
+    "status": "new",
+    "sha256": "c881e1b4fecb2b094f00c82e5a7845ac2bb9384149f4ab7c7d7e5eb706abfd2d"
+  },
+  {
+    "path": "qa/repair-offer-unit-tests.log",
+    "status": "new",
+    "sha256": "3dc293c6a09d0f382020dab6610b2daf0697dbfc7218149d83fc5a3ed8621fe9"
+  },
+  {
+    "path": "robots.txt",
+    "status": "unchanged",
+    "sha256": "0afb8897a82aa83d1d0f31448a9e2fe81127463cbca1e4bc45924e4e2a6fe9a8"
+  },
+  {
+    "path": "shared/booking-rules.d.ts",
+    "status": "new",
+    "sha256": "6b8dd736d4cf8b0d59673e6335c7000fd8dc64248b91084700d03c2272392d0c"
+  },
+  {
+    "path": "shared/booking-rules.js",
+    "status": "new",
+    "sha256": "6d6420a5d0bccbc42caaa6f86d86c4b0a74de5790e214312a728150107cb0d16"
+  },
+  {
+    "path": "shared/campaign.json",
+    "status": "new",
+    "sha256": "6792dbf71408f8a5ba99e84fef44ba11ade56cdc83bfd80aa0e0b4eb95133290"
+  },
+  {
+    "path": "shared/coupon-copy.json",
+    "status": "modified",
+    "sha256": "eee6cb66f772b67ad863be3e85deeff578808a5ecbe0fa312a51adf92a4bdf3b"
+  },
+  {
+    "path": "shared/coupon-presentation.d.ts",
+    "status": "new",
+    "sha256": "0348d5213498df2bbc982069215828b813b69177f618edc2a8b908ca0a6c39e9"
+  },
+  {
+    "path": "shared/coupon-presentation.js",
+    "status": "new",
+    "sha256": "9270bbb3e55e989c24cc41fb01c45c3c1b902779e4aa0e1fdf5a0ba9e793599a"
+  },
+  {
+    "path": "sitemap.xml",
+    "status": "unchanged",
+    "sha256": "a9379c2302075d799bf43b617746f55e7f68b8fb5199dd3b3de6cd95f72d7de0"
+  },
+  {
+    "path": "src/AugustHome.tsx",
+    "status": "modified",
+    "sha256": "ecf7a70d91e349073869f6dad74e29ce13d520aec4e635bff060778e3ce00091"
+  },
+  {
+    "path": "src/BookRepairPage.tsx",
+    "status": "new",
+    "sha256": "2457d101235b7d19b2ba61efbf98c5198fd8f7e632313548e8f7d486a91108f9"
+  },
+  {
+    "path": "src/NovemberNotice.tsx",
+    "status": "new",
+    "sha256": "1db3e6fb4275f181ebc43553121826e4c5e1f152671dcaddcf528b1e7fc8205a"
+  },
+  {
+    "path": "src/OctoberInquiry.tsx",
+    "status": "modified",
+    "sha256": "d4bd9278df5ec489cc9d9510a9a8a7a0387c3e06a2cbde74560a4f8909ddfa26"
+  },
+  {
+    "path": "src/OctoberPages.tsx",
+    "status": "modified",
+    "sha256": "449df8ddd21936c0b31c97954fc4285f1dd8db24b004e1533999f2d3973c86af"
+  },
+  {
+    "path": "src/OctoberSeason.tsx",
+    "status": "modified",
+    "sha256": "214a223879606717264da3515269a0c617dd4b7690b81711f9a7813d2573da47"
+  },
+  {
+    "path": "src/PromoAdmin.tsx",
+    "status": "modified",
+    "sha256": "fc3d4236e8b7c944de06c16f04166a4b4813acf9a89226184633b3731a7a8b7f"
+  },
+  {
+    "path": "src/RepairCoupon.tsx",
+    "status": "new",
+    "sha256": "86c5431c25ae16d1aa6f512d21abba63af8d988782c58e009160d7ea3ed76305"
+  },
+  {
+    "path": "src/RepairCouponForm.tsx",
+    "status": "new",
+    "sha256": "f7e4d1e7304f576f22d1d26cc2414f4eb3114e43c535915f62ea55b6907b8632"
+  },
+  {
+    "path": "src/SeasonDetails.tsx",
+    "status": "new",
+    "sha256": "e4def457f172b04b116aab1e878ef30f6e877c7b15619ff07aaa917a7a843ef6"
+  },
+  {
+    "path": "src/SeptemberCoupon.tsx",
+    "status": "modified",
+    "sha256": "96a43e0e45f24bf4cd73fb53de530abab8bffe5d8821d1e4edc62053bcd00715"
+  },
+  {
+    "path": "src/SitePages.tsx",
+    "status": "new",
+    "sha256": "aafae39474ef04ead1a00f3d416ede81668867c6dab5ea1abc884be6d3e8100c"
+  },
+  {
+    "path": "src/StaticShell.tsx",
+    "status": "unchanged",
+    "sha256": "24fde899333378eee46b1072cda6f9b69a549f8e4a698bac80f34f3b61f5e292"
+  },
+  {
+    "path": "src/UltraInquiry.tsx",
+    "status": "new",
+    "sha256": "0b2133c848233cdcf1ca5a03cd844519bc1bb07eda17184e306664295c39a44b"
+  },
+  {
+    "path": "src/august-home.css",
+    "status": "unchanged",
+    "sha256": "834d2c5bcbc628b6f1c1ab2b97893a3278a0ad79320d888cbf0bbaa1ec3c87fb"
+  },
+  {
+    "path": "src/booking-copy.ts",
+    "status": "new",
+    "sha256": "f2cf95854268c86adbc9b1ce0fefbbebf4c3da2d2da753c67a4187033c7539d3"
+  },
+  {
+    "path": "src/booking-modern-copy.ts",
+    "status": "new",
+    "sha256": "e58104f1deaeb79ae08f83f11ce31760b1aef1dbf54c61d3ae3e1b273a99a7a7"
+  },
+  {
+    "path": "src/booking-modern.css",
+    "status": "new",
+    "sha256": "858be7714c6f4fdf104491905f87ca8c66ad24586bf7843a037658e3d5067e8a"
+  },
+  {
+    "path": "src/deviceCatalog.ts",
+    "status": "unchanged",
+    "sha256": "d3ec40154a59e1d548e8e39785f3355d6637a12ebad7eb80cdea93540451f09d"
+  },
+  {
+    "path": "src/main.tsx",
+    "status": "modified",
+    "sha256": "88a62da4143270adb5c2439161a3d2feede05d90e3839a249aac00f08462e6fe"
+  },
+  {
+    "path": "src/november-polish.css",
+    "status": "new",
+    "sha256": "053da1e8918ce43f8a4f573cc79d2c2e673070f77b28cdb8d3220d5c8825b1bf"
+  },
+  {
+    "path": "src/october-copy.ts",
+    "status": "modified",
+    "sha256": "0290b528d47f9a45b710f79896176e8bfd4b7a6f3012a24509d4180c5c06c30e"
+  },
+  {
+    "path": "src/october-offers.ts",
+    "status": "modified",
+    "sha256": "2d749db071cf0f235fc695468c28d829741f64dbcb0a44f06933e0fc4995b12c"
+  },
+  {
+    "path": "src/october-pages.css",
+    "status": "modified",
+    "sha256": "33254b203410aa1e08959d80521bf1aba9d88fb596027bc3bfef7f6c4367582d"
+  },
+  {
+    "path": "src/october-seo.ts",
+    "status": "modified",
+    "sha256": "5f9a7c8df6e74071fb1fe08900724aca53c0e19b0710877a93901f6ab69bff7b"
+  },
+  {
+    "path": "src/promo-admin.css",
+    "status": "unchanged",
+    "sha256": "670f255e48bb5a2a174be6d637b5986c170aa8fb60c457768c38c90f613019c9"
+  },
+  {
+    "path": "src/repair-coupon.css",
+    "status": "new",
+    "sha256": "4be6baf2948d5cc65607f8153feda8b653e3cfca1bb5462cc99273b1b4b6018e"
+  },
+  {
+    "path": "src/repair-offer.css",
+    "status": "new",
+    "sha256": "7bb0e3481e2c829a2f0ffcef9a12e59ee5b3892d2996874a899970dfdd3c8c0d"
+  },
+  {
+    "path": "src/september-coupon.css",
+    "status": "modified",
+    "sha256": "09a39fc5fca667b9b4f046a294d087bf501312f38d903dc47b5cd0be4af0958f"
+  },
+  {
+    "path": "src/sim-copy.ts",
+    "status": "unchanged",
+    "sha256": "8ed8eb79e193f6d31bafb457332cf67811c91a621616596493bbc47861df3f0e"
+  },
+  {
+    "path": "src/site-copy.ts",
+    "status": "new",
+    "sha256": "b430cf553e9dc77a5832391b9cb9ec36fe094d50547dfa71e9031e6a692e5aa2"
+  },
+  {
+    "path": "src/site-pages.css",
+    "status": "new",
+    "sha256": "4a14968a92b4df8729389150623a0a6280f0d9ed9e3bdfaebb0f54c9a945435d"
+  },
+  {
+    "path": "src/site-seo.ts",
+    "status": "new",
+    "sha256": "03aa2528ebe2c4252f0cdfe8e836488d1692727eb84a2342e078f4995688a7b2"
+  },
+  {
+    "path": "src/styles.css",
+    "status": "unchanged",
+    "sha256": "1a467dbeb3dd8ac4f7b26d0985e3a6982655121e7bbab1b8c80272995a290a31"
+  },
+  {
+    "path": "src/ultra-offers.ts",
+    "status": "new",
+    "sha256": "74561e499c057f6742ba294bf137aaf3b8805f74aeada20480f6ce669d87da90"
+  },
+  {
+    "path": "src/useRepairOffer.ts",
+    "status": "new",
+    "sha256": "59902c36070457d9cb2d1dba19844dce2c5ed01d6ce57cdbc106d358821c7c94"
+  },
+  {
+    "path": "src/vite-env.d.ts",
+    "status": "unchanged",
+    "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+  },
+  {
+    "path": "supabase/november_coupon.sql",
+    "status": "new",
+    "sha256": "0e9f92ae6521581b0756e0e24e93b406d83131e8359ca91205ff9ad0ede2e055"
+  },
+  {
+    "path": "supabase/september_coupon.sql",
+    "status": "unchanged",
+    "sha256": "1a268a601daa2c5901e2bda34d0d9b7c21debae3d66d6599b05f78ccad7d2fa8"
+  },
+  {
+    "path": "supabase/website_repair_requests.sql",
+    "status": "unchanged",
+    "sha256": "755d076c9a9d416c132d3ea495f44c0b8b2259f874f17461cad2f23261da86ed"
+  },
+  {
+    "path": "tests/booking.test.mjs",
+    "status": "new",
+    "sha256": "5708b89ae967b1bd3acf9b3ada3f62cc5baff4bc9fb8f8d868951c63b5c50d20"
+  },
+  {
+    "path": "tests/coupon-presentation.test.mjs",
+    "status": "new",
+    "sha256": "5a43d2dfd95eaeef421a8bb46ff1d64d9c6c1b0d5f3106a42976b40025426e15"
+  },
+  {
+    "path": "tests/november-assets.test.mjs",
+    "status": "new",
+    "sha256": "bd023e14832c673b8531972f576532d855d2a67247ddb231aeb3cf8a1170b79f"
+  },
+  {
+    "path": "tests/october-sim.test.mjs",
+    "status": "unchanged",
+    "sha256": "ec765ff0fb8670f64aad0e9f37cd13378452582e1501e9442509567d25f5a399"
+  },
+  {
+    "path": "tests/promo.test.mjs",
+    "status": "modified",
+    "sha256": "707b2c33b0b2980239cd10e6d169b796b21336a396349de5d6b23b4264269054"
+  },
+  {
+    "path": "tsconfig.json",
+    "status": "unchanged",
+    "sha256": "fb609283c60c9f30ee41bc5ea72a041aa0590c39000b0089513dd5fc86670978"
+  },
+  {
+    "path": "vercel.json",
+    "status": "modified",
+    "sha256": "aefd1799744477b907ecb7cc230676f9cc3bbe5cd764993259263cc231162c06"
+  },
+  {
+    "path": "vite.config.ts",
+    "status": "modified",
+    "sha256": "e40ede03c14d4920a2f99341763bc5d16e674853109aa853d9ebca2d92caf1dd"
+  }
+]

@@ -1,2 +1,10 @@
-OCTOBER 2026: Start with OCTOBER_RELEASE.md.
-Upload the contents of this folder to the root of an october-preview branch in the EXISTING repository. Do not nest this folder. Confirm Vercel builds successfully before merging to main. No new SQL or environment variables are needed. Keep api, lib, shared, public and src together.
+NOVEMBER 2026 - REPAIR OFFER REVISION 2
+Read NOVEMBER_RELEASE.md first. This is complete SOURCE, not a compiled deployment.
+Upload the contents of this folder to a review/non-production branch in the EXISTING
+cellzrepairz-arch/cellztech-website repository. Do not nest this folder.
+Keep api, lib, shared, public, src, tests and package-lock.json together.
+A successful npm ci, npm test and npm run build are required before release.
+Run ONLY supabase/november_coupon.sql in the VERIFIED CellzTech database, not CellzTV.
+Revision 2 requires schemaVersion 2026-11-v2. Do not use the older downloaded SQL.
+Verify real coupon email/optional marketing and booking receipt before promotion.
+The source has NOT been pushed or deployed by this revision.

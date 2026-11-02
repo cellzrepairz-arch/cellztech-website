@@ -4,9 +4,9 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createElement, Fragment } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { OctoberHome, OctoberUltra } from './src/OctoberPages';
+import { HomePage, UltraPage } from './src/SitePages';
 import { StaticHeader, StaticFooter } from './src/StaticShell';
-import { publicSeoPages, schemaFor, SITE_ORIGIN } from './src/october-seo';
+import { publicSeoPages, schemaFor, SITE_ORIGIN } from './src/site-seo';
 
 const escapeHtml = (s:string) => s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 // Pre-render the two redesigned pages using the SAME React components/copy.
@@ -25,7 +25,7 @@ export default defineConfig({
         html=html.replace(/<link rel="canonical" href="[^"]*"\s*\/?>/,`<link rel="canonical" href="${SITE_ORIGIN+route}" />`);
         html=html.replace(/<script id="cellztech-schema" type="application\/ld\+json">[\s\S]*?<\/script>/,`<script id="cellztech-schema" type="application/ld+json">${JSON.stringify(schemaFor(route,'en')).replace(/</g,'\\u003c')}</script>`);
         if(route==='/' || route==='/ultra-mobile') {
-          const page=createElement(route==='/'?OctoberHome:OctoberUltra,{lang:'en'});
+          const page=createElement(route==='/'?HomePage:UltraPage,{lang:'en'});
           const body=renderToStaticMarkup(createElement(Fragment,null,createElement(StaticHeader,{path:route}),page,createElement(StaticFooter)));
           html=html.replace('<div id="root"></div>',`<div id="root">${body}</div>`);
         }

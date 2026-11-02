@@ -1,40 +1,19 @@
-# October 2026 update
+# Current release: November 2026 repair offer v2
 
-**Read [OCTOBER_RELEASE.md](OCTOBER_RELEASE.md) first. Preview deployment is required; the complete npm/Vite production build could not be verified in the preparation environment. No new Supabase setup is required.**
+Read `NOVEMBER_RELEASE.md` and `NOVEMBER_TEST_RESULTS.md` before publishing. The current source is not deployed.
 
----
+# CellzTech website - November 2026
 
-# CellzTech Website — August 2026
+Read **NOVEMBER_RELEASE.md** before uploading or publishing. The older September/October setup documents are retained as history, not current launch instructions.
 
-Production source for CellzTech / Cellz Repairz.
-
-## Build
-
-```bash
+```sh
 npm ci
+npm test
 npm run build
 ```
 
-The production website is written to `dist/`.
+React, TypeScript and Vite frontend with the existing Vercel APIs. The November update keeps the existing business integrations while refreshing the public UI, booking flow and email repair coupon. No new package dependencies were introduced.
 
-## Local preview
+Important: the coupon requires `supabase/november_coupon.sql` in the EXISTING CellzTech project and a verified email sender. Never expose server secrets to the browser. This package has not been deployed.
 
-```bash
-npm run dev
-```
-
-Vite serves the website at `http://localhost:5173` by default. To preview an existing production build, run `npm run preview`.
-
-## August homepage update
-
-- English-default August homepage with complete English, Polish, Spanish, and Ukrainian content.
-- Customer-facing Ultra Mobile August offers only.
-- Realistic iPhone product presentation with optimized WebP and PNG fallback assets.
-- Subtle pointer-controlled 3D movement on desktop; no looping or cartoon-style phone animation.
-- Interactive hero offer selector connected to the existing Ultra Mobile inquiry flow.
-- “Lifetime warranty available on select repairs” trust message in all four languages.
-- Repair page-to-booking handoff with issue/model prefill.
-- Repair request confirmation and preferred drop-off workflow.
-- Updated homepage SEO, Open Graph image, structured data, and analytics events.
-
-Existing Vercel rewrites, API routes, Supabase files, booking flows, environment-variable usage, navigation, and non-homepage routes remain in place.
+Verification and limitations: **NOVEMBER_TEST_RESULTS.md**. Offer transcription and source discrepancy: **NOVEMBER_SOURCE_NOTES.md**.
